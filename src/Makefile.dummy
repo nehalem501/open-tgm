@@ -1,0 +1,26 @@
+CC = arm-linux-gnueabi-g++-4.7
+EXE_NAME = open-tgm
+SOURCE_FILES= $(wildcard *.cpp) $(wildcard dummy/*.cpp)
+EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
+CCFLAGS = -DTARGET_DUMMY -Wall -O2
+LDFLAGS = 
+INCLUDE_DIR = 
+LIBS_DIR =  
+LIBS = 
+BUILD_DIR = ../build/dummy
+EXTRAS = 
+
+all : $(EXE_NAME)
+
+clean :
+	rm -f $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES);
+	rm -rf $(BUILD_DIR)/resources
+
+$(EXE_NAME) : $(EXE_OBJ_FILES) 
+	rm -rf $(BUILD_DIR)/resources
+	cp -r ../data/resources $(BUILD_DIR)
+	$(CC) $(LDFLAGS) -o $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES) $(LIBS_DIR) $(LIBS)
+	$(EXTRAS)
+
+%.o: %.cpp
+	$(CC) $(CCFLAGS) $(INCLUDE_DIR) -o $@ -c $<
