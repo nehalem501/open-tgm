@@ -4,6 +4,7 @@
 
 # Object files
 *.[Oo]bj
+*.o
 
 # Build
 build/
