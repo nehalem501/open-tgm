@@ -3,6 +3,6 @@
 GAMEROOT=$(cd "${0%/*}" && echo $PWD)
 cd "$GAMEROOT"
 
-./open-tgm
+./open-tgm.bin
 
 exit 0

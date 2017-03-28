@@ -21,6 +21,7 @@ else
     UNAME_S := $(shell uname -s)
     UNAME_M := $(shell uname -m)
     ifeq ($(UNAME_S),Linux)
+        EXE_NAME = open-tgm.bin
         ifeq ($(UNAME_M),x86_64)
             #CC = clang++
             BUILD_DIR = ../build/linux64
@@ -29,7 +30,7 @@ else
             INCLUDE_DIR = -I../extlibs/SFML-linux64/include 
             LIBS = -lsfml-graphics -lsfml-window -lsfml-system -static-libgcc -static-libstdc++ 
             LIBS_DIR = -L../extlibs/SFML-linux64/lib 
-            EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux64/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm.sh ; cp ../data/scripts/open-tgm.sh $(BUILD_DIR)
+            EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux64/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ../data/scripts/open-tgm $(BUILD_DIR)
         else
             BUILD_DIR = ../build/linux32
             CCFLAGS += -std=c++11
@@ -37,7 +38,7 @@ else
             INCLUDE_DIR = -I../extlibs/SFML-linux32/include 
             LIBS = -lsfml-graphics -lsfml-window -lsfml-system -static-libgcc -static-libstdc++ 
             LIBS_DIR = -L../extlibs/SFML-linux32/lib 
-            EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux64/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm.sh ; cp ../data/scripts/open-tgm.sh $(BUILD_DIR)
+            EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux64/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ../data/scripts/open-tgm $(BUILD_DIR)
         endif
     endif
     ifeq ($(UNAME_S),Darwin)

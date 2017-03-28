@@ -118,12 +118,7 @@ void Player::nextPiece() {
 
     m_piece_old_y = m_piece.pos_y;
     
-    updateGhost();
-}
-
-void Player::updateGhost() {
-    // TODO
-    #warning "updateGhost unimplemented"
+    m_ghost_y = m_stack->getGhostY(&m_piece);
 }
 
 void Player::update() {
@@ -158,12 +153,12 @@ void Player::update() {
 
         if (canIRSLeft()) {
             m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-            updateGhost();
+            m_ghost_y = m_stack->getGhostY(&m_piece);
         }
         
         if (canIRSRight()) {
             m_piece.orientation = modulo(m_piece.orientation - 1, 4);
-            updateGhost();
+            m_ghost_y = m_stack->getGhostY(&m_piece);
         }
         
         /*if(!checkGameOver()) {
@@ -223,6 +218,7 @@ void Player::update() {
             if (checkDASleft()) {
                 if (notInARE()) {
                     move(-1, 0);
+                    m_ghost_y = m_stack->getGhostY(&m_piece);
                     //cout << "left" << endl;
                 }
             }
@@ -230,6 +226,7 @@ void Player::update() {
             m_startDASleft = true;
             if (notInARE()) {
                 move(-1, 0);
+                m_ghost_y = m_stack->getGhostY(&m_piece);
                 //cout << "left" << endl;
             }
         }
@@ -246,6 +243,7 @@ void Player::update() {
             if (checkDASright()) {
                 if (notInARE()) {
                     move(1, 0);
+                    m_ghost_y = m_stack->getGhostY(&m_piece);
                     //cout << "right" << endl;
                 }
             }
@@ -253,6 +251,7 @@ void Player::update() {
             m_startDASright = true;
             if (notInARE()) {
                 move(1, 0);
+                m_ghost_y = m_stack->getGhostY(&m_piece);
                 //cout << "right" << endl;
             }
         }
@@ -266,9 +265,10 @@ void Player::update() {
     // TODO check if bug with ARE
     // Fast drop
     if (input.up()) {
-        //cout << "drop" << endl;
-        if (m_current_mode->sonic_drop)
+        if (m_current_mode->sonic_drop) {
             moveDrop();
+            //std::cout << "drop" << std::endl;
+        }
     }
 
     // Gravity
@@ -347,7 +347,7 @@ void Player::rotateLeft() {
     // Check basic rotation
     if (m_stack->checkLeftRotation(&m_piece)) {
         m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-        updateGhost();
+        m_ghost_y = m_stack->getGhostY(&m_piece);
     }
 
     // No wallkicks for I and O pieces
@@ -369,14 +369,14 @@ void Player::rotateLeft() {
                             if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
                                 m_piece.pos_x++;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-                                updateGhost();
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
                             
                             // Check wallkick left
                             if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
                                 m_piece.pos_x--;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-                                updateGhost();
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
                             
                             return;
@@ -396,14 +396,14 @@ void Player::rotateLeft() {
                             if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
                                 m_piece.pos_x++;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-                                updateGhost();
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
                             
                             // Check wallkick left
                             if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
                                 m_piece.pos_x--;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-                                updateGhost();
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
                             
                             return;
@@ -442,14 +442,14 @@ void Player::rotateLeft() {
         if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
             m_piece.pos_x++;
             m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-            updateGhost();
+            m_ghost_y = m_stack->getGhostY(&m_piece);
         }
 
         // Check wallkick left
         else if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
             m_piece.pos_x--;
             m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-            updateGhost();
+            m_ghost_y = m_stack->getGhostY(&m_piece);
         }
     }
 }
@@ -470,7 +470,7 @@ void Player::rotateRight() {
     // Check basic rotation
     if (m_stack->checkRightRotation(&m_piece)) {
         m_piece.orientation = modulo(m_piece.orientation - 1, 4);
-        updateGhost();
+        m_ghost_y = m_stack->getGhostY(&m_piece);
     }
 
     // No wallkicks for I and O pieces
@@ -492,14 +492,14 @@ void Player::rotateRight() {
                             if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
                                 m_piece.pos_x++;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-                                updateGhost();
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
                             
                             // Check wallkick left
                             if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
                                 m_piece.pos_x--;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-                                updateGhost();
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
                             
                             return;
@@ -519,14 +519,14 @@ void Player::rotateRight() {
                             if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
                                 m_piece.pos_x++;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-                                updateGhost();
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
                             
                             // Check wallkick left
                             if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
                                 m_piece.pos_x--;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-                                updateGhost();
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
                             
                             return;
@@ -565,14 +565,14 @@ void Player::rotateRight() {
         if (m_stack->checkRightKickRotation(&m_piece, 1, 0)) {
             m_piece.pos_x++;
             m_piece.orientation = modulo(m_piece.orientation - 1, 4);
-            updateGhost();
+            m_ghost_y = m_stack->getGhostY(&m_piece);
         }
 
         // Check wallkick left
         else if (m_stack->checkRightKickRotation(&m_piece, -1, 0)) {
             m_piece.pos_x--;
             m_piece.orientation = modulo(m_piece.orientation - 1, 4);
-            updateGhost();
+            m_ghost_y = m_stack->getGhostY(&m_piece);
         }
     }
 }

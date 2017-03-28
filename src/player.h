@@ -106,8 +106,6 @@ class Player {
         inline bool canIRSLeft() { return !m_rotLeft; };
         inline bool canIRSRight() { return !m_rotRight; };
         
-        void updateGhost();
-
     #ifdef TARGET_SFML
     public:
         void updateSize(sf::Vector2u screenSize);
