@@ -54,6 +54,7 @@ class Stack {
         bool checkRightRotation(Piece *piece);
         bool checkRightKickRotation(Piece *piece, int x_offset, int y_offset);
 
+        void shiftLine(int8_t line);
         void shiftLines();
         void checkLines(Player *player);
     
