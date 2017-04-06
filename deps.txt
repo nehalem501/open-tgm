@@ -1,0 +1,17 @@
+run:
+freeglut3
+libjpeg8
+libxrandr2
+
+build:
+libudev-dev
+libxcb1-dev
+libx11-xcb-dev
+libxcb-randr0-dev
+libxrandr-dev
+freeglut3-dev
+libjpeg-dev
+libopenal-dev
+libflac-dev
+libvorbis-dev
+libfreetype-dev
