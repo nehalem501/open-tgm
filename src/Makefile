@@ -38,7 +38,7 @@ else
             INCLUDE_DIR = -I../extlibs/SFML-linux32/include 
             LIBS = -lsfml-graphics -lsfml-window -lsfml-system -static-libgcc -static-libstdc++ 
             LIBS_DIR = -L../extlibs/SFML-linux32/lib 
-            EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux64/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ../data/scripts/open-tgm $(BUILD_DIR)
+            EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux32/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ../data/scripts/open-tgm $(BUILD_DIR)
         endif
     endif
     ifeq ($(UNAME_S),Darwin)
