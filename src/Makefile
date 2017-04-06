@@ -21,25 +21,23 @@ else
     UNAME_S := $(shell uname -s)
     UNAME_M := $(shell uname -m)
     ifeq ($(UNAME_S),Linux)
-        EXE_NAME = open-tgm.bin
-        ifeq ($(UNAME_M),x86_64)
-            #CC = clang++
-            BUILD_DIR = ../build/linux64
-            CCFLAGS += -g -std=c++11
-            LDFLAGS = -Wl,-R./lib 
-            INCLUDE_DIR = -I../extlibs/SFML-linux64/include 
-            LIBS = -lsfml-graphics -lsfml-window -lsfml-system -static-libgcc -static-libstdc++ 
-            LIBS_DIR = -L../extlibs/SFML-linux64/lib 
-            EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux64/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ../data/scripts/open-tgm $(BUILD_DIR)
+	ifeq ($(UNAME_M),i486)
+          UNAME_M=i386
+        else ifeq ($(UNAME_M),i586)
+          UNAME_M=i386
+        else ifeq ($(UNAME_M),i686)
+          UNAME_M=i386
         else
-            BUILD_DIR = ../build/linux32
-            CCFLAGS += -std=c++11
-            LDFLAGS = -Wl,-R./lib 
-            INCLUDE_DIR = -I../extlibs/SFML-linux32/include 
-            LIBS = -lsfml-graphics -lsfml-window -lsfml-system -static-libgcc -static-libstdc++ 
-            LIBS_DIR = -L../extlibs/SFML-linux32/lib 
-            EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux32/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ../data/scripts/open-tgm $(BUILD_DIR)
         endif
+        EXE_NAME = open-tgm.bin 
+        #CC = clang++
+        BUILD_DIR = ../build/linux_$(UNAME_M)
+        CCFLAGS += -g -std=c++11
+        LDFLAGS = -Wl,-R./lib 
+        INCLUDE_DIR = -I../extlibs/SFML-linux_$(UNAME_M)/include 
+        LIBS = -lsfml-graphics -lsfml-window -lsfml-system -static-libgcc -static-libstdc++ 
+        LIBS_DIR = -L../extlibs/SFML-linux_$(UNAME_M)/lib 
+        EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux_$(UNAME_M)/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ../data/scripts/open-tgm $(BUILD_DIR)
     endif
     ifeq ($(UNAME_S),Darwin)
         BUILD_DIR = ../build/osx
