@@ -25,8 +25,9 @@ void Game::updateSize(sf::Vector2u screenSize) {
 
 void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     #warning "SFML Game::draw not finished"
-    target.draw(stack1);
     target.draw(player1);
+    target.draw(stack1);
+    //target.draw(player1);
 
     target.draw(timer1); // TODO timer2
     target.draw(labels1);
