@@ -19,8 +19,8 @@ void Game::initGraphics() {
 
 void Game::startPlayer1() {
     // TODO choose mode
-    stack1.startGame(&modes[Modes::TGM]);
-    player1.init(&stack1, &modes[Modes::TGM]);
+    stack1.startGame(modes[0]);
+    player1.init(&stack1, modes[0]);
     m_player1_state = GameState::INGAME;
 }
 

@@ -5,15 +5,6 @@
 
 #include "../common/mode.h"
 
-namespace Modes {
-    enum {
-        TGM = 0,
-        TAP_MASTER,
-        DEATH,
-        MODES_MAX
-    };
-}
-
 void initModes();
 
 #endif

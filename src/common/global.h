@@ -67,7 +67,7 @@ extern Input input;
 extern Game game;
 extern Menu menu;
 extern Background background;
-extern Mode modes[];
+extern Mode* modes[];
 
 void init();
 void initTextures();

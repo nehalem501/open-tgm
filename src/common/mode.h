@@ -42,14 +42,14 @@ struct Timing {
 class Mode {
     public:
         const char* name;
-        
-        
-        
+
+
+
         bool sonic_drop;
         bool display_score;
         bool section;
         //bool line_are_test;
-        
+
         unsigned int size_x, size_y;
         unsigned int max_level;
 
@@ -59,20 +59,29 @@ class Mode {
         unsigned int das_nb;
         unsigned int lock_nb;
         unsigned int clear_nb;
-        
+
         struct Timing* gravity;
         struct Timing* are;
         struct Timing* line_are;
         struct Timing* das;
         struct Timing* lock;
         struct Timing* clear;
-        
+
+        Mode(const char* nm, bool s_drop, bool disp_score, bool sec,
+             unsigned int sz_x, unsigned int sz_y, unsigned int max_lvl,
+             struct Timing* t_gravity, unsigned int grav_nb,
+             struct Timing* t_are, unsigned int are_n,
+             struct Timing* t_line_are, unsigned int ln_are_n,
+             struct Timing* t_das, unsigned int das_n,
+             struct Timing* t_lock, unsigned int lock_n,
+             struct Timing* t_clear, unsigned int clr_n);
+
         unsigned int getSizeX();
         unsigned int getSizeY();
-        
+
         bool displayScore();
         bool sonicDrop();
-        
+
         unsigned int getARE(unsigned int level);
         unsigned int getLineARE(unsigned int level);
         unsigned int getDAS(unsigned int level);
