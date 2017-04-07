@@ -14,7 +14,7 @@ Mode::Mode(const char* nm, bool s_drop, bool disp_score, bool sec,
     name(nm), sonic_drop(s_drop), display_score(disp_score), section(sec),
     size_x(sz_x), size_y(sz_y), max_level(max_lvl), gravity_nb(grav_nb),
     are_nb(are_n), line_are_nb(ln_are_n), das_nb(das_n), lock_nb(lock_n),
-    clear_nb(clr_n), gravity(), are(), line_are(), das(), lock(), clear() {
+    clear_nb(clr_n), gravity(t_gravity), are(t_are), line_are(t_line_are), das(t_das), lock(t_lock), clear(t_clear) {
 }
 
 unsigned int Mode::getSizeX() {

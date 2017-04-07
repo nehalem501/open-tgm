@@ -8,9 +8,7 @@
 #include "tgm1.h"
 
 Mode* modes[] {
-    &mode_tgm1,
-    NULL,
-    NULL,
+    &mode_tgm1
 };
 
 
