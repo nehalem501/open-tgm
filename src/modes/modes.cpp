@@ -1,6 +1,6 @@
 /* modes.cpp */
 
-#include "mode.h"
+#include "../common/mode.h"
 #include "modes.h"
 
 Mode modes[Modes::MODES_MAX];

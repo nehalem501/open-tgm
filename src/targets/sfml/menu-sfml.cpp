@@ -1,9 +1,9 @@
 /* menu-sfml.cpp */
 
-#include "../menu.h"
-#include "../global.h"
-#include "../frame.h"
-#include "../home.h"
+#include "../../common/menu.h"
+#include "../../common/global.h"
+#include "../../common/frame.h"
+#include "../../common/home.h"
 
 
 void Menu::initGraphics() {

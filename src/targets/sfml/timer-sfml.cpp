@@ -1,7 +1,7 @@
 /* timer-sfml.cpp */
 
-#include "../global.h"
-#include "../timer.h"
+#include "../../common/global.h"
+#include "../../common/timer.h"
 
 
 void Timer::initGraphics() {

@@ -1,6 +1,6 @@
 /* digits-sfml.cpp */
 
-#include "../digits.h"
+#include "../../common/digits.h"
 
 
 void Digits::initGraphics() {

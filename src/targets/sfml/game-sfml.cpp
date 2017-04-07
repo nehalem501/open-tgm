@@ -4,8 +4,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "../global.h"
-#include "../game.h"
+#include "../../common/global.h"
+#include "../../common/game.h"
 
 
 void Game::updateSize(sf::Vector2u screenSize) {

@@ -1,6 +1,6 @@
 /* background-sfml.cpp */
 
-#include "../background.h"
+#include "../../common/background.h"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>

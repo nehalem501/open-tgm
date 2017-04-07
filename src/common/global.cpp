@@ -5,7 +5,7 @@
 #include "stack.h"
 #include "frame.h"
 #include "player.h"
-#include "modes.h"
+#include "../modes/modes.h"
 
 
 void init() {

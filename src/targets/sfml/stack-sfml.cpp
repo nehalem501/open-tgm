@@ -3,7 +3,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "../stack.h"
+#include "../../common/stack.h"
 
 
 void Stack::initGraphics() {

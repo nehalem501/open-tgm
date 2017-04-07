@@ -3,9 +3,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "../shapes.h"
-#include "../mode.h"
-#include "../player.h"
+#include "../../common/shapes.h"
+#include "../../common/mode.h"
+#include "../../common/player.h"
 
 
 void Player::initGraphics() {

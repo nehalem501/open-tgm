@@ -2,7 +2,7 @@
 
 #include "game.h"
 #include "player.h"
-#include "modes.h"
+#include "../modes/modes.h"
 
 void Game::initGraphics() {
     timer1.initGraphics();

@@ -1,6 +1,6 @@
 CC = g++
 EXE_NAME = open-tgm
-SOURCE_FILES= $(wildcard *.cpp) $(wildcard sfml/*.cpp)
+SOURCE_FILES= $(wildcard common/*.cpp) $(wildcard targets/sfml/*.cpp) $(wildcard modes/*.cpp)
 EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
 CCFLAGS = -DTARGET_SFML -Wall -pedantic
 LDFLAGS = 

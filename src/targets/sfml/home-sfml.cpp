@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#include "../home.h"
+#include "../../common/home.h"
 
 
 void Home::initGraphics() {

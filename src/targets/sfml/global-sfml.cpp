@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "../global.h"
+#include "../../common/global.h"
 
 
 void initRandom() {

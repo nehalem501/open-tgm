@@ -3,7 +3,7 @@
 #ifndef MODES_H
 #define MODES_H
 
-#include "mode.h"
+#include "../common/mode.h"
 
 namespace Modes {
     enum {

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include "../labels.h"
+#include "../../common/labels.h"
 
 
 using namespace std;

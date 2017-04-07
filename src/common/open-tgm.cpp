@@ -9,7 +9,6 @@
 #include "player.h"
 #include "stack.h"
 #include "frame.h"
-#include "modes.h"
 #include "app.h"
 
 

@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#include "../choosemode.h"
+#include "../../common/choosemode.h"
 
 
 void ChooseMode::initGraphics() {

@@ -1,4 +1,4 @@
-#include "../input.h"
+#include "../../common/input.h"
 #include <SFML/Window.hpp>
 #include <map>
 

@@ -3,8 +3,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "../global.h"
-#include "../frame.h"
+#include "../../common/global.h"
+#include "../../common/frame.h"
 
 
 void Frame::initGraphics() {

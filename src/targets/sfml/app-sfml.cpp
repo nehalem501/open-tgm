@@ -3,10 +3,10 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "../app.h"
-#include "../global.h"
-#include "../background.h"
-#include "../menu.h"
+#include "../../common/app.h"
+#include "../../common/global.h"
+#include "../../common/background.h"
+#include "../../common/menu.h"
 
 
 sf::Texture tileset_tex;
