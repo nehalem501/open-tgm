@@ -199,52 +199,60 @@ bool Stack::checkRightKickRotation(Piece *piece, int x_offset, int y_offset) {
 #include<iostream>
 
 void Stack::shiftLine(int8_t line) {
-    if (line == m_height - 1)
+    std::cout << "height" << m_height << std::endl;
+    if (line > m_height - 1)
         return;
 
     memmove(m_stack + m_width, m_stack, line * m_width);
 }
 
 void Stack::shiftLines() {
-    int8_t nb_lines;
+    int8_t nb_lines = 0;
     
-    for (nb_lines = 0; nb_lines < FILLED_LINES_NB && m_filled_lines[nb_lines] != -1; nb_lines++) {
+    while (m_filled_lines[nb_lines] != -1 && nb_lines < FILLED_LINES_NB) {
         /*if (m_filled_lines[nb_lines] != -1) {
             break;
         }*/
+        nb_lines++;
+        std::cout << "for: nb_line: " << (int) nb_lines << std::endl;
     }
     #warning "shiftLines not finished"
-    for (nb_lines = 0; nb_lines < FILLED_LINES_NB; nb_lines++) {
-        std::cout << "filled[" << (int) nb_lines << "]: " << (int) m_filled_lines[nb_lines] << std::endl;
+    for (int i = 0; i < FILLED_LINES_NB; i++) {
+        std::cout << "filled[" << (int) i << "]: " << (int) m_filled_lines[i] << std::endl;
     }
     
     std::cout << "nb_line: " << (int) nb_lines << std::endl;
-    switch(nb_lines) { //TODO
-        case 1:                        //line
-            //memmove(m_stack, m_stack + ((m_filled_lines[0] * m_width) - 1), m_filled_lines[0] * m_width);
-            //std::cout << "line1: " << (int) m_filled_lines[0] << std::endl;
-            //TODO
-            //shiftLine(m_filled_lines[])
+    switch (nb_lines) { //TODO
+        case 1:
+            std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
+            shiftLine(m_filled_lines[0]);
             break;
             
-        case 2:                        //line
-            //memmove(m_stack, m_stack + ((m_filled_lines[0] * m_width) - 1), m_filled_lines[0] * m_width);
-            //memmove(m_stack, m_stack + ((line * m_width) - 1), m_filled_lines[0] * m_width);
-            //std::cout << "line1: " << (int) m_filled_lines[0] << std::endl;
-            //std::cout << "line2: " << (int) m_filled_lines[1] << std::endl;
+        case 2:
+            std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
+            std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
+            shiftLine(m_filled_lines[0]);
+            shiftLine(m_filled_lines[1]);
             break;
             
         case 3:
-            //std::cout << "line1: " << (int) m_filled_lines[0] << std::endl;
-            //std::cout << "line2: " << (int) m_filled_lines[1] << std::endl;
-            //std::cout << "line3: " << (int) m_filled_lines[2] << std::endl;
+            std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
+            std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
+            std::cout << "line: " << (int) m_filled_lines[2] << std::endl;
+            shiftLine(m_filled_lines[0]);
+            shiftLine(m_filled_lines[1]);
+            shiftLine(m_filled_lines[2]);
             break;
             
         case 4:
-            //std::cout << "line1: " << (int) m_filled_lines[0] << std::endl;
-            //std::cout << "line2: " << (int) m_filled_lines[1] << std::endl;
-            //std::cout << "line3: " << (int) m_filled_lines[2] << std::endl;
-            //std::cout << "line4: " << (int) m_filled_lines[3] << std::endl;
+            std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
+            std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
+            std::cout << "line: " << (int) m_filled_lines[2] << std::endl;
+            std::cout << "line: " << (int) m_filled_lines[3] << std::endl;
+            shiftLine(m_filled_lines[0]);
+            shiftLine(m_filled_lines[1]);
+            shiftLine(m_filled_lines[2]);
+            shiftLine(m_filled_lines[3]);
             break;
     }
 }
@@ -252,7 +260,7 @@ void Stack::shiftLines() {
 void Stack::checkLines(Player *player) {
     int size = m_width * m_height;
     
-    int8_t line_count = 0;
+    int8_t lines_to_clear = 0;
     int8_t bravo = 4;
     int8_t line_nb = 0;
 
@@ -265,20 +273,21 @@ void Stack::checkLines(Player *player) {
             if (m_stack[i] == 0) {
                 line = false; // Line is not completely filled
                 //break; // TODO
+                goto end_for;
             } else {
                 bravo = 1; // Sorry, no bravo this time :(
             }
         }
-        
+end_for:
         // The line will be cleared
         if (line) {
             std::cout << "row: "<< row << std::endl;
             std::cout << "rownb: "<< row_nb << std::endl;
             // Add line coords to remove line later
-            m_filled_lines[line_count] = row_nb; // TODO doubles
+            m_filled_lines[lines_to_clear] = row_nb; // TODO doubles
             
             // Increment line count
-            line_count++;
+            lines_to_clear++;
             
             // Clear line
             for (int j = row; j < row + m_width; j++) {
@@ -286,7 +295,7 @@ void Stack::checkLines(Player *player) {
             }
             
             // Activate particles for line clear
-            switch (line_count) {
+            switch (lines_to_clear) {
                 case 1:
                     m_part0.setEmitter(0, line_nb);
                     m_part0.init();
@@ -313,12 +322,12 @@ void Stack::checkLines(Player *player) {
         line_nb++;
     }
     
-    if (line_count > 0) {
-        player->updateScore(line_count, bravo);
-        sort(m_filled_lines, FILLED_LINES_NB);
+    if (lines_to_clear > 0) {
+        player->updateScore(lines_to_clear, bravo);
+        //sort(m_filled_lines, FILLED_LINES_NB);
 
         player->startClear();
-        player->changeLevel(line_count, true);
+        player->changeLevel(lines_to_clear, true);
     } else {
         player->setCombo(1);
         player->startARE();
