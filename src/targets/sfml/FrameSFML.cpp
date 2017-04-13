@@ -1,11 +1,8 @@
-/* frame-sfml.cpp */
+/* FrameSFML.cpp */
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-
-#include "../../common/global.h"
-#include "../../common/frame.h"
-
+#include "FrameSFML.h"
 
 void Frame::initGraphics() {
     m_background.setFillColor(sf::Color(0, 0, 0, 160));

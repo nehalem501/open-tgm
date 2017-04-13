@@ -1,3 +1,5 @@
+/* InputSFML.cpp */
+
 #include "../../common/input.h"
 #include <SFML/Window.hpp>
 #include <map>
@@ -7,12 +9,12 @@ bool TestEvent(MyKeys k, sf::Event e) {
     if (k.myInputType == MouseInput && k.myEventType == e.type && k.myMouseButton == e.mouseButton.button) {
         return true;
     }
-    
+
     // Keyboard event
     if (k.myInputType == KeyboardInput && k.myEventType == e.type && k.myKeyCode == e.key.code) {
         return true;
     }
-    
+
     return false;
 }
 
@@ -27,7 +29,7 @@ void Input::init() {
     assignedKeys.add(key);
     eventKeys[Start] = assignedKeys;
     assignedKeys.clear();
-    
+
     // Options
     key.myInputType = KeyboardInput;
     key.myEventType = sf::Event::KeyPressed;
@@ -91,7 +93,7 @@ void Input::init() {
     assignedKeys.add(key);
     eventKeys[B] = assignedKeys;
     assignedKeys.clear();
-    
+
     // C
     key.myInputType = KeyboardInput;
     key.myEventType = sf::Event::KeyPressed;
@@ -110,18 +112,18 @@ void Input::pollInputs() {
     bool tmp_down = eventKeys[Down].testInput();
     bool tmp_left = eventKeys[Left].testInput();
     bool tmp_right = eventKeys[Right].testInput();
-    
+
     bool tmp_a = eventKeys[A].testInput();
     bool tmp_c = eventKeys[C].testInput();
-    
+
     if (tmp_left != prev_left) {
         m_left = tmp_left;
     }
-    
+
     if (tmp_right != prev_right) {
         m_right = tmp_right;
     }
-    
+
     if (tmp_right && tmp_left) {
         if (prev_right) {
             m_right = false;
@@ -135,7 +137,7 @@ void Input::pollInputs() {
         prev_left = tmp_left;
         prev_right = tmp_right;
     }
-    
+
     m_up = (tmp_up && !tmp_down) || (!m_up && m_down && tmp_up);
     m_down = (!tmp_up && tmp_down) || (m_up && !m_down && tmp_down);
 
@@ -143,15 +145,15 @@ void Input::pollInputs() {
     //m_right = (!tmp_left && tmp_right) || (m_left && !m_right && tmp_right);
 
     m_b = eventKeys[B].testInput();
-    
+
     if (tmp_a != prev_a) {
         m_a = tmp_a;
     }
-    
+
     if (tmp_c != prev_c) {
         m_c = tmp_c;
     }
-    
+
     if (tmp_c && tmp_a) {
         if (prev_c) {
             m_c = false;
@@ -165,7 +167,6 @@ void Input::pollInputs() {
         prev_a = tmp_a;
         prev_c = tmp_c;
     }
-    
+
     m_start = eventKeys[Start].testInput();
 }
-

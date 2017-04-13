@@ -1,32 +1,30 @@
-/* background-sfml.cpp */
+/* BackgroundSFML.cpp */
 
-#include "../../common/background.h"
-
-#include <SFML/Graphics.hpp>
 #include <iostream>
-
+#include <SFML/Graphics.hpp>
+#include "BackgroundSFML.h"
 
 using namespace std;
 
-void Background::initGraphics() {
+void BackgroundSFML::initGraphics() {
     if (!image.loadFromFile("resources/background.png")) {
         // ERROR
         std::cout << "ERROR loading background.png" << std::endl;
     }
-    
+
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize(4);
-    
+
     m_vertices[0].position = sf::Vector2f(0, 0);
     m_vertices[1].position = sf::Vector2f(512, 0);
     m_vertices[2].position = sf::Vector2f(512, 512);
     m_vertices[3].position = sf::Vector2f(0, 512);
-    
+
     m_vertices[0].color = sf::Color::Black;
     m_vertices[1].color = sf::Color::Black;
     m_vertices[2].color = sf::Color::Blue;
     m_vertices[3].color = sf::Color::Blue;
-    
+
     unsigned int size = sf::Texture::getMaximumSize();
     //unsigned int size = 16;
     imageSize = image.getSize();
@@ -48,12 +46,12 @@ void Background::initGraphics() {
     }
 }
 
-void Background::updateSize(sf::Vector2u screenSize) {
+void BackgroundSFML::updateSize(sf::Vector2u screenSize) {
     m_vertices[0].position = sf::Vector2f(0, 0);
     m_vertices[1].position = sf::Vector2f(screenSize.x, 0);
     m_vertices[2].position = sf::Vector2f(screenSize.x, screenSize.y);
     m_vertices[3].position = sf::Vector2f(0, screenSize.y);
-    
+
     float bx = (float) screenSize.x / imageSize.x;
     float by = (float) screenSize.y / imageSize.y;
     float scale;
@@ -76,8 +74,8 @@ void Background::updateSize(sf::Vector2u screenSize) {
         it->sprite.setPosition(position);
     }
 }
-        
-void Background::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+
+void BackgroundSFML::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     if (options) {
         target.draw(m_vertices);
     } else {

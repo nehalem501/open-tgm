@@ -1,11 +1,9 @@
-/* home-sfml.cpp */
+/* HomeSFML.cpp */
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
-#include "../../common/home.h"
-
+#include "HomeSFML.h"
 
 void Home::initGraphics() {
     if (!m_logo_tex.loadFromFile("resources/open-tgm-logo.png")) {

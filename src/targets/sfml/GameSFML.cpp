@@ -1,11 +1,9 @@
-/* game-sfml.cpp */
+/* GameSFML.cpp */
 
 #include <cmath>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-
-#include "../../common/global.h"
-#include "../../common/game.h"
+#include "GameSFML.h"
 
 
 void Game::updateSize(sf::Vector2u screenSize) {

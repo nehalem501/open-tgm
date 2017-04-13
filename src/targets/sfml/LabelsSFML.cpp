@@ -1,3 +1,5 @@
+/* LabelsSFML.cpp */
+
 #include <cmath>
 #include <cstdio>
 #include <string>
@@ -17,7 +19,7 @@ void Labels::init(std::vector<std::string> text, std::vector<sf::Vector2f> textP
 
     posX = 0;
     posY = 0;
-    
+
     length = 0;
 
     str = text;

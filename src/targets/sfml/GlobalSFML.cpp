@@ -1,13 +1,11 @@
-/* global-sfml.cpp */
+/* globalSFML.cpp */
 
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
-
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 #include "../../common/global.h"
-
 
 void initRandom() {
     // TODO tgm-random
