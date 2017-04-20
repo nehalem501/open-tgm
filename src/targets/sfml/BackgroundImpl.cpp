@@ -1,6 +1,8 @@
 /* BackgroundImpl.cpp - SFML */
 
 #include <iostream>
+#include <string>
+#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include "BackgroundImpl.h"
 
