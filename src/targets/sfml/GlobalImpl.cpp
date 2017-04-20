@@ -1,4 +1,4 @@
-/* globalSFML.cpp */
+/* globalImpl.cpp - SFML */
 
 #include <iostream>
 #include <stdlib.h>
