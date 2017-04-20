@@ -1,4 +1,4 @@
-/* LineClearParticlesImpl.h */
+/* LineClearParticlesImpl.h - SFML */
 
 #ifndef LINE_CLEAR_PARTICLES_SFML_H
 #define LINE_CLEAR_PARTICLES_SFML_H

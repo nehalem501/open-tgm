@@ -30,7 +30,7 @@ else
         else
         endif
         EXE_NAME = open-tgm.bin 
-        #CC = clang++
+        CC = g++-4.8
         BUILD_DIR = ../build/linux_$(UNAME_M)
         CCFLAGS += -g -std=c++11
         LDFLAGS = -Wl,-R./lib 
