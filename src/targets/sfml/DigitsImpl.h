@@ -1,4 +1,4 @@
-/* DigitsImpl.h -SFML */
+/* DigitsImpl.h - SFML */
 
 #ifndef DIGITS_SFML_H
 #define DIGITS_SFML_H
