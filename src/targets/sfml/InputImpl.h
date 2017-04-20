@@ -1,4 +1,4 @@
-/* InputImpl.h - SFML*/
+/* InputImpl.h - SFML */
 
 #ifndef INPUT_SFML_H
 #define INPUT_SFML_H
