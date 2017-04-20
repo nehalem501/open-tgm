@@ -3,5 +3,8 @@
 #ifndef LABELS_H
 #define LABELS_H
 
-#endif
+#include <LabelsImpl.h>
 
+typedef LabelsImpl Labels;
+
+#endif

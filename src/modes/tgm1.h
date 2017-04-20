@@ -3,7 +3,7 @@
 #ifndef TGM1_H
 #define TGM1_H
 
-#include "../common/mode.h"
+#include <Mode.h>
 
 extern Mode mode_tgm1;
 

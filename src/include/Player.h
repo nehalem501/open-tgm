@@ -3,5 +3,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#endif
+#include <PlayerImpl.h>
 
+typedef PlayerImpl Player;
+
+#endif

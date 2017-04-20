@@ -3,5 +3,8 @@
 #ifndef HOME_H
 #define HOME_H
 
-#endif
+#include <HomeImpl.h>
 
+typedef HomeImpl Home;
+
+#endif

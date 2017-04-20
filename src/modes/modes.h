@@ -3,7 +3,7 @@
 #ifndef MODES_H
 #define MODES_H
 
-#include "../common/mode.h"
+#include <Mode.h>
 
 void initModes();
 

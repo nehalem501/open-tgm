@@ -3,5 +3,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#endif
+#include <GameImpl.h>
 
+typedef GameImpl Game;
+
+#endif

@@ -29,9 +29,7 @@ namespace MenuState {
 class BaseMenu {
     public:
         BaseMenu();
-        
-        void initGraphics();
-        
+
         void update();
 
         void home();
@@ -39,11 +37,10 @@ class BaseMenu {
         void ingame();
 
         int8_t m_state;
-        
-    private:
+
+    protected:
         Home m_home;
         ChooseMode m_chooseMode;
 };
 
 #endif
-

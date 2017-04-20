@@ -3,5 +3,8 @@
 #ifndef STACK_H
 #define STACK_H
 
-#endif
+#include <StackImpl.h>
 
+typedef StackImpl Stack;
+
+#endif

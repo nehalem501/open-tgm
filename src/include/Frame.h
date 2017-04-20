@@ -1,7 +1,10 @@
 /* Frame.h */
 
+#include <FrameImpl.h>
+
 #ifndef FRAME_H
 #define FRAME_H
 
-#endif
+typedef FrameImpl Frame;
 
+#endif

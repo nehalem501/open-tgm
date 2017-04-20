@@ -9,7 +9,7 @@ class Piece {
     public:
         int8_t type;
         int8_t orientation;
-        
+
         int8_t pos_x;
         int8_t pos_y;
 

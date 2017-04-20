@@ -4,9 +4,7 @@
 #define BASE_LABELS_H
 
 class BaseLabels {
-    public:
-        void initGraphics();
+
 };
 
 #endif
-

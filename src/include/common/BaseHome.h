@@ -8,13 +8,10 @@
 class BaseHome {
     public:
         BaseHome();
-        
-        void initGraphics();
         void update(int8_t *state);
-        
-    private:
+
+    protected:
         int8_t m_start_timer;
 };
 
 #endif
-

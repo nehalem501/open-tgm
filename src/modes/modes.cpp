@@ -1,7 +1,7 @@
 /* modes.cpp */
 
 #include <cstdlib>
-#include "../common/mode.h"
+#include <Mode.h>
 #include "modes.h"
 
 /* Include your mode's header here */

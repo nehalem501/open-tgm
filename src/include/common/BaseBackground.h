@@ -6,13 +6,11 @@
 class BaseBackground {
     public:
         BaseBackground();
-        void initGraphics();
         void changeToOptions();
         void changeToBackground();
-        
-    private:
+
+    protected:
         bool options;
 };
 
 #endif
-

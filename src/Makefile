@@ -4,7 +4,7 @@ SOURCE_FILES= $(wildcard common/*.cpp) $(wildcard targets/sfml/*.cpp) $(wildcard
 EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
 CCFLAGS = -DTARGET_SFML -Wall -pedantic
 LDFLAGS = 
-INCLUDE_DIR = 
+INCLUDE_DIR = -I./include -I./targets/sfml 
 LIBS_DIR =  
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system 
 BUILD_DIR = .
@@ -14,7 +14,7 @@ ifeq ($(OS),Windows_NT)
     BUILD_DIR = ../build/win32
     EXE_NAME = open-tgm.exe
     CCFLAGS += -DSFML_STATIC
-    INCLUDE_DIR = -I../extlibs/SFML-win32/include 
+    INCLUDE_DIR += -I../extlibs/SFML-win32/include 
     LIBS = -lsfml-graphics-s -lsfml-window-s -lopengl32 -ljpeg -lfreetype -lgdi32 -lsfml-system-s -lwinmm -static-libgcc -static-libstdc++
     LIBS_DIR = -L../extlibs/SFML-win32/lib 
 else
@@ -34,7 +34,7 @@ else
         BUILD_DIR = ../build/linux_$(UNAME_M)
         CCFLAGS += -g -std=c++11
         LDFLAGS = -Wl,-R./lib 
-        INCLUDE_DIR = -I../extlibs/SFML-linux_$(UNAME_M)/include 
+        INCLUDE_DIR += -I../extlibs/SFML-linux_$(UNAME_M)/include 
         LIBS = -lsfml-graphics -lsfml-window -lsfml-system -static-libgcc -static-libstdc++ 
         LIBS_DIR = -L../extlibs/SFML-linux_$(UNAME_M)/lib 
         EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ../extlibs/SFML-linux_$(UNAME_M)/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ../data/scripts/open-tgm $(BUILD_DIR)
@@ -42,7 +42,7 @@ else
     ifeq ($(UNAME_S),Darwin)
         BUILD_DIR = ../build/osx
         CCFLAGS += 
-        INCLUDE_DIR = -I../extlibs/SFML-osx/include 
+        INCLUDE_DIR += -I../extlibs/SFML-osx/include 
         LIBS = 
         LIBS_DIR = -L../extlibs/SFML-osx/lib 
     endif

@@ -8,13 +8,10 @@
 class BaseFrame {
     public:
         void init(Stack *stack);
-        void initGraphics();
-        void updateGraphics();
-        
-    private:
+
+    protected:
         Stack *m_stack;
         //TODO color;
 };
 
 #endif
-

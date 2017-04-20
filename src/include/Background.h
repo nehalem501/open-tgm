@@ -3,5 +3,8 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
-#endif
+#include <BackgroundImpl.h>
 
+typedef BackgroundImpl Background;
+
+#endif

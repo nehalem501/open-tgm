@@ -3,5 +3,8 @@
 #ifndef DIGITS_H
 #define DIGITS_H
 
-#endif
+#include <DigitsImpl.h>
 
+typedef DigitsImpl Digits;
+
+#endif

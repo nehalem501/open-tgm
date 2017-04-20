@@ -2,14 +2,15 @@
 
 #include <ctime>
 #include <stdint.h>
-#include "global.h"
-#include "input.h"
-#include "menu.h"
-#include "background.h"
-#include "player.h"
-#include "stack.h"
-#include "frame.h"
-#include "app.h"
+#include <Global.h>
+#include <Input.h>
+#include <Menu.h>
+#include <Game.h>
+#include <Background.h>
+#include <Player.h>
+#include <Stack.h>
+#include <Frame.h>
+#include <App.h>
 
 
 uint32_t rand_seed;
@@ -30,16 +31,15 @@ Game game;
 Menu menu;
 Background background;
 
-int main() {    
+int main() {
     // Init game stuff
     init();
-    
+
     // Init graphical assets
     initGraphics();
-    
-    // Run game    
+
+    // Run game
     app();
 
     return 0;
 }
-
