@@ -1,4 +1,4 @@
-/* modes.cpp */
+/* tgm1.cpp */
 
 #include <Mode.h>
 #include "tgm1.h"
