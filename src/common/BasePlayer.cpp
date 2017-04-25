@@ -108,13 +108,13 @@ void BasePlayer::nextPiece() {
 
     m_next = r;
 
-    if (m_piece.type == Shape::I || m_piece.type == Shape::O) {
+    //if (m_piece.type == Shape::I || m_piece.type == Shape::O) {
         m_piece.pos_x = 5;
         m_piece.pos_y = 2;
-    } else {
+    /*} else {
         m_piece.pos_x = 4;
         m_piece.pos_y = 2;
-    }
+    }*/
 
     m_piece_old_y = m_piece.pos_y;
 

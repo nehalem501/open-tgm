@@ -43,10 +43,10 @@ void PlayerImpl::updateSize(sf::Vector2u screenSize) {
         for (int j = 0; j < SIZE; ++j) {
             sf::Vertex* quad = &m_next_vertices[(i + j * SIZE) * 4];
 
-            quad[0].position = sf::Vector2f(pos_x + i * tile_size, pos_y + j * tile_size);
-            quad[1].position = sf::Vector2f(pos_x + (i + 1) * tile_size, pos_y + j * tile_size);
-            quad[2].position = sf::Vector2f(pos_x + (i + 1) * tile_size, pos_y + (j + 1) * tile_size);
-            quad[3].position = sf::Vector2f(pos_x + i * tile_size, pos_y + (j + 1) * tile_size);
+            quad[0].position = sf::Vector2f(pos_x + (i + 3) * tile_size, pos_y + (j - 2.5)* tile_size);
+            quad[1].position = sf::Vector2f(pos_x + (i + 4) * tile_size, pos_y + (j - 2.5) * tile_size);
+            quad[2].position = sf::Vector2f(pos_x + (i + 4) * tile_size, pos_y + (j - 1.5) * tile_size);
+            quad[3].position = sf::Vector2f(pos_x + (i + 3) * tile_size, pos_y + (j - 1.5) * tile_size);
         }
     }
 
@@ -206,5 +206,6 @@ void PlayerImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
     if (m_drawPiece)
         target.draw(m_piece_vertices, &tileset_tex);
-    //target.draw(m_next_vertices, &tileset_tex);
+
+    target.draw(m_next_vertices, &tileset_tex);
 }

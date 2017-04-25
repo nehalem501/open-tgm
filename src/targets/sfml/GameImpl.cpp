@@ -14,7 +14,7 @@ void GameImpl::updateSize(sf::Vector2u screenSize) {
 
     if (stack_position == Position::CENTERED) {
         stack1.m_pos_x = (screenSize.x / 2) - (stack1.m_width / 2) * tile_size;
-        stack1.m_pos_y = 5;
+        stack1.m_pos_y = 5 * tile_size;
     }
 
     stack1.updateSize(screenSize);
