@@ -255,6 +255,11 @@ void BaseStack::shiftLines() {
             shiftLine(m_filled_lines[3]);
             break;
     }
+
+    m_filled_lines[0] = -1;
+    m_filled_lines[1] = -1;
+    m_filled_lines[2] = -1;
+    m_filled_lines[3] = -1;
 }
 
 void BaseStack::checkLines(BasePlayer *player) {
