@@ -201,7 +201,10 @@ void PlayerImpl::updateGraphics() {
 }
 
 void PlayerImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    target.draw(m_ghost_vertices, &tileset_tex);
-    target.draw(m_piece_vertices, &tileset_tex);
+    if (m_drawGhost)
+        target.draw(m_ghost_vertices, &tileset_tex);
+
+    if (m_drawPiece)
+        target.draw(m_piece_vertices, &tileset_tex);
     //target.draw(m_next_vertices, &tileset_tex);
 }

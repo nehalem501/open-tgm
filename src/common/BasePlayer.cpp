@@ -143,11 +143,11 @@ void BasePlayer::update() {
         changeLevel(1, false);
         m_drawPiece = true;
 
-        /*if (m_level > m_maxGhost) {
+        if (m_level > 100) { // TODO
             m_drawGhost = false;
         } else {
             m_drawGhost = true;
-        }*/
+        }
 
         m_already_dropped = false;
 
