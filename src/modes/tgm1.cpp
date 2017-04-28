@@ -50,6 +50,22 @@ static struct Timing TGM1_LOCK[1] = {{0, 30}};
 
 static struct Timing TGM1_CLEAR[1] = {{0, 41}};
 
+static char TGM1_NEXT_STR[] = "NEXT";
+static char TGM1_TIME_STR[] = "TIME";
+static char TGM1_LEVEL_STR[] = "LEVEL";
+static char TGM1_POINTS_STR[] = "POINTS";
+static char TGM1_GRADE_STR[] = "GRADE";
+static char TGM1_NEXT_AT_STR[] = "NEXT AT";
+
+static struct Label TGM1_LABELS[6] = {
+    {TGM1_NEXT_STR, -2, 0},
+    {TGM1_TIME_STR, 12, 20},
+    {TGM1_LEVEL_STR, 12, 15},
+    {TGM1_POINTS_STR, 12, 11},
+    {TGM1_GRADE_STR, 12, 1},
+    {TGM1_NEXT_AT_STR, 12, 6}
+};
+
 Mode mode_tgm1(
 /*          name */ "TGM",
 /*    sonic_drop */ true, //TODO
@@ -69,4 +85,5 @@ Mode mode_tgm1(
 /*          lock */ TGM1_LOCK,
 /*       lock_nb */ 1,
 /*         clear */ TGM1_CLEAR,
-/*      clear_nb */ 1);
+/*      clear_nb */ 1,
+/*        labels */ TGM1_LABELS);

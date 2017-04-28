@@ -67,6 +67,18 @@ static struct Timing TGM2P_MASTER_CLEAR[5] = {
     {701, 12},
     {801, 6}};
 
+static char TGM2P_MASTER_NEXT_STR[] = "NEXT";
+static char TGM2P_MASTER_TIME_STR[] = "TIME";
+static char TGM2P_MASTER_LEVEL_STR[] = "LEVEL";
+static char TGM2P_MASTER_SCORE_STR[] = "SCORE";
+
+static struct Label TGM2P_MASTER_LABELS[4] = {
+    {TGM2P_MASTER_NEXT_STR, -2, 0},
+    {TGM2P_MASTER_TIME_STR, 12, 20},
+    {TGM2P_MASTER_LEVEL_STR, 12, 15},
+    {TGM2P_MASTER_SCORE_STR, 12, 11}
+};
+
 Mode mode_tgm2p_master(
 /*          name */ "TGM2P MASTER",
 /*    sonic_drop */ true,
@@ -86,4 +98,5 @@ Mode mode_tgm2p_master(
 /*          lock */ TGM2P_MASTER_LOCK,
 /*       lock_nb */ 2,
 /*         clear */ TGM2P_MASTER_CLEAR,
-/*      clear_nb */ 5);
+/*      clear_nb */ 5,
+/*        labels */ TGM2P_MASTER_LABELS);

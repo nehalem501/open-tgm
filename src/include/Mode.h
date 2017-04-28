@@ -39,6 +39,12 @@ struct Timing {
     unsigned int value;
 };
 
+struct Label {
+    char *string;
+    int8_t x;
+    int8_t y;
+};
+
 class Mode {
     public:
         const char* name;
@@ -67,6 +73,8 @@ class Mode {
         struct Timing* lock;
         struct Timing* clear;
 
+        struct Label* labels;
+
         Mode(const char* nm, bool s_drop, bool disp_score, bool sec,
              unsigned int sz_x, unsigned int sz_y, unsigned int max_lvl,
              struct Timing* t_gravity, unsigned int grav_nb,
@@ -74,7 +82,8 @@ class Mode {
              struct Timing* t_line_are, unsigned int ln_are_n,
              struct Timing* t_das, unsigned int das_n,
              struct Timing* t_lock, unsigned int lock_n,
-             struct Timing* t_clear, unsigned int clr_n);
+             struct Timing* t_clear, unsigned int clr_n,
+             struct Label* l);
 
         unsigned int getSizeX();
         unsigned int getSizeY();

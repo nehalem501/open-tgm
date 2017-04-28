@@ -9,7 +9,7 @@
 #include "LabelsImpl.h"
 
 using namespace std;
-
+/*
 void LabelsImpl::init(std::vector<std::string> text, std::vector<sf::Vector2f> textPos) {
     if (!m_font.loadFromFile("resources/labels-font.png")) {
         // ERROR
@@ -48,7 +48,7 @@ void LabelsImpl::init(std::vector<std::string> text, std::vector<sf::Vector2f> t
         quad[2].color = sf::Color(0, 0, 0, 0);
         quad[3].color = sf::Color(0, 0, 0, 0);
     }
-}
+}*/
 
 void LabelsImpl::initGraphics() {
 #warning labels initgraphics no implemented

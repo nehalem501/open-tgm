@@ -20,7 +20,6 @@ class LabelsImpl : public BaseLabels, public sf::Drawable {
 
     public:
         void initGraphics();
-        void init(std::vector<std::string> text, std::vector<sf::Vector2f> textPos);
         void updateSize(float gamePosX, float gamePosY, float displayTileSize);
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
