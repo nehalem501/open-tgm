@@ -15,6 +15,8 @@ bool TestEvent(MyKeys k, sf::Event e) {
         return true;
     }
 
+    // TODO Joystick event
+
     return false;
 }
 
@@ -35,7 +37,7 @@ void InputImpl::init() {
     key.myEventType = sf::Event::KeyPressed;
     key.myKeyCode = sf::Keyboard::F2;
     assignedKeys.add(key);
-    eventKeys[Options] = assignedKeys;
+    eventKeys[Settings] = assignedKeys;
     assignedKeys.clear();
 
     // Up
@@ -169,4 +171,5 @@ void InputImpl::pollInputs() {
     }
 
     m_start = eventKeys[Start].testInput();
+    m_settings = eventKeys[Settings].testInput();
 }

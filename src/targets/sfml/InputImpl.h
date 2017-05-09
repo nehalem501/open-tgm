@@ -17,7 +17,7 @@ enum Buttons {
     B = 5,
     C = 6,
     Start = 7,
-    Options = 8
+    Settings = 8
 };
 
 enum InputType {

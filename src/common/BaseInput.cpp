@@ -3,6 +3,7 @@
 #include <common/BaseInput.h>
 
 BaseInput::BaseInput() : m_start(false),
+                 m_settings(false),
                  m_up(false),
                  m_down(false),
                  m_left(false),

@@ -38,5 +38,8 @@ void BaseMenu::update() {
             game.updateGraphics();
             //ingame();
             break;
+
+        case MenuState::SETTINGS_LIST:
+            break;
     }
 }
