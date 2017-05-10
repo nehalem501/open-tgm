@@ -65,6 +65,7 @@ class Mode {
         unsigned int das_nb;
         unsigned int lock_nb;
         unsigned int clear_nb;
+	unsigned int labels_nb;
 
         struct Timing* gravity;
         struct Timing* are;
@@ -83,7 +84,7 @@ class Mode {
              struct Timing* t_das, unsigned int das_n,
              struct Timing* t_lock, unsigned int lock_n,
              struct Timing* t_clear, unsigned int clr_n,
-             struct Label* l);
+             struct Label* l, unsigned int l_nb);
 
         unsigned int getSizeX();
         unsigned int getSizeY();

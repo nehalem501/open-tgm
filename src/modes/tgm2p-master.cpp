@@ -99,4 +99,5 @@ Mode mode_tgm2p_master(
 /*       lock_nb */ 2,
 /*         clear */ TGM2P_MASTER_CLEAR,
 /*      clear_nb */ 5,
-/*        labels */ TGM2P_MASTER_LABELS);
+/*        labels */ TGM2P_MASTER_LABELS,
+/*     labels_nb */ 4);

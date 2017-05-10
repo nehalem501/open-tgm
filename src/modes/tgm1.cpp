@@ -86,4 +86,5 @@ Mode mode_tgm1(
 /*       lock_nb */ 1,
 /*         clear */ TGM1_CLEAR,
 /*      clear_nb */ 1,
-/*        labels */ TGM1_LABELS);
+/*        labels */ TGM1_LABELS,
+/*     labels_nb */ 6);
