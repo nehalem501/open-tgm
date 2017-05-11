@@ -8,7 +8,7 @@
 #include "tgm1.h"
 #include "tgm2p-master.h"
 
-Mode* modes[] {
+Mode* modes[] = {
     &mode_tgm1,
     &mode_tgm2p_master
 };
