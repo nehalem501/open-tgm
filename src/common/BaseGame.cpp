@@ -9,12 +9,12 @@
 
 void BaseGame::initGraphics() {
     timer1.initGraphics();
-    labels1.initGraphics();
+    //labels1.initGraphics();
     level_display1.initGraphics();
     level_target_display1.initGraphics();
 #ifdef MULTIPLAYER
     timer2.initGraphics();
-    labels2.initGraphics();
+    //labels2.initGraphics();
     level_display2.initGraphics();
     level_target_display2.initGraphics();
 #endif
@@ -24,6 +24,8 @@ void BaseGame::startPlayer1() {
     // TODO choose mode
     stack1.startGame(modes[0]);
     player1.init(&stack1, modes[0]);
+    labels1.setMode(modes[0]);
+    labels1.initGraphics();
     m_player1_state = GameState::INGAME;
 }
 

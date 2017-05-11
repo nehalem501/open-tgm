@@ -17,6 +17,7 @@ extern sf::Texture text_tex;
 extern sf::Texture grades_tex;
 extern sf::Texture timer_tex;
 extern int tile_size;
+
 #define TILE_RATIO 29
 #define FILE_TILE_SIZE 128
 

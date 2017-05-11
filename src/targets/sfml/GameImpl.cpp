@@ -21,7 +21,7 @@ void GameImpl::updateSize(sf::Vector2u screenSize) {
     player1.updateSize(screenSize);
 
     //timer1.updateSize(screenSize); // TODO timer2
-    //labels1.updateSize(screenSize);
+    labels1.updateSize(&stack1, screenSize);
 }
 
 void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {

@@ -12,10 +12,8 @@
 
 class LabelsImpl : public BaseLabels, public sf::Drawable {
     private:
-        float posX, posY, displaySize;
         unsigned int length;
         sf::VertexArray m_vertices;
-        sf::Texture m_font;
         std::vector<std::string> str;
         std::vector<sf::Vector2f> positions;
 

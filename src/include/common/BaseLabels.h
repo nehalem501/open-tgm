@@ -7,9 +7,9 @@
 
 class BaseLabels {
     public:
-        inline void setMode(Mode *new_mode) { mode = new_mode; };
-    private:
-        Mode *mode;
+        inline void setMode(Mode *new_mode) { m_mode = new_mode; };
+    protected:
+        Mode *m_mode;
 };
 
 #endif
