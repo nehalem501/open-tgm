@@ -14,11 +14,9 @@ all : $(EXE_NAME)
 
 clean :
 	rm -f $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES);
-	rm -rf $(BUILD_DIR)/resources
 
 $(EXE_NAME) : $(EXE_OBJ_FILES) 
-	rm -rf $(BUILD_DIR)/resources
-	cp -r ../data/resources $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)
 	$(CC) $(LDFLAGS) -o $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES) $(LIBS_DIR) $(LIBS)
 	$(EXTRAS)
 
