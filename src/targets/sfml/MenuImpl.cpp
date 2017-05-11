@@ -25,7 +25,7 @@ void MenuImpl::updateSize(sf::Vector2u windowSize) {
     // TODO check for multiplayer
 #warning "Multiplayer missing"
     game.updateSize(windowSize);
-    frame1.updateSize(windowSize);
+    frame1.updateSize(&stack1, windowSize);
 }
 
 void MenuImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {

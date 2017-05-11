@@ -7,6 +7,7 @@
 #include <vector>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <Stack.h>
 #include <common/BaseLabels.h>
 
 class LabelsImpl : public BaseLabels, public sf::Drawable {
@@ -20,7 +21,7 @@ class LabelsImpl : public BaseLabels, public sf::Drawable {
 
     public:
         void initGraphics();
-        void updateSize(float gamePosX, float gamePosY, float displayTileSize);
+        void updateSize(Stack *stack, sf::Vector2u screenSize);
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

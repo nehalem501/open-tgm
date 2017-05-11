@@ -8,9 +8,6 @@
 class BaseFrame {
     public:
         void init(Stack *stack);
-
-    protected:
-        Stack *m_stack;
         //TODO color;
 };
 

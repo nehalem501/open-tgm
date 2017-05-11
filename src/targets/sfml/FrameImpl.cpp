@@ -2,6 +2,7 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <Stack.h>
 #include "GlobalSFML.h"
 #include "FrameImpl.h"
 
@@ -59,11 +60,11 @@ void FrameImpl::initGraphics() {
 void FrameImpl::updateGraphics() {
 }
 
-void FrameImpl::updateSize(sf::Vector2u screenSize) {
-    int width = m_stack->m_width;
-    int height = m_stack->m_height;
-    int pos_x = m_stack->m_pos_x;
-    int pos_y = m_stack->m_pos_y;
+void FrameImpl::updateSize(Stack *stack, sf::Vector2u screenSize) {
+    int width = stack->m_width;
+    int height = stack->m_height;
+    int pos_x = stack->m_pos_x;
+    int pos_y = stack->m_pos_y;
 
     // Resize background
     m_background.setSize(sf::Vector2f(width * tile_size, height * tile_size));

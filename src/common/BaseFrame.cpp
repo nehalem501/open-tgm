@@ -4,5 +4,5 @@
 #include <common/BaseFrame.h>
 
 void BaseFrame::init(Stack *stack) {
-    m_stack = stack;
+
 }

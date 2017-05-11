@@ -6,6 +6,7 @@
 #include <iostream>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <Stack.h>
 #include "LabelsImpl.h"
 
 using namespace std;
@@ -54,10 +55,10 @@ void LabelsImpl::initGraphics() {
 #warning labels initgraphics no implemented
 }
 
-void LabelsImpl::updateSize(float gamePosX, float gamePosY, float displayTileSize) {
-    posX = gamePosX;
-    posY = gamePosY;
-    displaySize = displayTileSize;
+void LabelsImpl::updateSize(Stack *stack, sf::Vector2u screenSize) {
+    posX = 0/*gamePosX*/;
+    posY = 0/*gamePosY*/;
+    displaySize = 0/*displayTileSize*/;
 
     int offset;
     int position_x;
