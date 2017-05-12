@@ -12,7 +12,7 @@ class StackImpl : public BaseStack, public sf::Drawable {
         void initGraphics();
         void updateGraphics();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-        void updateSize(sf::Vector2u screenSize);
+        void updateSize();
 
     private:
         sf::VertexArray m_vertices;

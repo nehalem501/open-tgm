@@ -36,6 +36,10 @@ void TimerImpl::updateGraphics() {
     }
 }
 
+void TimerImpl::updateSize(Stack *stack) {
+    #warning "TimerImpl::updateSize not implemented"
+}
+
 void TimerImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(m_timer_vert, &timer_tex);
 }

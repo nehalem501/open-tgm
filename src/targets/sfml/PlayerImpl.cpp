@@ -32,9 +32,11 @@ void PlayerImpl::initGraphics() {
     for (std::size_t i = 0; i < SIZE * SIZE * 4; i++) {
         m_ghost_vertices[i].color = sf::Color(0, 0, 0, 0);
     }
+
+    updateSize();
 }
 
-void PlayerImpl::updateSize(sf::Vector2u screenSize) {
+void PlayerImpl::updateSize() {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
 

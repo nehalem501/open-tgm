@@ -23,7 +23,7 @@ void StackImpl::initGraphics() {
     }
 }
 
-void StackImpl::updateSize(sf::Vector2u screenSize) {
+void StackImpl::updateSize() {
     // Update board position
     for (int i = 0; i < m_width; ++i) {
         for (int j = 0; j < m_height; ++j) {

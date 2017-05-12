@@ -12,8 +12,8 @@ class FrameImpl : public BaseFrame, public sf::Drawable {
     public:
         void initGraphics();
         void updateGraphics();
+        void updateSize(Stack *stack);
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-        void updateSize(Stack *stack, sf::Vector2u screenSize);
 
     private:
         sf::RectangleShape m_background;

@@ -48,14 +48,14 @@ void BackgroundImpl::initGraphics() {
     }
 }
 
-void BackgroundImpl::updateSize(sf::Vector2u screenSize) {
+void BackgroundImpl::updateSize() {
     m_vertices[0].position = sf::Vector2f(0, 0);
-    m_vertices[1].position = sf::Vector2f(screenSize.x, 0);
-    m_vertices[2].position = sf::Vector2f(screenSize.x, screenSize.y);
-    m_vertices[3].position = sf::Vector2f(0, screenSize.y);
+    m_vertices[1].position = sf::Vector2f(screen_size.x, 0);
+    m_vertices[2].position = sf::Vector2f(screen_size.x, screen_size.y);
+    m_vertices[3].position = sf::Vector2f(0, screen_size.y);
 
-    float bx = (float) screenSize.x / imageSize.x;
-    float by = (float) screenSize.y / imageSize.y;
+    float bx = (float) screen_size.x / imageSize.x;
+    float by = (float) screen_size.y / imageSize.y;
     float scale;
     if (bx < by) {
         scale = by;
@@ -64,8 +64,8 @@ void BackgroundImpl::updateSize(sf::Vector2u screenSize) {
         scale = bx;
     }
 
-    float pos_x0 = ((float) screenSize.x) / 2.0f - (((float) imageSize.x * scale) / 2.0f);
-    float pos_y0 = ((float) screenSize.y) / 2.0f - (((float) imageSize.y * scale) / 2.0f);
+    float pos_x0 = ((float) screen_size.x) / 2.0f - (((float) imageSize.x * scale) / 2.0f);
+    float pos_y0 = ((float) screen_size.y) / 2.0f - (((float) imageSize.y * scale) / 2.0f);
 
     for (std::list<BackgroundSprite>::iterator it = sprites.begin(); it != sprites.end(); ++it) {
         it->sprite.setScale(scale, scale);

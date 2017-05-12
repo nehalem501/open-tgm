@@ -15,17 +15,17 @@ void MenuImpl::initGraphics() {
     m_chooseMode.initGraphics();
 }
 
-void MenuImpl::updateSize(sf::Vector2u windowSize) {
-    tile_size = (int) floor(windowSize.y / TILE_RATIO);
+void MenuImpl::updateSize() {
+    tile_size = (int) floor(screen_size.y / TILE_RATIO);
 
-    background.updateSize(windowSize);
+    background.updateSize();
 
-    m_home.updateSize(windowSize);
+    m_home.updateSize();
     // TODO resize modesText[]
     // TODO check for multiplayer
 #warning "Multiplayer missing"
-    game.updateSize(windowSize);
-    frame1.updateSize(&stack1, windowSize);
+    game.updateSize();
+    frame1.updateSize(&stack1);
 }
 
 void MenuImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {

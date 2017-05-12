@@ -10,8 +10,8 @@
 class MenuImpl : public BaseMenu, public sf::Drawable {
     public:
         void initGraphics();
+        void updateSize();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-        void updateSize(sf::Vector2u screenSize);
 };
 
 #endif

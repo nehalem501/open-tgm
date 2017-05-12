@@ -7,6 +7,7 @@
 #include <list>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include "GlobalSFML.h"
 #include <common/BaseBackground.h>
 
 /* Used by BackgroundSFML to divide the background image in multiple sprites
@@ -20,8 +21,8 @@ class BackgroundSprite {
 class BackgroundImpl : public BaseBackground, public sf::Drawable {
     public:
         void initGraphics();
+        void updateSize();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-        void updateSize(sf::Vector2u screenSize);
 
     private:
         std::list<sf::Texture> textures;

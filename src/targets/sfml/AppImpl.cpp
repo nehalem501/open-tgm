@@ -18,17 +18,21 @@ sf::Texture timer_tex;
 
 sf::Time timePerFrame;
 
-int tile_size;
+sf::Vector2u screen_size(640, 480);
+
+int tile_size = floor(screen_size.y / TILE_RATIO);
 
 void app() {
-    // Resize graphics accordingly
-    sf::Vector2u windowSize(640, 480);
-    menu.updateSize(windowSize);
+    // Resize graphics to window size
+    menu.updateSize();
     bool fullscreen = false; // TODO load config
+
+    // Used to remember window size when going fullscreen
+    sf::Vector2u window_size(640, 480);
 
     // Create window
     sf::RenderWindow window;
-    window.create(sf::VideoMode(windowSize.x, windowSize.y), "Open TGM");
+    window.create(sf::VideoMode(screen_size.x, screen_size.y), "Open TGM");
     window.clear();
     window.display();
 
@@ -53,21 +57,23 @@ void app() {
 
                     if (event.key.code == sf::Keyboard::F11) {
                         if (fullscreen) {
-                            window.create(sf::VideoMode(windowSize.x, windowSize.y), "Open TGM", sf::Style::Default);
-                            window.setView(sf::View(sf::FloatRect(0.f, 0.f, windowSize.x, windowSize.y)));
+                            window.create(sf::VideoMode(screen_size.x, screen_size.y), "Open TGM", sf::Style::Default);
+                            window.setView(sf::View(sf::FloatRect(0.f, 0.f, screen_size.x, screen_size.y)));
                             window.clear();
                             window.display();
 
                             fullscreen = false;
-                            menu.updateSize(windowSize);
+                            menu.updateSize();
                         } else {
+                            window_size = window.getSize();
                             window.create(sf::VideoMode::getDesktopMode(), "Open TGM", sf::Style::Fullscreen);
-                            window.setView(sf::View(sf::FloatRect(0.f, 0.f, window.getSize().x, window.getSize().y)));
+                            screen_size =  window.getSize();
+                            window.setView(sf::View(sf::FloatRect(0.f, 0.f, screen_size.x, screen_size.y)));
                             window.clear();
                             window.display();
 
                             fullscreen = true;
-                            menu.updateSize(window.getSize());
+                            menu.updateSize();
                         }
                     }
                 }
@@ -78,15 +84,14 @@ void app() {
 
                 if (event.type == sf::Event::Resized) {
                     sf::Vector2u newWindowSize = window.getSize();
-                    if (newWindowSize != windowSize) {
+                    if (newWindowSize != screen_size) {
                         window.setView(sf::View(sf::FloatRect(0.f, 0.f, newWindowSize.x, newWindowSize.y)));
                         window.clear();
                         window.display();
 
-                        menu.updateSize(newWindowSize);
+                        menu.updateSize();
 
-                        if (!fullscreen)
-                            windowSize = newWindowSize;
+                        screen_size = newWindowSize;
                     }
                 }
             }

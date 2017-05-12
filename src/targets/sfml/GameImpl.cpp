@@ -9,19 +9,19 @@
 #include "GlobalSFML.h"
 #include "GameImpl.h"
 
-void GameImpl::updateSize(sf::Vector2u screenSize) {
+void GameImpl::updateSize() {
     // TODO
 
     if (stack_position == Position::CENTERED) {
-        stack1.m_pos_x = (screenSize.x / 2) - (stack1.m_width / 2) * tile_size;
+        stack1.m_pos_x = (screen_size.x / 2) - (stack1.m_width / 2) * tile_size;
         stack1.m_pos_y = 5 * tile_size;
     }
 
-    stack1.updateSize(screenSize);
-    player1.updateSize(screenSize);
+    stack1.updateSize();
+    player1.updateSize();
 
-    //timer1.updateSize(screenSize); // TODO timer2
-    labels1.updateSize(&stack1, screenSize);
+    timer1.updateSize(&stack1); // TODO timer2
+    labels1.updateSize(&stack1);
 }
 
 void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {

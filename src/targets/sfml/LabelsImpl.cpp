@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void LabelsImpl::initGraphics() {
+void LabelsImpl::initGraphics(Stack *stack) {
     length = 0;
 
     for (unsigned int i = 0; i < m_mode->labels_nb; i++) {
@@ -39,10 +39,12 @@ void LabelsImpl::initGraphics() {
         quad[2].color = sf::Color(0, 0, 0, 0);
         quad[3].color = sf::Color(0, 0, 0, 0);
     }
+
+    updateSize(stack);
 }
 
-void LabelsImpl::updateSize(Stack *stack, sf::Vector2u screenSize) {
-    float tile_size = floor(screenSize.y / TILE_RATIO);
+void LabelsImpl::updateSize(Stack *stack) {
+    float tile_size = floor(screen_size.y / TILE_RATIO);
     int pos_x = stack->m_pos_x;
     int pos_y = stack->m_pos_y;
 
@@ -434,4 +436,3 @@ void LabelsImpl::updateSize(Stack *stack, sf::Vector2u screenSize) {
 void LabelsImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(m_vertices, &labels_tex);
 }
-

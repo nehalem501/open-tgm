@@ -60,7 +60,7 @@ void FrameImpl::initGraphics() {
 void FrameImpl::updateGraphics() {
 }
 
-void FrameImpl::updateSize(Stack *stack, sf::Vector2u screenSize) {
+void FrameImpl::updateSize(Stack *stack) {
     int width = stack->m_width;
     int height = stack->m_height;
     int pos_x = stack->m_pos_x;

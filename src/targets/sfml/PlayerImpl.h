@@ -11,7 +11,7 @@ class PlayerImpl : public BasePlayer, public sf::Drawable {
     public:
         void initGraphics();
         void updateGraphics();
-        void updateSize(sf::Vector2u screenSize);
+        void updateSize();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
