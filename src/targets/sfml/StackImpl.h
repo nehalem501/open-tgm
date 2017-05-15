@@ -17,6 +17,7 @@ class StackImpl : public BaseStack, public sf::Drawable {
     private:
         sf::VertexArray m_vertices;
         sf::VertexArray m_vertices_outline;
+        void assign_tile(int tile, unsigned char rgb, unsigned char alpha, sf::Vertex* quad);
 };
 
 #endif

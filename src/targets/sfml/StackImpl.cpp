@@ -24,12 +24,18 @@ void StackImpl::initGraphics() {
 }
 
 void StackImpl::updateSize() {
-    // Update board position
+    // Update stack tiles and outline position
     for (int i = 0; i < m_width; ++i) {
         for (int j = 0; j < m_height; ++j) {
-            // get a pointer to the current tile's quad
+            // get a pointer to the current stack tile quad
             sf::Vertex* quad = &m_vertices[(i + j * m_width) * 4];
+            quad[0].position = sf::Vector2f(m_pos_x + i * tile_size, m_pos_y + j * tile_size);
+            quad[1].position = sf::Vector2f(m_pos_x + (i + 1) * tile_size, m_pos_y + j * tile_size);
+            quad[2].position = sf::Vector2f(m_pos_x + (i + 1) * tile_size, m_pos_y + (j + 1) * tile_size);
+            quad[3].position = sf::Vector2f(m_pos_x + i * tile_size, m_pos_y + (j + 1) * tile_size);
 
+            // get a pointer to the current outline tile quad
+            quad = &m_vertices_outline[(i + j * m_width) * 4];
             quad[0].position = sf::Vector2f(m_pos_x + i * tile_size, m_pos_y + j * tile_size);
             quad[1].position = sf::Vector2f(m_pos_x + (i + 1) * tile_size, m_pos_y + j * tile_size);
             quad[2].position = sf::Vector2f(m_pos_x + (i + 1) * tile_size, m_pos_y + (j + 1) * tile_size);
@@ -71,41 +77,43 @@ void StackImpl::updateGraphics() {
             break;
     }*/
 
-    int tileSize = 128;
-
     unsigned char rgb = 200;
-    //unsigned char alpha = 255;
+    unsigned char alpha = 255;
 
-    // Apply Board texture
+    // Apply Stack tiles and outline texture
     for (int i = 0; i < m_width; ++i) {
         for (int j = 0; j < m_height; ++j) {
-            int tile = m_stack[i + j * m_width];
+            // Outline
+            int tile = m_outline[i + j * m_width];
+            sf::Vertex* quad = &m_vertices_outline[(i + j * m_width) * 4];
+            if (tile > 0) {
+                assign_tile(tile, 255, 144, quad);
+            } else {
+                quad[0].color = sf::Color(0, 0, 0, 0);
+                quad[1].color = sf::Color(0, 0, 0, 0);
+                quad[2].color = sf::Color(0, 0, 0, 0);
+                quad[3].color = sf::Color(0, 0, 0, 0);
+            }
+
+            // Stack
+            tile = m_stack[i + j * m_width];
             if (tile > 0) {
                 if (tile == 8) {
                     rgb = 255;
+                    quad[0].color = sf::Color(255, 255, 255, 255);
+                    quad[1].color = sf::Color(255, 255, 255, 255);
+                    quad[2].color = sf::Color(255, 255, 255, 255);
+                    quad[3].color = sf::Color(255, 255, 255, 255);
                     //cout << "tile8" << endl;
                 } else {
                     rgb = 200;
                 }
                 tile--;
 
-                int tu = tile % (tileset_tex.getSize().x / tileSize);
-                int tv = tile / (tileset_tex.getSize().x / tileSize);
-
-                sf::Vertex* quad = &m_vertices[(i + j * m_width) * 4];
-
-                quad[0].color = sf::Color(rgb, rgb, rgb, 255);
-                quad[1].color = sf::Color(rgb, rgb, rgb, 255);
-                quad[2].color = sf::Color(rgb, rgb, rgb, 255);
-                quad[3].color = sf::Color(rgb, rgb, rgb, 255);
-
-                quad[0].texCoords = sf::Vector2f(tu * tileSize, tv * tileSize);
-                quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize, tv * tileSize);
-                quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize, (tv + 1) * tileSize);
-                quad[3].texCoords = sf::Vector2f(tu * tileSize, (tv + 1) * tileSize);
+                quad = &m_vertices[(i + j * m_width) * 4];
+                assign_tile(tile, rgb, 255, quad);
             } else {
-                sf::Vertex* quad = &m_vertices[(i + j * m_width) * 4];
-
+                quad = &m_vertices[(i + j * m_width) * 4];
                 quad[0].color = sf::Color(0, 0, 0, 0);
                 quad[1].color = sf::Color(0, 0, 0, 0);
                 quad[2].color = sf::Color(0, 0, 0, 0);
@@ -115,9 +123,24 @@ void StackImpl::updateGraphics() {
     }
 }
 
+void StackImpl::assign_tile(int tile, unsigned char rgb, unsigned char alpha, sf::Vertex* quad) {
+    int tu = tile % (tileset_tex.getSize().x / FILE_TILE_SIZE);
+    int tv = tile / (tileset_tex.getSize().x / FILE_TILE_SIZE);
+
+    quad[0].color = sf::Color(rgb, rgb, rgb, alpha);
+    quad[1].color = sf::Color(rgb, rgb, rgb, alpha);
+    quad[2].color = sf::Color(rgb, rgb, rgb, alpha);
+    quad[3].color = sf::Color(rgb, rgb, rgb, alpha);
+
+    quad[0].texCoords = sf::Vector2f(tu * FILE_TILE_SIZE, tv * FILE_TILE_SIZE);
+    quad[1].texCoords = sf::Vector2f((tu + 1) * FILE_TILE_SIZE, tv * FILE_TILE_SIZE);
+    quad[2].texCoords = sf::Vector2f((tu + 1) * FILE_TILE_SIZE, (tv + 1) * FILE_TILE_SIZE);
+    quad[3].texCoords = sf::Vector2f(tu * FILE_TILE_SIZE, (tv + 1) * FILE_TILE_SIZE);
+}
+
 void StackImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(m_vertices, &tileset_tex);
-    target.draw(m_vertices_outline, &tileset_tex);
+    target.draw(m_vertices_outline, &outline_tex);
 
     switch (m_active_particles) {
         case 1:

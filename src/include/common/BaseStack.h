@@ -45,6 +45,8 @@ class BaseStack {
         void shiftLines();
         void checkLines(BasePlayer *player);
 
+        void updateOutline(int8_t line);
+
         void removeGreyBlocks(Piece *piece);
 };
 

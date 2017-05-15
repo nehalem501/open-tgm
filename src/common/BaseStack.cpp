@@ -339,6 +339,12 @@ end_for:
     }
 }
 
+void BaseStack::updateOutline(int8_t line) {
+    for (int i = 0; i < m_width; i++) {
+        m_outline[i + m_width * line] = 1;
+    }
+}
+
 void BaseStack::removeGreyBlocks(Piece *piece) {
     int pos_x = piece->pos_x;
     int pos_y = piece->pos_y;
