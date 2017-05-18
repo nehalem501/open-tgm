@@ -34,6 +34,7 @@ class BaseGame {
 
         Timer timer1;
         Labels labels1;
+        Digits score_display1;
         Digits level_display1;
         Digits level_target_display1;
 

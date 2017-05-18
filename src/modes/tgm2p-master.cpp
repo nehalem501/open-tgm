@@ -100,4 +100,7 @@ Mode mode_tgm2p_master(
 /*         clear */ TGM2P_MASTER_CLEAR,
 /*      clear_nb */ 5,
 /*        labels */ TGM2P_MASTER_LABELS,
-/*     labels_nb */ 4);
+/*     labels_nb */ 4,
+/*     score_pos */ {12, 12},
+/*     level_pos */ {12, 16},
+/*   lvl_tgt_pos */ {12, 18});

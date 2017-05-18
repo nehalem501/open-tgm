@@ -25,7 +25,7 @@ void init() {
 }
 
 void initGraphics() {
-    stack_position = Position::CENTERED,
+    stack_position = StackPosition::CENTERED,
     initTextures();
 
     menu.initGraphics();

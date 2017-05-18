@@ -22,7 +22,7 @@ typedef MenuImpl Menu;
 typedef BackgroundImpl Background;
 typedef FrameImpl Frame;
 
-namespace Position {
+namespace StackPosition {
     enum {
         CENTERED = 0,
         DIVIDED

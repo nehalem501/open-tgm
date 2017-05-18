@@ -45,11 +45,14 @@ struct Label {
     int8_t y;
 };
 
+struct Position {
+    int8_t x;
+    int8_t y;
+};
+
 class Mode {
     public:
         const char* name;
-
-
 
         bool sonic_drop;
         bool display_score;
@@ -65,7 +68,7 @@ class Mode {
         unsigned int das_nb;
         unsigned int lock_nb;
         unsigned int clear_nb;
-	unsigned int labels_nb;
+	    unsigned int labels_nb;
 
         struct Timing* gravity;
         struct Timing* are;
@@ -76,6 +79,10 @@ class Mode {
 
         struct Label* labels;
 
+        struct Position score_pos;
+        struct Position level_pos;
+        struct Position level_target_pos;
+
         Mode(const char* nm, bool s_drop, bool disp_score, bool sec,
              unsigned int sz_x, unsigned int sz_y, unsigned int max_lvl,
              struct Timing* t_gravity, unsigned int grav_nb,
@@ -84,7 +91,8 @@ class Mode {
              struct Timing* t_das, unsigned int das_n,
              struct Timing* t_lock, unsigned int lock_n,
              struct Timing* t_clear, unsigned int clr_n,
-             struct Label* l, unsigned int l_nb);
+             struct Label* l, unsigned int l_nb, struct Position scr_pos,
+             struct Position lvl_pos, struct Position lvl_tg_pos);
 
         unsigned int getSizeX();
         unsigned int getSizeY();

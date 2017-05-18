@@ -87,4 +87,7 @@ Mode mode_tgm1(
 /*         clear */ TGM1_CLEAR,
 /*      clear_nb */ 1,
 /*        labels */ TGM1_LABELS,
-/*     labels_nb */ 6);
+/*     labels_nb */ 6,
+/*     score_pos */ {12, 12},
+/*     level_pos */ {12, 16},
+/*   lvl_tgt_pos */ {12, 18});

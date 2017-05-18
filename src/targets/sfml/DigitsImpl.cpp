@@ -20,13 +20,12 @@ void DigitsImpl::updateSize(Stack *stack) {
 }
 
 void DigitsImpl::updateVertices(Stack *stack) {
-    float tile_size = floor(screen_size.y / TILE_RATIO);
     int game_pos_x = stack->m_pos_x;
     int game_pos_y = stack->m_pos_y;
 
     int offset = 0;
-    int position_x = (int) (game_pos_x + tile_size * m_pos_x);
-    int position_y = (int) (game_pos_y + tile_size * m_pos_y);
+    int position_x = game_pos_x + tile_size * m_pos_x;
+    int position_y = game_pos_y + tile_size * m_pos_y + tile_size / 6;
     float factor = 131.0f;
 
     uint32_t tmp = m_value;
