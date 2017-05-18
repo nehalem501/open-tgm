@@ -199,11 +199,17 @@ bool BaseStack::checkRightKickRotation(Piece *piece, int x_offset, int y_offset)
 #include<iostream>
 
 void BaseStack::shiftLine(int8_t line) {
-    std::cout << "height" << m_height << std::endl;
+    //std::cout << "height: " << m_height << std::endl;
     if (line > m_height - 1)
         return;
 
+    // Shift lines above this one
     memmove(m_stack + m_width, m_stack, line * m_width);
+    memmove(m_outline + m_width, m_outline, line * m_width);
+
+    // Update outline after shifting line
+    updateOutline(line);
+    updateOutline(line + 1);
 }
 
 void BaseStack::shiftLines() {
@@ -214,41 +220,41 @@ void BaseStack::shiftLines() {
             break;
         }*/
         nb_lines++;
-        std::cout << "for: nb_line: " << (int) nb_lines << std::endl;
+        //std::cout << "for: nb_line: " << (int) nb_lines << std::endl;
     }
     #warning "shiftLines not finished"
     for (int i = 0; i < FILLED_LINES_NB; i++) {
-        std::cout << "filled[" << (int) i << "]: " << (int) m_filled_lines[i] << std::endl;
+        //std::cout << "filled[" << (int) i << "]: " << (int) m_filled_lines[i] << std::endl;
     }
 
-    std::cout << "nb_line: " << (int) nb_lines << std::endl;
+    //std::cout << "nb_line: " << (int) nb_lines << std::endl;
     switch (nb_lines) { //TODO
         case 1:
-            std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
             shiftLine(m_filled_lines[0]);
             break;
 
         case 2:
-            std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
-            std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
             shiftLine(m_filled_lines[0]);
             shiftLine(m_filled_lines[1]);
             break;
 
         case 3:
-            std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
-            std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
-            std::cout << "line: " << (int) m_filled_lines[2] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[2] << std::endl;
             shiftLine(m_filled_lines[0]);
             shiftLine(m_filled_lines[1]);
             shiftLine(m_filled_lines[2]);
             break;
 
         case 4:
-            std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
-            std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
-            std::cout << "line: " << (int) m_filled_lines[2] << std::endl;
-            std::cout << "line: " << (int) m_filled_lines[3] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[2] << std::endl;
+            //std::cout << "line: " << (int) m_filled_lines[3] << std::endl;
             shiftLine(m_filled_lines[0]);
             shiftLine(m_filled_lines[1]);
             shiftLine(m_filled_lines[2]);
@@ -286,8 +292,9 @@ void BaseStack::checkLines(BasePlayer *player) {
 end_for:
         // The line will be cleared
         if (line) {
-            std::cout << "row: "<< row << std::endl;
-            std::cout << "rownb: "<< row_nb << std::endl;
+            //std::cout << "row: "<< row << std::endl;
+            //std::cout << "rownb: "<< row_nb << std::endl;
+
             // Add line coords to remove line later
             m_filled_lines[lines_to_clear] = row_nb; // TODO doubles
 
@@ -295,29 +302,32 @@ end_for:
             lines_to_clear++;
 
             // Clear line
-            for (int j = row; j < row + m_width; j++) {
-                m_stack[j] = 0;
-            }
+            memset(m_stack + row, 0, m_width);
+            memset(m_outline + row, 0, m_width);
+
+            // Update outline of surrounding lines
+            updateOutline(row_nb - 1);
+            updateOutline(row_nb + 1);
 
             // Activate particles for line clear
             switch (lines_to_clear) {
                 case 1:
-                    m_part0.setEmitter(0, line_nb);
+                    m_part0.setEmitter(0, row_nb);
                     m_part0.init();
                     break;
 
                 case 2:
-                    m_part1.setEmitter(0, line_nb);
+                    m_part1.setEmitter(0, row_nb);
                     m_part1.init();
                     break;
 
                 case 3:
-                    m_part2.setEmitter(0, line_nb);
+                    m_part2.setEmitter(0, row_nb);
                     m_part2.init();
                     break;
 
                 case 4:
-                    m_part3.setEmitter(0, line_nb);
+                    m_part3.setEmitter(0, row_nb);
                     m_part3.init();
                     break;
             }
@@ -340,8 +350,27 @@ end_for:
 }
 
 void BaseStack::updateOutline(int8_t line) {
-    for (int i = 0; i < m_width; i++) {
-        m_outline[i + m_width * line] = 1;
+    if (line >= 0 && line < m_height) {
+        for (int i = 0; i < m_width; i++) {
+            m_outline[i + m_width * line] = 0;
+            if (m_stack[i + m_width * line]) {
+                if (i > 0) // Left
+                    if (!m_stack[i - 1 + m_width * line])
+                        m_outline[i + m_width * line] |= OUTLINE_LEFT;
+
+                if (line > 0) // Top
+                    if (!m_stack[i + m_width * (line - 1)])
+                        m_outline[i + m_width * line] |= OUTLINE_UP;
+
+                if (line < m_height - 1) // Bottom
+                    if (!m_stack[i + m_width * (line + 1)])
+                        m_outline[i + m_width * line] |= OUTLINE_DOWN;
+
+                if (i < m_width - 1) // Right
+                    if (!m_stack[i + 1 + m_width * line])
+                        m_outline[i + m_width * line] |= OUTLINE_RIGHT;
+            }
+        }
     }
 }
 

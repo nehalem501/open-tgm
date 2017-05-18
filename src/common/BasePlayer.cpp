@@ -592,8 +592,12 @@ void BasePlayer::lockPiece() {
             }
         }
     }
-    // TODO
+
+    m_stack->updateOutline(m_piece.pos_y - 1);
     m_stack->updateOutline(m_piece.pos_y);
+    m_stack->updateOutline(m_piece.pos_y + 1);
+    m_stack->updateOutline(m_piece.pos_y + 2);
+
     m_lock_color_delay = 2;
     m_drawPiece = false;
     m_drawGhost = false;
