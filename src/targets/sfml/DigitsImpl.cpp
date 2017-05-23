@@ -1,6 +1,7 @@
 /* DigitsImpl.cpp - SFML */
 
 #include <stdint.h>
+#include <Stack.h>
 #include "GlobalSFML.h"
 #include "DigitsImpl.h"
 

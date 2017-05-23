@@ -10,10 +10,14 @@ typedef StackImpl Stack;
 #include <stdint.h>
 #include <Mode.h>
 #include <Piece.h>
+#include <Digits.h>
 
 class BasePlayer {
     protected:
         Piece m_piece;
+        Digits score_display;
+        Digits level_display;
+        Digits section_display;
 
     public:
         uint32_t m_score;

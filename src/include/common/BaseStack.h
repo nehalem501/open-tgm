@@ -10,6 +10,10 @@
 #include <common/BasePlayer.h>
 #include <LineClearParticles.h>
 
+/* Forward declarations to avoid dependency hell */
+class BasePlayer;
+typedef PlayerImpl Player;
+
 #define FILLED_LINES_NB 4
 
 class BaseStack {
@@ -46,7 +50,7 @@ class BaseStack {
         void checkLines(BasePlayer *player);
 
         void updateOutline(int8_t line);
-        
+
         void removeGreyBlocks(Piece *piece);
 };
 

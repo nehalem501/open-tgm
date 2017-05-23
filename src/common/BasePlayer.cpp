@@ -14,6 +14,9 @@
 
 void BasePlayer::init(Stack *stack) {
     m_stack = stack;
+    score_display.initGraphics();
+    level_display.initGraphics();
+    section_display.initGraphics();
 }
 
 void BasePlayer::init(Stack *stack, Mode *mode) {
@@ -26,7 +29,7 @@ void BasePlayer::init(Stack *stack, Mode *mode) {
     m_active_time = 0;
     m_gravity = 0;
     m_gravity_counter = 0;
-    m_section = 0;
+    m_section = mode->getSection(0);
 
     m_already_dropped = false;
     m_lock_color_delay = 0;
@@ -63,6 +66,12 @@ void BasePlayer::init(Stack *stack, Mode *mode) {
 
     m_DASleft = 0;
     m_DASright = 0;
+
+    score_display.init(mode->score_pos.x, mode->score_pos.y);
+    level_display.init(mode->level_pos.x, mode->level_pos.y);
+    section_display.init(mode->level_target_pos.x, mode->level_target_pos.y);
+    section_display.update(m_section);
+    section_display.updateGraphics(stack);
 
     // TODO
 /* In TGM1, the history begins filled with 4 Z pieces.
@@ -603,8 +612,6 @@ void BasePlayer::lockPiece() {
     m_drawGhost = false;
 }
 
-
-
 void BasePlayer::changeLevel(int value, bool lineClear) {
     #warning "changeLevel not finished"
 
@@ -615,12 +622,17 @@ void BasePlayer::changeLevel(int value, bool lineClear) {
         if (lineClear) {
             m_level += value;
             m_section = m_current_mode->getSection(m_level);
+            std::cout << "section: " << m_section << std::endl;
+            section_display.update(m_section);
+            section_display.updateGraphics(m_stack);
         } else {
             return;
         }
     }
 
     m_level += value;
+    level_display.update(m_level);
+    level_display.updateGraphics(m_stack);
     m_gravity = m_current_mode->getGravity(m_level);
 }
 
@@ -636,6 +648,8 @@ void BasePlayer::updateScore(int nbLines, bool bravo) {
     std::cout << "sonic : " << sonic << std::endl;
     std::cout << "active_time : " << active_time << std::endl;
     std::cout << "credits : " << credits << std::endl;*/
+    score_display.update(m_score);
+    score_display.updateGraphics(m_stack);
 }
 
 unsigned int BasePlayer::gravity() {

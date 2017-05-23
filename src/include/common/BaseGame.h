@@ -5,7 +5,6 @@
 
 #include <Timer.h>
 #include <Labels.h>
-#include <Digits.h>
 
 namespace GameState {
     enum {
@@ -34,15 +33,10 @@ class BaseGame {
 
         Timer timer1;
         Labels labels1;
-        Digits score_display1;
-        Digits level_display1;
-        Digits level_target_display1;
 
     #ifdef MULTIPLAYER
         Timer timer2;
         Labels labels2;
-        Digits level_display2;
-        Digits level_target_display2;
     #endif
 
     protected:

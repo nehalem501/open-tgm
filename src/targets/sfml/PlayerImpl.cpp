@@ -40,6 +40,10 @@ void PlayerImpl::updateSize() {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
 
+    score_display.updateSize(m_stack);
+    level_display.updateSize(m_stack);
+    section_display.updateSize(m_stack);
+
     // Update next piece position
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
@@ -80,6 +84,10 @@ void PlayerImpl::updateSize() {
 void PlayerImpl::updateGraphics() {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
+
+    //score_display.updateGraphics(m_stack);
+    //level_display.updateGraphics(m_stack);
+    //section_display.updateGraphics(m_stack);
 
     // Apply next piece texture
     for (int i = 0; i < SIZE; ++i) {
@@ -210,4 +218,8 @@ void PlayerImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         target.draw(m_piece_vertices, &tileset_tex);
 
     target.draw(m_next_vertices, &tileset_tex);
+
+    target.draw(score_display);
+    target.draw(level_display);
+    target.draw(section_display);
 }

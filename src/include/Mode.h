@@ -68,7 +68,7 @@ class Mode {
         unsigned int das_nb;
         unsigned int lock_nb;
         unsigned int clear_nb;
-	    unsigned int labels_nb;
+	      unsigned int labels_nb;
 
         struct Timing* gravity;
         struct Timing* are;

@@ -3,9 +3,12 @@
 #ifndef DIGITS_SFML_H
 #define DIGITS_SFML_H
 
+/* Forward declarations to avoid dependency hell */
+class StackImpl;
+typedef StackImpl Stack;
+
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <Stack.h>
 #include <common/BaseDigits.h>
 
 class DigitsImpl : public BaseDigits, public sf::Drawable {
