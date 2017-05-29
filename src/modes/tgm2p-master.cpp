@@ -79,6 +79,11 @@ static struct Label TGM2P_MASTER_LABELS[4] = {
     {TGM2P_MASTER_SCORE_STR, 12, 11}
 };
 
+struct Position TGM2P_MASTER_SCORE_POS = {12, 12};
+struct Position TGM2P_MASTER_LVL_POS = {12, 16};
+struct Position TGM2P_MASTER_LVL_TGT_POS = {12, 18};
+
+
 Mode mode_tgm2p_master(
 /*          name */ "TGM2P MASTER",
 /*    sonic_drop */ true,
@@ -101,6 +106,6 @@ Mode mode_tgm2p_master(
 /*      clear_nb */ 5,
 /*        labels */ TGM2P_MASTER_LABELS,
 /*     labels_nb */ 4,
-/*     score_pos */ {12, 12},
-/*     level_pos */ {12, 16},
-/*   lvl_tgt_pos */ {12, 18});
+/*     score_pos */ TGM2P_MASTER_SCORE_POS,
+/*     level_pos */ TGM2P_MASTER_LVL_POS,
+/*   lvl_tgt_pos */ TGM2P_MASTER_LVL_TGT_POS);

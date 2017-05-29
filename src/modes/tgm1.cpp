@@ -66,6 +66,10 @@ static struct Label TGM1_LABELS[6] = {
     {TGM1_NEXT_AT_STR, 12, 6}
 };
 
+struct Position TGM1_SCORE_POS = {12, 12};
+struct Position TGM1_LEVEL_POS = {12, 16};
+struct Position TGM1_LVL_TGT_POS = {12, 18};
+
 Mode mode_tgm1(
 /*          name */ "TGM",
 /*    sonic_drop */ true, //TODO
@@ -88,6 +92,6 @@ Mode mode_tgm1(
 /*      clear_nb */ 1,
 /*        labels */ TGM1_LABELS,
 /*     labels_nb */ 6,
-/*     score_pos */ {12, 12},
-/*     level_pos */ {12, 16},
-/*   lvl_tgt_pos */ {12, 18});
+/*     score_pos */ TGM1_SCORE_POS,
+/*     level_pos */ TGM1_LEVEL_POS,
+/*   lvl_tgt_pos */ TGM1_LVL_TGT_POS);

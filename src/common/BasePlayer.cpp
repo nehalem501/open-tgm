@@ -622,7 +622,7 @@ void BasePlayer::changeLevel(int value, bool lineClear) {
         if (lineClear) {
             m_level += value;
             m_section = m_current_mode->getSection(m_level);
-            std::cout << "section: " << m_section << std::endl;
+            //std::cout << "section: " << m_section << std::endl;
             section_display.update(m_section);
             section_display.updateGraphics(m_stack);
         } else {

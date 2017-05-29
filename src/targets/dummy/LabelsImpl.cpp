@@ -2,10 +2,7 @@
 
 #include "LabelsImpl.h"
 
-void LabelsImpl::init() {
-}
-
-void LabelsImpl::initGraphics() {
+void LabelsImpl::initGraphics(Stack *stack) {
 }
 
 void LabelsImpl::draw() const{
