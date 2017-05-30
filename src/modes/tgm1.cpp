@@ -1,7 +1,17 @@
 /* tgm1.cpp */
 
+#include <stdint.h>
 #include <Mode.h>
 #include "tgm1.h"
+
+uint32_t tgm1_score(uint32_t level, uint32_t lines, uint32_t soft,
+                    uint32_t sonic, uint32_t combo, uint32_t bravo,
+                    uint32_t lvl_aft_clear, uint32_t speed) {
+    uint32_t tmp = (level + lines) / 4;
+    if ((level + lines) % 4 != 0)
+        tmp++;
+    return (tmp + soft) * lines * combo * bravo;
+}
 
 static struct Timing TGM1_GRAVITY[30] = {
     {0, 4},

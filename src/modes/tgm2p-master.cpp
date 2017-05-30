@@ -1,7 +1,20 @@
 /* tgm2p-master.cpp */
 
+#include <stdint.h>
 #include <Mode.h>
 #include "tgm2p-master.h"
+
+uint32_t tgm2p_master_score(uint32_t level, uint32_t lines, uint32_t soft,
+                            uint32_t sonic, uint32_t combo, uint32_t bravo,
+                            uint32_t lvl_aft_clear, uint32_t speed) {
+    uint32_t tmp = (level + lines) / 4;
+    if ((level + lines) % 4 != 0) // Round Up
+        tmp++;
+    uint32_t tmp2 = lvl_aft_clear / 2;
+    if (lvl_aft_clear % 2 != 0) // Round Up
+        tmp2++;
+    return (tmp + soft + (2 * sonic)) * lines * combo * bravo + tmp2 + (speed * 7);
+}
 
 static struct Timing TGM2P_MASTER_GRAVITY[30] = {
     {0, 4},
@@ -82,7 +95,6 @@ static struct Label TGM2P_MASTER_LABELS[4] = {
 struct Position TGM2P_MASTER_SCORE_POS = {12, 12};
 struct Position TGM2P_MASTER_LVL_POS = {12, 16};
 struct Position TGM2P_MASTER_LVL_TGT_POS = {12, 18};
-
 
 Mode mode_tgm2p_master(
 /*          name */ "TGM2P MASTER",
