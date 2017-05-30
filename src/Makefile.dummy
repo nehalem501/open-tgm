@@ -1,8 +1,8 @@
-CC = arm-linux-gnueabi-g++-4.7
+CC = g++-3.4
 EXE_NAME = open-tgm.bin
 SOURCE_FILES= $(wildcard common/*.cpp) $(wildcard targets/dummy/*.cpp) $(wildcard modes/*.cpp)
 EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
-CCFLAGS = -DTARGET_DUMMY -Wall -O2
+CCFLAGS = -DTARGET_DUMMY -Wall -O2 -std=c++98
 LDFLAGS = 
 INCLUDE_DIR = -I./include -I./targets/dummy
 LIBS_DIR =  
