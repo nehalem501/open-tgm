@@ -72,8 +72,8 @@ class BasePlayer {
         inline void setCombo(uint8_t value) { m_combo = value; };
         //inline void stopARE() { m_startARE = false; };
 
-        void changeLevel(int value, bool lineClear);
-        void updateScore(int nbLines, bool bravo);
+        void changeLevel(int value, bool line_clear);
+        void updateScore(int nb_lines, bool bravo);
 
     protected:
         bool checkLock();

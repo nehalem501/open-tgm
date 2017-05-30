@@ -612,14 +612,14 @@ void BasePlayer::lockPiece() {
     m_drawGhost = false;
 }
 
-void BasePlayer::changeLevel(int value, bool lineClear) {
+void BasePlayer::changeLevel(int value, bool line_clear) {
     #warning "changeLevel not finished"
 
     if (m_level >= m_current_mode->max_level)
         return;
 
     if (m_level == m_section - 1) {
-        if (lineClear) {
+        if (line_clear) {
             m_level += value;
             m_section = m_current_mode->getSection(m_level);
             //std::cout << "section: " << m_section << std::endl;
@@ -636,7 +636,7 @@ void BasePlayer::changeLevel(int value, bool lineClear) {
     m_gravity = m_current_mode->getGravity(m_level);
 }
 
-void BasePlayer::updateScore(int nbLines, bool bravo) {
+void BasePlayer::updateScore(int nb_lines, bool bravo) {
     /*combo += (2 * nbLines) - 2;
     score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
     std::cout << "score : " << score << std::endl;
@@ -648,6 +648,7 @@ void BasePlayer::updateScore(int nbLines, bool bravo) {
     std::cout << "sonic : " << sonic << std::endl;
     std::cout << "active_time : " << active_time << std::endl;
     std::cout << "credits : " << credits << std::endl;*/
+    m_score += nb_lines;
     score_display.update(m_score);
     score_display.updateGraphics(m_stack);
 }
