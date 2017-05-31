@@ -104,4 +104,5 @@ Mode mode_tgm1(
 /*     labels_nb */ 6,
 /*     score_pos */ TGM1_SCORE_POS,
 /*     level_pos */ TGM1_LEVEL_POS,
-/*   lvl_tgt_pos */ TGM1_LVL_TGT_POS);
+/*   lvl_tgt_pos */ TGM1_LVL_TGT_POS,
+/*    score_func */ tgm1_score);

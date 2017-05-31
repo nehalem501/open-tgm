@@ -73,7 +73,7 @@ class BasePlayer {
         //inline void stopARE() { m_startARE = false; };
 
         void changeLevel(int value, bool line_clear);
-        void updateScore(int8_t nb_lines, bool bravo);
+        void updateScore(uint8_t nb_lines, bool bravo);
 
     protected:
         bool checkLock();

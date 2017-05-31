@@ -120,4 +120,5 @@ Mode mode_tgm2p_master(
 /*     labels_nb */ 4,
 /*     score_pos */ TGM2P_MASTER_SCORE_POS,
 /*     level_pos */ TGM2P_MASTER_LVL_POS,
-/*   lvl_tgt_pos */ TGM2P_MASTER_LVL_TGT_POS);
+/*   lvl_tgt_pos */ TGM2P_MASTER_LVL_TGT_POS,
+/*    score_func */ tgm2p_master_score);
