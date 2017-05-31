@@ -644,7 +644,7 @@ void BasePlayer::updateScore(uint8_t nb_lines, bool bravo) {
     unsigned int lvl_aft_clear = m_level + nb_lines;
     uint32_t speed = m_current_mode->getLock(m_level) - m_active_time;
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
-    std::cout << "level : " << m_level << std::endl;
+    /*std::cout << "level : " << m_level << std::endl;
     std::cout << "nblines : " << (unsigned int) nb_lines << std::endl;
     std::cout << "soft : " << (unsigned int) m_soft << std::endl;
     std::cout << "combo : " << (unsigned int) m_combo << std::endl;
@@ -652,12 +652,12 @@ void BasePlayer::updateScore(uint8_t nb_lines, bool bravo) {
     std::cout << "sonic : " << (unsigned int) m_sonic << std::endl;
     std::cout << "active_time : " << m_active_time << std::endl;
     std::cout << "lvl_aft_clear : " << lvl_aft_clear << std::endl;
-    std::cout << "speed : " << speed << std::endl;
+    std::cout << "speed : " << speed << std::endl;*/
 
     m_score += m_current_mode->score_func(m_level, nb_lines, m_soft, m_sonic,
                                           m_combo, bravo_val, lvl_aft_clear,
                                           speed);
-    std::cout << "score : " << m_score << std::endl << std::endl;
+    //std::cout << "score : " << m_score << std::endl << std::endl;
     score_display.update(m_score);
     score_display.updateGraphics(m_stack);
 }
