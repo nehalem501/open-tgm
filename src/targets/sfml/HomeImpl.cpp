@@ -6,6 +6,9 @@
 #include "GlobalSFML.h"
 #include "HomeImpl.h"
 
+// TODO
+char text_blabla[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 void HomeImpl::initGraphics() {
     if (!m_logo_tex.loadFromFile("resources/open-tgm-logo.png")) {
         std::cout << "ERROR loading Open TGM logo texture" << std::endl;
@@ -20,6 +23,12 @@ void HomeImpl::initGraphics() {
     m_start_tex.setSmooth(true);
     m_start.setTexture(m_start_tex);
     m_start.setOrigin(m_start_tex.getSize().x / 2.0f, 0);
+
+// TODO
+    text.update_text(text_blabla);
+    text.update_pos(10, 10);
+    text.initGraphics();
+    text.updateGraphics();
 }
 
 void HomeImpl::updateSize() {
@@ -30,9 +39,14 @@ void HomeImpl::updateSize() {
     m_start.setPosition(screen_size.x / 2, 7.0f * ((float) screen_size.y / 12.0f));
     scale = ((float) screen_size.y / (float) m_start_tex.getSize().y) / 6.0f;
     m_start.setScale(scale, scale);
+
+// TODO
+    text.updateSize();
 }
 
 void HomeImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+// TODO
+    target.draw(text);
     if (m_start_timer > -20) {
         target.draw(m_start);
     }

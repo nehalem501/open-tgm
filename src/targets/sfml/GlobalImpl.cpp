@@ -38,6 +38,7 @@ void initTextures() {
     if (!text_tex.loadFromFile("resources/ui-font.png")) {
         std::cout << "ERROR loading text texture" << std::endl;
     }
+    text_tex.setSmooth(true);
 
     //if (!grades_tex.loadFromFile("resources/timer-glyphs.png")) {
 
