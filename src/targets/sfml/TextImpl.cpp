@@ -25,11 +25,11 @@ void TextImpl::updateVertices() {
     int offset = 0;
 
     m_has_changed = false;
-    //int position_x = game_pos_x + tile_size * m_pos_x;
-    //int position_y = game_pos_y + tile_size * m_pos_y + tile_size / 6;
+    int position_x = tile_size * m_pos_x;
+    int position_y = tile_size * m_pos_y;
 
-    int position_x = 200;
-    int position_y = 200;
+    //int position_x = 200;
+    //int position_y = 200;
     int char_position = 0;
 
     float factor = 30.0f;
@@ -48,6 +48,201 @@ void TextImpl::updateVertices() {
                 break;
 
             case '\'':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '?':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '!':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '.':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case ',':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case ':':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '0':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '1':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '2':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '3':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '4':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '5':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '6':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '7':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '8':
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (33.0f * tile_size / factor));
+
+                quad[0].texCoords = sf::Vector2f(14.0f, 15.0f);
+                quad[1].texCoords = sf::Vector2f(36.0f, 15.0f);
+                quad[2].texCoords = sf::Vector2f(36.0f, 48.0f);
+                quad[3].texCoords = sf::Vector2f(14.0f, 48.0f);
+                offset += 21.0f * tile_size / factor;
+                break;
+
+            case '9':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
                 quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
                 quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (33.0f * tile_size / factor));
@@ -88,314 +283,314 @@ void TextImpl::updateVertices() {
 
             case 'C':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (73.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (73.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(0.0f, 162.0f);
-                quad[1].texCoords = sf::Vector2f(312.0f, 162.0f);
-                quad[2].texCoords = sf::Vector2f(312.0f, 79.0f);
-                quad[3].texCoords = sf::Vector2f(0.0f, 79.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(76.0f, 162.0f);
+                quad[1].texCoords = sf::Vector2f(149.0f, 162.0f);
+                quad[2].texCoords = sf::Vector2f(149.0f, 243.0f);
+                quad[3].texCoords = sf::Vector2f(76.0f, 243.0f);
+                offset += 68.0f * tile_size / factor;
                 break;
 
             case 'D':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(341.0f, 15.0f);
-                quad[1].texCoords = sf::Vector2f(404.0f, 15.0f);
-                quad[2].texCoords = sf::Vector2f(404.0f, 79.0f);
-                quad[3].texCoords = sf::Vector2f(341.0f, 79.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(150.0f, 162.0f);
+                quad[1].texCoords = sf::Vector2f(224.0f, 162.0f);
+                quad[2].texCoords = sf::Vector2f(224.0f, 243.0f);
+                quad[3].texCoords = sf::Vector2f(150.0f, 243.0f);
+                offset += 69.0f * tile_size / factor;
                 break;
 
             case 'E':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (71.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (71.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(433.0f, 15.0f);
-                quad[1].texCoords = sf::Vector2f(496.0f, 15.0f);
-                quad[2].texCoords = sf::Vector2f(496.0f, 79.0f);
-                quad[3].texCoords = sf::Vector2f(433.0f, 79.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(225.0f, 162.0f);
+                quad[1].texCoords = sf::Vector2f(296.0f, 162.0f);
+                quad[2].texCoords = sf::Vector2f(296.0f, 243.0f);
+                quad[3].texCoords = sf::Vector2f(225.0f, 243.0f);
+                offset += 66.0f * tile_size / factor;
                 break;
 
             case 'F':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (68.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (68.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(14.0f, 108.0f);
-                quad[1].texCoords = sf::Vector2f(77.0f, 108.0f);
-                quad[2].texCoords = sf::Vector2f(77.0f, 172.0f);
-                quad[3].texCoords = sf::Vector2f(14.0f, 172.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(297.0f, 162.0f);
+                quad[1].texCoords = sf::Vector2f(365.0f, 162.0f);
+                quad[2].texCoords = sf::Vector2f(365.0f, 243.0f);
+                quad[3].texCoords = sf::Vector2f(297.0f, 243.0f);
+                offset += 63.0f * tile_size / factor;
                 break;
 
             case 'G':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(106.0f, 108.0f);
-                quad[1].texCoords = sf::Vector2f(169.0f, 108.0f);
-                quad[2].texCoords = sf::Vector2f(169.0f, 172.0f);
-                quad[3].texCoords = sf::Vector2f(106.0f, 172.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(366.0f, 162.0f);
+                quad[1].texCoords = sf::Vector2f(441.0f, 162.0f);
+                quad[2].texCoords = sf::Vector2f(441.0f, 243.0f);
+                quad[3].texCoords = sf::Vector2f(366.0f, 243.0f);
+                offset += 70.0f * tile_size / factor;
                 break;
 
             case 'H':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(198.0f, 108.0f);
-                quad[1].texCoords = sf::Vector2f(261.0f, 108.0f);
-                quad[2].texCoords = sf::Vector2f(261.0f, 172.0f);
-                quad[3].texCoords = sf::Vector2f(198.0f, 172.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(0.0f, 243.0f);
+                quad[1].texCoords = sf::Vector2f(75.0f, 243.0f);
+                quad[2].texCoords = sf::Vector2f(75.0f, 324.0f);
+                quad[3].texCoords = sf::Vector2f(0.0f, 324.0f);
+                offset += 70.0f * tile_size / factor;
                 break;
 
             case 'I':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (22.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (31.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (31.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(290.0f, 108.0f);
-                quad[1].texCoords = sf::Vector2f(312.0f, 108.0f);
-                quad[2].texCoords = sf::Vector2f(312.0f, 172.0f);
-                quad[3].texCoords = sf::Vector2f(290.0f, 172.0f);
-                offset += 21.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(76.0f, 243.0f);
+                quad[1].texCoords = sf::Vector2f(107.0f, 243.0f);
+                quad[2].texCoords = sf::Vector2f(107.0f, 324.0f);
+                quad[3].texCoords = sf::Vector2f(76.0f, 324.0f);
+                offset += 26.0f * tile_size / factor;
                 break;
 
             case 'J':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (73.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (73.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(341.0f, 108.0f);
-                quad[1].texCoords = sf::Vector2f(404.0f, 108.0f);
-                quad[2].texCoords = sf::Vector2f(404.0f, 172.0f);
-                quad[3].texCoords = sf::Vector2f(341.0f, 172.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(109.0f, 243.0f);
+                quad[1].texCoords = sf::Vector2f(182.0f, 243.0f);
+                quad[2].texCoords = sf::Vector2f(182.0f, 324.0f);
+                quad[3].texCoords = sf::Vector2f(109.0f, 324.0f);
+                offset += 68.0f * tile_size / factor;
                 break;
 
             case 'K':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (56.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (56.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (73.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (73.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(433.0f, 108.0f);
-                quad[1].texCoords = sf::Vector2f(489.0f, 108.0f);
-                quad[2].texCoords = sf::Vector2f(489.0f, 172.0f);
-                quad[3].texCoords = sf::Vector2f(433.0f, 172.0f);
-                offset += 55.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(183.0f, 243.0f);
+                quad[1].texCoords = sf::Vector2f(256.0f, 243.0f);
+                quad[2].texCoords = sf::Vector2f(256.0f, 324.0f);
+                quad[3].texCoords = sf::Vector2f(183.0f, 324.0f);
+                offset += 68.0f * tile_size / factor;
                 break;
 
             case 'L':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(14.0f, 201.0f);
-                quad[1].texCoords = sf::Vector2f(77.0f, 201.0f);
-                quad[2].texCoords = sf::Vector2f(77.0f, 265.0f);
-                quad[3].texCoords = sf::Vector2f(14.0f, 265.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(258.0f, 243.0f);
+                quad[1].texCoords = sf::Vector2f(332.0f, 243.0f);
+                quad[2].texCoords = sf::Vector2f(332.0f, 324.0f);
+                quad[3].texCoords = sf::Vector2f(258.0f, 324.0f);
+                offset += 69.0f * tile_size / factor;
                 break;
 
             case 'M':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (99.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (99.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(106.0f, 201.0f);
-                quad[1].texCoords = sf::Vector2f(169.0f, 201.0f);
-                quad[2].texCoords = sf::Vector2f(169.0f, 265.0f);
-                quad[3].texCoords = sf::Vector2f(106.0f, 265.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(333.0f, 243.0f);
+                quad[1].texCoords = sf::Vector2f(432.0f, 243.0f);
+                quad[2].texCoords = sf::Vector2f(432.0f, 324.0f);
+                quad[3].texCoords = sf::Vector2f(333.0f, 324.0f);
+                offset += 94.0f * tile_size / factor;
                 break;
 
             case 'N':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(198.0f, 201.0f);
-                quad[1].texCoords = sf::Vector2f(261.0f, 201.0f);
-                quad[2].texCoords = sf::Vector2f(261.0f, 265.0f);
-                quad[3].texCoords = sf::Vector2f(198.0f, 265.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(434.0f, 243.0f);
+                quad[1].texCoords = sf::Vector2f(508.0f, 243.0f);
+                quad[2].texCoords = sf::Vector2f(508.0f, 324.0f);
+                quad[3].texCoords = sf::Vector2f(434.0f, 324.0f);
+                offset += 69.0f * tile_size / factor;
                 break;
 
             case 'O':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(290.0f, 201.0f);
-                quad[1].texCoords = sf::Vector2f(353.0f, 201.0f);
-                quad[2].texCoords = sf::Vector2f(353.0f, 265.0f);
-                quad[3].texCoords = sf::Vector2f(290.0f, 265.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(0.0f, 325.0f);
+                quad[1].texCoords = sf::Vector2f(75.0f, 325.0f);
+                quad[2].texCoords = sf::Vector2f(75.0f, 406.0f);
+                quad[3].texCoords = sf::Vector2f(0.0f, 406.0f);
+                offset += 70.0f * tile_size / factor;
                 break;
 
             case 'P':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(382.0f, 201.0f);
-                quad[1].texCoords = sf::Vector2f(445.0f, 201.0f);
-                quad[2].texCoords = sf::Vector2f(445.0f, 265.0f);
-                quad[3].texCoords = sf::Vector2f(382.0f, 265.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(76.0f, 325.0f);
+                quad[1].texCoords = sf::Vector2f(150.0f, 325.0f);
+                quad[2].texCoords = sf::Vector2f(150.0f, 406.0f);
+                quad[3].texCoords = sf::Vector2f(76.0f, 406.0f);
+                offset += 69.0f * tile_size / factor;
                 break;
 
             case 'Q':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (75.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (75.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y + (int) (85.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (85.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(14.0f, 294.0f);
-                quad[1].texCoords = sf::Vector2f(77.0f, 294.0f);
-                quad[2].texCoords = sf::Vector2f(77.0f, 369.0f);
-                quad[3].texCoords = sf::Vector2f(14.0f, 369.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(151.0f, 325.0f);
+                quad[1].texCoords = sf::Vector2f(225.0f, 325.0f);
+                quad[2].texCoords = sf::Vector2f(225.0f, 410.0f);
+                quad[3].texCoords = sf::Vector2f(151.0f, 410.0f);
+                offset += 69.0f * tile_size / factor;
                 break;
 
             case 'R':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(106.0f, 294.0f);
-                quad[1].texCoords = sf::Vector2f(169.0f, 294.0f);
-                quad[2].texCoords = sf::Vector2f(169.0f, 358.0f);
-                quad[3].texCoords = sf::Vector2f(106.0f, 358.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(226.0f, 325.0f);
+                quad[1].texCoords = sf::Vector2f(300.0f, 325.0f);
+                quad[2].texCoords = sf::Vector2f(300.0f, 406.0f);
+                quad[3].texCoords = sf::Vector2f(226.0f, 406.0f);
+                offset += 69.0f * tile_size / factor;
                 break;
 
             case 'S':
-                quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[0].position = sf::Vector2f(position_x + offset + (int) (-3.0f * tile_size / factor), position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset + (int) (-3.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(198.0f, 294.0f);
-                quad[1].texCoords = sf::Vector2f(261.0f, 294.0f);
-                quad[2].texCoords = sf::Vector2f(261.0f, 358.0f);
-                quad[3].texCoords = sf::Vector2f(198.0f, 358.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(301.0f, 325.0f);
+                quad[1].texCoords = sf::Vector2f(375.0f, 325.0f);
+                quad[2].texCoords = sf::Vector2f(375.0f, 406.0f);
+                quad[3].texCoords = sf::Vector2f(301.0f, 406.0f);
+                offset += 67.0f * tile_size / factor;
                 break;
 
             case 'T':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(290.0f, 294.0f);
-                quad[1].texCoords = sf::Vector2f(353.0f, 294.0f);
-                quad[2].texCoords = sf::Vector2f(353.0f, 358.0f);
-                quad[3].texCoords = sf::Vector2f(290.0f, 358.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(376.0f, 325.0f);
+                quad[1].texCoords = sf::Vector2f(450.0f, 325.0f);
+                quad[2].texCoords = sf::Vector2f(450.0f, 406.0f);
+                quad[3].texCoords = sf::Vector2f(376.0f, 406.0f);
+                offset += 69.0f * tile_size / factor;
                 break;
 
             case 'U':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(382.0f, 294.0f);
-                quad[1].texCoords = sf::Vector2f(445.0f, 294.0f);
-                quad[2].texCoords = sf::Vector2f(445.0f, 358.0f);
-                quad[3].texCoords = sf::Vector2f(382.0f, 358.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(0.0f, 411.0f);
+                quad[1].texCoords = sf::Vector2f(75.0f, 411.0f);
+                quad[2].texCoords = sf::Vector2f(75.0f, 492.0f);
+                quad[3].texCoords = sf::Vector2f(0.0f, 492.0f);
+                offset += 70.0f * tile_size / factor;
                 break;
 
             case 'V':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (74.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(14.0f, 398.0f);
-                quad[1].texCoords = sf::Vector2f(77.0f, 398.0f);
-                quad[2].texCoords = sf::Vector2f(77.0f, 462.0f);
-                quad[3].texCoords = sf::Vector2f(14.0f, 462.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(76.0f, 411.0f);
+                quad[1].texCoords = sf::Vector2f(150.0f, 411.0f);
+                quad[2].texCoords = sf::Vector2f(150.0f, 492.0f);
+                quad[3].texCoords = sf::Vector2f(76.0f, 492.0f);
+                offset += 69.0f * tile_size / factor;
                 break;
 
             case 'W':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (107.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (107.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(106.0f, 398.0f);
-                quad[1].texCoords = sf::Vector2f(169.0f, 398.0f);
-                quad[2].texCoords = sf::Vector2f(169.0f, 462.0f);
-                quad[3].texCoords = sf::Vector2f(106.0f, 462.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(151.0f, 411.0f);
+                quad[1].texCoords = sf::Vector2f(258.0f, 411.0f);
+                quad[2].texCoords = sf::Vector2f(258.0f, 492.0f);
+                quad[3].texCoords = sf::Vector2f(151.0f, 492.0f);
+                offset += 102.0f * tile_size / factor;
                 break;
 
             case 'X':
-                quad[0].position = sf::Vector2f(position_x + offset - 1, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (62.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (62.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset - 1, position_y + (int) (64.0f * tile_size / factor));
+                quad[0].position = sf::Vector2f(position_x + offset, position_y);
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(198.0f, 398.0f);
-                quad[1].texCoords = sf::Vector2f(261.0f, 398.0f);
-                quad[2].texCoords = sf::Vector2f(261.0f, 462.0f);
-                quad[3].texCoords = sf::Vector2f(198.0f, 462.0f);
-                offset += 58.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(259.0f, 411.0f);
+                quad[1].texCoords = sf::Vector2f(334.0f, 411.0f);
+                quad[2].texCoords = sf::Vector2f(334.0f, 492.0f);
+                quad[3].texCoords = sf::Vector2f(259.0f, 492.0f);
+                offset += 70.0f * tile_size / factor;
                 break;
 
             case 'Y':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (73.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (73.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(288.0f, 398.0f);
-                quad[1].texCoords = sf::Vector2f(351.0f, 398.0f);
-                quad[2].texCoords = sf::Vector2f(351.0f, 462.0f);
-                quad[3].texCoords = sf::Vector2f(288.0f, 462.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(336.0f, 411.0f);
+                quad[1].texCoords = sf::Vector2f(409.0f, 411.0f);
+                quad[2].texCoords = sf::Vector2f(409.0f, 492.0f);
+                quad[3].texCoords = sf::Vector2f(336.0f, 492.0f);
+                offset += 68.0f * tile_size / factor;
                 break;
 
             case 'Z':
                 quad[0].position = sf::Vector2f(position_x + offset, position_y);
-                quad[1].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y);
-                quad[2].position = sf::Vector2f(position_x + offset + (int) (63.0f * tile_size / factor), position_y + (int) (64.0f * tile_size / factor));
-                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (64.0f * tile_size / factor));
+                quad[1].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y);
+                quad[2].position = sf::Vector2f(position_x + offset + (int) (75.0f * tile_size / factor), position_y + (int) (81.0f * tile_size / factor));
+                quad[3].position = sf::Vector2f(position_x + offset, position_y + (int) (81.0f * tile_size / factor));
 
-                quad[0].texCoords = sf::Vector2f(380.0f, 398.0f);
-                quad[1].texCoords = sf::Vector2f(443.0f, 398.0f);
-                quad[2].texCoords = sf::Vector2f(443.0f, 462.0f);
-                quad[3].texCoords = sf::Vector2f(380.0f, 462.0f);
-                offset += 62.0f * tile_size / factor;
+                quad[0].texCoords = sf::Vector2f(410.0f, 411.0f);
+                quad[1].texCoords = sf::Vector2f(485.0f, 411.0f);
+                quad[2].texCoords = sf::Vector2f(485.0f, 492.0f);
+                quad[3].texCoords = sf::Vector2f(410.0f, 492.0f);
+                offset += 70.0f * tile_size / factor;
                 break;
         }
 
