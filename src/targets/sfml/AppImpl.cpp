@@ -57,12 +57,14 @@ void app() {
 
                     if (event.key.code == sf::Keyboard::F11) {
                         if (fullscreen) {
-                            window.create(sf::VideoMode(screen_size.x, screen_size.y), "Open TGM", sf::Style::Default);
-                            window.setView(sf::View(sf::FloatRect(0.f, 0.f, screen_size.x, screen_size.y)));
+                            window.create(sf::VideoMode(window_size.x, window_size.y), "Open TGM", sf::Style::Default);
+                            window.setView(sf::View(sf::FloatRect(0.f, 0.f, window_size.x, window_size.y)));
                             window.clear();
                             window.display();
 
+                            screen_size = window_size;
                             fullscreen = false;
+
                             menu.updateSize();
                         } else {
                             window_size = window.getSize();
