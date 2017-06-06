@@ -87,13 +87,12 @@ void app() {
                 if (event.type == sf::Event::Resized) {
                     sf::Vector2u newWindowSize = window.getSize();
                     if (newWindowSize != screen_size) {
+                        screen_size = newWindowSize;
                         window.setView(sf::View(sf::FloatRect(0.f, 0.f, newWindowSize.x, newWindowSize.y)));
                         window.clear();
                         window.display();
 
                         menu.updateSize();
-
-                        screen_size = newWindowSize;
                     }
                 }
             }
