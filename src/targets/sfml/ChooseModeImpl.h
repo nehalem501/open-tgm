@@ -10,12 +10,8 @@
 class ChooseModeImpl : public BaseChooseMode, public sf::Drawable {
     public:
         void initGraphics();
+        void updateSize();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-        void updateSize(sf::Vector2u screenSize);
-
-    private:
-        sf::Sprite m_logo, m_start;
-        sf::Texture m_logo_tex, m_start_tex;
 };
 
 #endif

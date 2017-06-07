@@ -14,7 +14,7 @@ BaseText::BaseText(int8_t pos_x, int8_t pos_y) : m_pos_x(pos_x), m_pos_y(pos_y),
 
 }
 
-void BaseText::update_text(char *new_str) {
+void BaseText::update_text(const char *new_str) {
     if (m_str != new_str) {
         m_str = new_str;
         m_length = strlen(m_str);

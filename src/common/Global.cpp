@@ -21,6 +21,8 @@ void init() {
     frame1.init(&stack1);
     player1.init(&stack1);
 
+    menu.m_chooseMode.init();
+
     #warning "Global init not finished"
 }
 

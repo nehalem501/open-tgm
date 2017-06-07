@@ -22,9 +22,7 @@ void BaseMenu::update() {
             break;
 
         case MenuState::CHOOSE_MODE:
-            //chooseMode();
-            //m_chooseMode.update(&m_state);
-            m_state = MenuState::START_GAME;
+            m_chooseMode.update(&m_state);
             break;
 
         case MenuState::START_GAME:

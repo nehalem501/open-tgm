@@ -43,10 +43,7 @@ void MenuImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
             break;
 
         case MenuState::CHOOSE_MODE:
-            target.draw(frame1);/*
-                                   for (unsigned int i = 0; i < modesText.size(); i++) {
-                                   target.draw(modesText[i]);
-                                   }*/
+            target.draw(frame1);
             target.draw(m_chooseMode);
             break;
 

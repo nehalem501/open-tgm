@@ -38,7 +38,6 @@ class BaseMenu {
 
         int8_t m_state;
 
-    protected:
         Home m_home;
         ChooseMode m_chooseMode;
 };
