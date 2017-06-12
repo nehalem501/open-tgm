@@ -15,6 +15,7 @@ BaseMenu::BaseMenu() : m_state(MenuState::HOME) {
 
 void BaseMenu::update() {
     input.pollInputs();
+    int8_t mode;
 
     switch(m_state) {
         case MenuState::HOME:
@@ -22,11 +23,11 @@ void BaseMenu::update() {
             break;
 
         case MenuState::CHOOSE_MODE:
-            m_chooseMode.update(&m_state);
+            m_chooseMode.update(&m_state, &mode);
             break;
 
         case MenuState::START_GAME:
-            game.startPlayer1();
+            game.startPlayer1(mode);
             // TODO
             m_state = MenuState::INGAME;
             break;

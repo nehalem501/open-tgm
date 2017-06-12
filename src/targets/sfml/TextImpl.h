@@ -16,6 +16,8 @@ class TextImpl : public BaseText, public sf::Drawable {
         void initGraphics();
         void updateGraphics();
         void updateSize();
+        void update_color(int8_t color);
+        void assign_color();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:

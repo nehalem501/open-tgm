@@ -22,11 +22,11 @@ class BaseGame {
         void updateGameLogic();
         void updateGraphics();
 
-        void startPlayer1();
+        void startPlayer1(int8_t mode);
         bool hasPlayer1Finished();
 
     #ifdef MULTIPLAYER
-        void startPlayer2();
+        void startPlayer2(int8_t mode);
         bool hasPlayer2Finished();
         void startDoubles();
     #endif

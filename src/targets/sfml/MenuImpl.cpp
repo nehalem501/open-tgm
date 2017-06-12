@@ -21,7 +21,7 @@ void MenuImpl::updateSize() {
     background.updateSize();
 
     m_home.updateSize();
-    // TODO resize modesText[]
+    m_chooseMode.updateSize();
     // TODO check for multiplayer
 #warning "Multiplayer missing"
     game.updateSize();

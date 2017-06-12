@@ -16,21 +16,21 @@ void BaseGame::initGraphics() {
 #endif
 }
 
-void BaseGame::startPlayer1() {
+void BaseGame::startPlayer1(int8_t mode) {
     // TODO choose mode
-    stack1.startGame(modes[0]);
+    stack1.startGame(modes[mode]);
 
-    player1.init(&stack1, modes[0]);
+    player1.init(&stack1, modes[mode]);
     player1.initGraphics();
 
-    labels1.setMode(modes[0]);
+    labels1.setMode(modes[mode]);
     labels1.initGraphics(&stack1);
 
     m_player1_state = GameState::INGAME;
 }
 
 #ifdef MULTIPLAYER
-void BaseGame::startPlayer2() {
+void BaseGame::startPlayer2(int8_t mode) {
     // TODO
     //player2.init(&stack2);
 }

@@ -22,12 +22,62 @@ void TextImpl::updateSize() {
     updateVertices();
 }
 
+void TextImpl::update_color(int8_t color) {
+    if (m_color != color) {
+        m_color = color;
+        assign_color();
+    }
+}
+
+void TextImpl::assign_color() {
+    for (unsigned int i = 0; i < m_vertices.getVertexCount(); i++) {
+        switch (m_color) {
+            case TextColor::BLACK:
+                m_vertices[i].color = sf::Color(0, 0, 0, 255);
+                break;
+
+            case TextColor::WHITE:
+                m_vertices[i].color = sf::Color(255, 255, 255, 255);
+                break;
+
+            case TextColor::RED:
+                m_vertices[i].color = sf::Color(255, 0, 0, 255);
+                break;
+
+            case TextColor::GREEN:
+                m_vertices[i].color = sf::Color(0, 255, 0, 255);
+                break;
+
+            case TextColor::BLUE:
+                m_vertices[i].color = sf::Color(0, 0, 255, 255);
+                break;
+
+            case TextColor::YELLOW:
+                m_vertices[i].color = sf::Color(255, 255, 0, 255);
+                break;
+
+            case TextColor::MAGENTA:
+                m_vertices[i].color = sf::Color(255, 0, 255, 255);
+                break;
+
+            case TextColor::CYAN:
+                m_vertices[i].color = sf::Color(0, 255, 255, 255);
+                break;
+
+            default:
+                m_vertices[i].color = sf::Color(255, 255, 255, 255);
+                break;
+        }
+    }
+}
+
 void TextImpl::updateVertices() {
     int offset = 0;
     int position_x = tile_size * m_pos_x;
     int position_y = tile_size * m_pos_y;
 
-    float factor = 30.0f;
+    float factor = 76.35f;
+    //int factor = 75;
 
     for (unsigned int i = 0; i < m_length; ++i) {
         char c = m_str[i];
@@ -589,13 +639,9 @@ void TextImpl::updateVertices() {
                 offset += 70.0f * tile_size / factor;
                 break;
         }
-
-        quad[0].color = sf::Color(255, 255, 255, 255);
-        quad[1].color = sf::Color(255, 255, 255, 255);
-        quad[2].color = sf::Color(255, 255, 255, 255);
-        quad[3].color = sf::Color(255, 255, 255, 255);
     }
-
+    
+    assign_color();
 }
 
 void TextImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
