@@ -97,7 +97,7 @@ struct Position TGM2P_MASTER_LVL_POS = {12, 16};
 struct Position TGM2P_MASTER_LVL_TGT_POS = {12, 18};
 
 Mode mode_tgm2p_master(
-/*          name */ "TGM2P MASTER",
+/*          name */ "TAP MASTER",
 /*    sonic_drop */ true,
 /* display_score */ true,
 /*       section */ true,
