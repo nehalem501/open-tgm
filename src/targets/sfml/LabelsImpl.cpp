@@ -26,8 +26,6 @@ void LabelsImpl::initGraphics(Stack *stack) {
         length += str[i].size();
     }
 
-    tile_size = 32.0f;
-
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize((std::size_t)length * 4);
 

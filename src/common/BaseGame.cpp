@@ -20,6 +20,10 @@ void BaseGame::startPlayer1(int8_t mode) {
     // TODO choose mode
     stack1.startGame(modes[mode]);
 
+    std::cout << "start player" << std::endl;
+    std::cout << "pos x: " << (int) stack1.m_pos_x << std::endl;
+    std::cout << "pos y: " << (int) stack1.m_pos_y << std::endl << std::endl;
+
     player1.init(&stack1, modes[mode]);
     player1.initGraphics();
 
@@ -89,8 +93,6 @@ void BaseGame::updateGraphics() {
     stack2.updateGraphics();
 
     timer2.updateGraphics();
-    level_display2.updateGraphics(&stack2);
-    level_target_display2.updateGraphics(&stack2);
 #endif
 }
 

@@ -36,7 +36,8 @@ void BaseStack::init(int pos_x, int pos_y, int width, int height) {
 }
 
 void BaseStack::startGame(Mode *mode) {
-    init(0, 0, mode->size_x, mode->size_y);
+    // TODO
+    init(m_pos_x, m_pos_y, mode->size_x, mode->size_y);
 }
 
 int8_t BaseStack::getGhostY(Piece *piece) {
