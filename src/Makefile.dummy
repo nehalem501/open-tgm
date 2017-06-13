@@ -1,4 +1,4 @@
-CC = g++-3.4
+CC = g++-4.8
 EXE_NAME = open-tgm.bin
 SOURCE_FILES= $(wildcard common/*.cpp) $(wildcard targets/dummy/*.cpp) $(wildcard modes/*.cpp)
 EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
