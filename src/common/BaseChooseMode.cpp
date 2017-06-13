@@ -35,10 +35,13 @@ void BaseChooseMode::update(int8_t *state, int8_t *mode) {
             return;
         }
 
-        if (m_DASup % 8)
+        m_DASdown += 32;
+
+        if (m_DASdown > 127) {
             m_modes_strings[m_mode].update_color(TextColor::NONE);
-        else
+        } else {
             m_modes_strings[m_mode].update_color(TextColor::YELLOW);
+        }
 
         return;
     }
@@ -46,6 +49,7 @@ void BaseChooseMode::update(int8_t *state, int8_t *mode) {
     // Mode selected, play animation before starting game
     if (input.a()) {
         m_DASup = 4;
+        m_DASdown = 0;
         m_selected = true;
         return;
     }
