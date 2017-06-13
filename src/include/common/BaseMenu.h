@@ -37,6 +37,7 @@ class BaseMenu {
         void ingame();
 
         int8_t m_state;
+        int8_t m_mode;
 
         Home m_home;
         ChooseMode m_chooseMode;

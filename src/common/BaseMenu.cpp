@@ -9,13 +9,12 @@
 
 using namespace std;
 
-BaseMenu::BaseMenu() : m_state(MenuState::HOME) {
+BaseMenu::BaseMenu() : m_state(MenuState::HOME), m_mode(0) {
     //cout << "Menu constructor" << endl;
 }
 
 void BaseMenu::update() {
     input.pollInputs();
-    int8_t mode;
 
     switch(m_state) {
         case MenuState::HOME:
@@ -23,11 +22,11 @@ void BaseMenu::update() {
             break;
 
         case MenuState::CHOOSE_MODE:
-            m_chooseMode.update(&m_state, &mode);
+            m_chooseMode.update(&m_state, &m_mode);
             break;
 
         case MenuState::START_GAME:
-            game.startPlayer1(mode);
+            game.startPlayer1(m_mode);
             // TODO
             m_state = MenuState::INGAME;
             break;
