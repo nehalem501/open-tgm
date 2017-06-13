@@ -3,7 +3,7 @@
 #ifndef MODES_H
 #define MODES_H
 
-#define NB_MODES 6
+#define NB_MODES 3
 
 #include <Mode.h>
 
