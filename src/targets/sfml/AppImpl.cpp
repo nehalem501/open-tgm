@@ -28,7 +28,7 @@ void app() {
     bool fullscreen = false; // TODO load config
 
     // Used to remember window size when going fullscreen
-    sf::Vector2u window_size(640, 480);
+    sf::Vector2u window_size(screen_size.x, screen_size.y);
 
     // Create window
     sf::RenderWindow window;
