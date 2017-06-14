@@ -5,6 +5,7 @@
 
 #include <Timer.h>
 #include <Labels.h>
+#include <Text.h>
 
 namespace GameState {
     enum {
@@ -15,6 +16,9 @@ namespace GameState {
     };
 }
 
+const char READY_STR[] = "READY";
+const char GO_STR[] = "GO";
+
 class BaseGame {
     public:
         void initGraphics();
@@ -23,6 +27,7 @@ class BaseGame {
         void updateGraphics();
 
         void startPlayer1(int8_t mode);
+        void p1_ready_go();
         bool hasPlayer1Finished();
 
     #ifdef MULTIPLAYER
@@ -40,7 +45,15 @@ class BaseGame {
     #endif
 
     protected:
-        int8_t m_player1_state, m_player2_state;
+        int8_t m_player1_state;
+        uint8_t m_p1_ready_go;
+        Text m_p1_ready_go_string;
+
+    #ifdef MULTIPLAYER
+        int8_t m_player2_state;
+        uint8_t m_p2_ready_go;
+        Text m_p2_ready_go_string;
+    #endif
 };
 
 #endif

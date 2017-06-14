@@ -52,6 +52,8 @@ class BasePlayer {
         void init(Stack *stack);
         void init(Stack *stack, Mode *mode);
 
+        void startGame();
+
         void update();
 
         void nextPiece();

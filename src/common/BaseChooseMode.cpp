@@ -20,7 +20,7 @@ void BaseChooseMode::init() {
     m_modes_strings[0].update_color(TextColor::YELLOW);
 
     for (int i = 0; i < NB_MODES; i++) {
-        m_modes_strings[i].update_pos(10, 5 + i * 2);
+        m_modes_strings[i].update_pos(16, 7 + i * 2);
         m_modes_strings[i].update_text(modes[i]->name);
         m_modes_strings[i].updateGraphics();
     }

@@ -34,9 +34,12 @@ void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(timer1); // TODO timer2
     target.draw(labels1);
 
-    /*if (p1_start > 50) { //TODO
-        target.draw(m_ready);
-    } else if (p1_start > 0) {
-        target.draw(m_go);
-    }*/
+    switch (m_player1_state) {
+        case GameState::READY_GO:
+            target.draw(m_p1_ready_go_string);
+            break;
+
+        case GameState::GAME_OVER:
+            break;
+    }
 }

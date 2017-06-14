@@ -36,8 +36,8 @@ void BasePlayer::init(Stack *stack, Mode *mode) {
     m_already_dropped = false;
     m_lock_color_delay = 0;
 
-    m_drawPiece = true;
-    m_drawGhost = true;
+    m_drawPiece = false;
+    m_drawGhost = false;
     m_startDASleft = false;
     m_startDASright = false;
 
@@ -88,7 +88,12 @@ void BasePlayer::init(Stack *stack, Mode *mode) {
 
     // TODO special rules for first piece
     changeLevel(0, false);
-    nextPiece();
+    //nextPiece();
+}
+
+void BasePlayer::startGame() {
+    m_startARE = true;
+    m_are = m_current_mode->getARE(0);
 }
 
 /*  */
