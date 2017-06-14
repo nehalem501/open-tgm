@@ -197,7 +197,6 @@ bool BaseStack::checkRightKickRotation(Piece *piece, int x_offset, int y_offset)
 
     return true;
 }
-#include<iostream>
 
 void BaseStack::shiftLine(int8_t line) {
     //std::cout << "height: " << m_height << std::endl;
