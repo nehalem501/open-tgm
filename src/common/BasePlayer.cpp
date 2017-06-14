@@ -12,6 +12,7 @@
 #include <Stack.h>
 #include <common/BasePlayer.h>
 
+/* Used at program startup */
 void BasePlayer::init(Stack *stack) {
     m_stack = stack;
     score_display.initGraphics();
@@ -19,6 +20,7 @@ void BasePlayer::init(Stack *stack) {
     section_display.initGraphics();
 }
 
+/* Init the field and all the other stuff */
 void BasePlayer::init(Stack *stack, Mode *mode) {
     m_stack = stack;
     m_current_mode = mode;
@@ -89,6 +91,7 @@ void BasePlayer::init(Stack *stack, Mode *mode) {
     nextPiece();
 }
 
+/*  */
 void BasePlayer::nextPiece() {
     m_piece.orientation = 0;
     m_piece.type = m_next;
@@ -97,13 +100,12 @@ void BasePlayer::nextPiece() {
 
     char r;
 
+    // TODO change number off tries depending on mode (TGM1/TAP)
     for (int i = 0; i < 5; ++i) {
         r = tgm_random(&rand_seed) % 7;
 
-        if (r != m_history[0] &&
-            r != m_history[1] &&
-            r != m_history[2] &&
-            r != m_history[3]) {
+        if (r != m_history[0] && r != m_history[1] &&
+            r != m_history[2] && r != m_history[3]) {
             break;
         }
 
@@ -117,19 +119,15 @@ void BasePlayer::nextPiece() {
 
     m_next = r;
 
-    //if (m_piece.type == Shape::I || m_piece.type == Shape::O) {
-        m_piece.pos_x = 5;
-        m_piece.pos_y = 2;
-    /*} else {
-        m_piece.pos_x = 4;
-        m_piece.pos_y = 2;
-    }*/
+    m_piece.pos_x = 5;
+    m_piece.pos_y = 2;
 
     m_piece_old_y = m_piece.pos_y;
 
     m_ghost_y = m_stack->getGhostY(&m_piece);
 }
 
+/* Update for 1 frame */
 void BasePlayer::update() {
     m_piece_old_y = m_piece.pos_y;
 
@@ -152,7 +150,8 @@ void BasePlayer::update() {
         changeLevel(1, false);
         m_drawPiece = true;
 
-        if (m_level > 100) { // TODO
+        // Hide ghost piece after level 100
+        if (m_level > 100) {
             m_drawGhost = false;
         } else {
             m_drawGhost = true;
@@ -325,6 +324,7 @@ void BasePlayer::update() {
     }
 }
 
+/* Move piece */
 void BasePlayer::move(int x, int y) {
     if(m_stack->checkMove(&m_piece, x, y)) {
         m_piece.pos_x += x;
@@ -333,6 +333,7 @@ void BasePlayer::move(int x, int y) {
     }
 }
 
+/* Sonic drop */
 void BasePlayer::moveDrop() {
     if(m_stack->checkMove(&m_piece, 0, 1)) {
         m_sonic = m_ghost_y - m_piece.pos_y;
@@ -340,13 +341,15 @@ void BasePlayer::moveDrop() {
     }
 }
 
+/* Rotate piece to the left if possible */
 void BasePlayer::rotateLeft() {
     // Check if center column occupied (T piece case)
     if (m_piece.type == Shape::T) {
-        if (m_piece.pos_x >= 0 || m_piece.pos_x < m_stack->m_width) {
+        int x = m_piece.pos_x - 1;
+        if (x >= 0 || x < m_stack->m_width) {
             int y = m_piece.pos_y - 1;
             if (y < m_stack->m_height && y >= 0) {
-                if (m_stack->m_stack[m_piece.pos_x + y * m_stack->m_width] > 0) {
+                if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
                     return;
                 }
             }
@@ -369,7 +372,7 @@ void BasePlayer::rotateLeft() {
 
             // check if J wallkick is still possible
             if (m_piece.type == Shape::J) {
-                x = m_piece.pos_x + 1;
+                x = m_piece.pos_x;
                 y = m_piece.pos_y - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
@@ -396,7 +399,7 @@ void BasePlayer::rotateLeft() {
 
             // check if L wallkick is still possible
             if (m_piece.type == Shape::L) {
-                x = m_piece.pos_x - 1;
+                x = m_piece.pos_x - 2;
                 y = m_piece.pos_y - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
@@ -421,7 +424,7 @@ void BasePlayer::rotateLeft() {
                 }
             }
 
-            x = m_piece.pos_x;
+            x = m_piece.pos_x - 1;
 
             if (x >= 0 || x < m_stack->m_width) {
                 y = m_piece.pos_y - 1;
@@ -463,13 +466,15 @@ void BasePlayer::rotateLeft() {
     }
 }
 
+/* Rotate piece to the right if possible */
 void BasePlayer::rotateRight() {
     // Center column disables rotation with T piece
     if (m_piece.type == Shape::T) {
-        if (m_piece.pos_x >= 0 || m_piece.pos_x < m_stack->m_width) {
+        int x = m_piece.pos_x - 1;
+        if (x >= 0 || x < m_stack->m_width) {
             int y = m_piece.pos_y - 1;
             if (y < m_stack->m_height && y >= 0) {
-                if (m_stack->m_stack[m_piece.pos_x + y * m_stack->m_width] > 0) {
+                if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
                     return;
                 }
             }
@@ -492,7 +497,7 @@ void BasePlayer::rotateRight() {
 
             // check if J wallkick is still possible
             if (m_piece.type == Shape::J) {
-                x = m_piece.pos_x + 1;
+                x = m_piece.pos_x;
                 y = m_piece.pos_y - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
@@ -519,7 +524,7 @@ void BasePlayer::rotateRight() {
 
             // check if L wallkick is still possible
             if (m_piece.type == Shape::L) {
-                x = m_piece.pos_x - 1;
+                x = m_piece.pos_x - 2;
                 y = m_piece.pos_y - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
@@ -544,7 +549,7 @@ void BasePlayer::rotateRight() {
                 }
             }
 
-            x = m_piece.pos_x;
+            x = m_piece.pos_x - 1;
 
             if (x >= 0 || x < m_stack->m_width) {
                 y = m_piece.pos_y - 1;
@@ -586,6 +591,7 @@ void BasePlayer::rotateRight() {
     }
 }
 
+/* Lock down the piece */
 void BasePlayer::lockPiece() {
     m_already_dropped = true;
     int pos_x = m_piece.pos_x;
@@ -602,6 +608,7 @@ void BasePlayer::lockPiece() {
         }
     }
 
+    // TODO optimize depending on piece size
     m_stack->updateOutline(m_piece.pos_y - 1);
     m_stack->updateOutline(m_piece.pos_y);
     m_stack->updateOutline(m_piece.pos_y + 1);
@@ -750,7 +757,3 @@ bool BasePlayer::checkDASright() {
     }
     return false;
 }
-/*
-void Player::setStartClear(bool value) {
-    m_startClear = value;
-}*/
