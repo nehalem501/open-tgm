@@ -77,7 +77,6 @@ class BasePlayer {
 
     protected:
         bool checkLock();
-        bool hasLockStarted();
         inline void resetLock() { m_lock = 0; };
         inline void startLock() { m_startLock = true; m_lock++; };
 

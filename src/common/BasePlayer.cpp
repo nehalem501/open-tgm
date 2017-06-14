@@ -300,7 +300,7 @@ void BasePlayer::update() {
             }
         }
     } else {
-        if (hasLockStarted()) {
+        if (m_lock) { // Check if lock started
             if (m_piece_old_y != m_piece.pos_y) {
                 resetLock();
             }
@@ -424,6 +424,7 @@ void BasePlayer::rotateLeft() {
                 }
             }
 
+            // Check for wallkicks exceptions
             x = m_piece.pos_x - 1;
 
             if (x >= 0 || x < m_stack->m_width) {
@@ -549,6 +550,7 @@ void BasePlayer::rotateRight() {
                 }
             }
 
+            // Check for wallkicks exceptions
             x = m_piece.pos_x - 1;
 
             if (x >= 0 || x < m_stack->m_width) {
@@ -619,12 +621,15 @@ void BasePlayer::lockPiece() {
     m_drawGhost = false;
 }
 
+/* Increase level if possible */
 void BasePlayer::changeLevel(int value, bool line_clear) {
     #warning "changeLevel not finished"
 
+    // Last level
     if (m_level >= m_current_mode->max_level)
         return;
 
+    // Check for line clear at end of section
     if (m_level == m_section - 1) {
         if (line_clear) {
             m_level += value;
@@ -643,6 +648,7 @@ void BasePlayer::changeLevel(int value, bool line_clear) {
     m_gravity = m_current_mode->getGravity(m_level);
 }
 
+/* Update player's score */
 void BasePlayer::updateScore(uint8_t nb_lines, bool bravo) {
     m_combo += (2 * nb_lines) - 2;
     unsigned int bravo_val = (bravo) ? 4 : 1;
@@ -669,6 +675,7 @@ void BasePlayer::updateScore(uint8_t nb_lines, bool bravo) {
     score_display.updateGraphics(m_stack);
 }
 
+/*  */
 unsigned int BasePlayer::gravity() {
     m_gravity_counter += m_gravity;
     //cout << gravity_counter << endl;
@@ -685,6 +692,7 @@ unsigned int BasePlayer::gravity() {
     return 0;
 }
 
+/* Check if lock delay finished */
 bool BasePlayer::checkLock() {
     if (m_startLock) {
         if (m_lock > m_current_mode->getLock(m_level)) {
@@ -697,15 +705,7 @@ bool BasePlayer::checkLock() {
     return false;
 }
 
-bool BasePlayer::hasLockStarted() {
-    if (m_lock == 0) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
+/* Count ARE delay and check if finished */
 bool BasePlayer::checkARE() {
     if (m_startARE) {
         m_are++;
@@ -720,6 +720,7 @@ bool BasePlayer::checkARE() {
     return false;
 }
 
+/* Count clear delay and check if finished */
 bool BasePlayer::checkClear() {
     if (m_startClear) {
         m_clear++;
@@ -734,6 +735,7 @@ bool BasePlayer::checkClear() {
     return false;
 }
 
+/* Count DAS frames for left input and check if fully charged */
 bool BasePlayer::checkDASleft() {
     if (m_startDASleft) {
         m_DASleft++;
@@ -746,6 +748,7 @@ bool BasePlayer::checkDASleft() {
     return false;
 }
 
+/* Count DAS frames for right input and check if fully charged */
 bool BasePlayer::checkDASright() {
     if (m_startDASright) {
         m_DASright++;
