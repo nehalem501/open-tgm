@@ -11,7 +11,8 @@ namespace GameState {
     enum {
         READY_GO = 0,
         INGAME,
-        GAME_OVER,
+        GAME_OVER_ANIM,
+        GAME_OVER_TEXT,
         FINISHED
     };
 }
@@ -47,12 +48,12 @@ class BaseGame {
     protected:
         int8_t m_player1_state;
         uint8_t m_p1_ready_go;
-        Text m_p1_ready_go_string;
+        Text m_p1_string;
 
     #ifdef MULTIPLAYER
         int8_t m_player2_state;
         uint8_t m_p2_ready_go;
-        Text m_p2_ready_go_string;
+        Text m_p2_string;
     #endif
 };
 

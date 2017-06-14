@@ -10,11 +10,11 @@
 void BaseGame::initGraphics() {
     timer1.initGraphics();
     //labels1.initGraphics();
-    m_p1_ready_go_string.initGraphics();
+    m_p1_string.initGraphics();
 #ifdef MULTIPLAYER
     timer2.initGraphics();
     //labels2.initGraphics();
-    m_p2_ready_go_string.initGraphics();
+    m_p2_string.initGraphics();
 #endif
 }
 
@@ -34,9 +34,9 @@ void BaseGame::startPlayer1(int8_t mode) {
 void BaseGame::p1_ready_go() {
     m_player1_state = GameState::READY_GO;
     m_p1_ready_go = 0;
-    m_p1_ready_go_string.update_text(READY_STR);
-    m_p1_ready_go_string.update_pos(18, 10);
-    m_p1_ready_go_string.updateGraphics();
+    m_p1_string.update_text(READY_STR);
+    m_p1_string.update_pos(18, 14);
+    m_p1_string.updateGraphics();
 }
 
 #ifdef MULTIPLAYER
@@ -66,8 +66,9 @@ void BaseGame::updateGameLogic() {
             m_p1_ready_go++;
 
             if (m_p1_ready_go > 60) {
-                m_p1_ready_go_string.update_text(GO_STR);
-                m_p1_ready_go_string.updateGraphics();
+                m_p1_string.update_text(GO_STR);
+                m_p1_string.update_pos(19, 14);
+                m_p1_string.updateGraphics();
             }
 
             if (m_p1_ready_go == 120) {
@@ -77,7 +78,11 @@ void BaseGame::updateGameLogic() {
             }
             break;
 
-        case GameState::GAME_OVER:
+        case GameState::GAME_OVER_ANIM:
+            // TODO
+            break;
+
+        case GameState::GAME_OVER_TEXT:
             // TODO
             break;
     }
@@ -94,7 +99,12 @@ void BaseGame::updateGameLogic() {
         case GameState::READY_GO:
             break;
 
-        case GameState::GAME_OVER:
+        case GameState::GAME_OVER_ANIM:
+            // TODO
+            break;
+
+        case GameState::GAME_OVER_TEXT:
+            // TODO
             break;
     }
 #endif

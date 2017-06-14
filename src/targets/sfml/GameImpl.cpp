@@ -36,10 +36,14 @@ void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
     switch (m_player1_state) {
         case GameState::READY_GO:
-            target.draw(m_p1_ready_go_string);
+            target.draw(m_p1_string);
             break;
 
-        case GameState::GAME_OVER:
+        case GameState::GAME_OVER_ANIM:
+            break;
+
+        case GameState::GAME_OVER_TEXT:
+            target.draw(m_p1_string);
             break;
     }
 }
