@@ -49,10 +49,15 @@ void PlayerImpl::updateSize() {
         for (int j = 0; j < SIZE; ++j) {
             sf::Vertex* quad = &m_next_vertices[(i + j * SIZE) * 4];
 
-            quad[0].position = sf::Vector2f(pos_x + (i + 3) * tile_size, pos_y + (j - 2.5) * tile_size);
-            quad[1].position = sf::Vector2f(pos_x + (i + 4) * tile_size, pos_y + (j - 2.5) * tile_size);
-            quad[2].position = sf::Vector2f(pos_x + (i + 4) * tile_size, pos_y + (j - 1.5) * tile_size);
-            quad[3].position = sf::Vector2f(pos_x + (i + 3) * tile_size, pos_y + (j - 1.5) * tile_size);
+            quad[0].position = sf::Vector2f(pos_x + (i + 3) * tile_size, pos_y + (j - 2) * tile_size);
+            quad[1].position = sf::Vector2f(pos_x + (i + 4) * tile_size, pos_y + (j - 2) * tile_size);
+            quad[2].position = sf::Vector2f(pos_x + (i + 4) * tile_size, pos_y + (j - 1) * tile_size);
+            quad[3].position = sf::Vector2f(pos_x + (i + 3) * tile_size, pos_y + (j - 1) * tile_size);
+            
+            quad[0].position.y -= (int) tile_size / 2;
+            quad[1].position.y -= (int) tile_size / 2;
+            quad[2].position.y -= (int) tile_size / 2;
+            quad[3].position.y -= (int) tile_size / 2;
         }
     }
 
