@@ -54,7 +54,7 @@ class BasePlayer {
 
         void startGame();
 
-        void update();
+        void update(int8_t *game_state);
 
         void nextPiece();
 

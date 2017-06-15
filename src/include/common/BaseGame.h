@@ -19,6 +19,7 @@ namespace GameState {
 
 const char READY_STR[] = "READY";
 const char GO_STR[] = "GO";
+const char GAME_OVER_STR[] = "GAME OVER";
 
 class BaseGame {
     public:
@@ -47,12 +48,12 @@ class BaseGame {
 
     protected:
         int8_t m_player1_state;
-        uint8_t m_p1_ready_go;
+        uint8_t m_p1_counter;
         Text m_p1_string;
 
     #ifdef MULTIPLAYER
         int8_t m_player2_state;
-        uint8_t m_p2_ready_go;
+        uint8_t m_p2_counter;
         Text m_p2_string;
     #endif
 };

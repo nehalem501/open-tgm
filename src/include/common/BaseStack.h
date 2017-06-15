@@ -28,7 +28,7 @@ class BaseStack {
 
     public:
         int m_pos_x, m_pos_y;
-        int m_height, m_width;
+        uint8_t m_height, m_width;
         int8_t m_stack[MAX_WIDTH * MAX_HEIGHT];
 
         BaseStack();
@@ -48,6 +48,7 @@ class BaseStack {
         void shiftLine(int8_t line);
         void shiftLines();
         void checkLines(BasePlayer *player);
+        void removeLine(uint8_t line);
 
         void updateOutline(int8_t line);
 

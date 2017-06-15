@@ -33,7 +33,8 @@ void BaseGame::startPlayer1(int8_t mode) {
 
 void BaseGame::p1_ready_go() {
     m_player1_state = GameState::READY_GO;
-    m_p1_ready_go = 0;
+    m_p1_counter = 0;
+    // Display 'READY'
     m_p1_string.update_text(READY_STR);
     m_p1_string.update_pos(18, 14);
     m_p1_string.updateGraphics();
@@ -55,31 +56,46 @@ void BaseGame::startDoubles() {
 void BaseGame::updateGameLogic() {
     switch(m_player1_state) {
         case GameState::INGAME:
-            player1.update();
-            /*if (player1.isGameOver()) {
-              m_player1_state = GameState::GAME_OVER;
-              }*/
+            player1.update(&m_player1_state);
             break;
 
         case GameState::READY_GO:
             // TODO
-            m_p1_ready_go++;
+            m_p1_counter++;
 
-            if (m_p1_ready_go > 60) {
+            // Display 'GO'
+            if (m_p1_counter > 60) {
                 m_p1_string.update_text(GO_STR);
                 m_p1_string.update_pos(19, 14);
                 m_p1_string.updateGraphics();
             }
 
-            if (m_p1_ready_go == 120) {
-                player1.update();
+            // Start game
+            if (m_p1_counter == 120) {
+                player1.update(&m_player1_state);
                 player1.startGame();
+                m_p1_counter = stack1.m_height * 8;
                 m_player1_state = GameState::INGAME;
             }
             break;
 
         case GameState::GAME_OVER_ANIM:
-            // TODO
+            m_p1_counter--;
+
+            // Animation finished, display 'GAME OVER'
+            if (m_p1_counter == 0) {
+                m_p1_counter = 0;
+                m_p1_string.update_text(GAME_OVER_STR);
+                m_p1_string.update_pos(16, 14);
+                m_p1_string.updateGraphics();
+                m_player1_state = GameState::GAME_OVER_TEXT;
+                return;
+            }
+
+            // Remove next line
+            if (m_p1_counter % 8 == 0)
+                stack1.removeLine(m_p1_counter / 8);
+
             break;
 
         case GameState::GAME_OVER_TEXT:

@@ -349,8 +349,18 @@ end_for:
     }
 }
 
+void BaseStack::removeLine(uint8_t line) {
+    if (line < m_height) {
+        memset(m_stack + line * m_width, 0, m_width);
+        updateOutline(line - 1);
+        updateOutline(line);
+        updateOutline(line + 1);
+
+    }
+}
+
 void BaseStack::updateOutline(int8_t line) {
-    if (line >= 0 && line < m_height) {
+    if (line >= 0 && line < m_height) { // TODO change to unsigned
         for (int i = 0; i < m_width; i++) {
             m_outline[i + m_width * line] = 0;
             if (m_stack[i + m_width * line]) {

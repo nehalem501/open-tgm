@@ -10,6 +10,7 @@
 #include <Mode.h>
 #include <Utils.h>
 #include <Stack.h>
+#include <common/BaseGame.h>
 #include <common/BasePlayer.h>
 
 /* Used at program startup */
@@ -133,7 +134,7 @@ void BasePlayer::nextPiece() {
 }
 
 /* Update for 1 frame */
-void BasePlayer::update() {
+void BasePlayer::update(int8_t *game_state) {
     m_piece_old_y = m_piece.pos_y;
 
     if (m_lock_color_delay != 0) {
@@ -174,12 +175,13 @@ void BasePlayer::update() {
             m_ghost_y = m_stack->getGhostY(&m_piece);
         }
 
-        /*if(!checkGameOver()) {
-            //cout << "GAME OVER !!!" << endl;
+        /* If piece doesn't have room to spawn, it's game over */
+        if (!m_stack->checkMove(&m_piece, 0, 0)) {
             lockPiece();
-            stack->removeGreyBlocks(m_piece); // TODO
-            m_values.gameover = true;
-        }*/
+            m_stack->removeGreyBlocks(&m_piece);
+            *game_state = GameState::GAME_OVER_ANIM;
+            return;
+        }
     }
 
     m_active_time++;
