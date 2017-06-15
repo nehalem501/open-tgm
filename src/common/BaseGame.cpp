@@ -9,11 +9,9 @@
 
 void BaseGame::initGraphics() {
     timer1.initGraphics();
-    //labels1.initGraphics();
     m_p1_string.initGraphics();
 #ifdef MULTIPLAYER
     timer2.initGraphics();
-    //labels2.initGraphics();
     m_p2_string.initGraphics();
 #endif
 }
