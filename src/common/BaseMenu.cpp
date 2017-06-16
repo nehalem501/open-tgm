@@ -32,7 +32,9 @@ void BaseMenu::update() {
             break;
 
         case MenuState::INGAME:
-            game.updateGameLogic();
+            // Update logic
+            game.update(&m_state);
+
             game.updateGraphics();
             //ingame();
             break;

@@ -5,6 +5,7 @@
 #include <Player.h>
 #include <Stack.h>
 #include <../modes/modes.h>
+#include <common/BaseMenu.h>
 #include <common/BaseGame.h>
 
 void BaseGame::initGraphics() {
@@ -51,7 +52,7 @@ void BaseGame::startDoubles() {
 }
 #endif
 
-void BaseGame::updateGameLogic() {
+void BaseGame::update(int8_t *state) {
     switch(m_player1_state) {
         case GameState::INGAME:
             player1.update(&m_player1_state);
@@ -97,7 +98,13 @@ void BaseGame::updateGameLogic() {
             break;
 
         case GameState::GAME_OVER_TEXT:
-            // TODO
+            m_p1_counter++;
+
+            if (m_p1_counter == 160) {
+                m_p1_counter = 0;
+                *state = MenuState::HOME;
+            }
+
             break;
     }
 

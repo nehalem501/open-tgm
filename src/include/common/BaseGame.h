@@ -25,7 +25,7 @@ class BaseGame {
     public:
         void initGraphics();
 
-        void updateGameLogic();
+        void update(int8_t *state);
         void updateGraphics();
 
         void startPlayer1(int8_t mode);
