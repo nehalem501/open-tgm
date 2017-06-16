@@ -6,7 +6,7 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <map>
-#include <common/BaseInput.h>
+#include <core/Input.h>
 
 enum Buttons {
     Up = 0,
@@ -83,7 +83,7 @@ class eventKey {
         std::vector<MyKeys> assignedKeys;
 };
 
-class InputImpl : public BaseInput {
+class InputImpl : public Core::Input {
     public:
         void init();
         void pollInputs();

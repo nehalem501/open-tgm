@@ -5,9 +5,9 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BasePlayer.h>
+#include <core/Player.h>
 
-class PlayerImpl : public BasePlayer, public sf::Drawable {
+class PlayerImpl : public Core::Player, public sf::Drawable {
     public:
         void initGraphics();
         void updateGraphics();

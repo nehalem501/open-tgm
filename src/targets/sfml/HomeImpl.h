@@ -5,9 +5,9 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BaseHome.h>
+#include <core/Home.h>
 
-class HomeImpl : public BaseHome, public sf::Drawable {
+class HomeImpl : public Core::Home, public sf::Drawable {
     public:
         void initGraphics();
         void updateSize();

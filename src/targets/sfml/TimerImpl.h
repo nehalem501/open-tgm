@@ -6,9 +6,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <Stack.h>
-#include <common/BaseTimer.h>
+#include <core/Timer.h>
 
-class TimerImpl : public BaseTimer, public sf::Drawable {
+class TimerImpl : public Core::Timer, public sf::Drawable {
     public:
         void initGraphics();
         void updateGraphics();

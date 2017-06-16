@@ -5,9 +5,9 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BaseGame.h>
+#include <core/Game.h>
 
-class GameImpl : public BaseGame, public sf::Drawable {
+class GameImpl : public Core::Game, public sf::Drawable {
     public:
         void updateSize();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

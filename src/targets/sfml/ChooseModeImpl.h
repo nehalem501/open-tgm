@@ -5,9 +5,9 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BaseChooseMode.h>
+#include <core/ChooseMode.h>
 
-class ChooseModeImpl : public BaseChooseMode, public sf::Drawable {
+class ChooseModeImpl : public Core::ChooseMode, public sf::Drawable {
     public:
         void initGraphics();
         void updateSize();

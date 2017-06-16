@@ -9,9 +9,9 @@ typedef StackImpl Stack;
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BaseDigits.h>
+#include <core/Digits.h>
 
-class DigitsImpl : public BaseDigits, public sf::Drawable {
+class DigitsImpl : public Core::Digits, public sf::Drawable {
     public:
         void initGraphics();
         void updateGraphics(Stack *stack);

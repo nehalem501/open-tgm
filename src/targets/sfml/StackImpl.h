@@ -5,9 +5,9 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BaseStack.h>
+#include <core/Stack.h>
 
-class StackImpl : public BaseStack, public sf::Drawable {
+class StackImpl : public Core::Stack, public sf::Drawable {
     public:
         void initGraphics();
         void updateGraphics();

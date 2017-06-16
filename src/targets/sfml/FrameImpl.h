@@ -6,9 +6,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <Stack.h>
-#include <common/BaseFrame.h>
+#include <core/Frame.h>
 
-class FrameImpl : public BaseFrame, public sf::Drawable {
+class FrameImpl : public Core::Frame, public sf::Drawable {
     public:
         void initGraphics();
         void updateGraphics();

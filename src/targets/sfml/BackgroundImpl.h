@@ -8,7 +8,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include "GlobalSFML.h"
-#include <common/BaseBackground.h>
+#include <core/Background.h>
 
 /* Used by BackgroundSFML to divide the background image in multiple sprites
    if the maximum texture size of the GPU is smaller than the background's size */
@@ -18,7 +18,7 @@ class BackgroundSprite {
         sf::Sprite sprite;
 };
 
-class BackgroundImpl : public BaseBackground, public sf::Drawable {
+class BackgroundImpl : public Core::Background, public sf::Drawable {
     public:
         void initGraphics();
         void updateSize();

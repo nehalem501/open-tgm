@@ -8,9 +8,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <Stack.h>
-#include <common/BaseLabels.h>
+#include <core/Labels.h>
 
-class LabelsImpl : public BaseLabels, public sf::Drawable {
+class LabelsImpl : public Core::Labels, public sf::Drawable {
     private:
         unsigned int length;
         sf::VertexArray m_vertices;

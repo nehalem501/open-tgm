@@ -6,7 +6,7 @@
 #include <iostream>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BaseLineClearParticles.h>
+#include <core/LineClearParticles.h>
 
 #define PARTICLES_NUMBER 880
 
@@ -15,7 +15,9 @@ struct Particle {
     int lifetime;
 };
 
-class LineClearParticlesImpl : public BaseLineClearParticles, public sf::Drawable, public sf::Transformable {
+class LineClearParticlesImpl : public Core::LineClearParticles,
+                               public sf::Drawable,
+                               public sf::Transformable {
     public:
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

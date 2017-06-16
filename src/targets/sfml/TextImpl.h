@@ -9,9 +9,9 @@ typedef StackImpl Stack;
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BaseText.h>
+#include <core/Text.h>
 
-class TextImpl : public BaseText, public sf::Drawable {
+class TextImpl : public Core::Text, public sf::Drawable {
     public:
         void initGraphics();
         void updateGraphics();

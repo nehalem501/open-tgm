@@ -5,9 +5,9 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <common/BaseMenu.h>
+#include <core/Menu.h>
 
-class MenuImpl : public BaseMenu, public sf::Drawable {
+class MenuImpl : public Core::Menu, public sf::Drawable {
     public:
         void initGraphics();
         void updateSize();
