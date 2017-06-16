@@ -129,8 +129,6 @@ void BasePlayer::nextPiece() {
     m_piece.pos_y = 2;
 
     m_piece_old_y = m_piece.pos_y;
-
-    m_ghost_y = m_stack->getGhostY(&m_piece);
 }
 
 /* Update for 1 frame */
@@ -167,21 +165,28 @@ void BasePlayer::update(int8_t *game_state) {
 
         if (canIRSLeft()) {
             m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-            m_ghost_y = m_stack->getGhostY(&m_piece);
+            // You cannot do an IRS that will make you die
+            if (!m_stack->checkMove(&m_piece, 0, 0))
+                m_piece.orientation = 0;
         }
 
         if (canIRSRight()) {
             m_piece.orientation = modulo(m_piece.orientation - 1, 4);
-            m_ghost_y = m_stack->getGhostY(&m_piece);
+            // You cannot do an IRS that will make you die
+            if (!m_stack->checkMove(&m_piece, 0, 0))
+                m_piece.orientation = 0;
         }
 
-        /* If piece doesn't have room to spawn, it's game over */
+        // If piece doesn't have room to spawn, it's game over
         if (!m_stack->checkMove(&m_piece, 0, 0)) {
             lockPiece();
             m_stack->removeGreyBlocks(&m_piece);
             *game_state = GameState::GAME_OVER_ANIM;
             return;
         }
+
+        // Update ghost piece
+        m_ghost_y = m_stack->getGhostY(&m_piece);
     }
 
     m_active_time++;

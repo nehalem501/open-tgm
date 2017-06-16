@@ -42,8 +42,7 @@ void LabelsImpl::initGraphics(Stack *stack) {
 }
 
 void LabelsImpl::updateSize(Stack *stack) {
-    float tile_size = floor(screen_size.y / TILE_RATIO);
-    int pos_x = stack->m_pos_x;
+    int pos_x = stack->m_pos_x - tile_size / 2;
     int pos_y = stack->m_pos_y;
 
     int offset;

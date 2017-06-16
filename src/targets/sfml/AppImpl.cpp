@@ -18,7 +18,7 @@ sf::Texture timer_tex;
 
 sf::Time timePerFrame;
 
-sf::Vector2u screen_size(320, 240);
+sf::Vector2u screen_size(640, 480);
 
 int tile_size = screen_size.y / TILE_RATIO;
 

@@ -68,7 +68,7 @@ static char TGM1_GRADE_STR[] = "GRADE";
 static char TGM1_NEXT_AT_STR[] = "NEXT AT";
 
 static struct Label TGM1_LABELS[6] = {
-    {TGM1_NEXT_STR, -2, 0},
+    {TGM1_NEXT_STR, -1, 0},
     {TGM1_TIME_STR, 12, 20},
     {TGM1_LEVEL_STR, 12, 15},
     {TGM1_POINTS_STR, 12, 11},

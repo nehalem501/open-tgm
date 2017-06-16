@@ -61,7 +61,7 @@ static char DEATH_LEVEL_STR[] = "LEVEL";
 static char DEATH_POINTS_STR[] = "POINTS";
 
 static struct Label DEATH_LABELS[4] = {
-    {DEATH_NEXT_STR, -2, 0},
+    {DEATH_NEXT_STR, -1, 0},
     {DEATH_TIME_STR, 12, 20},
     {DEATH_LEVEL_STR, 12, 15},
     {DEATH_POINTS_STR, 12, 11}
