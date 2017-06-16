@@ -20,7 +20,7 @@ sf::Time timePerFrame;
 
 sf::Vector2u screen_size(320, 240);
 
-int tile_size = floor(screen_size.y / TILE_RATIO);
+int tile_size = screen_size.y / TILE_RATIO;
 
 void app() {
     // Resize graphics to window size

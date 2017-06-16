@@ -16,7 +16,7 @@ void MenuImpl::initGraphics() {
 }
 
 void MenuImpl::updateSize() {
-    tile_size = (int) floor(screen_size.y / TILE_RATIO);
+    tile_size = screen_size.y / TILE_RATIO;
 
     background.updateSize();
 
