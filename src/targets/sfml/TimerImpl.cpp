@@ -28,15 +28,86 @@ void TimerImpl::updateGraphics() {
             tile = str[i];
         }
 
-        int tu = tile % (timer_tex.getSize().x / 90);
-        int tv = tile / (timer_tex.getSize().x / 90);
-
         sf::Vertex* quad = &m_timer_vert[i * 4];
 
-        quad[0].texCoords = sf::Vector2f(tu * 102.0f, tv * 160.0f);
-        quad[1].texCoords = sf::Vector2f((tu + 1) * 102.0f, tv * 160.0f);
-        quad[2].texCoords = sf::Vector2f((tu + 1) * 102.0f, (tv + 1) * 160.0f);
-        quad[3].texCoords = sf::Vector2f(tu * 102.0f, (tv + 1) * 160.0f);
+        switch(tile) {
+            case 0:
+            quad[0].texCoords = sf::Vector2f(0.0f, 0.0f);
+            quad[1].texCoords = sf::Vector2f(136.0f, 0.0f);
+            quad[2].texCoords = sf::Vector2f(136.0f, 168.0f);
+            quad[3].texCoords = sf::Vector2f(0.0f, 168.0f);
+            break;
+
+            case 1:
+            quad[0].texCoords = sf::Vector2f(136.0f, 0.0f);
+            quad[1].texCoords = sf::Vector2f(240.0f, 0.0f);
+            quad[2].texCoords = sf::Vector2f(240.0f, 168.0f);
+            quad[3].texCoords = sf::Vector2f(136.0F, 168.0f);
+            break;
+
+            case 2:
+            quad[0].texCoords = sf::Vector2f(240.0f, 0.0f);
+            quad[1].texCoords = sf::Vector2f(376.0f, 0.0f);
+            quad[2].texCoords = sf::Vector2f(376.0f, 168.0f);
+            quad[3].texCoords = sf::Vector2f(240.0f, 168.0f);
+            break;
+
+            case 3:
+            quad[0].texCoords = sf::Vector2f(376.0f, 0.0f);
+            quad[1].texCoords = sf::Vector2f(512.0f, 0.0f);
+            quad[2].texCoords = sf::Vector2f(512.0f, 168.0f);
+            quad[3].texCoords = sf::Vector2f(376.0f, 168.0f);
+            break;
+
+            case 4:
+            quad[0].texCoords = sf::Vector2f(0.0f, 168.0f);
+            quad[1].texCoords = sf::Vector2f(136.0f, 168.0f);
+            quad[2].texCoords = sf::Vector2f(136.0f, 336.0f);
+            quad[3].texCoords = sf::Vector2f(0.0f, 336.0f);
+            break;
+
+            case 5:
+            quad[0].texCoords = sf::Vector2f(136.0f, 168.0f);
+            quad[1].texCoords = sf::Vector2f(272.0f, 168.0f);
+            quad[2].texCoords = sf::Vector2f(272.0f, 336.0f);
+            quad[3].texCoords = sf::Vector2f(136.0f, 336.0f);
+            break;
+
+            case 6:
+            quad[0].texCoords = sf::Vector2f(272.0f, 168.0f);
+            quad[1].texCoords = sf::Vector2f(408.0f, 168.0f);
+            quad[2].texCoords = sf::Vector2f(408.0f, 336.0f);
+            quad[3].texCoords = sf::Vector2f(272.0f, 336.0f);
+            break;
+
+            case 7:
+            quad[0].texCoords = sf::Vector2f(0.0f, 336.0f);
+            quad[1].texCoords = sf::Vector2f(136.0f, 336.0f);
+            quad[2].texCoords = sf::Vector2f(136.0f, 504.0f);
+            quad[3].texCoords = sf::Vector2f(0.0f, 504.0f);
+            break;
+
+            case 8:
+            quad[0].texCoords = sf::Vector2f(136.0f, 336.0f);
+            quad[1].texCoords = sf::Vector2f(272.0f, 336.0f);
+            quad[2].texCoords = sf::Vector2f(272.0f, 504.0f);
+            quad[3].texCoords = sf::Vector2f(136.0f, 504.0f);
+            break;
+
+            case 9:
+            quad[0].texCoords = sf::Vector2f(272.0f, 336.0f);
+            quad[1].texCoords = sf::Vector2f(408.0f, 336.0f);
+            quad[2].texCoords = sf::Vector2f(408.0f, 504.0f);
+            quad[3].texCoords = sf::Vector2f(272.0f, 504.0f);
+            break;
+
+            case 10:
+            quad[0].texCoords = sf::Vector2f(409.0f, 168.0f);
+            quad[1].texCoords = sf::Vector2f(480.0f, 168.0f);
+            quad[2].texCoords = sf::Vector2f(480.0f, 336.0f);
+            quad[3].texCoords = sf::Vector2f(409.0f, 336.0f);
+            break;
+        }
     }
 }
 
@@ -45,32 +116,31 @@ void TimerImpl::updateSize(Stack *stack) {
     int pos_y = stack->m_pos_y + tile_size * 21;
 
     int offset = 0;
-    float factor = 91.0f;
+    float factor = 131.0f;
 
     for (unsigned int i = 0; i < 8; ++i) {
         sf::Vertex* quad = &m_timer_vert[i * 4];
 
         if (i == 2 || i == 5) {
             // Separator
-            int p_x = pos_x + offset - (26.0f * tile_size / factor);
-            quad[0].position = sf::Vector2f(p_x, pos_y);
-            quad[1].position = sf::Vector2f(p_x + (int) (102.0f * tile_size / factor), pos_y);
-            quad[2].position = sf::Vector2f(p_x + (int) (102.0f * tile_size / factor), pos_y + (int) (160.0f * tile_size / factor));
-            quad[3].position = sf::Vector2f(p_x, pos_y + (int) (160.0f * tile_size / factor));
+            quad[0].position = sf::Vector2f(pos_x + offset, pos_y);
+            quad[1].position = sf::Vector2f(pos_x + offset + (int) (72.0f * tile_size / factor), pos_y);
+            quad[2].position = sf::Vector2f(pos_x + offset + (int) (72.0f * tile_size / factor), pos_y + (int) (168.0f * tile_size / factor));
+            quad[3].position = sf::Vector2f(pos_x + offset, pos_y + (int) (168.0f * tile_size / factor));
 
-            offset += 30.0f * tile_size / factor;
+            offset += 72.0f * tile_size / factor;
         } else {
             // Digits
             quad[0].position = sf::Vector2f(pos_x + offset, pos_y);
-            quad[1].position = sf::Vector2f(pos_x + offset + (int) (102.0f * tile_size / factor), pos_y);
-            quad[2].position = sf::Vector2f(pos_x + offset + (int) (102.0f * tile_size / factor), pos_y + (int) (160.0f * tile_size / factor));
-            quad[3].position = sf::Vector2f(pos_x + offset, pos_y + (int) (160.0f * tile_size / factor));
+            quad[1].position = sf::Vector2f(pos_x + offset + (int) (136.0f * tile_size / factor), pos_y);
+            quad[2].position = sf::Vector2f(pos_x + offset + (int) (136.0f * tile_size / factor), pos_y + (int) (168.0f * tile_size / factor));
+            quad[3].position = sf::Vector2f(pos_x + offset, pos_y + (int) (168.0f * tile_size / factor));
 
-            offset += 80.0f * tile_size / factor;
+            offset += 136.0f * tile_size / factor;
         }
     }
 }
 
 void TimerImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    target.draw(m_timer_vert, &timer_tex);
+    target.draw(m_timer_vert, &digits_tex);
 }
