@@ -15,21 +15,16 @@ void Core::Timer::init() {
     str[5] = 0;
 }
 
-void Core::Timer::updateTime() {
+void Core::Timer::update() {
     m_frames++;
     m_time = 1.66666666666666666666f * m_frames;
 
     // TODO see test2.cpp
 
-    uint32_t centsec = (uint32_t) m_time;
-    centsec = centsec % 100;
+    uint32_t centsec = ((uint32_t) m_time) % 100;
 
-    uint8_t sec = floor((float) m_time / 100.0f);
-
-    uint8_t min = floor((float) sec / 60.0f);
-
-    sec = sec % 60;
-    min = min % 60;
+    uint32_t sec = (((uint32_t) m_time) / 100) % 60;
+    uint32_t min = (sec / 60) % 60;
 
     //printf("%02d:%02d:%02d\n", min, sec, centsec);
 

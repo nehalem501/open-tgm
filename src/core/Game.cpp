@@ -27,6 +27,8 @@ void Core::Game::startPlayer1(int8_t mode) {
     labels1.setMode(modes[mode]);
     labels1.initGraphics(&stack1);
 
+    timer1.init();
+
     p1_ready_go();
 }
 
@@ -55,6 +57,7 @@ void Core::Game::startDoubles() {
 void Core::Game::update(int8_t *state) {
     switch(m_player1_state) {
         case GameState::INGAME:
+            timer1.update();
             player1.update(&m_player1_state);
             break;
 
@@ -74,6 +77,7 @@ void Core::Game::update(int8_t *state) {
                 player1.update(&m_player1_state);
                 player1.startGame();
                 m_p1_counter = stack1.m_height * 8;
+                timer1.start();
                 m_player1_state = GameState::INGAME;
             }
             break;

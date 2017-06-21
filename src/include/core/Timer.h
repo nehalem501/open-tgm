@@ -16,7 +16,7 @@ namespace Core {
 
             void init();
             void start();
-            void updateTime();
+            void update();
     };
 }
 
