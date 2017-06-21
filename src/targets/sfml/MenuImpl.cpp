@@ -13,6 +13,7 @@
 void MenuImpl::initGraphics() {
     m_home.initGraphics();
     m_chooseMode.initGraphics();
+    m_settings.initGraphics();
 }
 
 void MenuImpl::updateSize() {
@@ -22,6 +23,7 @@ void MenuImpl::updateSize() {
 
     m_home.updateSize();
     m_chooseMode.updateSize();
+    m_settings.updateSize();
     // TODO check for multiplayer
 #warning "Multiplayer missing"
     game.updateSize();
@@ -55,6 +57,10 @@ void MenuImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
             target.draw(frame1);
             // TODO 2 players
             target.draw(game);
+            break;
+
+        case MenuState::SETTINGS:
+            target.draw(m_settings);
             break;
 
         default:

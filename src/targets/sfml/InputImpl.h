@@ -8,17 +8,19 @@
 #include <map>
 #include <core/Input.h>
 
-enum Buttons {
-    Up = 0,
-    Down = 1,
-    Right = 2,
-    Left = 3,
-    A = 4,
-    B = 5,
-    C = 6,
-    Start = 7,
-    Settings = 8
-};
+namespace Button {
+    enum {
+        Up = 0,
+        Down = 1,
+        Right = 2,
+        Left = 3,
+        A = 4,
+        B = 5,
+        C = 6,
+        Start = 7,
+        Settings = 8
+    };
+}
 
 enum InputType {
     KeyboardInput,

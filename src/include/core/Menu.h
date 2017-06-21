@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <Home.h>
 #include <ChooseMode.h>
+#include <Settings.h>
 
 namespace MenuState {
     enum {
@@ -19,10 +20,7 @@ namespace MenuState {
         GAME_GO,
         INGAME,
         GAME_OVER,
-        SETTINGS_LIST,
-        SETTINGS_INPUT_TEST,
-        SETTINGS_INPUT_SET,
-        SETTINGS_GAME_SET
+        SETTINGS
     };
 }
 
@@ -42,6 +40,7 @@ namespace Core {
 
             ::Home m_home;
             ::ChooseMode m_chooseMode;
+            ::Settings m_settings;
     };
 }
 

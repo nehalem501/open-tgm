@@ -5,6 +5,7 @@
 #include <Home.h>
 #include <Input.h>
 #include <Game.h>
+#include <Background.h>
 #include <core/Menu.h>
 
 using namespace std;
@@ -18,6 +19,11 @@ void Core::Menu::update() {
 
     switch(m_state) {
         case MenuState::HOME:
+            if (input.settings()) {
+                m_state = MenuState::SETTINGS;
+                background.changeToOptions();
+                return;
+            }
             m_home.update(&m_state);
             break;
 
@@ -39,7 +45,8 @@ void Core::Menu::update() {
             //ingame();
             break;
 
-        case MenuState::SETTINGS_LIST:
+        case MenuState::SETTINGS:
+            m_settings.update(&m_state);
             break;
     }
 }

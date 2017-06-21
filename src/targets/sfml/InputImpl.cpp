@@ -29,7 +29,7 @@ void InputImpl::init() {
     key.myEventType = sf::Event::KeyPressed;
     key.myKeyCode = sf::Keyboard::Return;
     assignedKeys.add(key);
-    eventKeys[Start] = assignedKeys;
+    eventKeys[Button::Start] = assignedKeys;
     assignedKeys.clear();
 
     // Options
@@ -37,7 +37,7 @@ void InputImpl::init() {
     key.myEventType = sf::Event::KeyPressed;
     key.myKeyCode = sf::Keyboard::F2;
     assignedKeys.add(key);
-    eventKeys[Settings] = assignedKeys;
+    eventKeys[Button::Settings] = assignedKeys;
     assignedKeys.clear();
 
     // Up
@@ -46,7 +46,7 @@ void InputImpl::init() {
     key.myKeyCode = sf::Keyboard::Z;
     //key.myKeyCode = sf::Keyboard::W;
     assignedKeys.add(key);
-    eventKeys[Up] = assignedKeys;
+    eventKeys[Button::Up] = assignedKeys;
     assignedKeys.clear();
 
     // Down
@@ -55,7 +55,7 @@ void InputImpl::init() {
     key.myKeyCode = sf::Keyboard::S;
     //key.myKeyCode = sf::Keyboard::S;
     assignedKeys.add(key);
-    eventKeys[Down] = assignedKeys;
+    eventKeys[Button::Down] = assignedKeys;
     assignedKeys.clear();
 
     // Left
@@ -64,7 +64,7 @@ void InputImpl::init() {
     key.myKeyCode = sf::Keyboard::Q;
     //key.myKeyCode = sf::Keyboard::A;
     assignedKeys.add(key);
-    eventKeys[Left] = assignedKeys;
+    eventKeys[Button::Left] = assignedKeys;
     assignedKeys.clear();
 
     // Right
@@ -73,7 +73,7 @@ void InputImpl::init() {
     key.myKeyCode = sf::Keyboard::D;
     //key.myKeyCode = sf::Keyboard::D;
     assignedKeys.add(key);
-    eventKeys[Right] = assignedKeys;
+    eventKeys[Button::Right] = assignedKeys;
     assignedKeys.clear();
 
     // A
@@ -81,7 +81,7 @@ void InputImpl::init() {
     key.myEventType = sf::Event::KeyPressed;
     key.myKeyCode = sf::Keyboard::J;
     assignedKeys.add(key);
-    eventKeys[A] = assignedKeys;
+    eventKeys[Button::A] = assignedKeys;
     assignedKeys.clear();
 
     // B
@@ -93,7 +93,7 @@ void InputImpl::init() {
     key.myEventType = sf::Event::KeyPressed;
     key.myKeyCode = sf::Keyboard::I;
     assignedKeys.add(key);
-    eventKeys[B] = assignedKeys;
+    eventKeys[Button::B] = assignedKeys;
     assignedKeys.clear();
 
     // C
@@ -105,18 +105,18 @@ void InputImpl::init() {
     key.myEventType = sf::Event::KeyPressed;
     key.myKeyCode = sf::Keyboard::O;
     assignedKeys.add(key);
-    eventKeys[C] = assignedKeys;
+    eventKeys[Button::C] = assignedKeys;
     assignedKeys.clear();
 }
 
 void InputImpl::pollInputs() {
-    bool tmp_up = eventKeys[Up].testInput();
-    bool tmp_down = eventKeys[Down].testInput();
-    bool tmp_left = eventKeys[Left].testInput();
-    bool tmp_right = eventKeys[Right].testInput();
+    bool tmp_up = eventKeys[Button::Up].testInput();
+    bool tmp_down = eventKeys[Button::Down].testInput();
+    bool tmp_left = eventKeys[Button::Left].testInput();
+    bool tmp_right = eventKeys[Button::Right].testInput();
 
-    bool tmp_a = eventKeys[A].testInput();
-    bool tmp_c = eventKeys[C].testInput();
+    bool tmp_a = eventKeys[Button::A].testInput();
+    bool tmp_c = eventKeys[Button::C].testInput();
 
     if (tmp_left != prev_left) {
         m_left = tmp_left;
@@ -146,7 +146,7 @@ void InputImpl::pollInputs() {
     //m_left = (tmp_left && !tmp_right) || (!m_left && m_right && tmp_left);
     //m_right = (!tmp_left && tmp_right) || (m_left && !m_right && tmp_right);
 
-    m_b = eventKeys[B].testInput();
+    m_b = eventKeys[Button::B].testInput();
 
     if (tmp_a != prev_a) {
         m_a = tmp_a;
@@ -170,6 +170,6 @@ void InputImpl::pollInputs() {
         prev_c = tmp_c;
     }
 
-    m_start = eventKeys[Start].testInput();
-    m_settings = eventKeys[Settings].testInput();
+    m_start = eventKeys[Button::Start].testInput();
+    m_settings = eventKeys[Button::Settings].testInput();
 }

@@ -15,7 +15,8 @@ namespace TextColor {
         BLUE,
         YELLOW,
         MAGENTA,
-        CYAN
+        CYAN,
+        TRANSPARENT
     };
 }
 
