@@ -21,13 +21,13 @@ void MenuImpl::draw() const {
 
         case MenuState::CHOOSE_PLAYER:
             frame1.draw();
+            //target.draw(dataNotUsed);
+            //target.draw(newPlaiyer);
+            //target.draw(loadPlayer);
             break;
 
         case MenuState::CHOOSE_MODE:
-            frame1.draw();/*
-                               for (unsigned int i = 0; i < modesText.size(); i++) {
-                               target.draw(modesText[i]);
-                               }*/
+            frame1.draw();
             m_chooseMode.draw();
             break;
 
@@ -41,8 +41,11 @@ void MenuImpl::draw() const {
             game.draw();
             break;
 
+        case MenuState::SETTINGS:
+            m_settings.draw();
+            break;
+
         default:
             break;
-}
-
+    }
 }
