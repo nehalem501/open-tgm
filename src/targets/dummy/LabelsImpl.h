@@ -4,9 +4,9 @@
 #define LABELS_DUMMY_H
 
 #include <Stack.h>
-#include <common/BaseLabels.h>
+#include <core/Labels.h>
 
-class LabelsImpl : public BaseLabels {
+class LabelsImpl : public Core::Labels {
     public:
         void initGraphics(Stack *stack);
         void draw() const;

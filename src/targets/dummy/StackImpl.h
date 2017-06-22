@@ -3,9 +3,9 @@
 #ifndef STACK_DUMMY_H
 #define STACK_DUMMY_H
 
-#include <common/BaseStack.h>
+#include <core/Stack.h>
 
-class StackImpl : public BaseStack {
+class StackImpl : public Core::Stack {
     public:
         void initGraphics();
         void updateGraphics();

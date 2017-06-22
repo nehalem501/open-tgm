@@ -3,9 +3,9 @@
 #ifndef LINE_CLEAR_PARTICLES_DUMMY_H
 #define LINE_CLEAR_PARTICLES_DUMMY_H
 
-#include <common/BaseLineClearParticles.h>
+#include <core/LineClearParticles.h>
 
-class LineClearParticlesImpl : public BaseLineClearParticles {
+class LineClearParticlesImpl : public Core::LineClearParticles {
     public:
         void draw() const;
 };

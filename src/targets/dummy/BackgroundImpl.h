@@ -3,9 +3,9 @@
 #ifndef BACKGROUND_DUMMY_H
 #define BACKGROUND_DUMMY_H
 
-#include <common/BaseBackground.h>
+#include <core/Background.h>
 
-class BackgroundImpl : public BaseBackground {
+class BackgroundImpl : public Core::Background {
     public:
         void initGraphics();
         void draw() const;

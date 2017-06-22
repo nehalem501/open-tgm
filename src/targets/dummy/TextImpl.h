@@ -7,9 +7,9 @@
 class StackImpl;
 typedef StackImpl Stack;
 
-#include <common/BaseText.h>
+#include <core/Text.h>
 
-class TextImpl : public BaseText {
+class TextImpl : public Core::Text {
     public:
         void initGraphics();
         void updateGraphics();

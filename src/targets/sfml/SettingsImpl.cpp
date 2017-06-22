@@ -14,7 +14,7 @@ void SettingsImpl::updateSize() {
     input_test_str.updateSize();
     exit_str.updateSize();
 }
-#include <iostream>
+
 void SettingsImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     switch (m_state) {
         case SettingsState::LIST:

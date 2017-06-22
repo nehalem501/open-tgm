@@ -7,9 +7,9 @@
 class StackImpl;
 typedef StackImpl Stack;
 
-#include <common/BaseDigits.h>
+#include <core/Digits.h>
 
-class DigitsImpl : public BaseDigits {
+class DigitsImpl : public Core::Digits {
     public:
         void initGraphics();
         void updateGraphics(Stack *stack);

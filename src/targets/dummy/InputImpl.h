@@ -3,9 +3,9 @@
 #ifndef INPUT_DUMMY_H
 #define INPUT_DUMMY_H
 
-#include <common/BaseInput.h>
+#include <core/Input.h>
 
-class InputImpl : public BaseInput {
+class InputImpl : public Core::Input {
     public:
         void init();
         void pollInputs();

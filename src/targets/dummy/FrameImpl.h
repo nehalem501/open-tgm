@@ -3,9 +3,9 @@
 #ifndef FRAME_DUMMY_H
 #define FRAME_DUMMY_H
 
-#include <common/BaseFrame.h>
+#include <core/Frame.h>
 
-class FrameImpl : public BaseFrame {
+class FrameImpl : public Core::Frame {
     public:
         void initGraphics();
         void updateGraphics();

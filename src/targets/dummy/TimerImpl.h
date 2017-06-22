@@ -3,9 +3,9 @@
 #ifndef TIMER_DUMMY_H
 #define TIMER_DUMMY_H
 
-#include <common/BaseTimer.h>
+#include <core/Timer.h>
 
-class TimerImpl : public BaseTimer {
+class TimerImpl : public Core::Timer {
     public:
         void initGraphics();
         void updateGraphics();

@@ -3,9 +3,9 @@
 #ifndef PLAYER_DUMMY_H
 #define PLAYER_DUMMY_H
 
-#include <common/BasePlayer.h>
+#include <core/Player.h>
 
-class PlayerImpl : public BasePlayer {
+class PlayerImpl : public Core::Player {
     public:
         void initGraphics();
         void updateGraphics();
