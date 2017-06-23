@@ -7,28 +7,37 @@
 #include <Text.h>
 #include <core/ChooseMode.h>
 
+#include <iostream>
 Core::ChooseMode::ChooseMode() : m_selected(false), m_mode(0), m_DASup(0),
                                m_DASdown(0) {
     //std::cout << "Choose mode screen constructor" << std::endl;
 }
 
 void Core::ChooseMode::init() {
-    // Highlight the first entry
-    m_modes_strings[0].update_color(TextColor::YELLOW);
-
     for (int i = 0; i < NB_MODES; i++) {
+        m_modes_strings[i].initGraphics();
         m_modes_strings[i].update_pos(16, 7 + i * 2);
         m_modes_strings[i].update_text(modes[i]->name);
         m_modes_strings[i].updateGraphics();
     }
+
+    // Highlight the first entry
+    m_modes_strings[0].update_color(TextColor::YELLOW);
+    m_modes_strings[0].updateGraphics();
 }
 
 void Core::ChooseMode::update(int8_t *state, int8_t *mode) {
     if (m_selected) {
         m_DASup += 4;
         if (m_DASup == 0) {
+            m_selected = false;
+            m_DASup = 0;
+            m_DASdown = 0;
             *state = MenuState::START_GAME;
             *mode = m_mode;
+            m_mode = 0;
+            m_modes_strings[0].update_color(TextColor::YELLOW);
+            m_modes_strings[0].updateGraphics();
             return;
         }
 

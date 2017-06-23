@@ -55,6 +55,12 @@ namespace Core {
 
             void startGame();
 
+            inline void reset_level() {
+                m_level = 0;
+                level_display.update(0);
+                level_display.updateGraphics(m_stack);
+            };
+
             void update(int8_t *game_state);
 
             void nextPiece();

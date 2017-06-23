@@ -74,11 +74,23 @@ void Core::Game::update(int8_t *state) {
 
             // Start game
             if (m_p1_counter == 120) {
-                player1.update(&m_player1_state);
-                player1.startGame();
-                m_p1_counter = stack1.m_height * 8;
+                // Start timer and count current frame
                 timer1.start();
+                timer1.update();
+
+                // Start game for player 1
+                player1.startGame();
+                player1.update(&m_player1_state);
+
+                // Prepare counter for game over animation
+                m_p1_counter = stack1.m_height * 8;
+
+                // First piece to spawn doesn't increase level
+                player1.reset_level();
+
+                // Change state to Ingame
                 m_player1_state = GameState::INGAME;
+                return;
             }
             break;
 
