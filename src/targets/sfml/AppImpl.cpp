@@ -41,6 +41,12 @@ void app() {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
+    // Used to run the game frame by frame
+    #ifdef DEBUG
+    bool frameByFrame = false;
+    bool doFrame = false;
+    #endif
+
     // main loop for target SFML
     while (window.isOpen()) {
         sf::Time elapsedTime = clock.restart();
@@ -53,6 +59,14 @@ void app() {
                 if (event.type == sf::Event::KeyPressed) {
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
+                    }
+
+                    if (event.key.code == sf::Keyboard::P) {
+                        frameByFrame = !frameByFrame;
+                    }
+
+                    if (event.key.code == sf::Keyboard::N) {
+                        doFrame = true;
                     }
 
                     if (event.key.code == sf::Keyboard::F11) {
@@ -96,6 +110,16 @@ void app() {
                     }
                 }
             }
+
+            #ifdef DEBUG
+            if (frameByFrame) {
+                if (!doFrame) {
+                    continue;
+                } else {
+                    doFrame = false;
+                }
+            }
+            #endif
 
             menu.update();
 
