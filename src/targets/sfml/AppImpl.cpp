@@ -61,6 +61,7 @@ void app() {
                         window.close();
                     }
 
+                    #ifdef DEBUG
                     if (event.key.code == sf::Keyboard::P) {
                         frameByFrame = !frameByFrame;
                     }
@@ -68,6 +69,7 @@ void app() {
                     if (event.key.code == sf::Keyboard::N) {
                         doFrame = true;
                     }
+                    #endif
 
                     if (event.key.code == sf::Keyboard::F11) {
                         if (fullscreen) {
