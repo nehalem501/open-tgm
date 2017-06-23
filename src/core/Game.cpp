@@ -78,6 +78,8 @@ void Core::Game::update(int8_t *state) {
                 timer1.start();
                 timer1.update();
 
+                labels1.initGraphics(&stack1);
+
                 // Start game for player 1
                 player1.startGame();
                 player1.update(&m_player1_state);

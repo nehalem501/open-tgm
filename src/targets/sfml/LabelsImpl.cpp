@@ -15,6 +15,10 @@ using namespace std;
 void LabelsImpl::initGraphics(Stack *stack) {
     length = 0;
 
+    str.clear();
+    positions.clear();
+    m_vertices.clear();
+
     for (unsigned int i = 0; i < m_mode->labels_nb; i++) {
         str.push_back(string(m_mode->labels[i].string));
         positions.push_back(sf::Vector2f(m_mode->labels[i].x, m_mode->labels[i].y));

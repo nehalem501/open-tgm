@@ -7,7 +7,7 @@
 #include "FrameImpl.h"
 
 void FrameImpl::initGraphics() {
-    m_background.setFillColor(sf::Color(0, 0, 0, 160));
+    m_background.setFillColor(sf::Color(0, 0, 0, 180));
 
     m_frame.setPrimitiveType(sf::Quads);
 
