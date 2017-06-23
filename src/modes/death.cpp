@@ -73,7 +73,7 @@ struct Position DEATH_LVL_TGT_POS = {12, 18};
 
 Mode mode_death(
 /*          name */ "DEATH",
-/*    sonic_drop */ false, //TODO
+/*    sonic_drop */ false,
 /* display_score */ true,
 /*       section */ true,
 /*        size_x */ 10,

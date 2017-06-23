@@ -82,7 +82,7 @@ struct Position TGM1_LVL_TGT_POS = {12, 18};
 
 Mode mode_tgm1(
 /*          name */ "TGM",
-/*    sonic_drop */ true, //TODO
+/*    sonic_drop */ false,
 /* display_score */ true,
 /*       section */ true,
 /*        size_x */ 10,
