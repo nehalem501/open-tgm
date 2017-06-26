@@ -7,9 +7,8 @@
 #include <Text.h>
 #include <core/ChooseMode.h>
 
-#include <iostream>
 Core::ChooseMode::ChooseMode() : m_selected(false), m_mode(0), m_DASup(0),
-                               m_DASdown(0) {
+                                 m_DASdown(0) {
     //std::cout << "Choose mode screen constructor" << std::endl;
 }
 

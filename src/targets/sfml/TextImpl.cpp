@@ -64,6 +64,10 @@ void TextImpl::assign_color() {
                 m_vertices[i].color = sf::Color(0, 255, 255, 255);
                 break;
 
+            case TextColor::ORANGE:
+                m_vertices[i].color = sf::Color(255, 128, 0, 255);
+                break;
+
             case TextColor::TRANSPARENT:
                 m_vertices[i].color = sf::Color(255, 255, 255, 128);
                 break;

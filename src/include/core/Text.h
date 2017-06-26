@@ -16,6 +16,7 @@ namespace TextColor {
         YELLOW,
         MAGENTA,
         CYAN,
+        ORANGE,
         TRANSPARENT
     };
 }
@@ -30,6 +31,8 @@ namespace Core {
 
             Text();
             Text(int8_t pos_x, int8_t pos_y);
+            Text(int8_t pos_x, int8_t pos_y, int8_t color, const char *str);
+
             void update_text(const char *new_str);
             void update_pos(int8_t pos_x, int8_t pos_y);
     };

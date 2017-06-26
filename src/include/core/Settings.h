@@ -8,14 +8,12 @@
 
 namespace SettingsState {
     enum {
-        LIST = 0,
-        INPUT_TEST = 1,
+        LIST = -1,
+        INPUT_TEST = 0,
+        EXIT = 1,
         SETTINGS_NB = 2
     };
 }
-
-const char INPUT_TEST_STR[] = "INPUT TEST";
-const char EXIT_STR[] = "EXIT";
 
 namespace Core {
     class Settings {
@@ -23,12 +21,15 @@ namespace Core {
             Settings();
             void init();
             void update(int8_t *menustate);
-        protected:
-            int8_t m_state;
-            int8_t m_selected;
 
-            ::Text input_test_str;
-            ::Text exit_str;
+        protected:
+            int8_t m_state, m_selected;
+            uint8_t m_DASup, m_DASdown;
+
+            ::Text settings_str[SettingsState::SETTINGS_NB];
+            ::Text inputs_str[8];
+            ::Text input_states_str[8];
+            ::Text input_msg;
     };
 }
 

@@ -46,5 +46,7 @@ void initTextures() {
         std::cout << "ERROR loading timer texture" << std::endl;
     }
 
+    #ifdef DEBUG
     std::cout << "Finished loading textures" << std::endl;
+    #endif
 }
