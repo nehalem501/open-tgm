@@ -8,3 +8,8 @@
 
 # Build
 build/
+src/build-gba
+src/.map
+src/open-tgm.elf
+src/open-tgm.gba
+src/open-tgm.sav
