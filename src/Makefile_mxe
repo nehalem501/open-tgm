@@ -1,0 +1,28 @@
+MXE = ~/mxe
+CC = $(MXE)/usr/bin/i686-w64-mingw32.static-g++
+EXE_NAME = open-tgm.exe
+SOURCE_FILES = $(wildcard core/*.cpp) $(wildcard targets/sfml/*.cpp) $(wildcard modes/*.cpp)
+EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
+CCFLAGS = -DTARGET_SFML -Wall -pedantic `$(MXE)/usr/bin/i686-w64-mingw32.static-pkg-config --cflags sfml`
+LDFLAGS =
+INCLUDE_DIR = -I./include -I./targets/sfml
+LIBS_DIR =
+LIBS = `$(MXE)/usr/bin/i686-w64-mingw32.static-pkg-config --libs sfml`
+BUILD_DIR = ../build/win32
+EXTRAS =
+
+all : $(EXE_NAME)
+
+clean :
+	rm -f $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES);
+	rm -rf $(BUILD_DIR)/resources
+
+$(EXE_NAME) : $(EXE_OBJ_FILES)
+	rm -rf $(BUILD_DIR)/resources
+	cp -r ../data/resources $(BUILD_DIR)
+	$(CC) $(LDFLAGS) -o $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES) $(LIBS_DIR) $(LIBS)
+	$(MXE)/usr/bin/i686-w64-mingw32.static-strip $(BUILD_DIR)/$(EXE_NAME)
+	$(EXTRAS)
+
+%.o: %.cpp
+	$(CC) $(CCFLAGS) $(INCLUDE_DIR) -o $@ -c $<
