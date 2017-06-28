@@ -1,6 +1,5 @@
 /* BaseMenu.cpp */
 
-#include <iostream>
 #include <Global.h>
 #include <Home.h>
 #include <Input.h>

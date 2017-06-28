@@ -3,7 +3,7 @@
 #include <cmath>
 #include <stdint.h>
 #include <core/Timer.h>
-#include <stdio.h>
+
 void Core::Timer::init() {
     m_frames = 0;
 
@@ -27,7 +27,7 @@ void Core::Timer::update() {
     uint32_t min = sec / 60;
     sec = sec % 60;
 
-    printf("%02d:%02d:%02d\n", min, sec, centsec);
+    //printf("%02d:%02d:%02d\n", min, sec, centsec);
 
     str[0] = min / 10;
     str[1] = min % 10;
