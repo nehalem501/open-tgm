@@ -9,7 +9,6 @@ namespace Core {
     class Timer {
         public:
             uint32_t m_frames;
-            float m_time;
 
             int m_pos_x, m_pos_y;
             uint8_t str[6];

@@ -1,6 +1,5 @@
 /* Timer.cpp */
 
-#include <cmath>
 #include <stdint.h>
 #include <core/Timer.h>
 
@@ -17,15 +16,12 @@ void Core::Timer::init() {
 
 void Core::Timer::update() {
     m_frames++;
-    m_time = 1.66666666666666666666f * m_frames;
+    //m_time = 1.66666666666666666666f * m_frames;
+    uint32_t m_time = (1666 * m_frames) / 1000;
 
-    // TODO see test2.cpp
-
-    uint32_t centsec = ((uint32_t) m_time) % 100;
-
-    uint32_t sec = (((uint32_t) m_time) / 100);
-    uint32_t min = sec / 60;
-    sec = sec % 60;
+    uint32_t centsec = m_time % 100;
+    uint32_t sec = (m_time / 100) % 60;
+    uint32_t min = (m_time / (100 * 60)) % 60;
 
     //printf("%02d:%02d:%02d\n", min, sec, centsec);
 
@@ -40,6 +36,6 @@ void Core::Timer::update() {
 }
 
 void Core::Timer::start() {
-    m_time = 0.0;
+    //m_time = 0.0;
     m_frames = 0;
 }
