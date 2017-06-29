@@ -20,10 +20,10 @@ namespace Core {
         public:
             Settings();
             void init();
-            void update(int8_t *menustate);
+            void update(int *menustate);
 
         protected:
-            int8_t m_state, m_selected;
+            int m_state, m_selected;
             uint8_t m_DASup, m_DASdown;
 
             ::Text settings_str[SettingsState::SETTINGS_NB];

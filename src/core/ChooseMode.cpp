@@ -25,7 +25,7 @@ void Core::ChooseMode::init() {
     m_modes_strings[0].updateGraphics();
 }
 
-void Core::ChooseMode::update(int8_t *state, int8_t *mode) {
+void Core::ChooseMode::update(int *state, int *mode) {
     if (m_selected) {
         m_DASup += 4;
         if (m_DASup == 0) {

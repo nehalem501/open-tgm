@@ -14,7 +14,7 @@
 
 
 uint32_t rand_seed;
-uint8_t stack_position;
+unsigned int stack_position;
 
 Player player1;
 Stack stack1;

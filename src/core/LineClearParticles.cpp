@@ -7,7 +7,7 @@ Core::LineClearParticles::LineClearParticles() {
     //#warning "LineClearParticle constructor not unimplemented"
 }
 
-void Core::LineClearParticles::setEmitter(uint8_t position_x, uint8_t position_y) {
+void Core::LineClearParticles::setEmitter(int position_x, int position_y) {
     //#warning "LineClearParticle::setEmitter not unimplemented"
 }
 

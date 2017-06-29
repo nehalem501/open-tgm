@@ -104,7 +104,7 @@ void Core::Player::nextPiece() {
 
     m_active_time = 0;
 
-    char r;
+    uint32_t r;
 
     // TODO change number off tries depending on mode (TGM1/TAP)
     for (int i = 0; i < 5; ++i) {
@@ -121,9 +121,9 @@ void Core::Player::nextPiece() {
     m_history[3] = m_history[2];
     m_history[2] = m_history[1];
     m_history[1] = m_history[0];
-    m_history[0] = r;
+    m_history[0] = (tiles_t) r;
 
-    m_next = r;
+    m_next = (tiles_t) r;
 
     m_piece.pos_x = 5;
     m_piece.pos_y = 2;
@@ -132,7 +132,7 @@ void Core::Player::nextPiece() {
 }
 
 /* Update for 1 frame */
-void Core::Player::update(int8_t *game_state) {
+void Core::Player::update(int *game_state) {
     m_piece_old_y = m_piece.pos_y;
 
     if (m_lock_color_delay != 0) {
@@ -166,19 +166,19 @@ void Core::Player::update(int8_t *game_state) {
         if (canIRSLeft()) {
             m_piece.orientation = modulo(m_piece.orientation + 1, 4);
             // You cannot do an IRS that will make you die
-            if (!m_stack->checkMove(&m_piece, 0, 0))
+            if (!m_stack->checkNewPosition(&m_piece, 0, 0, 0))
                 m_piece.orientation = 0;
         }
 
         if (canIRSRight()) {
             m_piece.orientation = modulo(m_piece.orientation - 1, 4);
             // You cannot do an IRS that will make you die
-            if (!m_stack->checkMove(&m_piece, 0, 0))
+            if (!m_stack->checkNewPosition(&m_piece, 0, 0, 0))
                 m_piece.orientation = 0;
         }
 
         // If piece doesn't have room to spawn, it's game over
-        if (!m_stack->checkMove(&m_piece, 0, 0)) {
+        if (!m_stack->checkNewPosition(&m_piece, 0, 0, 0)) {
             lockPiece();
             m_stack->removeGreyBlocks(&m_piece);
             *game_state = GameState::GAME_OVER_ANIM;
@@ -221,7 +221,7 @@ void Core::Player::update(int8_t *game_state) {
         if (notInARE()) {
             move(0, 1);
             m_soft++;
-            if (!m_stack->checkMove(&m_piece, 0, 1)) {
+            if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
                 if (!m_already_dropped) {
                     lockPiece();
                     resetLock();
@@ -300,7 +300,7 @@ void Core::Player::update(int8_t *game_state) {
     }
 
     // Start counting lock delay
-    if (!m_stack->checkMove(&m_piece, 0, 1)) {
+    if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
         if (notInARE()) {
             if (m_piece_old_y != m_piece.pos_y) {
                 resetLock();
@@ -338,7 +338,7 @@ void Core::Player::update(int8_t *game_state) {
 
 /* Move piece */
 void Core::Player::move(int x, int y) {
-    if(m_stack->checkMove(&m_piece, x, y)) {
+    if(m_stack->checkNewPosition(&m_piece, x, y, 0)) {
         m_piece.pos_x += x;
         m_piece.pos_y += y;
         m_ghost_y = m_stack->getGhostY(&m_piece);
@@ -347,7 +347,7 @@ void Core::Player::move(int x, int y) {
 
 /* Sonic drop */
 void Core::Player::moveDrop() {
-    if(m_stack->checkMove(&m_piece, 0, 1)) {
+    if(m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
         m_sonic = m_ghost_y - m_piece.pos_y;
         m_piece.pos_y = m_ghost_y;
     }
@@ -361,7 +361,7 @@ void Core::Player::rotateLeft() {
         if (x >= 0 || x < m_stack->m_width) {
             int y = m_piece.pos_y - 1;
             if (y < m_stack->m_height && y >= 0) {
-                if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
+                if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                     return;
                 }
             }
@@ -369,7 +369,7 @@ void Core::Player::rotateLeft() {
     }
 
     // Check basic rotation
-    if (m_stack->checkLeftRotation(&m_piece)) {
+    if (m_stack->checkNewPosition(&m_piece, 0, 0, 1)) {
         m_piece.orientation = modulo(m_piece.orientation + 1, 4);
         m_ghost_y = m_stack->getGhostY(&m_piece);
     }
@@ -388,16 +388,16 @@ void Core::Player::rotateLeft() {
                 y = m_piece.pos_y - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
-                        if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
-                            // Check wallkick right
-                            if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
+                        if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                            // Check wallkick one block to the right
+                            if (m_stack->checkNewPosition(&m_piece, 1, 0, 1)) {
                                 m_piece.pos_x++;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
                                 m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
 
-                            // Check wallkick left
-                            if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
+                            // Check wallkick one block to the left
+                            if (m_stack->checkNewPosition(&m_piece, -1, 0, 0)) {
                                 m_piece.pos_x--;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
                                 m_ghost_y = m_stack->getGhostY(&m_piece);
@@ -415,16 +415,16 @@ void Core::Player::rotateLeft() {
                 y = m_piece.pos_y - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
-                        if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
-                            // Check wallkick right
-                            if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
+                        if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                            // Check wallkick one block to the right
+                            if (m_stack->checkNewPosition(&m_piece, 1, 0, 1)) {
                                 m_piece.pos_x++;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
                                 m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
 
-                            // Check wallkick left
-                            if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
+                            // Check wallkick one block to the left
+                            if (m_stack->checkNewPosition(&m_piece, -1, 0, 1)) {
                                 m_piece.pos_x--;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
                                 m_ghost_y = m_stack->getGhostY(&m_piece);
@@ -442,36 +442,36 @@ void Core::Player::rotateLeft() {
             if (x >= 0 || x < m_stack->m_width) {
                 y = m_piece.pos_y - 1;
                 if (y < m_stack->m_height && y >= 0) {
-                    if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
                     }
                 }
 
                 y = m_piece.pos_y;
                 if (y < m_stack->m_height && y >= 0) {
-                    if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
                     }
                 }
 
                 y = m_piece.pos_y + 1;
                 if (y < m_stack->m_height && y >= 0) {
-                    if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
                     }
                 }
             }
         }
 
-        // Check wallkick right
-        if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
+        // Check wallkick one lock to the right
+        if (m_stack->checkNewPosition(&m_piece, 1, 0, 1)) {
             m_piece.pos_x++;
             m_piece.orientation = modulo(m_piece.orientation + 1, 4);
             m_ghost_y = m_stack->getGhostY(&m_piece);
         }
 
-        // Check wallkick left
-        else if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
+        // Check wallkick one block to the left
+        else if (m_stack->checkNewPosition(&m_piece, -1, 0, 1)) {
             m_piece.pos_x--;
             m_piece.orientation = modulo(m_piece.orientation + 1, 4);
             m_ghost_y = m_stack->getGhostY(&m_piece);
@@ -487,7 +487,7 @@ void Core::Player::rotateRight() {
         if (x >= 0 || x < m_stack->m_width) {
             int y = m_piece.pos_y - 1;
             if (y < m_stack->m_height && y >= 0) {
-                if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
+                if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                     return;
                 }
             }
@@ -495,7 +495,7 @@ void Core::Player::rotateRight() {
     }
 
     // Check basic rotation
-    if (m_stack->checkRightRotation(&m_piece)) {
+    if (m_stack->checkNewPosition(&m_piece, 0, 0, -1)) {
         m_piece.orientation = modulo(m_piece.orientation - 1, 4);
         m_ghost_y = m_stack->getGhostY(&m_piece);
     }
@@ -514,16 +514,16 @@ void Core::Player::rotateRight() {
                 y = m_piece.pos_y - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
-                        if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
-                            // Check wallkick right
-                            if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
+                        if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                            // Check wallkick one block to the right
+                            if (m_stack->checkNewPosition(&m_piece, 1, 0, -1)) {
                                 m_piece.pos_x++;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
                                 m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
 
-                            // Check wallkick left
-                            if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
+                            // Check wallkick one block to the left
+                            if (m_stack->checkNewPosition(&m_piece, -1, 0, -1)) {
                                 m_piece.pos_x--;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
                                 m_ghost_y = m_stack->getGhostY(&m_piece);
@@ -541,16 +541,16 @@ void Core::Player::rotateRight() {
                 y = m_piece.pos_y - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
-                        if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
-                            // Check wallkick right
-                            if (m_stack->checkLeftKickRotation(&m_piece, 1, 0)) {
+                        if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                            // Check wallkick one block to the right
+                            if (m_stack->checkNewPosition(&m_piece, 1, 0, -1)) {
                                 m_piece.pos_x++;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
                                 m_ghost_y = m_stack->getGhostY(&m_piece);
                             }
 
-                            // Check wallkick left
-                            if (m_stack->checkLeftKickRotation(&m_piece, -1, 0)) {
+                            // Check wallkick one block to the left
+                            if (m_stack->checkNewPosition(&m_piece, -1, 0, -1)) {
                                 m_piece.pos_x--;
                                 m_piece.orientation = modulo(m_piece.orientation + 1, 4);
                                 m_ghost_y = m_stack->getGhostY(&m_piece);
@@ -568,36 +568,36 @@ void Core::Player::rotateRight() {
             if (x >= 0 || x < m_stack->m_width) {
                 y = m_piece.pos_y - 1;
                 if (y < m_stack->m_height && y >= 0) {
-                    if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
                     }
                 }
 
                 y = m_piece.pos_y;
                 if (y < m_stack->m_height && y >= 0) {
-                    if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
                     }
                 }
 
                 y = m_piece.pos_y + 1;
                 if (y < m_stack->m_height && y >= 0) {
-                    if (m_stack->m_stack[x + y * m_stack->m_width] > 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
                     }
                 }
             }
         }
 
-        // Check wallkick right
-        if (m_stack->checkRightKickRotation(&m_piece, 1, 0)) {
+        // Check wallkick one block to the right
+        if (m_stack->checkNewPosition(&m_piece, 1, 0, -1)) {
             m_piece.pos_x++;
             m_piece.orientation = modulo(m_piece.orientation - 1, 4);
             m_ghost_y = m_stack->getGhostY(&m_piece);
         }
 
-        // Check wallkick left
-        else if (m_stack->checkRightKickRotation(&m_piece, -1, 0)) {
+        // Check wallkick one block to the left
+        else if (m_stack->checkNewPosition(&m_piece, -1, 0, -1)) {
             m_piece.pos_x--;
             m_piece.orientation = modulo(m_piece.orientation - 1, 4);
             m_ghost_y = m_stack->getGhostY(&m_piece);
@@ -617,7 +617,7 @@ void Core::Player::lockPiece() {
             if (PIECES[m_piece.type][m_piece.orientation][j][i] > 0) {
                 x = pos_x - 2 + i;
                 y = pos_y - 1 + j;
-                m_stack->m_stack[x + m_stack->m_width * y] = 8;
+                m_stack->m_field[x + m_stack->m_width * y] = 8;
             }
         }
     }
@@ -661,7 +661,7 @@ void Core::Player::changeLevel(int value, bool line_clear) {
 }
 
 /* Update player's score */
-void Core::Player::updateScore(uint8_t nb_lines, bool bravo) {
+void Core::Player::updateScore(unsigned int nb_lines, bool bravo) {
     m_combo += (2 * nb_lines) - 2;
     unsigned int bravo_val = (bravo) ? 4 : 1;
 

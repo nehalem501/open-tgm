@@ -3,19 +3,19 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include <stdint.h>
+#include <Global.h>
 
 class Piece {
     public:
-        int8_t type;
-        int8_t orientation;
+        tiles_t type;
+        int orientation;
 
-        int8_t pos_x;
-        int8_t pos_y;
+        int pos_x;
+        int pos_y;
 
         Piece();
-        Piece(int8_t t, int8_t o);
-        Piece(int8_t t, int8_t o, int8_t x, int8_t y);
+        Piece(tiles_t t, int o);
+        Piece(tiles_t t, int o, int x, int y);
 };
 
 #endif

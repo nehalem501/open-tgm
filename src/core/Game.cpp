@@ -17,7 +17,7 @@ void Core::Game::initGraphics() {
 #endif
 }
 
-void Core::Game::startPlayer1(int8_t mode) {
+void Core::Game::startPlayer1(int mode) {
     // TODO choose mode
     stack1.startGame(modes[mode]);
 
@@ -54,7 +54,7 @@ void Core::Game::startDoubles() {
 }
 #endif
 
-void Core::Game::update(int8_t *state) {
+void Core::Game::update(int *state) {
     switch(m_player1_state) {
         case GameState::INGAME:
             timer1.update();

@@ -3,7 +3,6 @@
 #ifndef CORE_MENU_H
 #define CORE_MENU_H
 
-#include <stdint.h>
 #include <Home.h>
 #include <ChooseMode.h>
 #include <Settings.h>
@@ -35,8 +34,8 @@ namespace Core {
             void chooseMode();
             void ingame();
 
-            int8_t m_state;
-            int8_t m_mode;
+            int m_state;
+            int m_mode;
 
             ::Home m_home;
             ::ChooseMode m_chooseMode;

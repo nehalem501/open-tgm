@@ -10,7 +10,7 @@ Core::Digits::Digits() : m_value(0),
 
 }
 
-void Core::Digits::init(int8_t pos_x, int8_t pos_y) {
+void Core::Digits::init(int pos_x, int pos_y) {
     m_value = 0;
 
     m_pos_x = pos_x;

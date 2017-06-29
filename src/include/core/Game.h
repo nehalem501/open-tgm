@@ -26,15 +26,15 @@ namespace Core {
         public:
             void initGraphics();
 
-            void update(int8_t *state);
+            void update(int *state);
             void updateGraphics();
 
-            void startPlayer1(int8_t mode);
+            void startPlayer1(int mode);
             void p1_ready_go();
             bool hasPlayer1Finished();
 
         #ifdef MULTIPLAYER
-            void startPlayer2(int8_t mode);
+            void startPlayer2(int mode);
             bool hasPlayer2Finished();
             void startDoubles();
         #endif
@@ -48,12 +48,12 @@ namespace Core {
         #endif
 
         protected:
-            int8_t m_player1_state;
+            int m_player1_state;
             uint8_t m_p1_counter;
             ::Text m_p1_string;
 
         #ifdef MULTIPLAYER
-            int8_t m_player2_state;
+            int m_player2_state;
             uint8_t m_p2_counter;
             ::Text m_p2_string;
         #endif

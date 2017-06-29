@@ -10,7 +10,7 @@ Core::Home::Home() : m_start_timer(0) {
     //cout << "Home screen constructor" << endl;
 }
 
-void Core::Home::update(int8_t *state) {
+void Core::Home::update(int *state) {
     m_start_timer += 2;
 
     if (input.start()) {

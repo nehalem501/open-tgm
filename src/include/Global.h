@@ -5,6 +5,20 @@
 
 #include <stdint.h>
 
+#ifdef TARGET_SFML
+typedef unsigned int tiles_t;
+#endif
+#ifdef TARGET_DUMMY
+typedef unsigned int tiles_t;
+#endif
+#ifdef TARGET_GBA
+#include <gba_types.h>
+typedef u16 tiles_t;
+#endif
+#ifdef TARGET_PSP
+typedef unsigned int tiles_t;
+#endif
+
 /* Forward declarations to avoid dependency hell */
 class Mode;
 class PlayerImpl;
@@ -38,7 +52,7 @@ namespace StackPosition {
 #define OUTLINE_DOWN 0x8    // 0b1000
 
 extern uint32_t rand_seed;
-extern uint8_t stack_position;
+extern unsigned int stack_position;
 
 extern Player player1;
 extern Stack stack1;

@@ -9,7 +9,7 @@ namespace Core {
     class Home {
         public:
             Home();
-            void update(int8_t *state);
+            void update(int *state);
 
         protected:
             int8_t m_start_timer;

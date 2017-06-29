@@ -96,7 +96,7 @@ void StackImpl::updateGraphics() {
             }
 
             // Stack
-            tile = m_stack[i + j * m_width];
+            tile = m_field[i + j * m_width];
             if (tile > 0) {
                 if (tile == 8) {
                     rgb = 255;

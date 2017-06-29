@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <Utils.h>
 
+/*
 // TODO more efficient
 void sort(uint8_t array[], unsigned int length) {
     uint8_t temp;
@@ -28,7 +29,7 @@ void sort(int8_t array[], unsigned int length) {
             }
         }
     }
-}
+}*/
 
 uint32_t tgm_random(uint32_t *state) {
     static const uint32_t m = 0x41C64E6Dul;

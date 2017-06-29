@@ -89,7 +89,7 @@ void Core::Settings::init() {
     // Text color
 }
 
-void Core::Settings::update(int8_t *menustate) {
+void Core::Settings::update(int *menustate) {
     switch (m_state) {
         case SettingsState::LIST:
             if (input.up()) {
