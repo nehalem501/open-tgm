@@ -1,6 +1,7 @@
 /* Utils.cpp */
 
 #include <stdint.h>
+#include <Text.h>
 #include <Utils.h>
 
 /*
@@ -37,4 +38,11 @@ uint32_t tgm_random(uint32_t *state) {
     *state = *state * m + c;
     static const uint32_t mask = 0x7FFFUL;
     return (*state >> 10) & mask;
+}
+
+void edit_text(Text *text, int pos_x, int pos_y, int color, const char *str) {
+    text->update_text(str);
+    text->update_pos(pos_x, pos_y);
+    text->updateGraphics();
+    text->update_color(color);
 }

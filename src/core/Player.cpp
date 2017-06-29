@@ -738,13 +738,11 @@ void Core::Player::lockPiece() {
     m_already_dropped = true;
     int pos_x = m_piece.pos_x;
     int pos_y = m_piece.pos_y;
-    int x;
-    int y;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             if (PIECES[m_piece.type][m_piece.orientation][j][i] > 0) {
-                x = pos_x - 2 + i;
-                y = pos_y - 1 + j;
+                int x = pos_x - 2 + i;
+                int y = pos_y - 1 + j;
                 m_stack->m_field[x + m_stack->m_width * y] = 8;
             }
         }

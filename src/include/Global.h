@@ -9,7 +9,7 @@
 typedef unsigned int tiles_t;
 #endif
 #ifdef TARGET_DUMMY
-typedef unsigned int tiles_t;
+typedef uint8_t tiles_t;
 #endif
 #ifdef TARGET_GBA
 #include <gba_types.h>

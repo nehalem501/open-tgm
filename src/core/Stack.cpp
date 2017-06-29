@@ -42,17 +42,14 @@ int Core::Stack::getGhostY(Piece *piece) {
     int pos_y = piece->pos_y;
     while(canGoDown) {
         pos_y = pos_y + 1;
-        int x;
-        int y;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (PIECES[piece->type][piece->orientation][j][i] > 0) {
-                    x = piece->pos_x - 2 + i;
-                    y = pos_y - 1 + j;
+                    int x = piece->pos_x - 2 + i;
+                    int y = pos_y - 1 + j;
                     if (x < 0 || x >= m_width || y >= m_height) {
                         canGoDown = false;
-                    }
-                    else if (m_field[x + y * m_width] > 0) {
+                    } else if (m_field[x + y * m_width] > 0) {
                         canGoDown = false;
                     }
                 }
@@ -409,13 +406,11 @@ void Core::Stack::updateOutline(unsigned int unsigned_line) {
 void Core::Stack::removeGreyBlocks(Piece *piece) {
     int pos_x = piece->pos_x;
     int pos_y = piece->pos_y;
-    int x;
-    int y;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             if (PIECES[piece->type][piece->orientation][j][i] > 0) {
-                x = pos_x - 2 + i;
-                y = pos_y - 1 + j;
+                int x = pos_x - 2 + i;
+                int y = pos_y - 1 + j;
 
                 if (m_field[x + m_width * y]) {
                     m_field[x + m_width * y] = piece->type + 1;

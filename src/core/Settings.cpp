@@ -6,6 +6,7 @@
 #include <Menu.h>
 #include <Text.h>
 #include <Background.h>
+#include <Utils.h>
 #include <core/Settings.h>
 
 const char INPUT_TEST_STR[] = "INPUT TEST";
@@ -52,31 +53,21 @@ Core::Settings::Settings() : m_state(-1), m_selected(0), m_DASup(0),
                              m_DASdown(0) {
     //cout << "Settings screen constructor" << endl;
 
-    input_msg.update_text("EXIT: RIGHT AND START");
-    input_msg.update_pos(9, 23);
-    input_msg.updateGraphics();
-    input_msg.update_color(TextColor::WHITE);
+    edit_text(&input_msg, 9, 23, TextColor::WHITE, "EXIT: RIGHT AND START");
 
     for (unsigned int i = 0; i < SettingsState::SETTINGS_NB; i++) {
-        settings_str[i].update_text(SETTINGS_STR[i]);
-        settings_str[i].update_pos(5, 7 + i * 2);
-        settings_str[i].updateGraphics();
-        settings_str[i].update_color(TextColor::TRANSPARENT);
+        edit_text(&settings_str[i], 5, 7 + i * 2, TextColor::TRANSPARENT,
+                  SETTINGS_STR[i]);
     }
 
     settings_str[0].update_color(TextColor::WHITE);
 
     // Init input test display
     for (unsigned int i = 0; i < 8; i++) {
-        inputs_str[i].update_text(INPUTS_STR[i]);
-        inputs_str[i].update_pos(5, 6 + i * 2);
-        inputs_str[i].updateGraphics();
-        inputs_str[i].update_color(TextColor::WHITE);
-
-        input_states_str[i].update_text("OFF");
-        input_states_str[i].update_pos(11, 6 + i * 2);
-        input_states_str[i].updateGraphics();
-        input_states_str[i].update_color(TextColor::TRANSPARENT);
+        edit_text(&inputs_str[i], 5, 6 + i * 2, TextColor::WHITE,
+                  INPUTS_STR[i]);
+        edit_text(&input_states_str[i], 11, 6 + i * 2, TextColor::TRANSPARENT,
+                  "OFF");
     }
 }
 
