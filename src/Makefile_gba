@@ -22,7 +22,7 @@ include $(DEVKITARM)/gba_rules
 #---------------------------------------------------------------------------------
 TARGET		:= open-tgm
 BUILD		:= build-gba
-SOURCES		:= core modes targets/gba
+SOURCES		:= core modes targets/gba/resources targets/gba
 INCLUDES	:= 
 DATA		:=
 MUSIC		:=
