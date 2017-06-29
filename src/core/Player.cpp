@@ -103,6 +103,7 @@ void Core::Player::nextPiece() {
     m_piece.type = m_next;
 
     m_active_time = 0;
+    m_gravity_counter = 0;
 
     uint32_t r;
 
