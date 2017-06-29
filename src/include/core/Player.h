@@ -67,8 +67,9 @@ namespace Core {
             void move(int x, int y);
             void moveDrop();
 
-            void rotateLeft();
-            void rotateRight();
+            //void rotateLeft();
+            //void rotateRight();
+            void rotate(int rotation);
 
             void lockPiece();
             inline void startClear() { m_startClear = true; };

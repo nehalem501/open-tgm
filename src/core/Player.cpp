@@ -198,7 +198,7 @@ void Core::Player::update(int *game_state) {
         if (canRotateLeft()) {
             canRotateLeftStart();
             //cout << "rotation left" << endl;
-            rotateLeft();
+            rotate(1);
         }
     } else {
         canRotateLeftStop();
@@ -209,7 +209,7 @@ void Core::Player::update(int *game_state) {
         if (canRotateRight()) {
             canRotateRightStart();
             //cout << "rotation right" << endl;
-            rotateRight();
+            rotate(-1);
         }
     } else {
         canRotateRightStop();
@@ -354,7 +354,7 @@ void Core::Player::moveDrop() {
 }
 
 /* Rotate piece to the left if possible */
-void Core::Player::rotateLeft() {
+/*void Core::Player::rotateLeft() {
     // Check if center column occupied (T piece case)
     if (m_piece.type == Shape::T) {
         int x = m_piece.pos_x - 1;
@@ -477,10 +477,10 @@ void Core::Player::rotateLeft() {
             m_ghost_y = m_stack->getGhostY(&m_piece);
         }
     }
-}
+}*/
 
 /* Rotate piece to the right if possible */
-void Core::Player::rotateRight() {
+/*void Core::Player::rotateRight() {
     // Center column disables rotation with T piece
     if (m_piece.type == Shape::T) {
         int x = m_piece.pos_x - 1;
@@ -603,6 +603,134 @@ void Core::Player::rotateRight() {
             m_ghost_y = m_stack->getGhostY(&m_piece);
         }
     }
+}*/
+
+/* Rotate piece including wallkicks */
+void Core::Player::rotate(int rotation) {
+    int new_orientation = modulo(m_piece.orientation + rotation, 4);
+
+    // Center column disables rotation with T piece
+    if (m_piece.type == Shape::T) {
+        int x = m_piece.pos_x - 1;
+        if (x >= 0 || x < m_stack->m_width) {
+            int y = m_piece.pos_y - 1;
+            if (y < m_stack->m_height && y >= 0) {
+                if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                    return;
+                }
+            }
+        }
+    }
+
+    // Check basic rotation
+    if (m_stack->checkNewPosition(&m_piece, 0, 0, rotation)) {
+        m_piece.orientation = new_orientation;
+        m_ghost_y = m_stack->getGhostY(&m_piece);
+    }
+
+    // No wallkicks for I and O pieces
+    else if (m_piece.type != Shape::I && m_piece.type != Shape::O) {
+
+        // Check if center column occupied (J and L pieces case)
+        if (m_piece.type == Shape::J || m_piece.type == Shape::L) {
+            int x = 0;
+            int y = 0;
+
+            // check if J wallkick is still possible
+            if (m_piece.type == Shape::J) {
+                x = m_piece.pos_x;
+                y = m_piece.pos_y - 1;
+                if (x >= 0 || x < m_stack->m_width) {
+                    if (y < m_stack->m_height && y >= 0) {
+                        if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                            // Check wallkick one block to the right
+                            if (m_stack->checkNewPosition(&m_piece, 1, 0, rotation)) {
+                                m_piece.pos_x++;
+                                m_piece.orientation = new_orientation;
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
+                            }
+
+                            // Check wallkick one block to the left
+                            if (m_stack->checkNewPosition(&m_piece, -1, 0, rotation)) {
+                                m_piece.pos_x--;
+                                m_piece.orientation = new_orientation;
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
+                            }
+
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // check if L wallkick is still possible
+            if (m_piece.type == Shape::L) {
+                x = m_piece.pos_x - 2;
+                y = m_piece.pos_y - 1;
+                if (x >= 0 || x < m_stack->m_width) {
+                    if (y < m_stack->m_height && y >= 0) {
+                        if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                            // Check wallkick one block to the right
+                            if (m_stack->checkNewPosition(&m_piece, 1, 0, rotation)) {
+                                m_piece.pos_x++;
+                                m_piece.orientation = new_orientation;
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
+                            }
+
+                            // Check wallkick one block to the left
+                            if (m_stack->checkNewPosition(&m_piece, -1, 0, rotation)) {
+                                m_piece.pos_x--;
+                                m_piece.orientation = new_orientation;
+                                m_ghost_y = m_stack->getGhostY(&m_piece);
+                            }
+
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Check for wallkicks exceptions
+            x = m_piece.pos_x - 1;
+
+            if (x >= 0 || x < m_stack->m_width) {
+                y = m_piece.pos_y - 1;
+                if (y < m_stack->m_height && y >= 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                        return;
+                    }
+                }
+
+                y = m_piece.pos_y;
+                if (y < m_stack->m_height && y >= 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                        return;
+                    }
+                }
+
+                y = m_piece.pos_y + 1;
+                if (y < m_stack->m_height && y >= 0) {
+                    if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Check wallkick one block to the right
+        if (m_stack->checkNewPosition(&m_piece, 1, 0, rotation)) {
+            m_piece.pos_x++;
+            m_piece.orientation = new_orientation;
+            m_ghost_y = m_stack->getGhostY(&m_piece);
+        }
+
+        // Check wallkick one block to the left
+        else if (m_stack->checkNewPosition(&m_piece, -1, 0, rotation)) {
+            m_piece.pos_x--;
+            m_piece.orientation = new_orientation;
+            m_ghost_y = m_stack->getGhostY(&m_piece);
+        }
+    }
 }
 
 /* Lock down the piece */
@@ -623,10 +751,15 @@ void Core::Player::lockPiece() {
     }
 
     // TODO optimize depending on piece size
+    m_stack->updateOutline(m_piece.pos_y - 2);
+
     m_stack->updateOutline(m_piece.pos_y - 1);
     m_stack->updateOutline(m_piece.pos_y);
     m_stack->updateOutline(m_piece.pos_y + 1);
     m_stack->updateOutline(m_piece.pos_y + 2);
+
+    m_stack->updateOutline(m_piece.pos_y + 3);
+
 
     m_lock_color_delay = 2;
     m_drawPiece = false;
