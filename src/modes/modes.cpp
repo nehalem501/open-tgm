@@ -11,9 +11,9 @@
 #include "easy.h"
 
 Mode* modes[NB_MODES] = {
+    &mode_easy,
     &mode_tgm1,
     &mode_tgm2p_master,
-    &mode_easy,
     &mode_death
 };
 
