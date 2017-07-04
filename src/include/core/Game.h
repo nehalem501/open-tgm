@@ -11,6 +11,7 @@ namespace GameState {
     enum {
         READY_GO = 0,
         INGAME,
+        CREDIT_ROLL,
         GAME_OVER_ANIM,
         GAME_OVER_TEXT,
         FINISHED

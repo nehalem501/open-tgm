@@ -61,6 +61,10 @@ void Core::Game::update(int *state) {
             player1.update(&m_player1_state);
             break;
 
+        case GameState::CREDIT_ROLL:
+            player1.update(&m_player1_state);
+            break;
+
         case GameState::READY_GO:
             // TODO
             m_p1_counter++;
