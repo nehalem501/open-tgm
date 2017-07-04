@@ -776,9 +776,7 @@ void Core::Player::changeLevel(int value, bool line_clear) {
     // Check for line clear at end of section
     if (m_level == m_section - 1) {
         if (line_clear) {
-            m_level += value;
-            m_section = m_current_mode->getSection(m_level);
-            //std::cout << "section: " << m_section << std::endl;
+            m_section = m_current_mode->getSection(m_level + value);
             section_display.update(m_section);
             section_display.updateGraphics(m_stack);
         } else {
