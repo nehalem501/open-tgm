@@ -24,7 +24,8 @@ Planned ports: (not necessarily implemented in this order)
 Possible ports if the target hardware is powerful enough: (needs some testing)
 - Neo-Geo
 - Sega Mega Drive / Genesis
-- Super Nintendo / Super Famicom
+
+Due to the lack of a C++ compiler for the Super Nintendo / Super Famicom, porting to it is currently impossible.
 
 Published under the GPLv3.0
 
