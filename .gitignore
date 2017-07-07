@@ -13,3 +13,5 @@ src/.map
 src/open-tgm.elf
 src/open-tgm.gba
 src/open-tgm.sav
+src/EBOOT.PBP
+src/PARAM.SFO
