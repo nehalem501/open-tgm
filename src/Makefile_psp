@@ -3,14 +3,14 @@ SOURCE_FILES_CPP= $(wildcard core/*.cpp) $(wildcard targets/psp/*.cpp) $(wildcar
 SOURCE_FILES_C= $(wildcard targets/psp/resources/*.c)
 OBJS = $(SOURCE_FILES_C:.c=.o) $(SOURCE_FILES_CPP:.cpp=.o)
 
-INCDIR = ./include ./targets/psp
-CFLAGS = -G0 -Wall -DTARGET_PSP
+INCDIR = ./include ./targets/psp ../extlibs/gLib2D
+CFLAGS = -O2 -G0 -Wall -DTARGET_PSP
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
-LIBDIR =
+LIBDIR = ../extlibs/gLib2D
 LDFLAGS =
-LIBS= -ljpeg -lpng -lz -lpspgum -lpspgu -lpsprtc -lm -lpspvram
+LIBS= -lglib2d -ljpeg -lpng -lz -lpspgum -lpspgu -lpsprtc -lm -lpspvram
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Open TGM
