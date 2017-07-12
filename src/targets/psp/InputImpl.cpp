@@ -1,5 +1,6 @@
 /* InputImpl.cpp - PSP */
 
+#include <pspctrl.h>
 #include "InputImpl.h"
 
 void InputImpl::init() {
