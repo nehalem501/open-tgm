@@ -18,14 +18,14 @@ PSP_MODULE_INFO("Open TGM", PSP_MODULE_USER, VERS, REVS);
 PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_USER);
 PSP_HEAP_SIZE_MAX();
 
-g2dTexture* tileset_tex = NULL;
-g2dTexture* outline_tex = NULL;
-g2dTexture* frame_tex = NULL;
-g2dTexture* digits_tex = NULL;
-g2dTexture* labels_tex = NULL;
-g2dTexture* text_tex = NULL;
-g2dTexture* grades_tex = NULL;
-g2dTexture* timer_tex = NULL;
+g2dTexture *tileset_tex = NULL;
+g2dTexture *outline_tex = NULL;
+g2dTexture *frame_tex = NULL;
+g2dTexture *digits_tex = NULL;
+g2dTexture *labels_tex = NULL;
+g2dTexture *text_tex = NULL;
+g2dTexture *grades_tex = NULL;
+g2dTexture *timer_tex = NULL;
 
 #define printf pspDebugScreenPrintf
 
