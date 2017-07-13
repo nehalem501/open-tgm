@@ -15,7 +15,7 @@
 #define REVS 0
 
 PSP_MODULE_INFO("Open TGM", PSP_MODULE_USER, VERS, REVS);
-PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_USER);
+PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 PSP_HEAP_SIZE_MAX();
 
 g2dTexture *tileset_tex = NULL;
@@ -31,6 +31,10 @@ g2dTexture *timer_tex = NULL;
 
 void app() {
     setupCallbacks();
+
+    #ifdef DEBUG
+    pspDebugScreenInit();
+    #endif
 
     tileset_tex = g2dTexLoad("tilemap.png",G2D_SWIZZLE);
     outline_tex = g2dTexLoad("tilemap2.png",G2D_SWIZZLE);
