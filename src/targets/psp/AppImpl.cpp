@@ -36,8 +36,9 @@ void app() {
     pspDebugScreenInit();
     #endif
 
-    tileset_tex = g2dTexLoad("tilemap.png",G2D_SWIZZLE);
-    outline_tex = g2dTexLoad("tilemap2.png",G2D_SWIZZLE);
+    tileset_tex = g2dTexLoad("resources/tilemap.png", G2D_SWIZZLE);
+    outline_tex = g2dTexLoad("resources/tilemap2.png", G2D_SWIZZLE);
+    text_tex = g2dTexLoad("resources/ui-font.png", G2D_SWIZZLE);
 
     while (running()) {
         // Clear screen
