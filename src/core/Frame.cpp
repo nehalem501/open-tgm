@@ -4,5 +4,5 @@
 #include <core/Frame.h>
 
 void Core::Frame::init(::Stack *stack) {
-
+    m_stack = stack;
 }

@@ -10,6 +10,8 @@ namespace Core {
         public:
             void init(::Stack *stack);
             //TODO color;
+        protected:
+            Stack *m_stack;
     };
 }
 
