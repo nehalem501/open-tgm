@@ -65,7 +65,7 @@ namespace Core {
             void nextPiece();
 
             void move(int x, int y);
-            void moveDrop();
+            void move_sonic();
 
             //void rotateLeft();
             //void rotateRight();

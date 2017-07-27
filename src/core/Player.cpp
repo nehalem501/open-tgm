@@ -278,10 +278,9 @@ void Core::Player::update(int *game_state) {
     }
 
     // TODO check if bug with ARE
-    // Fast drop
-    if (input.up()) {
+    if (input.sonic_drop()) {
         if (m_current_mode->sonic_drop) {
-            moveDrop();
+            move_sonic();
             //std::cout << "drop" << std::endl;
         }
     }
@@ -341,7 +340,7 @@ void Core::Player::move(int x, int y) {
 }
 
 /* Sonic drop */
-void Core::Player::moveDrop() {
+void Core::Player::move_sonic() {
     if(m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
         m_sonic = m_ghost_y - m_piece.pos_y;
         m_piece.pos_y = m_ghost_y;
