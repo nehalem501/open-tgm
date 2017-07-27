@@ -210,12 +210,18 @@ void Core::Player::update(int *game_state) {
         //canRotateRightStop();
     //}
 
+    // Compute gravity
+    unsigned int number_down = gravity();
+
     // TODO check if bug with ARE
     // Down
     if (input.down()) {
         if (notInARE()) {
-            move(0, 1);
             m_soft++;
+            if (number_down == 0) {
+                move(0, 1);
+            }
+            
             if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
                 if (!m_already_dropped) {
                     lockPiece();
@@ -286,7 +292,6 @@ void Core::Player::update(int *game_state) {
     }
 
     // Gravity
-    unsigned int number_down = gravity();
     if (number_down) { //TODO optimize
         for (unsigned int i = 0; i < number_down; i++) {
             move(0, 1);
