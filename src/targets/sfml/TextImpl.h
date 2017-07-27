@@ -7,6 +7,7 @@
 class StackImpl;
 typedef StackImpl Stack;
 
+#include <stdint.h>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <core/Text.h>

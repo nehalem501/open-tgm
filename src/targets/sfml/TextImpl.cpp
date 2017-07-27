@@ -1,5 +1,6 @@
 /* TextImpl.cpp - SFML */
 
+#include <stdint.h>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <Stack.h>
