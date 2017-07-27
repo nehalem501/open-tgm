@@ -55,8 +55,8 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_startClear = false;
     m_startLock = false;
 
-    m_rotLeft = true;
-    m_rotRight = true;
+    /*m_rotLeft = true;
+    m_rotRight = true;*/
 
     m_are = 0;
     m_line_are = 0;
@@ -164,15 +164,9 @@ void Core::Player::update(int *game_state) {
 
         m_already_dropped = false;
 
-        if (canIRSLeft()) {
-            m_piece.orientation = modulo(m_piece.orientation + 1, 4);
-            // You cannot do an IRS that will make you die
-            if (!m_stack->checkNewPosition(&m_piece, 0, 0, 0))
-                m_piece.orientation = 0;
-        }
-
-        if (canIRSRight()) {
-            m_piece.orientation = modulo(m_piece.orientation - 1, 4);
+        int direction = input.IRS();
+        if (direction) {
+            m_piece.orientation = modulo(m_piece.orientation + direction, 4);
             // You cannot do an IRS that will make you die
             if (!m_stack->checkNewPosition(&m_piece, 0, 0, 0))
                 m_piece.orientation = 0;
@@ -195,26 +189,26 @@ void Core::Player::update(int *game_state) {
     //updateInput();
     //TODO Left Priority
     // Rotate Left
-    if (input.rotateLeft()) {
-        if (canRotateLeft()) {
-            canRotateLeftStart();
+    if (input.rotate_left()) {
+        //if (canRotateLeft()) {
+        //    canRotateLeftStart();
             //cout << "rotation left" << endl;
             rotate(1);
-        }
-    } else {
-        canRotateLeftStop();
-    }
+        //}
+    } //else {
+        //canRotateLeftStop();
+    //}
 
     // Rotate Right
-    if (input.rotateRight()) {
-        if (canRotateRight()) {
-            canRotateRightStart();
+    if (input.rotate_right()) {
+        //if (canRotateRight()) {
+        //    canRotateRightStart();
             //cout << "rotation right" << endl;
             rotate(-1);
-        }
-    } else {
-        canRotateRightStop();
-    }
+        //}
+    } //else {
+        //canRotateRightStop();
+    //}
 
     // TODO check if bug with ARE
     // Down

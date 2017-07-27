@@ -12,7 +12,7 @@ void SettingsImpl::initGraphics() {
         settings_str[i].initGraphics();
     }
 
-    for (unsigned int i = 0; i < 8; i++) {
+    for (unsigned int i = 0; i < NB_INPUTS; i++) {
         inputs_str[i].initGraphics();
         input_states_str[i].initGraphics();
     }
@@ -25,7 +25,7 @@ void SettingsImpl::updateSize() {
         settings_str[i].updateSize();
     }
 
-    for (unsigned int i = 0; i < 8; i++) {
+    for (unsigned int i = 0; i < NB_INPUTS; i++) {
         inputs_str[i].updateSize();
         input_states_str[i].updateSize();
     }
@@ -41,7 +41,7 @@ void SettingsImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
         case SettingsState::INPUT_TEST:
             target.draw(input_msg);
-            for (unsigned int i = 0; i < 8; i++) {
+            for (unsigned int i = 0; i < NB_INPUTS; i++) {
                 target.draw(inputs_str[i]);
                 target.draw(input_states_str[i]);
             }

@@ -15,6 +15,12 @@ namespace SettingsState {
     };
 }
 
+#ifdef DEBUG
+#define NB_INPUTS 10
+#else
+#define NB_INPUTS 8
+#endif
+
 namespace Core {
     class Settings {
         public:
@@ -27,8 +33,8 @@ namespace Core {
             uint8_t m_DASup, m_DASdown;
 
             ::Text settings_str[SettingsState::SETTINGS_NB];
-            ::Text inputs_str[8];
-            ::Text input_states_str[8];
+            ::Text inputs_str[NB_INPUTS];
+            ::Text input_states_str[NB_INPUTS];
             ::Text input_msg;
     };
 }

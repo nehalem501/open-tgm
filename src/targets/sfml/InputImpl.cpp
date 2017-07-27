@@ -110,66 +110,33 @@ void InputImpl::init() {
 }
 
 void InputImpl::pollInputs() {
-    bool tmp_up = eventKeys[Button::Up].testInput();
-    bool tmp_down = eventKeys[Button::Down].testInput();
-    bool tmp_left = eventKeys[Button::Left].testInput();
-    bool tmp_right = eventKeys[Button::Right].testInput();
+    m_prev_joystick = m_curr_joystick;
+    m_prev_buttons = m_curr_buttons;
 
-    bool tmp_a = eventKeys[Button::A].testInput();
-    bool tmp_c = eventKeys[Button::C].testInput();
+    m_curr_joystick = 0x00;
+    m_curr_buttons = 0x00;
 
-    if (tmp_left != prev_left) {
-        m_left = tmp_left;
-    }
+    // Joystick
+    if (eventKeys[Button::Up].testInput())
+        m_curr_joystick |= UP_BIT | RAW_UP_BIT;
+    if (eventKeys[Button::Down].testInput())
+        m_curr_joystick |= DOWN_BIT | RAW_DOWN_BIT;
+    if (eventKeys[Button::Left].testInput())
+        m_curr_joystick |= LEFT_BIT | RAW_LEFT_BIT;
+    if (eventKeys[Button::Right].testInput())
+        m_curr_joystick |= RIGHT_BIT | RAW_RIGHT_BIT;
 
-    if (tmp_right != prev_right) {
-        m_right = tmp_right;
-    }
+    // Buttons
+    if (eventKeys[Button::A].testInput())
+        m_curr_buttons |= A_BIT;
+    if (eventKeys[Button::B].testInput())
+        m_curr_buttons |= B_BIT;
+    if (eventKeys[Button::C].testInput())
+        m_curr_buttons |= C_BIT;
+    if (eventKeys[Button::Start].testInput())
+        m_curr_buttons |= START_BIT;
+    if (eventKeys[Button::Settings].testInput())
+        m_curr_buttons |= SETTINGS_BIT;
 
-    if (tmp_right && tmp_left) {
-        if (prev_right) {
-            m_right = false;
-        }
-        if (prev_left) {
-            m_left = false;
-        }
-    } else {
-        m_left = tmp_left;
-        m_right = tmp_right;
-        prev_left = tmp_left;
-        prev_right = tmp_right;
-    }
-
-    m_up = (tmp_up && !tmp_down) || (!m_up && m_down && tmp_up);
-    m_down = (!tmp_up && tmp_down) || (m_up && !m_down && tmp_down);
-
-    //m_left = (tmp_left && !tmp_right) || (!m_left && m_right && tmp_left);
-    //m_right = (!tmp_left && tmp_right) || (m_left && !m_right && tmp_right);
-
-    m_b = eventKeys[Button::B].testInput();
-
-    if (tmp_a != prev_a) {
-        m_a = tmp_a;
-    }
-
-    if (tmp_c != prev_c) {
-        m_c = tmp_c;
-    }
-
-    if (tmp_c && tmp_a) {
-        if (prev_c) {
-            m_c = false;
-        }
-        if (prev_a) {
-            m_a = false;
-        }
-    } else {
-        m_a = tmp_a;
-        m_c = tmp_c;
-        prev_a = tmp_a;
-        prev_c = tmp_c;
-    }
-
-    m_start = eventKeys[Button::Start].testInput();
-    m_settings = eventKeys[Button::Settings].testInput();
+    process();
 }

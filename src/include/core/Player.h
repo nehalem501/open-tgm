@@ -44,7 +44,7 @@ namespace Core {
             bool m_startDASleft, m_startDASright;
 
             bool m_startARE, m_startClear, m_startLock;
-            bool m_rotLeft, m_rotRight;
+            /*bool m_rotLeft, m_rotRight;*/
 
         public:
             bool m_already_dropped;//, m_drawPiece;
@@ -100,7 +100,7 @@ namespace Core {
 
             unsigned int gravity();
 
-            inline bool canRotateRight() { return m_rotRight; };
+            /*inline bool canRotateRight() { return m_rotRight; };
             inline void canRotateRightStart() { m_rotRight = false; };
             inline void canRotateRightStop() { m_rotRight = true; };
 
@@ -109,7 +109,7 @@ namespace Core {
             inline void canRotateLeftStop() { m_rotLeft = true; };
 
             inline bool canIRSLeft() { return !m_rotLeft; };
-            inline bool canIRSRight() { return !m_rotRight; };
+            inline bool canIRSRight() { return !m_rotRight; };*/
     };
 }
 

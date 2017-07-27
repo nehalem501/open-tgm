@@ -26,7 +26,27 @@ const char RIGHT_STR[] = "RIGHT";
 const char LEFT_STR[] = "LEFT";
 const char START_STR[] = "START";
 
-const char *INPUTS_STR[8] = {
+#ifdef DEBUG
+
+const char ROT_L_STR[] = "ROT L";
+const char ROT_R_STR[] = "ROT R";
+
+const char *INPUTS_STR[NB_INPUTS] = {
+    START_STR,
+    UP_STR,
+    DOWN_STR,
+    LEFT_STR,
+    RIGHT_STR,
+    A_STR,
+    B_STR,
+    C_STR,
+    ROT_L_STR,
+    ROT_R_STR
+};
+
+#else
+
+const char *INPUTS_STR[NB_INPUTS] = {
     START_STR,
     UP_STR,
     DOWN_STR,
@@ -36,6 +56,8 @@ const char *INPUTS_STR[8] = {
     B_STR,
     C_STR
 };
+
+#endif //DEBUG
 
 void set(bool state, Text *text) {
     if (state) {
@@ -63,7 +85,7 @@ Core::Settings::Settings() : m_state(-1), m_selected(0), m_DASup(0),
     settings_str[0].update_color(TextColor::WHITE);
 
     // Init input test display
-    for (unsigned int i = 0; i < 8; i++) {
+    for (unsigned int i = 0; i < NB_INPUTS; i++) {
         edit_text(&inputs_str[i], 5, 6 + i * 2, TextColor::WHITE,
                   INPUTS_STR[i]);
         edit_text(&input_states_str[i], 11, 6 + i * 2, TextColor::TRANSPARENT,
@@ -138,6 +160,11 @@ void Core::Settings::update(int *menustate) {
             set(input.a(), &input_states_str[5]);
             set(input.b(), &input_states_str[6]);
             set(input.c(), &input_states_str[7]);
+
+            #ifdef DEBUG
+            set(input.rotate_left(), &input_states_str[8]);
+            set(input.rotate_right(), &input_states_str[9]);
+            #endif
 
             // Exit
             if (input.right() && input.start()) {
