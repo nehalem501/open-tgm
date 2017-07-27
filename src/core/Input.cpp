@@ -66,11 +66,15 @@ void Core::Input::process() {
 }
 
 int Core::Input::IRS() {
-    if ((m_curr_buttons & A_BIT) || (m_curr_buttons & C_BIT))
+    if ((m_curr_buttons & A_BIT) || (m_curr_buttons & C_BIT)) {
+        m_curr_buttons ^= ROT_L_BIT | ROT_R_BIT;
         return 1;
+    }
 
-    if (m_curr_buttons & B_BIT)
+    if (m_curr_buttons & B_BIT) {
+        m_curr_buttons ^= ROT_L_BIT | ROT_R_BIT;
         return -1;
+    }
 
     return 0;
 }

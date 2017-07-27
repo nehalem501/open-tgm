@@ -166,7 +166,7 @@ void Core::Player::update(int *game_state) {
 
         int direction = input.IRS();
         if (direction) {
-            m_piece.orientation = modulo(m_piece.orientation + direction, 4);
+            m_piece.orientation = modulo(direction, 4);
             // You cannot do an IRS that will make you die
             if (!m_stack->checkNewPosition(&m_piece, 0, 0, 0))
                 m_piece.orientation = 0;
