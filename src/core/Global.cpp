@@ -11,10 +11,7 @@
 #include <Global.h>
 
 void init() {
-    // Init random
     initRandom();
-
-    //
     input.init();
     initModes();
 
@@ -22,8 +19,6 @@ void init() {
     player1.init(&stack1);
 
     menu.m_chooseMode.init();
-
-    #warning "Global init not finished"
 }
 
 void initGraphics() {
@@ -43,6 +38,4 @@ void initGraphics() {
 #endif
 
     game.initGraphics();
-
-    #warning "Global initGraphics not finished"
 }
