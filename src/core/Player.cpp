@@ -92,12 +92,13 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     //nextPiece();
 }
 
+/* Init stuff needed to start a new game */
 void Core::Player::startGame() {
     m_startARE = true;
     m_are = m_current_mode->getARE(0);
 }
 
-/*  */
+/* Use randomizer and get next piece */
 void Core::Player::nextPiece() {
     m_piece.orientation = 0;
     m_piece.type = m_next;
@@ -480,7 +481,7 @@ void Core::Player::rotate(int rotation) {
     }
 }
 
-/* Lock down the piece */
+/* Lock down the current piece */
 void Core::Player::lockPiece() {
     m_already_dropped = true;
     int pos_x = m_piece.pos_x;
@@ -563,7 +564,7 @@ void Core::Player::updateScore(unsigned int nb_lines, bool bravo) {
     score_display.updateGraphics(m_stack);
 }
 
-/*  */
+/* Give number of G for current gravity */
 unsigned int Core::Player::gravity() {
     m_gravity_counter += m_gravity;
     //cout << gravity_counter << endl;
