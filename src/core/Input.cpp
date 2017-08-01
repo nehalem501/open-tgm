@@ -1,6 +1,27 @@
 /* Input.cpp */
 
+#include <stdint.h>
 #include <core/Input.h>
+
+/* Is used to check if more than one direction is pressed */
+static uint8_t input_lut[] = {
+/* 0000 */ 0,
+/* 0001 */ 0,
+/* 0010 */ 0,
+/* 0011 */ 1,
+/* 0100 */ 0,
+/* 0101 */ 1,
+/* 0110 */ 1,
+/* 0111 */ 1,
+/* 1000 */ 0,
+/* 1001 */ 1,
+/* 1010 */ 1,
+/* 1011 */ 1,
+/* 1100 */ 1,
+/* 1101 */ 1,
+/* 1110 */ 1,
+/* 1111 */ 1
+};
 
 Core::Input::Input() : m_curr_joystick(0x00),
                  m_prev_joystick(0x00),
@@ -8,8 +29,51 @@ Core::Input::Input() : m_curr_joystick(0x00),
                  m_prev_buttons(0x00) {
     //cout << "Input constructor" << endl;
 }
+#include <stdio.h>
+void print_bits(uint8_t byte) {
+    if (byte & 0x01)
+        printf("1");
+    else
+        printf("0");
+
+    if (byte & 0x02)
+        printf("1");
+    else
+        printf("0");
+
+    if (byte & 0x04)
+        printf("1");
+    else
+        printf("0");
+
+    if (byte & 0x08)
+        printf("1");
+    else
+        printf("0");
+
+        if (byte & 0x10)
+            printf("1");
+        else
+            printf("0");
+
+        if (byte & 0x20)
+            printf("1");
+        else
+            printf("0");
+
+        if (byte & 0x40)
+            printf("1");
+        else
+            printf("0");
+
+        if (byte & 0x80)
+            printf("1");
+        else
+            printf("0");
+}
 
 void Core::Input::process() {
+    // If UP and DOWN are pressed
     if ((m_curr_joystick & (UP_BIT | DOWN_BIT)) == (UP_BIT | DOWN_BIT)) {
         if ((m_prev_joystick & (RAW_UP_BIT | RAW_DOWN_BIT)) == (RAW_UP_BIT | RAW_DOWN_BIT)) {
             m_curr_joystick ^= ~(m_prev_joystick) & (UP_BIT | DOWN_BIT);
@@ -20,6 +84,7 @@ void Core::Input::process() {
         }
     }
 
+    // If LEFT and RIGHT are pressed
     if ((m_curr_joystick & (LEFT_BIT | RIGHT_BIT)) == (LEFT_BIT | RIGHT_BIT)) {
         if ((m_prev_joystick & (RAW_LEFT_BIT | RAW_RIGHT_BIT)) == (RAW_LEFT_BIT | RAW_RIGHT_BIT)) {
             m_curr_joystick ^= ~(m_prev_joystick) & (LEFT_BIT | RIGHT_BIT);
@@ -30,7 +95,24 @@ void Core::Input::process() {
         }
     }
 
-    // TODO diagonals
+    // Check for diagonals
+    if (input_lut[m_curr_joystick & CLEANED_INPUT]) {
+        if ((m_curr_joystick & RAW_INPUT) != (m_prev_joystick & RAW_INPUT)) {
+            uint8_t diff = (m_curr_joystick ^ m_prev_joystick) & CLEANED_INPUT;
+            diff &= m_curr_joystick & CLEANED_INPUT;
+            if (input_lut[diff]) {
+                // TODO choose best solution
+                //m_curr_joystick &= LEFT_BIT | RIGHT_BIT;
+                m_curr_joystick &= ~(LEFT_BIT | RIGHT_BIT);
+            } else {
+                m_curr_joystick &= RAW_INPUT;
+                m_curr_joystick |= diff;
+            }
+        } else {
+            m_curr_joystick &= RAW_INPUT;
+            m_curr_joystick |= m_prev_joystick & CLEANED_INPUT;
+        }
+    }
 
     if ((m_curr_buttons & A_BIT)) {
         if (!(m_prev_buttons & A_BIT))

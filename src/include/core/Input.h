@@ -5,14 +5,17 @@
 
 #include <stdint.h>
 
-#define RAW_UP_BIT 0x01
-#define RAW_DOWN_BIT 0x02
-#define RAW_LEFT_BIT 0x04
-#define RAW_RIGHT_BIT 0x08
-#define UP_BIT 0x10
-#define DOWN_BIT 0x20
-#define LEFT_BIT 0x40
-#define RIGHT_BIT 0x80
+#define CLEANED_INPUT 0x0F
+#define RAW_INPUT 0xF0
+
+#define UP_BIT 0x01
+#define DOWN_BIT 0x02
+#define LEFT_BIT 0x04
+#define RIGHT_BIT 0x08
+#define RAW_UP_BIT 0x10
+#define RAW_DOWN_BIT 0x20
+#define RAW_LEFT_BIT 0x40
+#define RAW_RIGHT_BIT 0x80
 
 #define A_BIT 0x01
 #define B_BIT 0x02
