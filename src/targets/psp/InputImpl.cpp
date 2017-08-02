@@ -32,9 +32,9 @@ void InputImpl::pollInputs() {
         m_curr_joystick |= RIGHT_BIT | RAW_RIGHT_BIT;
 
     // Buttons
-    if (m_pad.Buttons & PSP_CTRL_SQUARE) || (m_pad.Buttons & PSP_CTRL_LTRIGGER)
+    if ((m_pad.Buttons & PSP_CTRL_SQUARE) || (m_pad.Buttons & PSP_CTRL_LTRIGGER))
         m_curr_buttons |= A_BIT;
-    if (m_pad.Buttons & PSP_CTRL_TRIANGLE) || (m_pad.Buttons & PSP_CTRL_CROSS) || (m_pad.Buttons & PSP_CTRL_RTRIGGER)
+    if ((m_pad.Buttons & PSP_CTRL_TRIANGLE) || (m_pad.Buttons & PSP_CTRL_CROSS) || (m_pad.Buttons & PSP_CTRL_RTRIGGER))
         m_curr_buttons |= B_BIT;
     if (m_pad.Buttons & PSP_CTRL_CIRCLE)
         m_curr_buttons |= C_BIT;
