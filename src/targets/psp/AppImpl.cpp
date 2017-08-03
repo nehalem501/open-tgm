@@ -27,15 +27,8 @@ g2dTexture *text_tex = NULL;
 g2dTexture *grades_tex = NULL;
 g2dTexture *timer_tex = NULL;
 
-#define printf pspDebugScreenPrintf
-
 void app() {
     setupCallbacks();
-
-    #ifdef DEBUG
-    pspDebugScreenInit();
-    #endif
-
     g2dInit();
 
     tileset_tex = g2dTexLoad("resources/tilemap.png", G2D_SWIZZLE);
