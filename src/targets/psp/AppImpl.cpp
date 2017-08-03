@@ -36,6 +36,8 @@ void app() {
     pspDebugScreenInit();
     #endif
 
+    g2dInit();
+
     tileset_tex = g2dTexLoad("resources/tilemap.png", G2D_SWIZZLE);
     outline_tex = g2dTexLoad("resources/tilemap2.png", G2D_SWIZZLE);
     text_tex = g2dTexLoad("resources/ui-font.png", G2D_SWIZZLE);
@@ -53,5 +55,6 @@ void app() {
         g2dFlip(G2D_VSYNC);
     }
 
+    g2dTerm();
     sceKernelExitGame();
 }
