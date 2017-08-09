@@ -7,6 +7,7 @@
 
 struct vertex {
     float x, y;
+    uint32_t color;
 };
 
 struct quad {

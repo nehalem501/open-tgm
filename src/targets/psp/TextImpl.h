@@ -7,6 +7,7 @@
 class StackImpl;
 typedef StackImpl Stack;
 
+#include <stdint.h>
 #include <GlobalPSP.h>
 #include <core/Text.h>
 

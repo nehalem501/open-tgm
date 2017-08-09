@@ -6,7 +6,8 @@
 #include "TextImpl.h"
 
 void TextImpl::initGraphics() {
-    m_quads_len = 0;
+    // We have only one color per Text object
+    m_quads[0].verts[0].color = 0xFFFFFFFF; // Set to white
 }
 
 void TextImpl::updateGraphics() {
@@ -20,7 +21,52 @@ void TextImpl::updateGraphics() {
 void TextImpl::update_color(int8_t color) {
     if (m_color != color) {
         m_color = color;
-        // Update color here
+
+        switch (m_color) {
+            case TextColor::BLACK:
+                m_quads[0].verts[0].color = 0xFF000000;
+                break;
+
+            case TextColor::WHITE:
+                m_quads[0].verts[0].color = 0xFFFFFFFF;
+                break;
+
+            case TextColor::RED:
+                m_quads[0].verts[0].color = 0xFF0000FF;
+                break;
+
+            case TextColor::GREEN:
+                m_quads[0].verts[0].color = 0xFF00FF00;
+                break;
+
+            case TextColor::BLUE:
+                m_quads[0].verts[0].color = 0xFFFF0000;
+                break;
+
+            case TextColor::YELLOW:
+                m_quads[0].verts[0].color = 0xFF00FFFF;
+                break;
+
+            case TextColor::MAGENTA:
+                m_quads[0].verts[0].color = 0xFFFF00FF;
+                break;
+
+            case TextColor::CYAN:
+                m_quads[0].verts[0].color = 0xFFFFFF00;
+                break;
+
+            case TextColor::ORANGE:
+                m_quads[0].verts[0].color = 0xFF007FFF;
+                break;
+
+            case TextColor::TRANSPARENT:
+                m_quads[0].verts[0].color = 0x80FFFFFF;
+                break;
+
+            default:
+                m_quads[0].verts[0].color = 0xFFFFFFFF;
+                break;
+        }
     }
 }
 
@@ -28,6 +74,9 @@ void TextImpl::update_vertices() {
     int offset = 0;
     int pos_x = 10 * m_pos_x;
     int pos_y = 10 * m_pos_y;
+
+    if (m_length > TEXT_LEN_LIMIT)
+        m_length = TEXT_LEN_LIMIT;
 
     for (unsigned int i = 0; i < m_length; ++i) {
         char c = m_str[i];
@@ -558,16 +607,22 @@ void TextImpl::update_vertices() {
 void TextImpl::draw() const {
     g2dBeginQuads(text_tex);
 
+    // We have only one color per Text object
+    g2dSetColor(m_quads[0].verts[0].color);
+
     for (unsigned int i = 0; i < m_quads_len; ++i) {
         g2dSetCropXY(m_quads[i].tex_x, m_quads[i].tex_y);
         g2dSetCropWH(m_quads[i].tex_w, m_quads[i].tex_h);
 
         g2dSetCoordXY(m_quads[i].verts[0].x, m_quads[i].verts[0].y);
         g2dAdd();
+
         g2dSetCoordXY(m_quads[i].verts[1].x, m_quads[i].verts[1].y);
         g2dAdd();
+
         g2dSetCoordXY(m_quads[i].verts[2].x, m_quads[i].verts[2].y);
         g2dAdd();
+
         g2dSetCoordXY(m_quads[i].verts[3].x, m_quads[i].verts[3].y);
         g2dAdd();
     }

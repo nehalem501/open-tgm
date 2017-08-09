@@ -1,5 +1,6 @@
 /* MenuImpl.cpp - PSP */
 
+#include <glib2d.h>
 #include <Global.h>
 #include <Frame.h>
 #include <Home.h>
@@ -10,10 +11,13 @@
 void MenuImpl::initGraphics() {
     m_home.initGraphics();
     m_chooseMode.initGraphics();
+
+    // TODO
+    stack1.m_pos_x = (G2D_SCR_W / 2) - (stack1.m_width / 2) * 10;
+    stack1.m_pos_y = 3 * 10;
 }
 
 void MenuImpl::draw() const {
-    background.draw();
     switch(m_state) {
         case MenuState::HOME:
             m_home.draw();
