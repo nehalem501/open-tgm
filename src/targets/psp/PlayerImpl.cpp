@@ -10,7 +10,7 @@ void PlayerImpl::updateGraphics() {
 
 void PlayerImpl::draw() const {
     if (m_drawGhost) {
-        // Draw host piece
+        // Draw ghost piece
     }
 
     if (m_drawPiece) {
