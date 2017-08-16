@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <glib2d.h>
 #include <Stack.h>
+#include <GlobalPSP.h>
 #include "TextImpl.h"
 
 void TextImpl::initGraphics() {
