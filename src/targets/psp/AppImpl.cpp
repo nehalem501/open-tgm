@@ -31,9 +31,10 @@ void app() {
     setupCallbacks();
     g2dInit();
 
-    tileset_tex = g2dTexLoad("resources/tilemap.png", G2D_SWIZZLE);
-    outline_tex = g2dTexLoad("resources/tilemap2.png", G2D_SWIZZLE);
-    text_tex = g2dTexLoad("resources/ui-font.png", G2D_SWIZZLE);
+    tileset_tex = g2dTexLoad((char *) "resources/tilemap.png", G2D_SWIZZLE);
+    outline_tex = g2dTexLoad((char *) "resources/tilemap2.png", G2D_SWIZZLE);
+    text_tex = g2dTexLoad((char *) "resources/ui-font.png", G2D_SWIZZLE);
+    frame_tex = g2dTexLoad((char *) "resources/frame.png", G2D_SWIZZLE);
 
     while (running()) {
         // Clear screen
