@@ -12,6 +12,7 @@ Working ports:
 Work in progress ports:
 - GameBoy Advance
 - PlayStation Portable
+- 3DS
 
 Planned ports: (not necessarily implemented in this order)
 - Nintendo DS
