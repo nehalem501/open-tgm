@@ -13,7 +13,6 @@ void MenuImpl::initGraphics() {
 }
 
 void MenuImpl::draw() const {
-    background.draw();
     switch(m_state) {
         case MenuState::HOME:
             m_home.draw();

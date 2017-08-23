@@ -3,12 +3,15 @@
 #ifndef HOME_3DS_H
 #define HOME_3DS_H
 
+#include <Text.h>
 #include <core/Home.h>
 
 class HomeImpl : public Core::Home {
     public:
         void initGraphics();
         void draw() const;
+    private:
+        Text m_start;
 };
 
 #endif

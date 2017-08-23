@@ -6,6 +6,9 @@
 *.[Oo]bj
 *.o
 
+# Temp files
+*.swp
+
 # Build
 build/
 src/build-gba
