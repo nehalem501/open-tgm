@@ -19,15 +19,19 @@ void BackgroundImpl::draw() const {
 
         C3D_ImmSendAttrib(0.0f, 0.0f, 0.5f, 0.0f);
         C3D_ImmSendAttrib(0.0f, 0.0f, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(1.0f, 1.0f, 1.0f, 1.0f);
 
         C3D_ImmSendAttrib(0.0f, 240.0f, 0.5f, 0.0f);
         C3D_ImmSendAttrib(0.0f, 240.0f / 256.0f, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(1.0f, 1.0f, 1.0f, 1.0f);
 
         C3D_ImmSendAttrib(400.0f, 0.0f, 0.5f, 0.0f);
         C3D_ImmSendAttrib(400.0f / 512.0f, 0.0f, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(1.0f, 1.0f, 1.0f, 1.0f);
 
         C3D_ImmSendAttrib(400.0f, 240.0f, 0.5f, 0.0f);
         C3D_ImmSendAttrib(400.0f / 512.0f, 240.0f / 256.0f, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(1.0f, 1.0f, 1.0f, 1.0f);
 
         C3D_ImmDrawEnd();
     }

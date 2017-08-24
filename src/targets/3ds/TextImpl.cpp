@@ -6,8 +6,6 @@
 #include "Global3DS.h"
 #include "TextImpl.h"
 
-#include "stdio.h"
-
 void TextImpl::initGraphics() {
     // We have only one color per Text object
     // Set to white
@@ -828,21 +826,27 @@ void TextImpl::draw() const {
     for (unsigned int i = 0; i < m_quads_len; ++i) {
         C3D_ImmSendAttrib(m_quads[i].verts[0].x, m_quads[i].verts[0].y, 0.5f, 0.0f);
         C3D_ImmSendAttrib(m_quads[i].verts[0].u, m_quads[i].verts[0].v, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(m_quads[0].verts[0].r, m_quads[0].verts[0].g, m_quads[0].verts[0].b, m_quads[0].verts[0].a);
 
         C3D_ImmSendAttrib(m_quads[i].verts[2].x, m_quads[i].verts[2].y, 0.5f, 0.0f);
         C3D_ImmSendAttrib(m_quads[i].verts[2].u, m_quads[i].verts[2].v, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(m_quads[0].verts[0].r, m_quads[0].verts[0].g, m_quads[0].verts[0].b, m_quads[0].verts[0].a);
 
         C3D_ImmSendAttrib(m_quads[i].verts[1].x, m_quads[i].verts[1].y, 0.5f, 0.0f);
         C3D_ImmSendAttrib(m_quads[i].verts[1].u, m_quads[i].verts[1].v, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(m_quads[0].verts[0].r, m_quads[0].verts[0].g, m_quads[0].verts[0].b, m_quads[0].verts[0].a);
 
         C3D_ImmSendAttrib(m_quads[i].verts[0].x, m_quads[i].verts[0].y, 0.5f, 0.0f);
         C3D_ImmSendAttrib(m_quads[i].verts[0].u, m_quads[i].verts[0].v, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(m_quads[0].verts[0].r, m_quads[0].verts[0].g, m_quads[0].verts[0].b, m_quads[0].verts[0].a);
 
         C3D_ImmSendAttrib(m_quads[i].verts[3].x, m_quads[i].verts[3].y, 0.5f, 0.0f);
         C3D_ImmSendAttrib(m_quads[i].verts[3].u, m_quads[i].verts[3].v, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(m_quads[0].verts[0].r, m_quads[0].verts[0].g, m_quads[0].verts[0].b, m_quads[0].verts[0].a);
 
         C3D_ImmSendAttrib(m_quads[i].verts[2].x, m_quads[i].verts[2].y, 0.5f, 0.0f);
         C3D_ImmSendAttrib(m_quads[i].verts[2].u, m_quads[i].verts[2].v, 0.0f, 0.0f);
+        C3D_ImmSendAttrib(m_quads[0].verts[0].r, m_quads[0].verts[0].g, m_quads[0].verts[0].b, m_quads[0].verts[0].a);
     }
 
     C3D_ImmDrawEnd();

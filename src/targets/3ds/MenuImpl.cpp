@@ -10,6 +10,10 @@
 void MenuImpl::initGraphics() {
     m_home.initGraphics();
     m_chooseMode.initGraphics();
+
+    // TODO
+    stack1.m_pos_x = (400 / 2) - (stack1.m_width / 2) * 9;
+    stack1.m_pos_y = 3 * 9;
 }
 
 void MenuImpl::draw() const {
