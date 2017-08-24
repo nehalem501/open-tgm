@@ -8,8 +8,8 @@
 
 extern C3D_Tex empty_tex;
 extern C3D_Tex background_tex;
-//extern C3D_Tex tileset_tex;
-//extern C3D_Tex outline_tex;
+extern C3D_Tex tileset_tex;
+extern C3D_Tex outline_tex;
 extern C3D_Tex frame_tex;
 //extern C3D_Tex digits_tex;
 //extern C3D_Tex labels_tex;

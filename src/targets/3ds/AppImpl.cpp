@@ -14,6 +14,8 @@
 #include "background_png.h"
 #include "frame_png.h"
 #include "ui_font_png.h"
+#include "tileset_png.h"
+#include "outline_png.h"
 
 #include <stdio.h>
 
@@ -34,8 +36,8 @@ static C3D_Mtx proj_mat;
 
 C3D_Tex empty_tex;
 C3D_Tex background_tex;
-//C3D_Tex tileset_tex;
-//C3D_Tex outline_tex;
+C3D_Tex tileset_tex;
+C3D_Tex outline_tex;
 C3D_Tex frame_tex;
 //C3D_Tex digits_tex;
 //C3D_Tex labels_tex;
@@ -118,6 +120,8 @@ void init_gpu_stuff() {
 	load_texture(&empty_tex, empty_png, empty_png_size);
 	load_texture(&frame_tex, frame_png, frame_png_size);
 	load_texture(&text_tex, ui_font_png, ui_font_png_size);
+	load_texture(&tileset_tex, tileset_png, tileset_png_size);
+	load_texture(&outline_tex, outline_png, outline_png_size);
 
 	// Configure the first fragment shading substage to just pass through the texture color
 	// See https://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml for more insight
