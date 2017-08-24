@@ -1,5 +1,6 @@
 /* InputImpl.cpp - 3DS */
 
+#include <3ds.h>
 #include "InputImpl.h"
 
 void InputImpl::init() {
@@ -14,27 +15,29 @@ void InputImpl::pollInputs() {
     m_curr_joystick = 0x00;
     m_curr_buttons = 0x00;
 
+    u32 keys = hidKeysHeld();
+
     // Joystick
-    /*if (up)
+    if (keys & KEY_DUP)
         m_curr_joystick |= UP_BIT | RAW_UP_BIT;
-    if (down)
+    if (keys & KEY_DDOWN)
         m_curr_joystick |= DOWN_BIT | RAW_DOWN_BIT;
-    if (left)
+    if (keys & KEY_DLEFT)
         m_curr_joystick |= LEFT_BIT | RAW_LEFT_BIT;
-    if (right)
-        m_curr_joystick |= RIGHT_BIT | RAW_RIGHT_BIT;*/
+    if (keys & KEY_DRIGHT)
+        m_curr_joystick |= RIGHT_BIT | RAW_RIGHT_BIT;
 
     // Buttons
-    /*if (a)
+    if (keys & KEY_Y)
         m_curr_buttons |= A_BIT;
-    if (b)
+    if (keys & KEY_X || keys & KEY_B)
         m_curr_buttons |= B_BIT;
-    if (c)
+    if (keys & KEY_A)
         m_curr_buttons |= C_BIT;
-    if (start)
+    if (keys & KEY_START)
         m_curr_buttons |= START_BIT;
-    if (settings)
-        m_curr_buttons |= SETTINGS_BIT;*/
+    if (keys & KEY_SELECT)
+        m_curr_buttons |= SETTINGS_BIT;
 
     process();
 }
