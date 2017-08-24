@@ -11,7 +11,7 @@ typedef StackImpl Stack;
 #include "Global3DS.h"
 #include <core/Text.h>
 
-#define TEXT_LEN_LIMIT 32
+#define TEXT_LEN_LIMIT 64
 
 class TextImpl : public Core::Text {
     public:
