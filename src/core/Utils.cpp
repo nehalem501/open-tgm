@@ -46,3 +46,15 @@ void edit_text(Text *text, int pos_x, int pos_y, int color, const char *str) {
     text->updateGraphics();
     text->update_color(color);
 }
+
+void set(bool state, Text *text) {
+    if (state) {
+        text->update_text("ON");
+        text->updateGraphics();
+        text->update_color(TextColor::YELLOW);
+    } else {
+        text->update_text("OFF");
+        text->updateGraphics();
+        text->update_color(TextColor::TRANSPARENT);
+    }
+}

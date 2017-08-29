@@ -59,18 +59,6 @@ const char *INPUTS_STR[NB_INPUTS] = {
 
 #endif //DEBUG
 
-void set(bool state, Text *text) {
-    if (state) {
-        text->update_text("ON");
-        text->updateGraphics();
-        text->update_color(TextColor::YELLOW);
-    } else {
-        text->update_text("OFF");
-        text->updateGraphics();
-        text->update_color(TextColor::TRANSPARENT);
-    }
-}
-
 Core::Settings::Settings() : m_state(-1), m_selected(0), m_DASup(0),
                              m_DASdown(0) {
     //cout << "Settings screen constructor" << endl;
