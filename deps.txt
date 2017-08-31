@@ -1,6 +1,7 @@
 run:
-freeglut3
+freeglut3 / mesa
 libjpeg8
+libpng12
 libxrandr2
 
 build:
