@@ -3,7 +3,7 @@ EXE_NAME = open-tgm.bin
 UNAME_M=i386
 SOURCE_FILES= $(wildcard core/*.cpp) $(wildcard targets/sfml/*.cpp) $(wildcard modes/*.cpp)
 EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
-CCFLAGS = -m32 -DTARGET_SFML -DDEBUG -Wall -Wextra -pedantic -std=c++11
+CCFLAGS = -m32 -O2 -DTARGET_SFML -Wall -Wextra -pedantic -std=c++11
 INCLUDE_DIR = -I./include -I./targets/sfml -I../extlibs/SFML-linux_$(UNAME_M)/include
 LDFLAGS = -m32 -Wl,-R./lib
 LIBS_DIR = -L../extlibs/SFML-linux_$(UNAME_M)/lib
