@@ -188,29 +188,15 @@ void Core::Player::update(int *game_state) {
 
     m_active_time++;
 
-    //updateInput();
-    //TODO Left Priority
     // Rotate Left
     if (input.rotate_left()) {
-        //if (canRotateLeft()) {
-        //    canRotateLeftStart();
-            //cout << "rotation left" << endl;
-            rotate(1);
-        //}
-    } //else {
-        //canRotateLeftStop();
-    //}
+        rotate(1);
+    }
 
     // Rotate Right
     if (input.rotate_right()) {
-        //if (canRotateRight()) {
-        //    canRotateRightStart();
-            //cout << "rotation right" << endl;
-            rotate(-1);
-        //}
-    } //else {
-        //canRotateRightStop();
-    //}
+        rotate(-1);
+    }
 
     // Compute gravity
     unsigned int number_down = gravity();
@@ -237,22 +223,6 @@ void Core::Player::update(int *game_state) {
                 }
             }
         }
-
-        /*if (notInARE()) {
-            m_soft++;
-            if (number_down == 0) {
-                move(0, 1);
-            }
-
-            if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
-                if (!m_already_dropped) {
-                    lockPiece();
-                    resetLock();
-                    //game.startARE = true;
-                    m_stack->checkLines(this);
-                }
-            }
-        }*/
     } else {
         m_previous_down = false;
     }
