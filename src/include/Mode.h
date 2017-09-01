@@ -58,6 +58,7 @@ class Mode {
         bool display_score;
         bool section;
         //bool line_are_test;
+        bool keep_down;
 
         unsigned int size_x, size_y;
         unsigned int max_level;
@@ -86,7 +87,7 @@ class Mode {
         uint32_t (*score_func)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t,
                                uint32_t, uint32_t, uint32_t);
 
-        Mode(const char* nm, bool s_drop, bool disp_score, bool sec,
+        Mode(const char* nm, bool s_drop, bool disp_score, bool sec, bool kd,
              unsigned int sz_x, unsigned int sz_y, unsigned int max_lvl,
              struct Timing* t_gravity, unsigned int grav_nb,
              struct Timing* t_are, unsigned int are_n,

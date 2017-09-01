@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <Mode.h>
 
-Mode::Mode(const char* nm, bool s_drop, bool disp_score, bool sec,
+Mode::Mode(const char* nm, bool s_drop, bool disp_score, bool sec, bool kd,
            unsigned int sz_x, unsigned int sz_y, unsigned int max_lvl,
            struct Timing* t_gravity, unsigned int grav_nb,
            struct Timing* t_are, unsigned int are_n,
@@ -17,12 +17,12 @@ Mode::Mode(const char* nm, bool s_drop, bool disp_score, bool sec,
                                        uint32_t, uint32_t, uint32_t, uint32_t,
                                        uint32_t, uint32_t)) :
     name(nm), sonic_drop(s_drop), display_score(disp_score), section(sec),
-    size_x(sz_x), size_y(sz_y), max_level(max_lvl), gravity_nb(grav_nb),
-    are_nb(are_n), line_are_nb(ln_are_n), das_nb(das_n), lock_nb(lock_n),
-    clear_nb(clr_n), labels_nb(l_nb), gravity(t_gravity), are(t_are),
-    line_are(t_line_are), das(t_das), lock(t_lock), clear(t_clear), labels(l),
-    score_pos(scr_pos), level_pos(lvl_pos), level_target_pos(lvl_tg_pos),
-    score_func(func) {
+    keep_down(kd), size_x(sz_x), size_y(sz_y), max_level(max_lvl),
+    gravity_nb(grav_nb), are_nb(are_n), line_are_nb(ln_are_n), das_nb(das_n),
+    lock_nb(lock_n), clear_nb(clr_n), labels_nb(l_nb), gravity(t_gravity),
+    are(t_are), line_are(t_line_are), das(t_das), lock(t_lock), clear(t_clear),
+    labels(l), score_pos(scr_pos), level_pos(lvl_pos),
+    level_target_pos(lvl_tg_pos), score_func(func) {
 }
 
 unsigned int Mode::getSizeX() {

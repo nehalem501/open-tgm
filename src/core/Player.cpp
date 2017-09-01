@@ -54,6 +54,7 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_startARE = false;
     m_startClear = false;
     m_startLock = false;
+    m_previous_down = false;
 
     /*m_rotLeft = true;
     m_rotRight = true;*/
@@ -217,7 +218,27 @@ void Core::Player::update(int *game_state) {
     // TODO check if bug with ARE
     // Down
     if (input.down()) {
-        if (notInARE()) {
+        if (m_current_mode->keep_down || !m_previous_down) {
+            //m_previous_down = true;
+            if (notInARE()) {
+                m_soft++;
+                if (number_down == 0) {
+                    move(0, 1);
+                }
+
+                if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
+                    if (!m_already_dropped) {
+                        lockPiece();
+                        resetLock();
+                        //game.startARE = true;
+                        m_stack->checkLines(this);
+                        m_previous_down = true;
+                    }
+                }
+            }
+        }
+
+        /*if (notInARE()) {
             m_soft++;
             if (number_down == 0) {
                 move(0, 1);
@@ -231,7 +252,9 @@ void Core::Player::update(int *game_state) {
                     m_stack->checkLines(this);
                 }
             }
-        }
+        }*/
+    } else {
+        m_previous_down = false;
     }
 
     // Left

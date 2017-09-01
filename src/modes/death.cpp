@@ -76,6 +76,7 @@ Mode mode_death(
 /*    sonic_drop */ false,
 /* display_score */ true,
 /*       section */ true,
+/*     keep_down */ false,
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 999,

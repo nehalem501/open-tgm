@@ -44,6 +44,7 @@ namespace Core {
             bool m_startDASleft, m_startDASright;
 
             bool m_startARE, m_startClear, m_startLock;
+            bool m_previous_down;
             /*bool m_rotLeft, m_rotRight;*/
 
         public:

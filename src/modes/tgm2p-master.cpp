@@ -101,6 +101,7 @@ Mode mode_tgm2p_master(
 /*    sonic_drop */ true,
 /* display_score */ true,
 /*       section */ true,
+/*     keep_down */ true,
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 999,

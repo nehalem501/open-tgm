@@ -85,6 +85,7 @@ Mode mode_tgm1(
 /*    sonic_drop */ false,
 /* display_score */ true,
 /*       section */ true,
+/*     keep_down */ true,
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 999,
