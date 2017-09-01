@@ -258,7 +258,7 @@ void Core::Stack::checkLines(Core::Player *player) {
                 bravo = 1; // Sorry, no bravo this time :(
             }
         }
-
+end_for:
         // The line will be cleared
         if (line) {
             //std::cout << "row: "<< row << std::endl;
