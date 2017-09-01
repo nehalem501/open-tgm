@@ -11,6 +11,10 @@ namespace Core {
             void update();
             void init();
             bool end();
+            bool is_active();
+            
+        private:
+            bool m_active;
     };
 }
 

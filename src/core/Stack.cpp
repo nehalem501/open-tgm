@@ -17,9 +17,6 @@ void Core::Stack::init(int pos_x, int pos_y, int width, int height) {
     m_width = width;
     m_height = height;
 
-    // Line break particles
-    m_active_particles = 0;
-
     // Position in tiles
     m_pos_x = pos_x;
     m_pos_y = pos_y;
@@ -86,6 +83,7 @@ bool Core::Stack::checkNewPosition(Piece *piece, int new_x, int new_y,
 
     return true;
 }
+#include <iostream>
 
 void Core::Stack::shiftLine(unsigned int line) {
     //std::cout << "height: " << m_height << std::endl;
@@ -103,43 +101,43 @@ void Core::Stack::shiftLine(unsigned int line) {
 
 void Core::Stack::shiftLines() {
     for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
-        if (m_filled_lines[i] != -1)
+        if (m_filled_lines[i] != -1) {
+            std::cout << m_filled_lines[i] << ", ";
             shiftLine(m_filled_lines[i]);
+            m_filled_lines[i] = -1;
+        }
     }
+    std::cout << std::endl;
+}
+
+bool Core::Stack::check_bravo() {
+    unsigned int size = m_width * m_height;
+    for (unsigned int i = 0; i < size; i++) {
+        if (m_field[i])
+            return false;
+    }
+
+    return true;
+}
+
+bool Core::Stack::check_line(unsigned int line) {
+    for (unsigned int i = line * m_width; i < (line + 1) * m_width; i++) {
+        if (m_field[i] == 0)
+            return false;
+    }
+
+    return true;
 }
 
 void Core::Stack::checkLines(Core::Player *player) {
-    int size = m_width * m_height;
+    int pos_y = player->m_piece.pos_y;
 
     int lines_to_clear = 0;
-    int bravo = 4;
-    int line_nb = 0;
+    int bravo = check_bravo() ? 4 : 1;
 
-    int row_nb = 0;
-    for (int row = 0; row < size; row += m_width, row_nb++) {
-        bool line = true;
-
-        // Check line
-        for (int i = row; i < row + m_width; i++) {
-            if (m_field[i] == 0) {
-                line = false; // Line is not completely filled
-                //break; // TODO
-                goto end_for;
-            } else {
-                bravo = 1; // Sorry, no bravo this time :(
-            }
-        }
-end_for:
-        // The line will be cleared
-        if (line) {
-            //std::cout << "row: "<< row << std::endl;
-            //std::cout << "rownb: "<< row_nb << std::endl;
-
-            // Add line coords to remove line later
-            m_filled_lines[lines_to_clear] = row_nb; // TODO doubles
-
-            // Increment line count
-            lines_to_clear++;
+    for (int row_nb = pos_y - 1; row_nb <= pos_y + 2 && row_nb < m_height; row_nb++) {
+        if (check_line(row_nb)) {
+            int row = row_nb * m_width;
 
             // Clear line
             memset(m_field + row, 0, m_width * sizeof(tiles_t));
@@ -149,38 +147,22 @@ end_for:
             updateOutline(row_nb - 1);
             updateOutline(row_nb + 1);
 
+            // Add line coords to remove line later
+            m_filled_lines[lines_to_clear] = row_nb; // TODO doubles
+            std::cout << row_nb << ", ";
+
             // Activate particles for line clear
-            switch (lines_to_clear) {
-                case 1:
-                    m_part0.setEmitter(0, row_nb);
-                    m_part0.init();
-                    break;
+            m_part[lines_to_clear].setEmitter(0, row_nb);
+            m_part[lines_to_clear].init();
 
-                case 2:
-                    m_part1.setEmitter(0, row_nb);
-                    m_part1.init();
-                    break;
-
-                case 3:
-                    m_part2.setEmitter(0, row_nb);
-                    m_part2.init();
-                    break;
-
-                case 4:
-                    m_part3.setEmitter(0, row_nb);
-                    m_part3.init();
-                    break;
-            }
-
+            // Increment line count
+            lines_to_clear++;
         }
-
-        line_nb++;
     }
+    std::cout << std::endl;
 
     if (lines_to_clear > 0) {
         player->updateScore(lines_to_clear, bravo);
-        //sort(m_filled_lines, FILLED_LINES_NB);
-
         player->startClear();
         player->changeLevel(lines_to_clear, true);
     } else {

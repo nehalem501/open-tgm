@@ -142,27 +142,7 @@ void StackImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(m_vertices, &tileset_tex);
     target.draw(m_vertices_outline, &outline_tex);
 
-    switch (m_active_particles) {
-        case 1:
-            target.draw(m_part0);
-            break;
-
-        case 2:
-            target.draw(m_part0);
-            target.draw(m_part1);
-            break;
-
-        case 3:
-            target.draw(m_part0);
-            target.draw(m_part1);
-            target.draw(m_part2);
-            break;
-
-        case 4:
-            target.draw(m_part0);
-            target.draw(m_part1);
-            target.draw(m_part2);
-            target.draw(m_part3);
-            break;
+    for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
+        target.draw(m_part[i]);
     }
 }

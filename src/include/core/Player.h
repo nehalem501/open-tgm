@@ -14,8 +14,10 @@ typedef StackImpl Stack;
 
 namespace Core {
     class Player {
-        protected:
+        public:
             ::Piece m_piece;
+            
+        protected:
             ::Digits score_display;
             ::Digits level_display;
             ::Digits section_display;

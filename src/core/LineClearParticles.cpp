@@ -5,10 +5,12 @@
 
 Core::LineClearParticles::LineClearParticles() {
     //#warning "LineClearParticle constructor not unimplemented"
+    m_active = false;
 }
 
 void Core::LineClearParticles::setEmitter(int position_x, int position_y) {
     //#warning "LineClearParticle::setEmitter not unimplemented"
+    m_active = true;
 }
 
 void Core::LineClearParticles::update() {
@@ -21,5 +23,10 @@ void Core::LineClearParticles::init() {
 
 bool Core::LineClearParticles::end() {
     //#warning "LineClearParticle::end not unimplemented"
+    m_active = false;
     return true;
+}
+
+bool Core::LineClearParticles::is_active() {
+    return m_active;
 }

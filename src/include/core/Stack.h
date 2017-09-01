@@ -19,13 +19,10 @@ typedef PlayerImpl Player;
 namespace Core {
     class Stack {
         protected:
-            int m_active_particles;
-
             int m_filled_lines[FILLED_LINES_NB];
             tiles_t m_outline[MAX_WIDTH * MAX_HEIGHT];
 
-            ::LineClearParticles m_part0, m_part1;
-            ::LineClearParticles m_part2, m_part3;
+            ::LineClearParticles m_part[FILLED_LINES_NB];
 
         public:
             int m_pos_x, m_pos_y, m_height, m_width;
@@ -41,13 +38,8 @@ namespace Core {
             bool checkNewPosition(Piece *piece, int new_x, int new_y,
                                   int new_rotation);
 
-            /*bool checkMove(Piece *piece, int x, int y);
-
-            bool checkLeftRotation(Piece *piece);
-            bool checkLeftKickRotation(Piece *piece, int x_offset, int y_offset);
-
-            bool checkRightRotation(Piece *piece);
-            bool checkRightKickRotation(Piece *piece, int x_offset, int y_offset);*/
+            bool check_bravo();
+            bool check_line(unsigned int line);
 
             void shiftLine(unsigned int line);
             void shiftLines();
