@@ -231,59 +231,10 @@ void Core::Stack::shiftLine(unsigned int line) {
 }
 
 void Core::Stack::shiftLines() {
-    unsigned int nb_lines = 0;
-
-    while (m_filled_lines[nb_lines] != -1 && nb_lines < FILLED_LINES_NB) {
-        /*if (m_filled_lines[nb_lines] != -1) {
-            break;
-        }*/
-        nb_lines++;
-        //std::cout << "for: nb_line: " << (int) nb_lines << std::endl;
+    for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
+        if (m_filled_lines[i] != -1)
+            shiftLine(m_filled_lines[i]);
     }
-    #warning "shiftLines not finished"
-    for (int i = 0; i < FILLED_LINES_NB; i++) {
-        //std::cout << "filled[" << (int) i << "]: " << (int) m_filled_lines[i] << std::endl;
-    }
-
-    //std::cout << "nb_line: " << (int) nb_lines << std::endl;
-    switch (nb_lines) { //TODO
-        case 1:
-            //std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
-            shiftLine(m_filled_lines[0]);
-            break;
-
-        case 2:
-            //std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
-            //std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
-            shiftLine(m_filled_lines[0]);
-            shiftLine(m_filled_lines[1]);
-            break;
-
-        case 3:
-            //std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
-            //std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
-            //std::cout << "line: " << (int) m_filled_lines[2] << std::endl;
-            shiftLine(m_filled_lines[0]);
-            shiftLine(m_filled_lines[1]);
-            shiftLine(m_filled_lines[2]);
-            break;
-
-        case 4:
-            //std::cout << "line: " << (int) m_filled_lines[0] << std::endl;
-            //std::cout << "line: " << (int) m_filled_lines[1] << std::endl;
-            //std::cout << "line: " << (int) m_filled_lines[2] << std::endl;
-            //std::cout << "line: " << (int) m_filled_lines[3] << std::endl;
-            shiftLine(m_filled_lines[0]);
-            shiftLine(m_filled_lines[1]);
-            shiftLine(m_filled_lines[2]);
-            shiftLine(m_filled_lines[3]);
-            break;
-    }
-
-    m_filled_lines[0] = -1;
-    m_filled_lines[1] = -1;
-    m_filled_lines[2] = -1;
-    m_filled_lines[3] = -1;
 }
 
 void Core::Stack::checkLines(Core::Player *player) {
