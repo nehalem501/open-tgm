@@ -83,7 +83,6 @@ bool Core::Stack::checkNewPosition(Piece *piece, int new_x, int new_y,
 
     return true;
 }
-#include <iostream>
 
 void Core::Stack::shiftLine(unsigned int line) {
     //std::cout << "height: " << m_height << std::endl;
