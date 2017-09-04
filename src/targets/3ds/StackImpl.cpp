@@ -146,6 +146,6 @@ void StackImpl::draw() const {
     C3D_ImmDrawEnd();
 
     for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
-        target.draw(m_part[i]);
+        m_part[i].draw();
     }
 }
