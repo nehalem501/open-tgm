@@ -101,12 +101,12 @@ void Core::Stack::shiftLine(unsigned int line) {
 void Core::Stack::shiftLines() {
     for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
         if (m_filled_lines[i] != -1) {
-            std::cout << m_filled_lines[i] << ", ";
+            //std::cout << m_filled_lines[i] << ", ";
             shiftLine(m_filled_lines[i]);
             m_filled_lines[i] = -1;
         }
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
 }
 
 bool Core::Stack::check_bravo() {
@@ -148,7 +148,7 @@ void Core::Stack::checkLines(Core::Player *player) {
 
             // Add line coords to remove line later
             m_filled_lines[lines_to_clear] = row_nb; // TODO doubles
-            std::cout << row_nb << ", ";
+            //std::cout << row_nb << ", ";
 
             // Activate particles for line clear
             m_part[lines_to_clear].setEmitter(0, row_nb);
@@ -158,7 +158,7 @@ void Core::Stack::checkLines(Core::Player *player) {
             lines_to_clear++;
         }
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
 
     if (lines_to_clear > 0) {
         player->updateScore(lines_to_clear, bravo);
@@ -207,17 +207,24 @@ void Core::Stack::updateOutline(unsigned int unsigned_line) {
 }
 
 void Core::Stack::removeGreyBlocks(Piece *piece) {
-    int pos_x = piece->pos_x;
-    int pos_y = piece->pos_y;
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            if (PIECES[piece->type][piece->orientation][j][i] > 0) {
-                int x = pos_x - 2 + i;
-                int y = pos_y - 1 + j;
+    int pos_x = piece->pos_x - 2;
+    int pos_y = piece->pos_y - 1;
+    int limit_x = pos_x + SIZE;
+    int limit_y = pos_y + SIZE;
 
-                if (m_field[x + m_width * y]) {
-                    m_field[x + m_width * y] = piece->type + 1;
-                }
+    if (pos_x < 0)
+        pos_x = 0;
+    if (pos_y < 0)
+        pos_y = 0;
+    if (limit_x > m_width)
+        limit_x = m_width;
+    if (limit_y > m_height)
+        limit_y = m_height;
+
+    for (int i = pos_y; i < limit_y; i++) {
+        for (int j = pos_x; j < limit_x; j++) {
+            if (m_field[j + m_width * i] == 8) {
+                m_field[j + m_width * i] = piece->type + 1;
             }
         }
     }
