@@ -434,6 +434,6 @@ void LabelsImpl::updateSize(Stack *stack) {
 
 }
 
-void LabelsImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void LabelsImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(m_vertices, &labels_tex);
 }

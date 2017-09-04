@@ -653,6 +653,6 @@ void TextImpl::updateVertices() {
     assign_color();
 }
 
-void TextImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void TextImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(m_vertices, &text_tex);
 }

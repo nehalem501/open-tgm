@@ -78,7 +78,7 @@ void StackImpl::updateGraphics() {
     }*/
 
     unsigned char rgb = 200;
-    unsigned char alpha = 255;
+    //unsigned char alpha = 255;
 
     // Apply Stack tiles and outline texture
     for (int i = 0; i < m_width; ++i) {
@@ -138,7 +138,7 @@ void StackImpl::assign_tile(int tile, unsigned char rgb, unsigned char alpha, sf
     quad[3].texCoords = sf::Vector2f(tu * FILE_TILE_SIZE, (tv + 1) * FILE_TILE_SIZE);
 }
 
-void StackImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void StackImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(m_vertices, &tileset_tex);
     target.draw(m_vertices_outline, &outline_tex);
 

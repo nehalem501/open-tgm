@@ -141,6 +141,6 @@ void TimerImpl::updateSize(Stack *stack) {
     }
 }
 
-void TimerImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void TimerImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(m_timer_vert, &digits_tex);
 }

@@ -112,7 +112,7 @@ void SettingsImpl::updateSize() {
     }
 }
 
-void SettingsImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void SettingsImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     switch (m_state) {
         case SettingsState::LIST:
             for (unsigned int i = 0; i < SettingsState::SETTINGS_NB; i++) {

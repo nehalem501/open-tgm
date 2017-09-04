@@ -25,12 +25,11 @@ void MenuImpl::updateSize() {
     m_chooseMode.updateSize();
     m_settings.updateSize();
     // TODO check for multiplayer
-#warning "Multiplayer missing"
     game.updateSize();
     frame1.updateSize(&stack1);
 }
 
-void MenuImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void MenuImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(background);
     switch(m_state) {
         case MenuState::HOME:

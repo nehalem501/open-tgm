@@ -26,8 +26,7 @@ void GameImpl::updateSize() {
      // TODO timer2
 }
 
-void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    #warning "SFML Game::draw not finished"
+void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(player1);
     target.draw(stack1);
 

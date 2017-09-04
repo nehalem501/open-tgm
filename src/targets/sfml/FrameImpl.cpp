@@ -97,7 +97,7 @@ void FrameImpl::updateSize(Stack *stack) {
 
 }
 
-void Frame::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void Frame::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(m_background);
     target.draw(m_frame, &frame_tex);
 }

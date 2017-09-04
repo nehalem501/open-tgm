@@ -53,7 +53,7 @@ void PlayerImpl::updateSize() {
             quad[1].position = sf::Vector2f(pos_x + (i + 4) * tile_size, pos_y + (j - 2) * tile_size);
             quad[2].position = sf::Vector2f(pos_x + (i + 4) * tile_size, pos_y + (j - 1) * tile_size);
             quad[3].position = sf::Vector2f(pos_x + (i + 3) * tile_size, pos_y + (j - 1) * tile_size);
-            
+
             quad[0].position.y -= (int) tile_size / 2;
             quad[1].position.y -= (int) tile_size / 2;
             quad[2].position.y -= (int) tile_size / 2;
@@ -215,7 +215,7 @@ void PlayerImpl::updateGraphics() {
     }
 }
 
-void PlayerImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void PlayerImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     if (m_drawGhost)
         target.draw(m_ghost_vertices, &tileset_tex);
 

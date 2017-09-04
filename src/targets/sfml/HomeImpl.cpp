@@ -32,7 +32,7 @@ void HomeImpl::updateSize() {
     m_start.setScale(scale, scale);
 }
 
-void HomeImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void HomeImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     if (m_start_timer > -20) {
         target.draw(m_start);
     }

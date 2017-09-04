@@ -18,7 +18,7 @@ void ChooseModeImpl::updateSize() {
     }
 }
 
-void ChooseModeImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void ChooseModeImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     for (int i = 0; i < NB_MODES; i++) {
         target.draw(m_modes_strings[i]);
     }

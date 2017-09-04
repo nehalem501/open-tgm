@@ -186,6 +186,6 @@ void DigitsImpl::updateVertices(Stack *stack) {
     }
 }
 
-void DigitsImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void DigitsImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(m_vertices, &digits_tex);
 }

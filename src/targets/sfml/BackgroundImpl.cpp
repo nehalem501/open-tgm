@@ -77,7 +77,7 @@ void BackgroundImpl::updateSize() {
     }
 }
 
-void BackgroundImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void BackgroundImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     if (options) {
         target.draw(m_vertices);
     } else {
