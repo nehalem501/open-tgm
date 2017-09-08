@@ -50,9 +50,10 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_ghost_y = 0;
     m_piece_old_y = 0;
     m_next = 0;
+    m_state = PlayerState::WAITING;
 
-    m_startARE = false;
-    m_startClear = false;
+    //m_startARE = false;
+    //m_startClear = false;
     m_startLock = false;
     m_previous_down = false;
 
@@ -95,7 +96,7 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
 
 /* Init stuff needed to start a new game */
 void Core::Player::startGame() {
-    m_startARE = true;
+    m_state = PlayerState::ARE;
     m_are = m_current_mode->getARE(0);
 }
 
@@ -134,24 +135,283 @@ void Core::Player::nextPiece() {
     m_piece_old_y = m_piece.pos_y;
 }
 
+int debug_piece = 0;
+
 /* Update for 1 frame */
 void Core::Player::update(int *game_state) {
-    m_piece_old_y = m_piece.pos_y;
+    switch (m_state) {
+        case PlayerState::WAITING:
+            break;
 
-    if (m_lock_color_delay != 0) {
-        m_lock_color_delay--;
-        if (m_lock_color_delay == 0) {
-            //Piece old(m_history[], 0, m_piece_old_y
-            m_stack->removeGreyBlocks(&m_piece); // TODO
+        case PlayerState::ARE: {
+            m_are++;
+            //cout << "ARE: " << are << endl;
+            if (m_are > m_current_mode->getARE(m_level)) {
+                nextPiece();
+
+                m_are = 0;
+                m_sonic = 0;
+                m_soft = 0;
+                m_active_time = 0;
+
+                changeLevel(1, false);
+                m_drawPiece = true;
+
+                // Hide ghost piece after level 100
+                if (m_level > 100) {
+                    m_drawGhost = false;
+                } else {
+                    m_drawGhost = true;
+                }
+
+                m_already_dropped = false;
+
+                int direction = input.IRS();
+                if (direction) {
+                    m_piece.orientation = modulo(direction, 4);
+                    // You cannot do an IRS that will make you die
+                    if (!m_stack->checkNewPosition(&m_piece, 0, 0, 0))
+                        m_piece.orientation = 0;
+                }
+
+                // If piece doesn't have room to spawn, it's game over
+                if (!m_stack->checkNewPosition(&m_piece, 0, 0, 0)) {
+                    //lockPiece(); // TODO
+                    //m_stack->removeGreyBlocks(&m_piece);
+                    *game_state = GameState::GAME_OVER_ANIM;
+                    return;
+                }
+
+                // Update ghost piece
+                m_ghost_y = m_stack->getGhostY(&m_piece);
+
+                // New state
+                m_state = PlayerState::INGAME;
+            } else {
+                break;
+            }
         }
+
+
+        case PlayerState::INGAME: {
+            m_piece_old_y = m_piece.pos_y;
+            m_active_time++;
+
+            // Rotate Left
+            if (input.rotate_left()) {
+                rotate(1);
+            }
+
+            // Rotate Right
+            if (input.rotate_right()) {
+                rotate(-1);
+            }
+
+            // Compute gravity
+            unsigned int number_down = gravity();
+
+            // Down
+            if (input.down()) {
+                if (m_current_mode->keep_down || !m_previous_down) {
+                    //m_previous_down = true;
+                    m_soft++;
+                    if (number_down == 0) {
+                        move(0, 1);
+                    }
+
+                    if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
+                        if (!m_already_dropped) {
+                            m_previous_down = true;
+                            m_state = PlayerState::LOCK;
+                            return;
+                        }
+                    }
+                }
+            } else {
+                m_previous_down = false;
+            }
+
+            // Left
+            if (input.left()) {
+                if (m_startDASleft) {
+                    if (checkDASleft()) {
+                        move(-1, 0);
+                        m_ghost_y = m_stack->getGhostY(&m_piece);
+                        //cout << "left" << endl;
+                    }
+                } else {
+                    m_startDASleft = true;
+                    move(-1, 0);
+                    m_ghost_y = m_stack->getGhostY(&m_piece);
+                    //cout << "left" << endl;
+                }
+            } else {
+                if (m_startDASleft) {
+                    m_startDASleft = false;
+                    m_DASleft = 0;
+                }
+            }
+
+            // Right
+            if (input.right()) {
+                if (m_startDASright) {
+                    if (checkDASright()) {
+                        move(1, 0);
+                        m_ghost_y = m_stack->getGhostY(&m_piece);
+                        //cout << "right" << endl;
+                    }
+                } else {
+                    m_startDASright = true;
+                    move(1, 0);
+                    m_ghost_y = m_stack->getGhostY(&m_piece);
+                    //cout << "right" << endl;
+                }
+            } else {
+                if (m_startDASright) {
+                    m_startDASright = false;
+                    m_DASright = 0;
+                }
+            }
+
+            // Sonic Drop
+            if (m_current_mode->sonic_drop) {
+                if (input.sonic_drop()) {
+                    move_sonic();
+                    //std::cout << "drop" << std::endl;
+                }
+            }
+
+            // Gravity
+            if (number_down) { //TODO optimize
+                for (unsigned int i = 0; i < number_down; i++) {
+                    move(0, 1);
+                }
+            }
+
+
+            // Start counting lock delay
+            if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
+                if (m_piece_old_y != m_piece.pos_y) {
+                    resetLock();
+                }
+
+                startLock();
+                //cout << "lock: " << game.lock << endl;
+            } else {
+                if (m_lock) { // Check if lock started
+                    if (m_piece_old_y != m_piece.pos_y) {
+                        resetLock();
+                    }
+                } else {
+                    resetLock();
+                }
+            }
+
+            // Lock Delay
+            if (checkLock()) {
+                m_state = PlayerState::LOCK;
+            }
+
+            break;
+        }
+
+        case PlayerState::LOCK: {
+            //m_already_dropped = true;
+            //m_locked_piece = true;
+
+            //std::cout << "lock " << (int) m_piece.pos_y << std::endl;
+            debug_piece = (int) m_piece.pos_y;
+
+            int pos_x = m_piece.pos_x - 2;
+            int pos_y = m_piece.pos_y - 1;
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    if (PIECES[m_piece.type][m_piece.orientation][j][i] > 0) {
+                        int x = pos_x /*- 2*/ + i;
+                        int y = pos_y /*- 1*/ + j;
+                        m_stack->m_field[x + m_stack->m_width * y] = 8;
+                    }
+                }
+            }
+
+            // TODO optimize depending on piece size
+            m_stack->updateOutline(m_piece.pos_y - 2);
+
+            m_stack->updateOutline(m_piece.pos_y - 1);
+            m_stack->updateOutline(m_piece.pos_y);
+            m_stack->updateOutline(m_piece.pos_y + 1);
+            m_stack->updateOutline(m_piece.pos_y + 2);
+
+            m_stack->updateOutline(m_piece.pos_y + 3);
+
+            m_lock_color_delay = 2;
+            m_drawPiece = false;
+            m_drawGhost = false;
+
+            resetLock();
+            m_stack->checkLines(this);
+            m_state = PlayerState::LOCKED_ANIM;
+
+            break;
+        }
+
+        case PlayerState::LOCKED_ANIM:
+            m_state = PlayerState::CLEAR;
+            //break;
+
+        case PlayerState::CLEAR: {
+            m_clear++;
+            //cout << "CLEAR: " << clearDelay << endl;
+            if (m_clear >= m_current_mode->getClear(m_level)) {
+                //cout << "clear: " << clearDelay << endl;
+                m_clear = 0;
+                m_stack->shiftLines();
+                m_state = PlayerState::ARE;
+            }
+
+            break;
+        }
+
+        default:
+            break;
     }
 
+    //m_piece_old_y = m_piece.pos_y;
+    debug_piece = m_piece.pos_y;
+
+// TODO Fix lock and clear
+/*
+tgm1
+1 Frame normal
+3 Frames grey
+1 Frame normal
+cleared <clear delay>
+
+tgm2
+1 Frame black
+cleared <clear delay> (2 frames grey at beginning for parts of piece not cleared)
+*/
+
+    /*if (m_lock_color_delay != 0) {
+        m_lock_color_delay--;
+        if (m_lock_color_delay == 0) {
+            //std::cout << "rmgb " << (int) m_piece.pos_y << std::endl << std::endl;
+            m_stack->removeGreyBlocks(&m_piece); // TODO
+
+            if (debug_piece != (int) m_piece.pos_y) {
+                std::cout << "piece old y = " << debug_piece << " current " << (int) m_piece.pos_y << std::endl;
+            }
+            return;
+        }
+    }*/
+
     // Check ARE Delay
-    if (checkARE()) {
+    /*if (checkARE()) {
         nextPiece();
 
         m_sonic = 0;
         m_soft = 0;
+        m_active_time = 0;
 
         //m_values.gravity_counter = 0;
         changeLevel(1, false);
@@ -164,6 +424,7 @@ void Core::Player::update(int *game_state) {
             m_drawGhost = true;
         }
 
+        m_locked_piece = false;
         m_already_dropped = false;
 
         int direction = input.IRS();
@@ -184,9 +445,9 @@ void Core::Player::update(int *game_state) {
 
         // Update ghost piece
         m_ghost_y = m_stack->getGhostY(&m_piece);
-    }
+    }*/
 
-    m_active_time++;
+    /*m_active_time++;
 
     // Rotate Left
     if (input.rotate_left()) {
@@ -290,8 +551,8 @@ void Core::Player::update(int *game_state) {
         for (unsigned int i = 0; i < number_down; i++) {
             move(0, 1);
         }
-    }
-
+    }*/
+/*
     // Start counting lock delay
     if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
         if (notInARE()) {
@@ -320,13 +581,14 @@ void Core::Player::update(int *game_state) {
         resetLock();
         m_stack->checkLines(this);
     }
-
+*/
+/*
     // Clear Delay
     if (checkClear()) {
         m_stack->shiftLines();
         //m_stack->resetCompletedLines();
         startARE();
-    }
+    }*/
 }
 
 /* Move piece */
@@ -475,8 +737,13 @@ void Core::Player::rotate(int rotation) {
 }
 
 /* Lock down the current piece */
-void Core::Player::lockPiece() {
+/*void Core::Player::lockPiece() {
     m_already_dropped = true;
+    //m_locked_piece = true;
+
+    //std::cout << "lock " << (int) m_piece.pos_y << std::endl;
+    debug_piece = (int) m_piece.pos_y;
+
     int pos_x = m_piece.pos_x;
     int pos_y = m_piece.pos_y;
     for (int i = 0; i < SIZE; i++) {
@@ -503,7 +770,8 @@ void Core::Player::lockPiece() {
     m_lock_color_delay = 2;
     m_drawPiece = false;
     m_drawGhost = false;
-}
+    m_state = PlayerState::LOCKED_ANIM;
+}*/
 
 /* Increase level if possible */
 void Core::Player::changeLevel(int value, bool line_clear) {
@@ -588,7 +856,7 @@ bool Core::Player::checkLock() {
 }
 
 /* Count ARE delay and check if finished */
-bool Core::Player::checkARE() {
+/*bool Core::Player::checkARE() {
     if (m_startARE) {
         m_are++;
         //cout << "ARE: " << are << endl;
@@ -600,14 +868,14 @@ bool Core::Player::checkARE() {
         }
     }
     return false;
-}
+}*/
 
 /* Count clear delay and check if finished */
-bool Core::Player::checkClear() {
+/*bool Core::Player::checkClear() {
     if (m_startClear) {
         m_clear++;
         //cout << "CLEAR: " << clearDelay << endl;
-        if (m_clear > m_current_mode->getClear(m_level)) {
+        if (m_clear >= m_current_mode->getClear(m_level)) {
             //cout << "clear: " << clearDelay << endl;
             m_clear = 0;
             m_startClear = false;
@@ -615,7 +883,7 @@ bool Core::Player::checkClear() {
         }
     }
     return false;
-}
+}*/
 
 /* Count DAS frames for left input and check if fully charged */
 bool Core::Player::checkDASleft() {

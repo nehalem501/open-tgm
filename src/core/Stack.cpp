@@ -162,11 +162,11 @@ void Core::Stack::checkLines(Core::Player *player) {
 
     if (lines_to_clear > 0) {
         player->updateScore(lines_to_clear, bravo);
-        player->startClear();
+        //player->startClear();
         player->changeLevel(lines_to_clear, true);
     } else {
         player->setCombo(1);
-        player->startARE();
+        //player->startARE();
     }
 }
 

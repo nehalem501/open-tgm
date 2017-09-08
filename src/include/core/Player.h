@@ -12,11 +12,22 @@ typedef StackImpl Stack;
 #include <Piece.h>
 #include <Digits.h>
 
+namespace PlayerState {
+    enum {
+        WAITING = 0,
+        ARE,
+        INGAME,
+        LOCK,
+        LOCKED_ANIM,
+        CLEAR,
+    };
+}
+
 namespace Core {
     class Player {
         public:
             ::Piece m_piece;
-            
+
         protected:
             ::Digits score_display;
             ::Digits level_display;
@@ -35,6 +46,7 @@ namespace Core {
             unsigned int m_active_time, m_gravity, m_section, m_gravity_counter;
 
             int m_ghost_y, m_piece_old_y, m_lock_color_delay;
+            int m_state;
 
             unsigned int m_are, m_line_are, m_lock, m_combo;
             unsigned int m_sonic, m_soft, m_clear;
@@ -74,12 +86,12 @@ namespace Core {
             //void rotateRight();
             void rotate(int rotation);
 
-            void lockPiece();
-            inline void startClear() { m_startClear = true; };
-            inline void stopClear() { m_startClear = false; };
+            //void lockPiece();
+            //inline void startClear() { m_startClear = true; };
+            //inline void stopClear() { m_startClear = false; };
 
-            inline void startARE() { m_startARE = true; };
-            inline void stopARE() { m_startARE = false; };
+            //inline void startARE() { m_startARE = true; };
+            //inline void stopARE() { m_startARE = false; };
 
             inline void setCombo(int value) { m_combo = value; };
             //inline void stopARE() { m_startARE = false; };
@@ -92,11 +104,12 @@ namespace Core {
             inline void resetLock() { m_lock = 0; };
             inline void startLock() { m_startLock = true; m_lock++; };
 
-            bool checkClear();
-            inline bool notInClear() { return !m_startClear; };
+            //bool checkClear();
+            //inline bool notInClear() { return !m_startClear; };
 
-            bool checkARE();
-            inline bool notInARE() { return !m_startARE; };
+            //bool checkARE();
+            //inline bool notInARE() { return !m_startARE; };
+            //inline bool inARE() { return !m_startARE; };
 
             bool checkDASleft();
             bool checkDASright();
