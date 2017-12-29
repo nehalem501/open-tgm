@@ -11,8 +11,7 @@
 #include <cstring>
 
 void VblankInterrupt() {
-    // Do frame
-    menu.update();
+    // Draw frame
     background.draw();
     menu.draw();
 
@@ -71,6 +70,10 @@ void app() {
     REG_IME = 1;
 
     while (true) {
+        // Do frame
+        menu.update();
+        
+        // Wait for Vblank to draw
         VBlankIntrWait();
     }
 }
