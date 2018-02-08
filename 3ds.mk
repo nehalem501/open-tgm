@@ -22,10 +22,10 @@ include $(DEVKITARM)/3ds_rules
 #
 #---------------------------------------------------------------------------------
 TARGET		:= open-tgm
-BUILD		:= build-3ds
-SOURCES		:= core modes targets/3ds/resources targets/3ds
+BUILD		:= build/3ds
+SOURCES		:= src/core src/modes src/targets/3ds/resources src/targets/3ds
 INCLUDES	:= 
-DATA		:= ../data/platform_specific/3ds
+DATA		:= data/platform_specific/3ds
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -100,7 +100,7 @@ export OFILES := $(OFILES_BIN) $(OFILES_SOURCES)
 
 export HFILES := $(PICAFILES:.v.pica=_shbin.h) $(addsuffix .h,$(subst .,_,$(BINFILES)))
 
-export INCLUDE	:= -I../include -I../targets/3ds $(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
+export INCLUDE	:= -Iinclude -Isrc/targets/3ds $(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD)
 
@@ -134,7 +134,7 @@ all: $(BUILD)
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	@$(MAKE) BUILDDIR=`cd $(BUILD) && pwd` --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile_3ds
+	@$(MAKE) BUILDDIR=`cd $(BUILD) && pwd` --no-print-directory -C $(BUILD) -f $(CURDIR)/3ds.mk
 
 #---------------------------------------------------------------------------------
 clean:
