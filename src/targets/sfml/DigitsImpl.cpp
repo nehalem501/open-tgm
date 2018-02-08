@@ -12,7 +12,7 @@ void DigitsImpl::init_graphics() {
 void DigitsImpl::update_graphics(Stack *stack) {
     if (m_has_changed) {
         m_has_changed = false;
-        updateVertices(stack);
+        update_vertices(stack);
     }
 }
 

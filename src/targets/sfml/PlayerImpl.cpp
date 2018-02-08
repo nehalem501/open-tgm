@@ -40,9 +40,9 @@ void PlayerImpl::resize() {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
 
-    score_display.resize(m_stack);
-    level_display.resize(m_stack);
-    section_display.resize(m_stack);
+    m_score_display.resize(m_stack);
+    m_level_display.resize(m_stack);
+    m_section_display.resize(m_stack);
 
     // Update next piece position
     for (int i = 0; i < SIZE; ++i) {
@@ -129,16 +129,16 @@ void PlayerImpl::update_graphics() {
     // Apply player's piece texture
     unsigned char alpha = 255;
     if (m_lock > 0) {
-        if ((float) m_lock >= 2.0 * (float) m_current_mode->getLock(m_level) / 5.0)
+        if ((float) m_lock >= 2.0 * (float) m_current_mode->lock(m_level) / 5.0)
             alpha = 210;
 
-        if ((float) m_lock >= 3.0 * (float) m_current_mode->getLock(m_level) / 5.0)
+        if ((float) m_lock >= 3.0 * (float) m_current_mode->lock(m_level) / 5.0)
             alpha = 160;
 
-        if ((float) m_lock >= 4.0 * (float) m_current_mode->getLock(m_level) / 5.0)
+        if ((float) m_lock >= 4.0 * (float) m_current_mode->lock(m_level) / 5.0)
             alpha = 128;
 
-        if (m_lock == m_current_mode->getLock(m_level))
+        if (m_lock == m_current_mode->lock(m_level))
             alpha = 96;
     }
     for (int i = 0; i < SIZE; ++i) {
@@ -216,15 +216,15 @@ void PlayerImpl::update_graphics() {
 }
 
 void PlayerImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
-    if (m_drawGhost)
+    if (m_draw_ghost)
         target.draw(m_ghost_vertices, &tileset_tex);
 
-    if (m_drawPiece)
+    if (m_draw_piece)
         target.draw(m_piece_vertices, &tileset_tex);
 
     target.draw(m_next_vertices, &tileset_tex);
 
-    target.draw(score_display);
-    target.draw(level_display);
-    target.draw(section_display);
+    target.draw(m_score_display);
+    target.draw(m_level_display);
+    target.draw(m_section_display);
 }

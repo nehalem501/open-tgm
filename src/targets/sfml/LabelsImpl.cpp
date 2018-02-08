@@ -19,9 +19,9 @@ void LabelsImpl::init_graphics(Stack *stack) {
     positions.clear();
     m_vertices.clear();
 
-    for (unsigned int i = 0; i < m_mode->labels_nb; i++) {
-        str.push_back(string(m_mode->labels[i].string));
-        positions.push_back(sf::Vector2f(m_mode->labels[i].x, m_mode->labels[i].y));
+    for (unsigned int i = 0; i < m_mode->m_labels_nb; i++) {
+        str.push_back(string(m_mode->m_labels[i].string));
+        positions.push_back(sf::Vector2f(m_mode->m_labels[i].x, m_mode->m_labels[i].y));
     }
 
     labels_tex.setSmooth(true);

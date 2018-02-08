@@ -35,7 +35,7 @@ void Core::Stack::init(int pos_x, int pos_y, int width, int height) {
 
 void Core::Stack::start_game(Mode *mode) {
     // TODO
-    init(m_pos_x, m_pos_y, mode->size_x, mode->size_y);
+    init(m_pos_x, m_pos_y, mode->width(), mode->height());
 }
 
 int Core::Stack::get_ghost_y(Piece *piece) {

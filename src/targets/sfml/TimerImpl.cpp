@@ -21,11 +21,11 @@ void TimerImpl::update_graphics() {
         if (i == 2 || i == 5) {
             tile = 10;
         } else if (i > 2 && i < 5) {
-            tile = str[i-1];
+            tile = m_str[i-1];
         } else if (i > 5) {
-            tile = str[i-2];
+            tile = m_str[i-2];
         } else {
-            tile = str[i];
+            tile = m_str[i];
         }
 
         sf::Vertex* quad = &m_timer_vert[i * 4];

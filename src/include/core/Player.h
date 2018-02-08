@@ -72,7 +72,7 @@ namespace Core {
             inline void reset_level() {
                 m_level = 0;
                 m_level_display.update(0);
-                m_level_display.updateGraphics(m_stack);
+                m_level_display.update_graphics(m_stack);
             };
 
             void update(int *game_state);

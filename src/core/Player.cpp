@@ -16,9 +16,9 @@
 /* Used at program startup */
 void Core::Player::init(::Stack *stack) {
     m_stack = stack;
-    score_display.init_graphics();
-    level_display.init_graphics();
-    section_display.init_graphics();
+    m_score_display.init_graphics();
+    m_level_display.init_graphics();
+    m_section_display.init_graphics();
 }
 
 /* Init the field and all the other stuff */
@@ -32,7 +32,7 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_active_time = 0;
     m_gravity = 0;
     m_gravity_counter = 0;
-    m_section = mode->get_section(0);
+    m_section = mode->section(0);
 
     m_already_dropped = false;
     m_lock_color_delay = 0;
@@ -72,9 +72,9 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_das_left = 0;
     m_das_right = 0;
 
-    m_score_display.init(mode->score_pos.x, mode->score_pos.y);
-    m_level_display.init(mode->level_pos.x, mode->level_pos.y);
-    m_section_display.init(mode->level_target_pos.x, mode->level_target_pos.y);
+    m_score_display.init(mode->score_pos_x(), mode->score_pos_y());
+    m_level_display.init(mode->level_pos_x(), mode->level_pos_y());
+    m_section_display.init(mode->level_target_pos_x(), mode->level_target_pos_y());
     m_section_display.update(m_section);
     m_section_display.update_graphics(stack);
 
@@ -97,7 +97,7 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
 /* Init stuff needed to start a new game */
 void Core::Player::start_game() {
     m_state = PlayerState::ARE;
-    m_are = m_current_mode->get_are(0);
+    m_are = m_current_mode->are(0);
 }
 
 /* Use randomizer and get next piece */
@@ -150,7 +150,7 @@ void Core::Player::update(int *game_state) {
             std::cout << "ARE: " << m_are << std::endl;
             #endif
 
-            if (m_are > m_current_mode->get_are(m_level)) {
+            if (m_are > m_current_mode->are(m_level)) {
                 next_piece();
 
                 m_are = 0;
@@ -170,7 +170,7 @@ void Core::Player::update(int *game_state) {
 
                 m_already_dropped = false;
 
-                int direction = input.IRS();
+                int direction = input.irs();
                 if (direction) {
                     m_piece.orientation = modulo(direction, 4);
                     // You cannot do an IRS that will make you die
@@ -223,7 +223,7 @@ void Core::Player::update(int *game_state) {
 
             // Down
             if (input.down()) {
-                if (m_current_mode->keep_down || !m_previous_down) {
+                if (m_current_mode->keep_down() || !m_previous_down) {
                     //m_previous_down = true;
                     m_soft++;
 
@@ -290,7 +290,7 @@ void Core::Player::update(int *game_state) {
             }
 
             // Sonic Drop
-            if (m_current_mode->sonic_drop) {
+            if (m_current_mode->sonic_drop()) {
                 if (input.sonic_drop()) {
                     move_sonic();
                     //std::cout << "drop" << std::endl;
@@ -399,7 +399,7 @@ void Core::Player::update(int *game_state) {
             std::cout << "clear: " << m_clear << std::endl;
             #endif
 
-            if (m_clear >= m_current_mode->get_clear(m_level)) {
+            if (m_clear >= m_current_mode->clear(m_level)) {
                 m_clear = 0;
                 m_stack->shift_lines();
                 m_state = PlayerState::ARE;
@@ -814,24 +814,24 @@ void Core::Player::change_level(int value, bool line_clear) {
     #warning "changeLevel not finished"
 
     // Last level
-    if (m_level >= m_current_mode->max_level)
+    if (m_level >= m_current_mode->max_level())
         return;
 
     // Check for line clear at end of section
     if (m_level == m_section - 1) {
         if (line_clear) {
-            m_section = m_current_mode->get_section(m_level + value);
-            section_display.update(m_section);
-            section_display.update_graphics(m_stack);
+            m_section = m_current_mode->section(m_level + value);
+            m_section_display.update(m_section);
+            m_section_display.update_graphics(m_stack);
         } else {
             return;
         }
     }
 
     m_level += value;
-    level_display.update(m_level);
-    level_display.update_graphics(m_stack);
-    m_gravity = m_current_mode->get_gravity(m_level);
+    m_level_display.update(m_level);
+    m_level_display.update_graphics(m_stack);
+    m_gravity = m_current_mode->gravity(m_level);
 }
 
 /* Update player's score */
@@ -841,7 +841,7 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
 
     // TODO check torikan for lvl_aft_clear
     unsigned int lvl_aft_clear = m_level + nb_lines;
-    uint32_t speed = m_current_mode->get_lock(m_level) - m_active_time;
+    uint32_t speed = m_current_mode->lock(m_level) - m_active_time;
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
     /*std::cout << "level : " << m_level << std::endl;
     std::cout << "nblines : " << (unsigned int) nb_lines << std::endl;
@@ -857,8 +857,8 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
                                           m_combo, bravo_val, lvl_aft_clear,
                                           speed);
     //std::cout << "score : " << m_score << std::endl << std::endl;
-    score_display.update(m_score);
-    score_display.update_graphics(m_stack);
+    m_score_display.update(m_score);
+    m_score_display.update_graphics(m_stack);
 }
 
 /* Give number of G for current gravity */
@@ -880,17 +880,17 @@ unsigned int Core::Player::gravity() {
 
 /* Check if lock delay finished */
 bool Core::Player::check_lock() {
-    if (m_startLock) {
+    if (m_start_lock) {
 	// TODO test
 	m_lock++;
 
         #ifdef DEBUG
-	    std::cout << "lock: " << m_lock << std::endl;
+        std::cout << "lock: " << m_lock << std::endl;
         #endif
 
-        if (m_lock > m_current_mode->get_lock(m_level)) {
+        if (m_lock > m_current_mode->lock(m_level)) {
             m_lock = 0;
-            m_startLock = false;
+            m_start_lock = false;
             return true;
         }
     }
@@ -936,8 +936,8 @@ bool Core::Player::check_das_left() {
         std::cout << "left DAS: " << m_das_left << std::endl;
         #endif
 
-        if (m_das_left > m_current_mode->get_das(m_level)) {
-            m_das_left = m_current_mode->get_das(m_level);
+        if (m_das_left > m_current_mode->das(m_level)) {
+            m_das_left = m_current_mode->das(m_level);
             return true;
         }
     }
@@ -953,8 +953,8 @@ bool Core::Player::check_das_right() {
         std::cout << "right DAS: " << m_das_right << std::endl;
         #endif
 
-        if (m_das_right > m_current_mode->get_das(m_level)) {
-            m_das_right = m_current_mode->get_das(m_level);
+        if (m_das_right > m_current_mode->das(m_level)) {
+            m_das_right = m_current_mode->das(m_level);
             return true;
         }
     }

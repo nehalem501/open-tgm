@@ -24,8 +24,8 @@ void Core::Game::start_p1(int mode) {
     player1.init(&stack1, modes[mode]);
     player1.init_graphics();
 
-    labels1.set_mode(modes[mode]);
-    labels1.init_graphics(&stack1);
+    m_labels1.set_mode(modes[mode]);
+    m_labels1.init_graphics(&stack1);
 
     m_timer1.init();
 
@@ -33,7 +33,7 @@ void Core::Game::start_p1(int mode) {
 }
 
 void Core::Game::p1_ready_go() {
-    m_player1_state = GameState::READY_GO;
+    m_p1_state = GameState::READY_GO;
     m_p1_counter = 0;
     // Display 'READY'
     m_p1_string.update_text(READY_STR);
@@ -55,14 +55,14 @@ void Core::Game::start_doubles() {
 #endif
 
 void Core::Game::update(int *state) {
-    switch(m_player1_state) {
+    switch(m_p1_state) {
         case GameState::INGAME:
             m_timer1.update();
-            player1.update(&m_player1_state);
+            player1.update(&m_p1_state);
             break;
 
         case GameState::CREDIT_ROLL:
-            player1.update(&m_player1_state);
+            player1.update(&m_p1_state);
             break;
 
         case GameState::READY_GO:
@@ -86,7 +86,7 @@ void Core::Game::update(int *state) {
 
                 // Start game for player 1
                 player1.start_game();
-                player1.update(&m_player1_state);
+                player1.update(&m_p1_state);
 
                 // Prepare counter for game over animation
                 m_p1_counter = stack1.m_height * 8;
@@ -95,7 +95,7 @@ void Core::Game::update(int *state) {
                 player1.reset_level();
 
                 // Change state to Ingame
-                m_player1_state = GameState::INGAME;
+                m_p1_state = GameState::INGAME;
                 return;
             }
             break;
@@ -109,7 +109,7 @@ void Core::Game::update(int *state) {
                 m_p1_string.update_text(GAME_OVER_STR);
                 m_p1_string.update_pos(16, 14);
                 m_p1_string.update_graphics();
-                m_player1_state = GameState::GAME_OVER_TEXT;
+                m_p1_state = GameState::GAME_OVER_TEXT;
                 return;
             }
 
@@ -131,7 +131,7 @@ void Core::Game::update(int *state) {
     }
 
 #ifdef MULTIPLAYER
-    switch(m_player2_state) {
+    switch(m_p2_state) {
         case GameState::INGAME:
             player2.update();
             /*if (player2.isGameOver()) {
@@ -157,18 +157,18 @@ void Core::Game::update_graphics() {
     player1.update_graphics();
     stack1.update_graphics();
 
-    timer1.update_graphics();
+    m_timer1.update_graphics();
 
 #ifdef MULTIPLAYER
     player2.update_graphics();
     stack2.update_graphics();
 
-    timer2.update_graphics();
+    m_timer2.update_graphics();
 #endif
 }
 
 bool Core::Game::has_p1_finished() {
-    if (m_player1_state == GameState::FINISHED) {
+    if (m_p1_state == GameState::FINISHED) {
         return true;
     } else {
         return false;
@@ -177,7 +177,7 @@ bool Core::Game::has_p1_finished() {
 
 #ifdef MULTIPLAYER
 bool Core::Game::has_p2_finished() {
-    if (m_player2_state == GameState::FINISHED) {
+    if (m_p2_state == GameState::FINISHED) {
         return true;
     } else {
         return false;

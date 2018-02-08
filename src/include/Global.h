@@ -82,8 +82,8 @@ extern Background background;
 extern Mode* modes[];
 
 void init();
-void initTextures();
-void initGraphics();
-void initRandom();
+void init_textures();
+void init_graphics();
+void init_random();
 
 #endif

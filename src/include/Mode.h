@@ -51,7 +51,7 @@ struct Position {
 };
 
 class Mode {
-    public:
+    private:
         const char* m_name;
 
         bool m_sonic_drop;
@@ -69,8 +69,10 @@ class Mode {
         unsigned int m_das_nb;
         unsigned int m_lock_nb;
         unsigned int m_clear_nb;
-	    unsigned int m_labels_nb;
+    public: // TODO sfml: LabelsImpl.cpp:23/44
+        unsigned int m_labels_nb;
 
+    private:
         struct Timing* m_gravity;
         struct Timing* m_are;
         struct Timing* m_line_are;
@@ -78,12 +80,15 @@ class Mode {
         struct Timing* m_lock;
         struct Timing* m_clear;
 
+    public: // TODO sfml: LabelsImpl.cpp:23/44
         struct Label* m_labels;
 
+    private:
         struct Position m_score_pos;
         struct Position m_level_pos;
         struct Position m_level_target_pos;
 
+    public:
         uint32_t (*score_func)(uint32_t, uint32_t, uint32_t, uint32_t,
                                uint32_t, uint32_t, uint32_t, uint32_t);
 
@@ -102,21 +107,25 @@ class Mode {
              uint32_t (*func)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t,
                               uint32_t, uint32_t, uint32_t));
 
-        inline unsigned int width() {
-            return m_width;
-        };
+        inline const char* name() { return m_name; };
 
-        inline unsigned int height() {
-            return m_height;
-        };
+        inline bool sonic_drop() { return m_sonic_drop; };
+        inline bool display_score() { return m_display_score; };
+        inline bool keep_down() { return m_keep_down; };
 
-        inline bool display_score() {
-            return m_display_score;
-        };
+        inline unsigned int width() { return m_width; };
+        inline unsigned int height() { return m_height; };
 
-        inline bool sonic_drop() {
-            return m_sonic_drop;
-        };
+        inline unsigned int max_level() { return m_max_level; };
+
+        inline int8_t score_pos_x() { return m_score_pos.x; };
+        inline int8_t score_pos_y() { return m_score_pos.y; };
+
+        inline int8_t level_pos_x() { return m_level_pos.x; };
+        inline int8_t level_pos_y() { return m_level_pos.y; };
+
+        inline int8_t level_target_pos_x() { return m_level_target_pos.x; };
+        inline int8_t level_target_pos_y() { return m_level_target_pos.y; };
 
         unsigned int are(unsigned int level);
         unsigned int line_are(unsigned int level);
