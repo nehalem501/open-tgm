@@ -3,148 +3,135 @@
 #include <stdint.h>
 #include <Mode.h>
 
-Mode::Mode(const char* nm, bool s_drop, bool disp_score, bool sec, bool kd,
-           unsigned int sz_x, unsigned int sz_y, unsigned int max_lvl,
-           struct Timing* t_gravity, unsigned int grav_nb,
-           struct Timing* t_are, unsigned int are_n,
-           struct Timing* t_line_are, unsigned int ln_are_n,
-           struct Timing* t_das, unsigned int das_n,
-           struct Timing* t_lock, unsigned int lock_n,
-           struct Timing* t_clear, unsigned int clr_n,
-           struct Label* l, unsigned int l_nb,
-           struct Position scr_pos, struct Position lvl_pos,
-           struct Position lvl_tg_pos, uint32_t (*func)(uint32_t, uint32_t,
-                                       uint32_t, uint32_t, uint32_t, uint32_t,
-                                       uint32_t, uint32_t)) :
-    name(nm), sonic_drop(s_drop), display_score(disp_score), section(sec),
-    keep_down(kd), size_x(sz_x), size_y(sz_y), max_level(max_lvl),
-    gravity_nb(grav_nb), are_nb(are_n), line_are_nb(ln_are_n), das_nb(das_n),
-    lock_nb(lock_n), clear_nb(clr_n), labels_nb(l_nb), gravity(t_gravity),
-    are(t_are), line_are(t_line_are), das(t_das), lock(t_lock), clear(t_clear),
-    labels(l), score_pos(scr_pos), level_pos(lvl_pos),
-    level_target_pos(lvl_tg_pos), score_func(func) {
+Mode::Mode(const char* name, bool sonic_drop, bool display_score, bool section,
+           bool keep_down, unsigned int width, unsigned int height,
+           unsigned int max_level,
+           struct Timing* gravity, unsigned int gravity_nb,
+           struct Timing* are, unsigned int are_nb,
+           struct Timing* line_are, unsigned int line_are_nb,
+           struct Timing* das, unsigned int das_nb,
+           struct Timing* lock, unsigned int lock_nb,
+           struct Timing* clear, unsigned int clear_nb,
+           struct Label* labels, unsigned int labels_nb,
+           struct Position score_pos, struct Position level_position,
+           struct Position level_target_pos,
+           uint32_t (*func)(uint32_t, uint32_t, uint32_t, uint32_t,
+                            uint32_t, uint32_t, uint32_t, uint32_t)) :
+    m_name(name), m_sonic_drop(sonic_drop), m_display_score(display_score),
+    m_section(section), m_keep_down(keep_down), m_width(width),
+    m_height(height), m_max_level(max_level), m_gravity_nb(m_gravity_nb),
+    m_are_nb(are_nb), m_line_are_nb(line_are_nb), m_das_nb(das_nb),
+    m_lock_nb(lock_nb), m_clear_nb(clear_nb), m_labels_nb(labels_nb),
+    m_gravity(gravity), m_are(are), m_line_are(line_are), m_das(das),
+    m_lock(lock), m_clear(clear), m_labels(labels), m_score_pos(score_pos),
+    m_level_pos(level_pos), m_level_target_pos(level_target_pos),
+    score_func(func) {
 }
 
-unsigned int Mode::getSizeX() {
-    return size_x;
-}
-
-unsigned int Mode::getSizeY() {
-    return size_y;
-}
-
-bool Mode::displayScore() {
-    return display_score;
-}
-
-bool Mode::sonicDrop() {
-    return sonic_drop;
-}
-
-unsigned int Mode::getARE(unsigned int level) {
+unsigned int Mode::are(unsigned int level) {
     unsigned int last = 0;
 
-    for (unsigned int i = 0; i < are_nb; i++) {
-        if (level >= are[i].level) {
+    for (unsigned int i = 0; i < m_are_nb; i++) {
+        if (level >= m_are[i].level) {
             last = i;
         }
 
-        if (level < are[i].level) {
+        if (level < m_are[i].level) {
             break;
         }
     }
 
-    return are[last].value;
+    return m_are[last].value;
 }
 
-unsigned int Mode::getLineARE(unsigned int level) {
+unsigned int Mode::line_are(unsigned int level) {
     unsigned int last = 0;
 
-    for (unsigned int i = 0; i < line_are_nb; i++) {
-        if (level >= line_are[i].level) {
+    for (unsigned int i = 0; i < m_line_are_nb; i++) {
+        if (level >= m_line_are[i].level) {
             last = i;
         }
 
-        if (level < line_are[i].level) {
+        if (level < m_line_are[i].level) {
             break;
         }
     }
 
-    return line_are[last].value;
+    return m_line_are[last].value;
 }
 
-unsigned int Mode::getDAS(unsigned int level) {
+unsigned int Mode::das(unsigned int level) {
     unsigned int last = 0;
 
-    for (unsigned int i = 0; i < das_nb; i++) {
-        if (level >= das[i].level) {
+    for (unsigned int i = 0; i < m_das_nb; i++) {
+        if (level >= m_das[i].level) {
             last = i;
         }
 
-        if (level < das[i].level) {
+        if (level < m_das[i].level) {
             break;
         }
     }
 
-    return das[last].value;
+    return m_das[last].value;
 }
 
-unsigned int Mode::getLock(unsigned int level) {
+unsigned int Mode::lock(unsigned int level) {
     unsigned int last = 0;
 
-    for (unsigned int i = 0; i < lock_nb; i++) {
-        if (level >= lock[i].level) {
+    for (unsigned int i = 0; i < m_lock_nb; i++) {
+        if (level >= m_lock[i].level) {
             last = i;
         }
 
-        if (level < lock[i].level) {
+        if (level < m_lock[i].level) {
             break;
         }
     }
 
-    return lock[last].value;
+    return m_lock[last].value;
 }
 
-unsigned int Mode::getClear(unsigned int level) {
+unsigned int Mode::clear(unsigned int level) {
     unsigned int last = 0;
 
-    for (unsigned int i = 0; i < clear_nb; i++) {
-        if (level >= clear[i].level) {
+    for (unsigned int i = 0; i < m_clear_nb; i++) {
+        if (level >= m_clear[i].level) {
             last = i;
         }
 
-        if (level < clear[i].level) {
+        if (level < m_clear[i].level) {
             break;
         }
     }
 
-    return clear[last].value;
+    return m_clear[last].value;
 }
 
-unsigned int Mode::getGravity(unsigned int level) {
+unsigned int Mode::gravity(unsigned int level) {
     unsigned int last = 0;
 
-    for (unsigned int i = 0; i < gravity_nb; i++) {
-        if (level >= gravity[i].level) {
+    for (unsigned int i = 0; i < m_gravity_nb; i++) {
+        if (level >= m_gravity[i].level) {
             last = i;
         }
 
-        if (level < gravity[i].level) {
+        if (level < m_gravity[i].level) {
             break;
         }
     }
 
-    return gravity[last].value;
+    return m_gravity[last].value;
 }
 
-unsigned int Mode::getSection(unsigned int level) {
-    if (section) {
-        for (unsigned int i = 100; i < max_level; i += 100) {
+unsigned int Mode::section(unsigned int level) {
+    if (m_section) {
+        for (unsigned int i = 100; i < m_max_level; i += 100) {
             if (level < i) {
                 return i;
             }
         }
     }
 
-    return max_level;
+    return m_max_level;
 }

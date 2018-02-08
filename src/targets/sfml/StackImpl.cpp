@@ -5,7 +5,7 @@
 #include "GlobalSFML.h"
 #include "StackImpl.h"
 
-void StackImpl::initGraphics() {
+void StackImpl::init_graphics() {
     // Init stack vertices
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize((std::size_t) (m_width * m_height * 4));
@@ -23,7 +23,7 @@ void StackImpl::initGraphics() {
     }
 }
 
-void StackImpl::updateSize() {
+void StackImpl::resize() {
     // Update stack tiles and outline position
     for (int i = 0; i < m_width; ++i) {
         for (int j = 0; j < m_height; ++j) {
@@ -44,7 +44,7 @@ void StackImpl::updateSize() {
     }
 }
 
-void StackImpl::updateGraphics() {
+void StackImpl::update_graphics() {
     /*switch (m_nb_part) {
         case 1:
             m_part0.update();

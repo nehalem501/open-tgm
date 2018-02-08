@@ -59,8 +59,8 @@ const char *INPUTS_STR[NB_INPUTS] = {
 
 #endif //DEBUG
 
-Core::Settings::Settings() : m_state(-1), m_selected(0), m_DASup(0),
-                             m_DASdown(0) {
+Core::Settings::Settings() : m_state(-1), m_selected(0), m_das_up(0),
+                             m_das_down(0) {
     //cout << "Settings screen constructor" << endl;
 
     edit_text(&input_msg, 9, 23, TextColor::WHITE, "EXIT: RIGHT AND START");
@@ -94,7 +94,7 @@ void Core::Settings::update(int *menustate) {
     switch (m_state) {
         case SettingsState::LIST:
             if (input.up()) {
-                if (m_DASup == 0) {
+                if (m_das_up == 0) {
                     settings_str[m_selected].update_color(TextColor::TRANSPARENT);
 
                     if (m_selected <= 0)
@@ -104,13 +104,13 @@ void Core::Settings::update(int *menustate) {
 
                     settings_str[m_selected].update_color(TextColor::WHITE);
                 }
-                m_DASup += 16;
+                m_das_up += 16;
             } else {
-                m_DASup = 0;
+                m_das_up = 0;
             }
 
             if (input.down()) {
-                if (m_DASdown == 0) {
+                if (m_das_down == 0) {
                     settings_str[m_selected].update_color(TextColor::TRANSPARENT);
 
                     if (m_selected >= SettingsState::SETTINGS_NB - 1)
@@ -120,21 +120,21 @@ void Core::Settings::update(int *menustate) {
 
                     settings_str[m_selected].update_color(TextColor::WHITE);
                 }
-                m_DASdown += 16;
+                m_das_down += 16;
             } else {
-                m_DASdown = 0;
+                m_das_down = 0;
             }
 
             if (input.a()) {
                 if (m_selected == SettingsState::EXIT) {
                     *menustate = MenuState::HOME;
-                    background.changeToBackground();
+                    background.go_to_background();
                     return;
                 }
 
                 m_state = m_selected;
-                m_DASup = 0;
-                m_DASdown = 0;
+                m_das_up = 0;
+                m_das_down = 0;
             }
 
             break;

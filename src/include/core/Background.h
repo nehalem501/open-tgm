@@ -7,8 +7,14 @@ namespace Core {
     class Background {
         public:
             Background();
-            void changeToOptions();
-            void changeToBackground();
+
+            void go_to_options() {
+                options = true;
+            };
+
+            void go_to_background() {
+                options = false;
+            };
 
         protected:
             bool options;

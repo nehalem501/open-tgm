@@ -7,6 +7,6 @@
 
 #include <Mode.h>
 
-void initModes();
+void init_modes();
 
 #endif

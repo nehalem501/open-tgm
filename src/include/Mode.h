@@ -52,67 +52,79 @@ struct Position {
 
 class Mode {
     public:
-        const char* name;
+        const char* m_name;
 
-        bool sonic_drop;
-        bool display_score;
-        bool section;
-        //bool line_are_test;
-        bool keep_down;
+        bool m_sonic_drop;
+        bool m_display_score;
+        bool m_section;
+        //bool m_line_are_test;
+        bool m_keep_down;
 
-        unsigned int size_x, size_y;
-        unsigned int max_level;
+        unsigned int m_width, m_height;
+        unsigned int m_max_level;
 
-        unsigned int gravity_nb;
-        unsigned int are_nb;
-        unsigned int line_are_nb;
-        unsigned int das_nb;
-        unsigned int lock_nb;
-        unsigned int clear_nb;
-	    unsigned int labels_nb;
+        unsigned int m_gravity_nb;
+        unsigned int m_are_nb;
+        unsigned int m_line_are_nb;
+        unsigned int m_das_nb;
+        unsigned int m_lock_nb;
+        unsigned int m_clear_nb;
+	    unsigned int m_labels_nb;
 
-        struct Timing* gravity;
-        struct Timing* are;
-        struct Timing* line_are;
-        struct Timing* das;
-        struct Timing* lock;
-        struct Timing* clear;
+        struct Timing* m_gravity;
+        struct Timing* m_are;
+        struct Timing* m_line_are;
+        struct Timing* m_das;
+        struct Timing* m_lock;
+        struct Timing* m_clear;
 
-        struct Label* labels;
+        struct Label* m_labels;
 
-        struct Position score_pos;
-        struct Position level_pos;
-        struct Position level_target_pos;
+        struct Position m_score_pos;
+        struct Position m_level_pos;
+        struct Position m_level_target_pos;
 
-        uint32_t (*score_func)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t,
-                               uint32_t, uint32_t, uint32_t);
+        uint32_t (*score_func)(uint32_t, uint32_t, uint32_t, uint32_t,
+                               uint32_t, uint32_t, uint32_t, uint32_t);
 
-        Mode(const char* nm, bool s_drop, bool disp_score, bool sec, bool kd,
-             unsigned int sz_x, unsigned int sz_y, unsigned int max_lvl,
-             struct Timing* t_gravity, unsigned int grav_nb,
-             struct Timing* t_are, unsigned int are_n,
-             struct Timing* t_line_are, unsigned int ln_are_n,
-             struct Timing* t_das, unsigned int das_n,
-             struct Timing* t_lock, unsigned int lock_n,
-             struct Timing* t_clear, unsigned int clr_n,
-             struct Label* l, unsigned int l_nb, struct Position scr_pos,
-             struct Position lvl_pos, struct Position lvl_tg_pos,
+        Mode(const char* name, bool sonic_drop, bool display_score,
+             bool section, bool keep_down, unsigned int width,
+             unsigned int height, unsigned int max_level,
+             struct Timing* gravity, unsigned int gravity_nb,
+             struct Timing* are, unsigned int are_nb,
+             struct Timing* line_are, unsigned int line_are_nb,
+             struct Timing* das, unsigned int das_nb,
+             struct Timing* lock, unsigned int lock_nb,
+             struct Timing* clear, unsigned int clear_nb,
+             struct Label* labels, unsigned int labels_nb,
+             struct Position score_pos, struct Position level_pos,
+             struct Position level_target_pos,
              uint32_t (*func)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t,
-                           uint32_t, uint32_t, uint32_t));
+                              uint32_t, uint32_t, uint32_t));
 
-        unsigned int getSizeX();
-        unsigned int getSizeY();
+        inline unsigned int width() {
+            return m_width;
+        };
 
-        bool displayScore();
-        bool sonicDrop();
+        inline unsigned int height() {
+            return m_height;
+        };
 
-        unsigned int getARE(unsigned int level);
-        unsigned int getLineARE(unsigned int level);
-        unsigned int getDAS(unsigned int level);
-        unsigned int getLock(unsigned int level);
-        unsigned int getClear(unsigned int level);
-        unsigned int getGravity(unsigned int level);
-        unsigned int getSection(unsigned int level);
+        inline bool display_score() {
+            return m_display_score;
+        };
+
+        inline bool sonic_drop() {
+            return m_sonic_drop;
+        };
+
+        unsigned int are(unsigned int level);
+        unsigned int line_are(unsigned int level);
+        unsigned int das(unsigned int level);
+        unsigned int lock(unsigned int level);
+        unsigned int clear(unsigned int level);
+        unsigned int gravity(unsigned int level);
+        unsigned int section(unsigned int level);
 };
 
 #endif

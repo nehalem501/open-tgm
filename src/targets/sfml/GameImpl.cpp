@@ -9,7 +9,7 @@
 #include "GlobalSFML.h"
 #include "GameImpl.h"
 
-void GameImpl::updateSize() {
+void GameImpl::resize() {
     // TODO
 
     if (stack_position == StackPosition::CENTERED) {
@@ -17,11 +17,11 @@ void GameImpl::updateSize() {
         stack1.m_pos_y = 3 * tile_size;
     }
 
-    stack1.updateSize();
-    player1.updateSize();
+    stack1.resize();
+    player1.resize();
 
-    timer1.updateSize(&stack1);
-    labels1.updateSize(&stack1);
+    timer1.resize(&stack1);
+    labels1.resize(&stack1);
 
      // TODO timer2
 }

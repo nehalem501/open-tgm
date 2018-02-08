@@ -8,7 +8,7 @@
 #include "GlobalSFML.h"
 #include "PlayerImpl.h"
 
-void PlayerImpl::initGraphics() {
+void PlayerImpl::init_graphics() {
     // Init next piece vertices
     m_next_vertices.setPrimitiveType(sf::Quads);
     m_next_vertices.resize((std::size_t) (SIZE * SIZE * 4));
@@ -33,16 +33,16 @@ void PlayerImpl::initGraphics() {
         m_ghost_vertices[i].color = sf::Color(0, 0, 0, 0);
     }
 
-    updateSize();
+    resize();
 }
 
-void PlayerImpl::updateSize() {
+void PlayerImpl::resize() {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
 
-    score_display.updateSize(m_stack);
-    level_display.updateSize(m_stack);
-    section_display.updateSize(m_stack);
+    score_display.resize(m_stack);
+    level_display.resize(m_stack);
+    section_display.resize(m_stack);
 
     // Update next piece position
     for (int i = 0; i < SIZE; ++i) {
@@ -86,7 +86,7 @@ void PlayerImpl::updateSize() {
     }
 }
 
-void PlayerImpl::updateGraphics() {
+void PlayerImpl::update_graphics() {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
 

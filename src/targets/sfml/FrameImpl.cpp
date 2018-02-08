@@ -6,7 +6,7 @@
 #include "GlobalSFML.h"
 #include "FrameImpl.h"
 
-void FrameImpl::initGraphics() {
+void FrameImpl::init_graphics() {
     m_background.setFillColor(sf::Color(0, 0, 0, 180));
 
     m_frame.setPrimitiveType(sf::Quads);
@@ -57,10 +57,10 @@ void FrameImpl::initGraphics() {
     m_frame.append(v);
 }
 
-void FrameImpl::updateGraphics() {
+void FrameImpl::update_graphics() {
 }
 
-void FrameImpl::updateSize(Stack *stack) {
+void FrameImpl::resize(Stack *stack) {
     int width = stack->m_width;
     int height = stack->m_height;
     int pos_x = stack->m_pos_x;

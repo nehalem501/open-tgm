@@ -8,26 +8,26 @@
 #include <core/Menu.h>
 #include <core/Game.h>
 
-void Core::Game::initGraphics() {
-    timer1.initGraphics();
-    m_p1_string.initGraphics();
+void Core::Game::init_graphics() {
+    m_timer1.init_graphics();
+    m_p1_string.init_graphics();
 #ifdef MULTIPLAYER
-    timer2.initGraphics();
-    m_p2_string.initGraphics();
+    m_timer2.init_graphics();
+    m_p2_string.init_graphics();
 #endif
 }
 
-void Core::Game::startPlayer1(int mode) {
+void Core::Game::start_p1(int mode) {
     // TODO choose mode
-    stack1.startGame(modes[mode]);
+    stack1.start_game(modes[mode]);
 
     player1.init(&stack1, modes[mode]);
-    player1.initGraphics();
+    player1.init_graphics();
 
-    labels1.setMode(modes[mode]);
-    labels1.initGraphics(&stack1);
+    labels1.set_mode(modes[mode]);
+    labels1.init_graphics(&stack1);
 
-    timer1.init();
+    m_timer1.init();
 
     p1_ready_go();
 }
@@ -38,16 +38,16 @@ void Core::Game::p1_ready_go() {
     // Display 'READY'
     m_p1_string.update_text(READY_STR);
     m_p1_string.update_pos(18, 14);
-    m_p1_string.updateGraphics();
+    m_p1_string.update_graphics();
 }
 
 #ifdef MULTIPLAYER
-void Core::Game::startPlayer2(int8_t mode) {
+void Core::Game::start_p2(int8_t mode) {
     // TODO
     //player2.init(&stack2);
 }
 
-void Core::Game::startDoubles() {
+void Core::Game::start_doubles() {
     // TODO
     //player1.init(&stack1);
     //player2.init(&stack1);
@@ -57,7 +57,7 @@ void Core::Game::startDoubles() {
 void Core::Game::update(int *state) {
     switch(m_player1_state) {
         case GameState::INGAME:
-            timer1.update();
+            m_timer1.update();
             player1.update(&m_player1_state);
             break;
 
@@ -73,19 +73,19 @@ void Core::Game::update(int *state) {
             if (m_p1_counter > 60) {
                 m_p1_string.update_text(GO_STR);
                 m_p1_string.update_pos(19, 14);
-                m_p1_string.updateGraphics();
+                m_p1_string.update_graphics();
             }
 
             // Start game
             if (m_p1_counter == 120) {
                 // Start timer and count current frame
-                timer1.start();
-                timer1.update();
+                m_timer1.start();
+                m_timer1.update();
 
-                labels1.initGraphics(&stack1);
+                m_labels1.init_graphics(&stack1);
 
                 // Start game for player 1
-                player1.startGame();
+                player1.start_game();
                 player1.update(&m_player1_state);
 
                 // Prepare counter for game over animation
@@ -108,14 +108,14 @@ void Core::Game::update(int *state) {
                 m_p1_counter = 0;
                 m_p1_string.update_text(GAME_OVER_STR);
                 m_p1_string.update_pos(16, 14);
-                m_p1_string.updateGraphics();
+                m_p1_string.update_graphics();
                 m_player1_state = GameState::GAME_OVER_TEXT;
                 return;
             }
 
             // Remove next line
             if (m_p1_counter % 8 == 0)
-                stack1.removeLine(m_p1_counter / 8);
+                stack1.remove_line(m_p1_counter / 8);
 
             break;
 
@@ -153,21 +153,21 @@ void Core::Game::update(int *state) {
 #endif
 }
 
-void Core::Game::updateGraphics() {
-    player1.updateGraphics();
-    stack1.updateGraphics();
+void Core::Game::update_graphics() {
+    player1.update_graphics();
+    stack1.update_graphics();
 
-    timer1.updateGraphics();
+    timer1.update_graphics();
 
 #ifdef MULTIPLAYER
-    player2.updateGraphics();
-    stack2.updateGraphics();
+    player2.update_graphics();
+    stack2.update_graphics();
 
-    timer2.updateGraphics();
+    timer2.update_graphics();
 #endif
 }
 
-bool Core::Game::hasPlayer1Finished() {
+bool Core::Game::has_p1_finished() {
     if (m_player1_state == GameState::FINISHED) {
         return true;
     } else {
@@ -176,7 +176,7 @@ bool Core::Game::hasPlayer1Finished() {
 }
 
 #ifdef MULTIPLAYER
-bool Core::Game::hasPlayer2Finished() {
+bool Core::Game::has_p2_finished() {
     if (m_player2_state == GameState::FINISHED) {
         return true;
     } else {

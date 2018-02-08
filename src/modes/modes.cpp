@@ -18,5 +18,5 @@ Mode* modes[NB_MODES] = {
 };
 
 
-void initModes() {
+void init_modes() {
 }

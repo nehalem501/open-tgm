@@ -7,20 +7,20 @@
 #include "GlobalSFML.h"
 #include "TextImpl.h"
 
-void TextImpl::initGraphics() {
+void TextImpl::init_graphics() {
     m_vertices.setPrimitiveType(sf::Quads);
 }
 
-void TextImpl::updateGraphics() {
+void TextImpl::update_graphics() {
     if (m_has_changed) {
         m_has_changed = false;
         m_vertices.resize(m_length * 4);
-        updateVertices();
+        update_vertices();
     }
 }
 
-void TextImpl::updateSize() {
-    updateVertices();
+void TextImpl::resize() {
+    update_vertices();
 }
 
 void TextImpl::update_color(int8_t color) {
@@ -80,7 +80,7 @@ void TextImpl::assign_color() {
     }
 }
 
-void TextImpl::updateVertices() {
+void TextImpl::update_vertices() {
     int offset = 0;
     int position_x = tile_size * m_pos_x;
     int position_y = tile_size * m_pos_y;

@@ -5,7 +5,7 @@
 #include "GlobalSFML.h"
 #include "TimerImpl.h"
 
-void TimerImpl::initGraphics() {
+void TimerImpl::init_graphics() {
     m_timer_vert.setPrimitiveType(sf::Quads);
     m_timer_vert.resize(8 * 4);
 
@@ -14,7 +14,7 @@ void TimerImpl::initGraphics() {
     }
 }
 
-void TimerImpl::updateGraphics() {
+void TimerImpl::update_graphics() {
     for (unsigned i = 0; i < 8; i++) {
         int tile;
 
@@ -111,7 +111,7 @@ void TimerImpl::updateGraphics() {
     }
 }
 
-void TimerImpl::updateSize(Stack *stack) {
+void TimerImpl::resize(Stack *stack) {
     int pos_x = stack->m_pos_x + tile_size * 12 - tile_size / 2;
     int pos_y = stack->m_pos_y + tile_size * 21 + tile_size / 4;
 

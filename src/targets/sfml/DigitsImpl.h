@@ -13,13 +13,13 @@ typedef StackImpl Stack;
 
 class DigitsImpl : public Core::Digits, public sf::Drawable {
     public:
-        void initGraphics();
-        void updateGraphics(Stack *stack);
-        void updateSize(Stack *stack);
+        void init_graphics();
+        void update_graphics(Stack *stack);
+        void resize(Stack *stack);
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
-        void updateVertices(Stack *stack);
+        void update_vertices(Stack *stack);
         sf::VertexArray m_vertices;
 };
 

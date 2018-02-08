@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void LabelsImpl::initGraphics(Stack *stack) {
+void LabelsImpl::init_graphics(Stack *stack) {
     length = 0;
 
     str.clear();
@@ -42,10 +42,10 @@ void LabelsImpl::initGraphics(Stack *stack) {
         quad[3].color = sf::Color(0, 0, 0, 0);
     }
 
-    updateSize(stack);
+    resize(stack);
 }
 
-void LabelsImpl::updateSize(Stack *stack) {
+void LabelsImpl::resize(Stack *stack) {
     int pos_x = stack->m_pos_x - tile_size / 2;
     int pos_y = stack->m_pos_y;
 

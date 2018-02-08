@@ -30,12 +30,12 @@ namespace Core {
 
         protected:
             int m_state, m_selected;
-            uint8_t m_DASup, m_DASdown;
+            uint8_t m_das_up, m_das_down;
 
-            ::Text settings_str[SettingsState::SETTINGS_NB];
-            ::Text inputs_str[NB_INPUTS];
-            ::Text input_states_str[NB_INPUTS];
-            ::Text input_msg;
+            ::Text m_settings_str[SettingsState::SETTINGS_NB];
+            ::Text m_inputs_str[NB_INPUTS];
+            ::Text m_input_states_str[NB_INPUTS];
+            ::Text m_input_msg;
     };
 }
 

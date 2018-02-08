@@ -25,36 +25,36 @@ const char GAME_OVER_STR[] = "GAME OVER";
 namespace Core {
     class Game {
         public:
-            void initGraphics();
+            void init_graphics();
 
             void update(int *state);
-            void updateGraphics();
+            void update_graphics();
 
-            void startPlayer1(int mode);
+            void start_p1(int mode);
             void p1_ready_go();
-            bool hasPlayer1Finished();
+            bool has_p1_finished();
 
         #ifdef MULTIPLAYER
-            void startPlayer2(int mode);
-            bool hasPlayer2Finished();
+            void start_p2(int mode);
+            bool has_p2_inished();
             void startDoubles();
         #endif
 
-            ::Timer timer1;
-            ::Labels labels1;
+            ::Timer m_timer1;
+            ::Labels m_labels1;
 
         #ifdef MULTIPLAYER
-            ::Timer timer2;
-            ::Labels labels2;
+            ::Timer m_timer2;
+            ::Labels m_labels2;
         #endif
 
         protected:
-            int m_player1_state;
+            int m_p1_state;
             uint8_t m_p1_counter;
             ::Text m_p1_string;
 
         #ifdef MULTIPLAYER
-            int m_player2_state;
+            int m_p2_state;
             uint8_t m_p2_counter;
             ::Text m_p2_string;
         #endif

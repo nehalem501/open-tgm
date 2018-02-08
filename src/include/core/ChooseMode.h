@@ -17,7 +17,7 @@ namespace Core {
         protected:
             bool m_selected;
             int m_mode;
-            uint8_t m_DASup, m_DASdown;
+            uint8_t m_das_up, m_das_down;
             ::Text m_modes_strings[NB_MODES];
     };
 }

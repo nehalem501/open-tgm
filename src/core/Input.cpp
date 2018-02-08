@@ -147,7 +147,7 @@ void Core::Input::process() {
     }*/
 }
 
-int Core::Input::IRS() {
+int Core::Input::irs() {
     if ((m_curr_buttons & A_BIT) || (m_curr_buttons & C_BIT)) {
         m_curr_buttons ^= ROT_L_BIT | ROT_R_BIT;
         return 1;

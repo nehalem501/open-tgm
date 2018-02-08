@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void BackgroundImpl::initGraphics() {
+void BackgroundImpl::init_graphics() {
     if (!image.loadFromFile("resources/background.png")) {
         // ERROR
         std::cout << "ERROR loading background.png" << std::endl;
@@ -48,7 +48,7 @@ void BackgroundImpl::initGraphics() {
     }
 }
 
-void BackgroundImpl::updateSize() {
+void BackgroundImpl::resize() {
     m_vertices[0].position = sf::Vector2f(0, 0);
     m_vertices[1].position = sf::Vector2f(screen_size.x, 0);
     m_vertices[2].position = sf::Vector2f(screen_size.x, screen_size.y);

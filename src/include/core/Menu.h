@@ -31,14 +31,14 @@ namespace Core {
             void update();
 
             void home();
-            void chooseMode();
+            void choose_mode();
             void ingame();
 
             int m_state;
             int m_mode;
 
             ::Home m_home;
-            ::ChooseMode m_chooseMode;
+            ::ChooseMode m_choose_mode;
             ::Settings m_settings;
     };
 }

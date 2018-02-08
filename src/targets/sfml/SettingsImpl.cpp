@@ -86,29 +86,29 @@ void SettingsImpl::update(int *menustate) {
     }
 }
 
-void SettingsImpl::initGraphics() {
-    input_msg.initGraphics();
+void SettingsImpl::init_graphics() {
+    input_msg.init_graphics();
 
     for (unsigned int i = 0; i < SettingsState::SETTINGS_NB; i++) {
-        settings_str[i].initGraphics();
+        settings_str[i].init_graphics();
     }
 
     for (unsigned int i = 0; i < NB_INPUTS; i++) {
-        inputs_str[i].initGraphics();
-        input_states_str[i].initGraphics();
+        inputs_str[i].init_graphics();
+        input_states_str[i].init_graphics();
     }
 }
 
-void SettingsImpl::updateSize() {
-    input_msg.updateSize();
+void SettingsImpl::resize() {
+    input_msg.resize();
 
     for (unsigned int i = 0; i < SettingsState::SETTINGS_NB; i++) {
-        settings_str[i].updateSize();
+        settings_str[i].resize();
     }
 
     for (unsigned int i = 0; i < NB_INPUTS; i++) {
-        inputs_str[i].updateSize();
-        input_states_str[i].updateSize();
+        inputs_str[i].resize();
+        input_states_str[i].resize();
     }
 }
 

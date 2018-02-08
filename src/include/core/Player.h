@@ -29,9 +29,9 @@ namespace Core {
             ::Piece m_piece;
 
         protected:
-            ::Digits score_display;
-            ::Digits level_display;
-            ::Digits section_display;
+            ::Digits m_score_display;
+            ::Digits m_level_display;
+            ::Digits m_section_display;
 
         public:
             uint32_t m_score;
@@ -50,14 +50,14 @@ namespace Core {
 
             unsigned int m_are, m_line_are, m_lock, m_combo;
             unsigned int m_sonic, m_soft, m_clear;
-            unsigned int m_DASleft, m_DASright;
+            unsigned int m_das_left, m_das_right;
 
             tiles_t m_next;
 
-            bool m_drawPiece, m_drawGhost;
-            bool m_startDASleft, m_startDASright;
+            bool m_draw_piece, m_draw_ghost;
+            bool m_start_das_left, m_start_das_right;
 
-            bool m_startARE, m_startClear, m_startLock;
+            bool m_start_are, m_start_clear, m_start_lock;
             bool m_previous_down;
             /*bool m_rotLeft, m_rotRight;*/
 
@@ -67,17 +67,17 @@ namespace Core {
             void init(::Stack *stack);
             void init(::Stack *stack, Mode *mode);
 
-            void startGame();
+            void start_game();
 
             inline void reset_level() {
                 m_level = 0;
-                level_display.update(0);
-                level_display.updateGraphics(m_stack);
+                m_level_display.update(0);
+                m_level_display.updateGraphics(m_stack);
             };
 
             void update(int *game_state);
 
-            void nextPiece();
+            void next_piece();
 
             void move(int x, int y);
             void move_sonic();
@@ -93,16 +93,24 @@ namespace Core {
             //inline void startARE() { m_startARE = true; };
             //inline void stopARE() { m_startARE = false; };
 
-            inline void setCombo(int value) { m_combo = value; };
+            inline void set_combo(int value) { m_combo = value; };
             //inline void stopARE() { m_startARE = false; };
 
-            void changeLevel(int value, bool line_clear);
-            void updateScore(unsigned int nb_lines, bool bravo);
+            void change_level(int value, bool line_clear);
+            void update_score(unsigned int nb_lines, bool bravo);
 
         protected:
-            bool checkLock();
-            inline void resetLock() { m_lock = 0; };
-            inline void startLock() { m_startLock = true; m_lock++; };
+            bool check_lock();
+
+            inline void reset_lock() {
+                #ifdef DEBUG
+                std::cout << "reset lock" << std::endl;
+                #endif
+
+                m_lock = 0;
+            };
+
+            inline void start_lock() { m_start_lock = true; m_lock++; };
 
             //bool checkClear();
             //inline bool notInClear() { return !m_startClear; };
@@ -111,8 +119,8 @@ namespace Core {
             //inline bool notInARE() { return !m_startARE; };
             //inline bool inARE() { return !m_startARE; };
 
-            bool checkDASleft();
-            bool checkDASright();
+            bool check_das_left();
+            bool check_das_right();
 
             unsigned int gravity();
 

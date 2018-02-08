@@ -7,12 +7,12 @@ namespace Core {
     class LineClearParticles {
         public:
             LineClearParticles();
-            void setEmitter(int position_x, int position_y);
+            void set_emitter(int position_x, int position_y);
             void update();
             void init();
             bool end();
             bool is_active();
-            
+
         private:
             bool m_active;
     };

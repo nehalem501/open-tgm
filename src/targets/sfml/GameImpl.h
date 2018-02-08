@@ -9,7 +9,7 @@
 
 class GameImpl : public Core::Game, public sf::Drawable {
     public:
-        void updateSize();
+        void resize();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

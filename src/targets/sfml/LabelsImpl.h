@@ -18,8 +18,8 @@ class LabelsImpl : public Core::Labels, public sf::Drawable {
         std::vector<sf::Vector2f> positions;
 
     public:
-        void initGraphics(Stack *stack);
-        void updateSize(Stack *stack);
+        void init_graphics(Stack *stack);
+        void resize(Stack *stack);
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

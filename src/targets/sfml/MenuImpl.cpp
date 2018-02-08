@@ -10,23 +10,23 @@
 #include "GlobalSFML.h"
 #include "MenuImpl.h"
 
-void MenuImpl::initGraphics() {
-    m_home.initGraphics();
-    m_chooseMode.initGraphics();
-    m_settings.initGraphics();
+void MenuImpl::init_graphics() {
+    m_home.init_graphics();
+    m_chooseMode.init_graphics();
+    m_settings.init_graphics();
 }
 
-void MenuImpl::updateSize() {
+void MenuImpl::resize() {
     tile_size = screen_size.y / TILE_RATIO;
 
-    background.updateSize();
+    background.resize();
 
-    m_home.updateSize();
-    m_chooseMode.updateSize();
-    m_settings.updateSize();
+    m_home.resize();
+    m_chooseMode.resize();
+    m_settings.resize();
     // TODO check for multiplayer
-    game.updateSize();
-    frame1.updateSize(&stack1);
+    game.resize();
+    frame1.resize(&stack1);
 }
 
 void MenuImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {

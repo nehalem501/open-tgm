@@ -4,7 +4,7 @@
 #include <map>
 #include "InputImpl.h"
 
-bool TestEvent(MyKeys k, sf::Event e) {
+bool test_event(MyKeys k, sf::Event e) {
     // Mouse event
     if (k.myInputType == MouseInput && k.myEventType == e.type && k.myMouseButton == e.mouseButton.button) {
         return true;
@@ -109,7 +109,7 @@ void InputImpl::init() {
     assignedKeys.clear();
 }
 
-void InputImpl::pollInputs() {
+void InputImpl::poll_inputs() {
     m_prev_joystick = m_curr_joystick;
     m_prev_buttons = m_curr_buttons;
 
@@ -117,25 +117,25 @@ void InputImpl::pollInputs() {
     m_curr_buttons = 0x00;
 
     // Joystick
-    if (eventKeys[Button::Up].testInput())
+    if (eventKeys[Button::Up].test_input())
         m_curr_joystick |= UP_BIT | RAW_UP_BIT;
-    if (eventKeys[Button::Down].testInput())
+    if (eventKeys[Button::Down].test_input())
         m_curr_joystick |= DOWN_BIT | RAW_DOWN_BIT;
-    if (eventKeys[Button::Left].testInput())
+    if (eventKeys[Button::Left].test_input())
         m_curr_joystick |= LEFT_BIT | RAW_LEFT_BIT;
-    if (eventKeys[Button::Right].testInput())
+    if (eventKeys[Button::Right].test_input())
         m_curr_joystick |= RIGHT_BIT | RAW_RIGHT_BIT;
 
     // Buttons
-    if (eventKeys[Button::A].testInput())
+    if (eventKeys[Button::A].test_input())
         m_curr_buttons |= A_BIT;
-    if (eventKeys[Button::B].testInput())
+    if (eventKeys[Button::B].test_input())
         m_curr_buttons |= B_BIT;
-    if (eventKeys[Button::C].testInput())
+    if (eventKeys[Button::C].test_input())
         m_curr_buttons |= C_BIT;
-    if (eventKeys[Button::Start].testInput())
+    if (eventKeys[Button::Start].test_input())
         m_curr_buttons |= START_BIT;
-    if (eventKeys[Button::Settings].testInput())
+    if (eventKeys[Button::Settings].test_input())
         m_curr_buttons |= SETTINGS_BIT;
 
     process();

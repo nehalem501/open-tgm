@@ -5,6 +5,11 @@
 
 #include <stdint.h>
 
+#ifdef DEBUG
+#include <iostream>
+#include <stdio.h>
+#endif
+
 #ifdef TARGET_SFML
 typedef unsigned int tiles_t;
 #endif
