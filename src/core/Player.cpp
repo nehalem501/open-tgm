@@ -150,6 +150,34 @@ void Core::Player::update(int *game_state) {
             std::cout << "ARE: " << m_are << std::endl;
             #endif
 
+            // Left DAS
+            if (input.left()) {
+                if (m_start_das_left) {
+                    check_das_left();
+                } else {
+                    m_start_das_left = true;
+                }
+            } else {
+                if (m_start_das_left) {
+                    m_start_das_left = false;
+                    m_das_left = 0;
+                }
+            }
+
+            // Right DAS
+            if (input.right()) {
+                if (m_start_das_right) {
+                    check_das_right();
+                } else {
+                    m_start_das_right = true;
+                }
+            } else {
+                if (m_start_das_right) {
+                    m_start_das_right = false;
+                    m_das_right = 0;
+                }
+            }
+
             if (m_are > m_current_mode->are(m_level)) {
                 next_piece();
 
@@ -189,11 +217,14 @@ void Core::Player::update(int *game_state) {
                 // Update ghost piece
                 m_ghost_y = m_stack->get_ghost_y(&m_piece);
 
+                // Reset lock delay
+                reset_lock();
+
                 // New state
                 m_state = PlayerState::INGAME;
-            } else {
+            }// else {
                 break;
-            }
+            //}
         }
 
 
@@ -307,6 +338,7 @@ void Core::Player::update(int *game_state) {
 
             // Start counting lock delay
             if (!can_go_down) {
+                std::cout << "!can_go_down" << std::endl;
                 if (m_piece_old_y != m_piece.pos_y) {
                     reset_lock();
                 }
@@ -386,8 +418,15 @@ void Core::Player::update(int *game_state) {
         case PlayerState::LOCKED_ANIM:
             if (m_stack->check_lines(this))
                 m_state = PlayerState::CLEAR;
-            else
+            else {
                 m_state = PlayerState::ARE;
+
+                #ifdef DEBUG
+                std::cout << "state: ARE" << std::endl;
+                #endif
+
+                break;
+            }
 
             // TODO count lock anim + clear ARE / regular ARE difference
             break;

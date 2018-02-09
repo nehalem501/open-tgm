@@ -107,6 +107,7 @@ namespace Core {
                 std::cout << "reset lock" << std::endl;
                 #endif
 
+                m_start_lock = false;
                 m_lock = 0;
             };
 
