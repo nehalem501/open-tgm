@@ -267,8 +267,18 @@ void Core::Player::update(int *game_state) {
                     }
 
                     if (!can_go_down) {
+                        std::cout << "!cangodown " << std::endl;
                         if (!m_already_dropped) {
+                            std::cout << "!alreadydropped" << std::endl;
                             m_previous_down = true;
+                            m_draw_piece = false;
+                            m_state = PlayerState::LOCK;
+                            return;
+                        }
+                    } else {
+                        if (!m_stack->check_new_pos(&m_piece, 0, 1, 0)) {
+                            m_previous_down = true;
+                            m_draw_piece = false;
                             m_state = PlayerState::LOCK;
                             return;
                         }
@@ -335,7 +345,7 @@ void Core::Player::update(int *game_state) {
                 }
             }
 
-
+            // TODO Bug piece locking midair
             // Start counting lock delay
             if (!can_go_down) {
                 std::cout << "!can_go_down" << std::endl;
@@ -363,6 +373,7 @@ void Core::Player::update(int *game_state) {
 
             // Change state if finished counting lock delay
             if (check_lock()) {
+                m_draw_piece = false;
                 m_state = PlayerState::LOCK;
             }
 
@@ -373,9 +384,23 @@ void Core::Player::update(int *game_state) {
             //m_already_dropped = true;
             //m_locked_piece = true;
 
+            // TODO Fix lock and clear
+            /*
+            tgm1
+            1 Frame normal
+            3 Frames grey
+            1 Frame normal
+            cleared <clear delay>
+
+            tgm2
+            1 Frame black (same as ghost)
+            cleared <clear delay> (2 frames grey at beginning
+            for parts of piece not cleared)
+            */
+
             #ifdef DEBUG
             std::cout << "state: LOCK" << std::endl;
-            std::cout << "lock: " << (int) m_piece.pos_y << std::endl;
+            std::cout << "piece_pos_y: " << (int) m_piece.pos_y << std::endl;
             #endif
 
             reset_lock();
@@ -927,7 +952,7 @@ bool Core::Player::check_lock() {
         std::cout << "lock: " << m_lock << std::endl;
         #endif
 
-        if (m_lock > m_current_mode->lock(m_level)) {
+        if (m_lock >= m_current_mode->lock(m_level)) {
             m_lock = 0;
             m_start_lock = false;
             return true;
