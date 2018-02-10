@@ -387,7 +387,7 @@ void Core::Player::update(int *game_state) {
             // TODO Fix lock and clear
             /*
             tgm1
-            1 Frame normal
+            1 Frame normal <- still reacting to input (we can see it as lock_delay + 1)
             3 Frames grey
             1 Frame normal
             cleared <clear delay>
