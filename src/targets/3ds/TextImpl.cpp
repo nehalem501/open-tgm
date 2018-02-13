@@ -6,7 +6,7 @@
 #include "Global3DS.h"
 #include "TextImpl.h"
 
-void TextImpl::initGraphics() {
+void TextImpl::init_graphics() {
     // We have only one color per Text object
     // Set to white
     m_quads[0].verts[0].r = 1.0f;
@@ -15,7 +15,7 @@ void TextImpl::initGraphics() {
     m_quads[0].verts[0].a = 1.0f;
 }
 
-void TextImpl::updateGraphics() {
+void TextImpl::update_graphics() {
     if (m_has_changed) {
         m_has_changed = false;
 

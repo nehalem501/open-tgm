@@ -5,10 +5,10 @@
 #include "Global3DS.h"
 #include "FrameImpl.h"
 
-void FrameImpl::initGraphics() {
+void FrameImpl::init_graphics() {
 }
 
-void FrameImpl::updateGraphics() {
+void FrameImpl::update_graphics() {
 }
 
 void Frame::draw() const {

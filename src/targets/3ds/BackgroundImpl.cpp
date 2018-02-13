@@ -5,7 +5,7 @@
 #include "Global3DS.h"
 #include "BackgroundImpl.h"
 
-void BackgroundImpl::initGraphics() {
+void BackgroundImpl::init_graphics() {
 }
 
 void BackgroundImpl::draw() const {
