@@ -39,19 +39,19 @@ void Core::Stack::start_game(Mode *mode) {
 }
 
 int Core::Stack::get_ghost_y(Piece *piece) {
-    bool canGoDown = true;
-    int pos_y = piece->pos_y;
-    while(canGoDown) {
+    bool can_go_down = true;
+    int pos_y = piece->pos_y();
+    while(can_go_down) {
         pos_y = pos_y + 1;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                if (PIECES[piece->type][piece->orientation][j][i] > 0) {
-                    int x = piece->pos_x - 2 + i;
+                if (PIECES[piece->type()][piece->orientation()][j][i] > 0) {
+                    int x = piece->pos_x() - 2 + i;
                     int y = pos_y - 1 + j;
                     if (x < 0 || x >= m_width || y >= m_height) {
-                        canGoDown = false;
+                        can_go_down = false;
                     } else if (m_field[x + y * m_width] > 0) {
-                        canGoDown = false;
+                        can_go_down = false;
                     }
                 }
             }
@@ -65,12 +65,12 @@ int Core::Stack::get_ghost_y(Piece *piece) {
 
 bool Core::Stack::check_new_pos(Piece *piece, int new_x, int new_y,
                                    int new_rotation) {
-    int pos_x = piece->pos_x + new_x;
-    int pos_y = piece->pos_y + new_y;
-    int rotation = modulo(piece->orientation + new_rotation, 4);
+    int pos_x = piece->pos_x() + new_x;
+    int pos_y = piece->pos_y() + new_y;
+    int rotation = modulo(piece->orientation() + new_rotation, 4);
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            if (PIECES[piece->type][rotation][j][i] > 0) {
+            if (PIECES[piece->type()][rotation][j][i] > 0) {
                 int x = pos_x - 2 + i;
                 int y = pos_y - 1 + j;
                 if (x < 0 || x >= m_width || y >= m_height) {
@@ -133,7 +133,7 @@ bool Core::Stack::check_line(unsigned int line) {
 }
 
 bool Core::Stack::check_lines(Core::Player *player) {
-    int pos_y = player->m_piece.pos_y;
+    int pos_y = player->m_piece.pos_y();
 
     int lines_to_clear = 0;
     int bravo = check_bravo() ? 4 : 1;
@@ -215,8 +215,8 @@ void Core::Stack::update_outline(unsigned int unsigned_line) {
 }
 
 void Core::Stack::remove_grey_blocks(Piece *piece) {
-    int pos_x = piece->pos_x - 2;
-    int pos_y = piece->pos_y - 1;
+    int pos_x = piece->pos_x() - 2;
+    int pos_y = piece->pos_y() - 1;
     int limit_x = pos_x + SIZE;
     int limit_y = pos_y + SIZE;
 
@@ -232,7 +232,7 @@ void Core::Stack::remove_grey_blocks(Piece *piece) {
     for (int i = pos_y; i < limit_y; i++) {
         for (int j = pos_x; j < limit_x; j++) {
             if (m_field[j + m_width * i] == 8) {
-                m_field[j + m_width * i] = piece->type + 1;
+                m_field[j + m_width * i] = piece->type() + 1;
             }
         }
     }

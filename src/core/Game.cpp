@@ -11,10 +11,11 @@
 void Core::Game::init_graphics() {
     m_timer1.init_graphics();
     m_p1_string.init_graphics();
-#ifdef MULTIPLAYER
+
+    #ifdef MULTIPLAYER
     m_timer2.init_graphics();
     m_p2_string.init_graphics();
-#endif
+    #endif
 }
 
 void Core::Game::start_p1(int mode) {
@@ -35,6 +36,7 @@ void Core::Game::start_p1(int mode) {
 void Core::Game::p1_ready_go() {
     m_p1_state = GameState::READY_GO;
     m_p1_counter = 0;
+
     // Display 'READY'
     m_p1_string.update_text(READY_STR);
     m_p1_string.update_pos(18, 14);
@@ -159,12 +161,12 @@ void Core::Game::update_graphics() {
 
     m_timer1.update_graphics();
 
-#ifdef MULTIPLAYER
+    #ifdef MULTIPLAYER
     player2.update_graphics();
     stack2.update_graphics();
 
     m_timer2.update_graphics();
-#endif
+    #endif
 }
 
 bool Core::Game::has_p1_finished() {

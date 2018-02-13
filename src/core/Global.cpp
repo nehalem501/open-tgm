@@ -31,11 +31,12 @@ void init_graphics() {
     player1.init_graphics();
     stack1.init_graphics();
     frame1.init_graphics();
-#ifdef MULTIPLAYER
+
+    #ifdef MULTIPLAYER
     player2.init_graphics();
     stack2.init_graphics();
     frame2.init_graphics();
-#endif
+    #endif
 
     game.init_graphics();
 }

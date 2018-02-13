@@ -10,7 +10,9 @@
 using namespace std;
 
 Core::Menu::Menu() : m_state(MenuState::HOME), m_mode(0) {
-    //cout << "Menu constructor" << endl;
+    #ifdef DEBUG
+    std::cout << "Menu constructor" << std::endl;
+    #endif
 }
 
 void Core::Menu::update() {
