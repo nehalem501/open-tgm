@@ -7,9 +7,9 @@
 #include <Game.h>
 #include "MenuImpl.h"
 
-void MenuImpl::initGraphics() {
-    m_home.initGraphics();
-    m_chooseMode.initGraphics();
+void MenuImpl::init_graphics() {
+    m_home.init_graphics();
+    m_choose_mode.init_graphics();
 }
 
 void MenuImpl::draw() const {
@@ -28,7 +28,7 @@ void MenuImpl::draw() const {
 
         case MenuState::CHOOSE_MODE:
             frame1.draw();
-            m_chooseMode.draw();
+            m_choose_mode.draw();
             break;
 
         case MenuState::START_GAME:

@@ -2,10 +2,10 @@
 
 #include "DigitsImpl.h"
 
-void DigitsImpl::initGraphics() {
+void DigitsImpl::init_graphics() {
 }
 
-void DigitsImpl::updateGraphics(Stack *stack) {
+void DigitsImpl::update_graphics(Stack *stack) {
     if (m_has_changed) {
         m_has_changed = false;
         // Update the digit graphics

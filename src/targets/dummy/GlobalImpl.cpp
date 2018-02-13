@@ -2,8 +2,8 @@
 
 #include <Global.h>
 
-void initRandom() {
+void init_random() {
 }
 
-void initTextures() {
+void init_textures() {
 }

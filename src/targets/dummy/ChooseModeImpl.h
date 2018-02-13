@@ -7,7 +7,7 @@
 
 class ChooseModeImpl : public Core::ChooseMode {
     public:
-        void initGraphics();
+        void init_graphics();
         void draw() const;
 };
 

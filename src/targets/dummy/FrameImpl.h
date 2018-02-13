@@ -7,8 +7,8 @@
 
 class FrameImpl : public Core::Frame {
     public:
-        void initGraphics();
-        void updateGraphics();
+        void init_graphics();
+        void update_graphics();
         void draw() const;
 };
 

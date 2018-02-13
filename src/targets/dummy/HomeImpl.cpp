@@ -2,7 +2,7 @@
 
 #include "HomeImpl.h"
 
-void HomeImpl::initGraphics() {
+void HomeImpl::init_graphics() {
 }
 
 void HomeImpl::draw() const {

@@ -7,8 +7,8 @@
 
 class SettingsImpl : public Core::Settings {
     public:
-        void initGraphics();
-        void updateSize();
+        void init_graphics();
+        void resize();
         void draw() const;
 };
 
