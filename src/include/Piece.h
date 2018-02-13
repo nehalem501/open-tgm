@@ -24,10 +24,10 @@ class Piece {
 
         void locked(Stack *stack);
 
-        inline tiles_t type() { return m_type; };
-        inline int orientation() { return m_orientation; };
-        inline int pos_x() { return m_pos_x; };
-        inline int pos_y() { return m_pos_y; };
+        inline tiles_t type() const { return m_type; };
+        inline int orientation() const { return m_orientation; };
+        inline int pos_x() const { return m_pos_x; };
+        inline int pos_y() const { return m_pos_y; };
 
         inline void type(tiles_t type) { m_type = type; };
         inline void orientation(int o) { m_orientation = o; };
