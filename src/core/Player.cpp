@@ -261,9 +261,7 @@ void Core::Player::update(int *game_state) {
                     }
 
                     if (!can_go_down) {
-                        std::cout << "!cangodown " << std::endl;
                         if (!m_already_dropped) {
-                            std::cout << "!alreadydropped" << std::endl;
                             m_previous_down = true;
                             m_draw_piece = false;
                             m_state = PlayerState::LOCK;
@@ -342,7 +340,6 @@ void Core::Player::update(int *game_state) {
             // TODO Bug piece locking midair
             // Start counting lock delay
             if (!can_go_down) {
-                std::cout << "!can_go_down" << std::endl;
                 if (m_piece_old_y != m_piece.pos_y()) {
                     reset_lock();
                 }
@@ -421,10 +418,26 @@ void Core::Player::update(int *game_state) {
             //m_stack->checkLines(this);
             m_state = PlayerState::LOCKED_ANIM;
 
+            #ifdef DEBUG
+            std::cout << "state: LOCKED_ANIM" << std::endl;
+            #endif
+
             break;
         }
 
         case PlayerState::LOCKED_ANIM:
+            // TODO
+            #ifdef DEBUG
+            std::cout << "color_delay: " << m_lock_color_delay << std::endl;
+            #endif
+
+            if (m_lock_color_delay > 0) {
+                m_lock_color_delay--;
+                return;
+            }
+
+            m_stack->remove_grey_blocks(&m_piece);
+
             if (m_stack->check_lines(this))
                 m_state = PlayerState::CLEAR;
             else {
