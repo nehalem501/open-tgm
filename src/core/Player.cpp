@@ -236,6 +236,49 @@ void Core::Player::update(int *game_state) {
                 rotate(-1);
             }
 
+            // Left
+            if (input.left()) {
+                if (m_start_das_left) {
+                    if (check_das_left()) {
+                        move(-1, 0);
+                        m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                        //cout << "left" << endl;
+                    }
+                } else {
+                    m_start_das_left = true;
+                    move(-1, 0);
+                    m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                    //cout << "left" << endl;
+                }
+            } else {
+                if (m_start_das_left) {
+                    m_start_das_left = false;
+                    m_das_left = 0;
+                }
+            }
+
+            // Right
+            if (input.right()) {
+                if (m_start_das_right) {
+                    if (check_das_right()) {
+                        move(1, 0);
+                        m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                        //cout << "right" << endl;
+                    }
+                } else {
+                    m_start_das_right = true;
+                    move(1, 0);
+                    m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                    //cout << "right" << endl;
+                }
+            } else {
+                if (m_start_das_right) {
+                    m_start_das_right = false;
+                    m_das_right = 0;
+                }
+            }
+
+
             // Compute gravity
             unsigned int number_down = gravity();
 
@@ -280,47 +323,7 @@ void Core::Player::update(int *game_state) {
                 m_previous_down = false;
             }
 
-            // Left
-            if (input.left()) {
-                if (m_start_das_left) {
-                    if (check_das_left()) {
-                        move(-1, 0);
-                        m_ghost_y = m_stack->get_ghost_y(&m_piece);
-                        //cout << "left" << endl;
-                    }
-                } else {
-                    m_start_das_left = true;
-                    move(-1, 0);
-                    m_ghost_y = m_stack->get_ghost_y(&m_piece);
-                    //cout << "left" << endl;
-                }
-            } else {
-                if (m_start_das_left) {
-                    m_start_das_left = false;
-                    m_das_left = 0;
-                }
-            }
-
-            // Right
-            if (input.right()) {
-                if (m_start_das_right) {
-                    if (check_das_right()) {
-                        move(1, 0);
-                        m_ghost_y = m_stack->get_ghost_y(&m_piece);
-                        //cout << "right" << endl;
-                    }
-                } else {
-                    m_start_das_right = true;
-                    move(1, 0);
-                    m_ghost_y = m_stack->get_ghost_y(&m_piece);
-                    //cout << "right" << endl;
-                }
-            } else {
-                if (m_start_das_right) {
-                    m_start_das_right = false;
-                    m_das_right = 0;
-                }
-            }
+            // Old left right position
 
             // Sonic Drop
             if (m_current_mode->sonic_drop()) {
