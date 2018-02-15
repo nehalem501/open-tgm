@@ -11,8 +11,8 @@ typedef StackImpl Stack;
 
 class TextImpl : public Core::Text {
     public:
-        void initGraphics();
-        void updateGraphics();
+        void init_graphics();
+        void update_graphics();
         void update_color(int8_t color);
         void draw() const;
 };

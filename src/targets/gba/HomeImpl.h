@@ -7,7 +7,7 @@
 
 class HomeImpl : public Core::Home {
     public:
-        void initGraphics();
+        void init_graphics();
         void draw() const;
 };
 

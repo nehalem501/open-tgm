@@ -5,7 +5,7 @@
 void InputImpl::init() {
 }
 
-void InputImpl::pollInputs() {
+void InputImpl::poll_inputs() {
     m_prev_joystick = m_curr_joystick;
     m_prev_buttons = m_curr_buttons;
 

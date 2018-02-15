@@ -8,7 +8,7 @@
 class InputImpl : public Core::Input {
     public:
         void init();
-        void pollInputs();
+        void poll_inputs();
 };
 
 #endif
