@@ -9,10 +9,10 @@ void GameImpl::draw() const {
     player1.draw();
     stack1.draw();
 
-    timer1.draw(); // TODO timer2
-    labels1.draw();
+    m_timer1.draw(); // TODO timer2
+    m_labels1.draw();
 
-    switch (m_player1_state) {
+    switch (m_p1_state) {
         case GameState::READY_GO:
             m_p1_string.draw();
             break;

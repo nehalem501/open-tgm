@@ -7,7 +7,7 @@
 
 class MenuImpl : public Core::Menu {
     public:
-        void initGraphics();
+        void init_graphics();
         void draw() const;
 };
 

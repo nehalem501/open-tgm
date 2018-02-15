@@ -7,8 +7,8 @@
 
 class StackImpl : public Core::Stack {
     public:
-        void initGraphics();
-        void updateGraphics();
+        void init_graphics();
+        void update_graphics();
         void draw() const;
 };
 

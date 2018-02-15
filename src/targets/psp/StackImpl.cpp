@@ -4,10 +4,10 @@
 #include "GlobalPSP.h"
 #include "StackImpl.h"
 
-void StackImpl::initGraphics() {
+void StackImpl::init_graphics() {
 }
 
-void StackImpl::updateGraphics() {
+void StackImpl::update_graphics() {
 }
 
 void StackImpl::draw() const {

@@ -2,10 +2,10 @@
 
 #include "TimerImpl.h"
 
-void TimerImpl::initGraphics() {
+void TimerImpl::init_graphics() {
 }
 
-void TimerImpl::updateGraphics() {
+void TimerImpl::update_graphics() {
 }
 
 void TimerImpl::draw() const {
