@@ -53,3 +53,35 @@ Under the following terms:
 
 For details, go there: https://creativecommons.org/licenses/by-sa/4.0/
 
+
+
+
+
+
+// TODO
+Secret grade
+minimal amount of lined to be recognized
+ - TGM1: x
+ - TAP: x
+Seems like not possible after level 200. 
+check for time limit. 
+
+
+// TODO (rephrase)
+Frame order
+
+Check the Initial Rotation
+A new block appears
+loop until a block locked.
+  Check a block actions. (Actions effect following the below sequence in a frame.)
+    Rotation
+    Horizonal Move
+    Vertical Drop
+  Check to lock a block
+
+// TODO
+Glossary
+ARE: (+line clear ARE)
+DAS:
+IRS:
+clear delay:
