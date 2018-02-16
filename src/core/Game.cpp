@@ -71,6 +71,10 @@ void Core::Game::update(int *state) {
             // TODO
             m_p1_counter++;
 
+            #ifdef DEBUG
+            std::cout << "p1_counter (ready & go): " << (int) m_p1_counter << std::endl;
+            #endif
+
             // Display 'GO'
             if (m_p1_counter > 60) {
                 m_p1_string.update_text(GO_STR);
