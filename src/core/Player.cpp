@@ -221,6 +221,9 @@ void Core::Player::update(int *game_state) {
             //}
         }
 
+        case PlayerState::NEW_PIECE: {
+            break;
+        }
 
         case PlayerState::INGAME: {
             m_piece_old_y = m_piece.pos_y();
@@ -345,6 +348,13 @@ void Core::Player::update(int *game_state) {
             if (!can_go_down) {
                 if (m_piece_old_y != m_piece.pos_y()) {
                     reset_lock();
+                } else {
+                    // Change state if finished counting lock delay
+                    if (check_lock()) {
+                        m_draw_piece = false;
+                        m_state = PlayerState::LOCK;
+                        break;
+                    }
                 }
 
                 // Not restart counting if already doing it
@@ -363,12 +373,6 @@ void Core::Player::update(int *game_state) {
                 } else {
                     reset_lock();
                 }
-            }
-
-            // Change state if finished counting lock delay
-            if (check_lock()) {
-                m_draw_piece = false;
-                m_state = PlayerState::LOCK;
             }
 
             break;

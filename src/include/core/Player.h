@@ -16,6 +16,7 @@ namespace PlayerState {
     enum {
         WAITING = 0,
         ARE,
+        NEW_PIECE,
         INGAME,
         LOCK,
         LOCKED_ANIM,
