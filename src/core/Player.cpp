@@ -281,12 +281,11 @@ void Core::Player::update(int *game_state) {
                 }
             }
 
-
-            // Compute gravity
-            unsigned int number_down = gravity();
-
             // Check if piece can go down
             bool can_go_down = m_stack->check_new_pos(&m_piece, 0, 1, 0);
+
+            // Compute gravity
+            unsigned int number_down = gravity(can_go_down);
 
             #ifdef DEBUG
             std::cout << "Can go down: " << can_go_down << std::endl;
@@ -328,6 +327,13 @@ void Core::Player::update(int *game_state) {
 
             // Old left right position
 
+            // Gravity
+            if (number_down) { //TODO optimize
+                for (unsigned int i = 0; i < number_down; i++) {
+                    move(0, 1);
+                }
+            }
+
             // Sonic Drop
             if (m_current_mode->sonic_drop()) {
                 if (input.sonic_drop()) {
@@ -336,12 +342,7 @@ void Core::Player::update(int *game_state) {
                 }
             }
 
-            // Gravity
-            if (number_down) { //TODO optimize
-                for (unsigned int i = 0; i < number_down; i++) {
-                    move(0, 1);
-                }
-            }
+            // Old gravity position
 
             // TODO Bug piece locking midair
             // Start counting lock delay
@@ -929,9 +930,23 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
 }
 
 /* Give number of G for current gravity */
-unsigned int Core::Player::gravity() {
+unsigned int Core::Player::gravity(bool can_go_down) {
+    if (!can_go_down) {
+        m_gravity_counter = 0;
+
+        #ifdef DEBUG
+        std::cout << "gravity_counter: " << m_gravity_counter << std::endl;
+        #endif
+
+        return 0;
+    }
+
     m_gravity_counter += m_gravity;
-    //cout << gravity_counter << endl;
+
+    #ifdef DEBUG
+    std::cout << "gravity_counter: " << m_gravity_counter << std::endl;
+    #endif
+
     if (m_gravity_counter >= 256) {
         m_gravity_counter /= 256;
         unsigned int number_down = m_gravity_counter;
