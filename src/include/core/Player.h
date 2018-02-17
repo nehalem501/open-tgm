@@ -124,7 +124,7 @@ namespace Core {
             bool check_das_left();
             bool check_das_right();
 
-            unsigned int gravity();
+            unsigned int gravity(bool can_go_down);
 
             /*inline bool canRotateRight() { return m_rotRight; };
             inline void canRotateRightStart() { m_rotRight = false; };
