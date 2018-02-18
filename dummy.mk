@@ -1,13 +1,13 @@
 CC = g++-4.8
 EXE_NAME = open-tgm.bin
-SOURCE_FILES= $(wildcard core/*.cpp) $(wildcard targets/dummy/*.cpp) $(wildcard modes/*.cpp)
+SOURCE_FILES= $(wildcard src/core/*.cpp) $(wildcard src/targets/dummy/*.cpp) $(wildcard src/modes/*.cpp)
 EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
 CCFLAGS = -DTARGET_DUMMY -Wall -O2 -std=c++98
 LDFLAGS =
-INCLUDE_DIR = -I./include -I./targets/dummy
+INCLUDE_DIR = -I./src/include -I./src/targets/dummy
 LIBS_DIR =
 LIBS =
-BUILD_DIR = ../build/dummy
+BUILD_DIR = ./build/dummy
 EXTRAS =
 
 all : $(EXE_NAME)

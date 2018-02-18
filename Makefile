@@ -1,12 +1,12 @@
 SUBDIRS = src
 
-all:
-	for i in $(SUBDIRS); do (make -C $$i $(MAKECMDGOALS)); done 
+#all:
+#	for i in $(SUBDIRS); do (make -C $$i $(MAKECMDGOALS)); done 
 
-.PHONY: clean mrproper
+#.PHONY: clean mrproper
 
-clean:
-	for i in $(SUBDIRS); do (make -C $$i $(MAKECMDGOALS)); done 
+#clean:
+#	for i in $(SUBDIRS); do (make -C $$i $(MAKECMDGOALS)); done 
 
-mrproper:
-	for i in $(SUBDIRS); do (make -C $$i $(MAKECMDGOALS)); done
+#mrproper:
+#	for i in $(SUBDIRS); do (make -C $$i $(MAKECMDGOALS)); done
