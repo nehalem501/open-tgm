@@ -1,24 +1,31 @@
-CC = g++-4.8
-EXE_NAME = open-tgm.bin
-SOURCE_FILES= $(wildcard src/core/*.cpp) $(wildcard src/targets/dummy/*.cpp) $(wildcard src/modes/*.cpp)
-EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
-CCFLAGS = -DTARGET_DUMMY -Wall -O2 -std=c++98
-LDFLAGS =
-INCLUDE_DIR = -I./src/include -I./src/targets/dummy
-LIBS_DIR =
-LIBS =
+# Dummy target Makefile
+
+CFLAGS += -DTARGET_DUMMY -O2 -std=c++98
+CXXFLAGS += $(CFLAGS)
+
+CPP_FILES += $(wildcard src/targets/dummy/*.cpp)
+OBJ_FILES = $(CPP_FILES:.cpp=.o)
+
+INCLUDE_DIR += -I./src/targets/dummy
 BUILD_DIR = ./build/dummy
-EXTRAS =
 
-all : $(EXE_NAME)
+EXE_NAME := $(addprefix $(BUILD_DIR)/, $(EXE_NAME))
 
-clean :
-	rm -f $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES);
+all : print_info $(EXE_NAME)
 
-$(EXE_NAME) : $(EXE_OBJ_FILES)
+$(EXE_NAME) : $(OBJ_FILES)
 	mkdir -p $(BUILD_DIR)
-	$(CC) $(LDFLAGS) -o $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES) $(LIBS_DIR) $(LIBS)
-	$(EXTRAS)
+	$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJ_FILES)
 
 %.o: %.cpp
-	$(CC) $(CCFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+
+clean :
+	rm -rf $(EXE_NAME) $(OBJ_FILES);
+
+print_info:
+	@echo C compiler: $(CC)
+	@echo CXX compiler: $(CXX)
+
+.PHONY: clean print_info
+
