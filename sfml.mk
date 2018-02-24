@@ -1,14 +1,14 @@
-CC = g++
-EXE_NAME = open-tgm
-SOURCE_FILES= $(wildcard src/core/*.cpp) $(wildcard src/targets/sfml/*.cpp) $(wildcard src/modes/*.cpp)
-EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
-CCFLAGS = -DTARGET_SFML -DDEBUG -Wall -Wextra -pedantic
-LDFLAGS =
-INCLUDE_DIR = -I./src/include -I./src/targets/sfml
-LIBS_DIR =
+# SFML target Makefile
+
+CFLAGS += -DTARGET_SFML -DDEBUG -Wall -Wextra -pedantic
+CXXFLAGS += $(CFLAGS)
+
+CPP_FILES += $(wildcard src/targets/sfml/*.cpp)
+OBJ_FILES = $(CPP_FILES:.cpp=.o)
+
+INCLUDE_DIR += -I./src/targets/sfml
+
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
-BUILD_DIR = .
-EXTRAS =
 
 ifeq ($(OS),Windows_NT)
     BUILD_DIR = ./build/win32
@@ -48,18 +48,27 @@ else
     endif
 endif
 
+EXE_NAME := $(addprefix $(BUILD_DIR)/, $(EXE_NAME))
+
 all : $(EXE_NAME)
+
+$(EXE_NAME) : print_info $(OBJ_FILES)
+	@mkdir -p $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR)/resources
+	@cp -r ./data/resources $(BUILD_DIR)
+	$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJ_FILES) $(LIBS_DIR) $(LIBS)
+	$(EXTRAS)
+
+%.o: %.cpp
+	$(CXX) $(CCFLAGS) $(INCLUDE_DIR) -o $@ -c $<
 
 clean :
 	rm -f $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES);
 	rm -rf $(BUILD_DIR)/resources
 
-$(EXE_NAME) : $(EXE_OBJ_FILES)
-	mkdir -p $(BUILD_DIR)
-	rm -rf $(BUILD_DIR)/resources
-	cp -r ./data/resources $(BUILD_DIR)
-	$(CC) $(LDFLAGS) -o $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES) $(LIBS_DIR) $(LIBS)
-	$(EXTRAS)
+print_info:
+	@echo C compiler: $(CC)
+	@echo C++ compiler: $(CXX)
 
-%.o: %.cpp
-	$(CC) $(CCFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+.PHONY: clean print_info
+
