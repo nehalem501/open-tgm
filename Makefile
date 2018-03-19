@@ -1,30 +1,27 @@
 # Open TGM Makefile
 
 # Binary filename
-EXE_NAME=open-tgm
+NAME = open-tgm
 
 # Default target
-DEFAULT=sfml
+DEFAULT = sfml
 
 # Get target list
-TARGETS_MK=$(wildcard *.mk)
-TARGETS=$(TARGETS_MK:.mk=)
+TARGETS_MK = $(wildcard *.mk)
+TARGETS = $(TARGETS_MK:.mk=)
 
 # Default compiler
-CC=cc
-CXX=c++
+CXX = c++
 
 # Common variables for all targets
-CFLAGS=-Wall -Wextra
-CXXFLAFS=
+CXXFLAGS = -Wall -Wextra
 
 # Arguments
-ARGS=$(MAKECMDGOALS)
+ARGS = $(MAKECMDGOALS)
 
 # Files and Directories
-CPP_FILES=$(wildcard src/core/*.cpp) $(wildcard src/modes/*.cpp)
-C_FILES=
-INCLUDE_DIR=-I./src/include
+SOURCES = $(wildcard src/core/*.cpp) $(wildcard src/modes/*.cpp)
+HEADERS = -I./src/include
 
 # Export variables for makefile of each target
 unexport TARGETS_MK TARGETS ARGS
@@ -33,8 +30,18 @@ export
 all:
 	@$(MAKE) -f $(DEFAULT).mk $(ARGS)
 
+#$(TARGETS): OBJECTS = $(SOURCES:.cpp=.o)
+$(TARGETS): BIN_DIR = ./bin/$@/
+$(TARGETS): BUILD_DIR = ./build/$@/
+$(TARGETS): HEADERS += -I./src/targets/$@
+$(TARGETS): EXE_NAME = ./bin/$@/$(NAME)
+$(TARGETS): SOURCES += $(wildcard src/targets/$@/*.cpp)
+$(TARGETS): OBJECTS = $(addprefix $(BUILD_DIR), $(notdir $(SOURCES:.cpp=.o)))
 $(TARGETS): % : %.mk
 	@echo Selected target: $@
+	@mkdir -p $(BIN_DIR)
+	@mkdir -p $(BUILD_DIR)
+	@echo $(OBJECTS)
 	$(MAKE) -f $< $(filter-out $@,$(ARGS))
 
 clean:

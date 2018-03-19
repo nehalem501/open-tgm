@@ -10,6 +10,7 @@
 *.swp
 
 # Build
+bin/
 build/
 src/build-gba
 src/build-3ds
