@@ -1,20 +1,10 @@
 # SFML target Makefile
 
-CFLAGS += -DTARGET_SFML -DDEBUG -Wall -Wextra -pedantic
-CXXFLAGS += $(CFLAGS)
-
-CPP_FILES += $(wildcard src/targets/sfml/*.cpp)
-OBJ_FILES = $(CPP_FILES:.cpp=.o)
-
-INCLUDE_DIR += -I./src/targets/sfml
-
-LIBS = -lsfml-graphics -lsfml-window -lsfml-system
-
 ifeq ($(OS),Windows_NT)
-    BUILD_DIR = ./build/win32
-    EXE_NAME = open-tgm.exe
-    CCFLAGS += -DSFML_STATIC
-    INCLUDE_DIR += -I./extlibs/SFML-win32/include
+    OS_TARGET = win32
+    EXE_NAME := $(EXE_NAME).exe
+    CXXFLAGS += -DSFML_STATIC
+    HEADERS += -I./extlibs/SFML-win32/include
     LIBS = -lsfml-graphics-s -lsfml-window-s -lopengl32 -ljpeg -lfreetype -lgdi32 -lsfml-system-s -lwinmm -static-libgcc -static-libstdc++
     LIBS_DIR = -L./extlibs/SFML-win32/lib
 else
@@ -29,46 +19,52 @@ else
           UNAME_M=i386
         else
         endif
-        EXE_NAME = open-tgm.bin
-        CC = g++-4.8
-        BUILD_DIR = ./build/linux_$(UNAME_M)
-        CCFLAGS += -g -std=c++11
+	EXE_NAME := $(EXE_NAME).bin
+        CXX = g++-4.8
+        OS_TARGET = linux_$(UNAME_M)
+        CXXFLAGS += -g -std=c++11
         LDFLAGS = -Wl,-R./lib
-        INCLUDE_DIR += -I./extlibs/SFML-linux_$(UNAME_M)/include
+        HEADERS += -I./extlibs/SFML-linux_$(UNAME_M)/include
         LIBS = -lsfml-graphics -lsfml-window -lsfml-system -static-libgcc -static-libstdc++
         LIBS_DIR = -L./extlibs/SFML-linux_$(UNAME_M)/lib
-        EXTRAS = rm -rf $(BUILD_DIR)/lib ; cp -r ./extlibs/SFML-linux_$(UNAME_M)/lib $(BUILD_DIR) ; rm -f $(BUILD_DIR)/open-tgm ; cp ./data/scripts/open-tgm $(BUILD_DIR)
+        EXTRAS = rm -rf $(BIN_DIR)/lib ; cp -r ./extlibs/SFML-linux_$(UNAME_M)/lib $(BIN_DIR) ; rm -f $(BIN_DIR)/open-tgm ; cp ./data/scripts/open-tgm $(BIN_DIR)
     endif
     ifeq ($(UNAME_S),Darwin)
-        BUILD_DIR = ./build/osx
-        CCFLAGS +=
-        INCLUDE_DIR += -I./extlibs/SFML-osx/include
-        LIBS =
+        OS_TARGET = osx
+        HEADERS += -I./extlibs/SFML-osx/include
         LIBS_DIR = -L./extlibs/SFML-osx/lib
     endif
 endif
 
-EXE_NAME := $(addprefix $(BUILD_DIR)/, $(EXE_NAME))
+CXXFLAGS += -DTARGET_SFML -DDEBUG -Wall -Wextra -pedantic
+
+OBJECTS := $(subst $(BUILD_DIR), $(BUILD_DIR)/$(OS_TARGET), $(OBJECTS))
+EXE_NAME := $(subst $(BIN_DIR), $(BIN_DIR)/$(OS_TARGET), $(EXE_NAME))
+
+BIN_DIR := $(BIN_DIR)/$(OS_TARGET)
+BUILD_DIR := $(BUILD_DIR)/$(OS_TARGET)
 
 all : $(EXE_NAME)
 
-$(EXE_NAME) : print_info $(OBJ_FILES)
-	@mkdir -p $(BUILD_DIR)
-	@rm -rf $(BUILD_DIR)/resources
-	@cp -r ./data/resources $(BUILD_DIR)
-	$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJ_FILES) $(LIBS_DIR) $(LIBS)
+$(EXE_NAME) : print_info $(OBJECTS)
+	@rm -r $(BIN_DIR)/resources
+	@cp -r data/resources/ $(BIN_DIR)
+	@echo Linking $(EXE_NAME)
+	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS_DIR) $(LIBS)
 	$(EXTRAS)
 
-%.o: %.cpp
-	$(CXX) $(CCFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+$(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
+	@echo $(CXX) $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
 
 clean :
-	rm -f $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES);
-	rm -rf $(BUILD_DIR)/resources
+	rm -f $(OBJECTS);
 
 print_info:
-	@echo C compiler: $(CC)
 	@echo C++ compiler: $(CXX)
+	echo $(EXE_NAME)
+	@mkdir -p $(BIN_DIR)
+	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/sfml $(BUILD_DIR)/modes
 
 .PHONY: clean print_info
 

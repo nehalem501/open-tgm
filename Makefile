@@ -33,10 +33,10 @@ all:
 
 #$(TARGETS): OBJECTS = $(SOURCES:.cpp=.o)
 #$(TARGETS): OBJECTS = $(addprefix $(BUILD_DIR), $(notdir $(SOURCES:.cpp=.o)))
-$(TARGETS): BIN_DIR = bin/$@/
+$(TARGETS): BIN_DIR = bin/$@
 $(TARGETS): BUILD_DIR = build/$@
 $(TARGETS): HEADERS += -I./src/targets/$@
-$(TARGETS): EXE_NAME = ./bin/$@/$(NAME)
+$(TARGETS): EXE_NAME = bin/$@/$(NAME)
 $(TARGETS): SOURCES += $(wildcard $(SRC_DIR)/targets/$@/*.cpp)
 $(TARGETS): OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o))
 $(TARGETS): % : %.mk
