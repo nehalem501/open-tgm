@@ -4,13 +4,13 @@ CXXFLAGS += -DTARGET_DUMMY -O2 -std=c++98
 
 all : $(EXE_NAME)
 
-$(EXE_NAME) : print_info $(OBJ_FILES)
+$(EXE_NAME) : print_info $(OBJECTS)
 	@echo Linking $(EXE_NAME)
 	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS)
 
-%.o: %.cpp
+$(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
-	@$(CXX) $(CXXFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
 
 clean :
 	@rm -rf $(OBJECTS);

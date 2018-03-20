@@ -20,8 +20,9 @@ CXXFLAGS = -Wall -Wextra
 ARGS = $(MAKECMDGOALS)
 
 # Files and Directories
-SOURCES = $(wildcard src/core/*.cpp) $(wildcard src/modes/*.cpp)
-HEADERS = -I./src/include
+SRC_DIR = src
+HEADERS = -I$(SRC_DIR)/include
+SOURCES = $(wildcard $(SRC_DIR)/core/*.cpp) $(wildcard $(SRC_DIR)/modes/*.cpp)
 
 # Export variables for makefile of each target
 unexport TARGETS_MK TARGETS ARGS
@@ -31,17 +32,17 @@ all:
 	@$(MAKE) -f $(DEFAULT).mk $(ARGS)
 
 #$(TARGETS): OBJECTS = $(SOURCES:.cpp=.o)
-$(TARGETS): BIN_DIR = ./bin/$@/
-$(TARGETS): BUILD_DIR = ./build/$@/
+#$(TARGETS): OBJECTS = $(addprefix $(BUILD_DIR), $(notdir $(SOURCES:.cpp=.o)))
+$(TARGETS): BIN_DIR = bin/$@/
+$(TARGETS): BUILD_DIR = build/$@
 $(TARGETS): HEADERS += -I./src/targets/$@
 $(TARGETS): EXE_NAME = ./bin/$@/$(NAME)
-$(TARGETS): SOURCES += $(wildcard src/targets/$@/*.cpp)
-$(TARGETS): OBJECTS = $(addprefix $(BUILD_DIR), $(notdir $(SOURCES:.cpp=.o)))
+$(TARGETS): SOURCES += $(wildcard $(SRC_DIR)/targets/$@/*.cpp)
+$(TARGETS): OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o))
 $(TARGETS): % : %.mk
 	@echo Selected target: $@
 	@mkdir -p $(BIN_DIR)
-	@mkdir -p $(BUILD_DIR)
-	@echo $(OBJECTS)
+	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/$@ $(BUILD_DIR)/modes
 	$(MAKE) -f $< $(filter-out $@,$(ARGS))
 
 clean:
