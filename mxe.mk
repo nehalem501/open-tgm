@@ -1,29 +1,42 @@
+# MXE (Cross-compiling for Windows on Linux) target Makefile
+
+# We need to change the source and build paths, this is a special case
+# for MXE builds as the target is SFML.
+BIN_DIR := $(subst mxe,sfml/win32, $(BIN_DIR))
+BUILD_DIR := $(subst mxe,sfml/win32, $(BUILD_DIR))
+HEADERS := $(subst mxe,sfml, $(HEADERS))
+SOURCES := $(subst mxe,sfml, $(SOURCES)) $(wildcard $(SRC_DIR)/targets/sfml/*.cpp)
+OBJECTS := $(addprefix $(BUILD_DIR)/, $(SOURCES:$(SRC_DIR)/%.cpp=%.o))
+
+# MXE install dir
 MXE = ~/mxe
-CC = $(MXE)/usr/bin/i686-w64-mingw32.static-g++
-EXE_NAME = open-tgm.exe
-SOURCE_FILES = $(wildcard src/core/*.cpp) $(wildcard src/targets/sfml/*.cpp) $(wildcard src/modes/*.cpp)
-EXE_OBJ_FILES = $(SOURCE_FILES:.cpp=.o)
-CCFLAGS = -DTARGET_SFML -DDEBUG -Wall -pedantic `$(MXE)/usr/bin/i686-w64-mingw32.static-pkg-config --cflags sfml`
-LDFLAGS =
-INCLUDE_DIR = -I./src/include -I./src/targets/sfml
-LIBS_DIR =
-LIBS = `$(MXE)/usr/bin/i686-w64-mingw32.static-pkg-config --libs sfml`
-BUILD_DIR = ./build/win32
-EXTRAS =
+
+CXX = $(MXE)/usr/bin/i686-w64-mingw32.static-g++
+
+EXE_NAME := $(EXE_NAME).exe
+
+LIBS := `$(MXE)/usr/bin/i686-w64-mingw32.static-pkg-config --libs sfml`
+
+CXXFLAGS += -DTARGET_SFML `$(MXE)/usr/bin/i686-w64-mingw32.static-pkg-config --cflags sfml`
 
 all : $(EXE_NAME)
 
+$(EXE_NAME) : print_info $(OBJECTS)
+	@echo Linking $(EXE_NAME)
+	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS)
+
+$(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
+	@echo $(CXX) $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
+
 clean :
-	rm -f $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES);
-	rm -rf $(BUILD_DIR)/resources
+	@rm -rf $(OBJECTS);
 
-$(EXE_NAME) : $(EXE_OBJ_FILES)
-	mkdir -p $(BUILD_DIR)
-	rm -rf $(BUILD_DIR)/resources
-	cp -r ./data/resources $(BUILD_DIR)
-	$(CC) $(LDFLAGS) -o $(BUILD_DIR)/$(EXE_NAME) $(EXE_OBJ_FILES) $(LIBS_DIR) $(LIBS)
-	$(MXE)/usr/bin/i686-w64-mingw32.static-strip $(BUILD_DIR)/$(EXE_NAME)
-	$(EXTRAS)
+print_info : 
+	@echo C++ compiler: $(CXX)
+	@mkdir -p $(BIN_DIR)
+	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/sfml $(BUILD_DIR)/modes
 
-%.o: %.cpp
-	$(CC) $(CCFLAGS) $(INCLUDE_DIR) -o $@ -c $<
+
+.PHONY: clean print_info
+
