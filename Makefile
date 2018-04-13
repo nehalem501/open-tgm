@@ -10,10 +10,8 @@ DEFAULT = sfml
 TARGETS_MK = $(wildcard *.mk)
 TARGETS = $(TARGETS_MK:.mk=)
 
-# Default compiler
-CXX = c++
-
 # Common variables for all targets
+CFLAGS = -Wall -Wextra
 CXXFLAGS = -Wall -Wextra
 
 # Arguments
