@@ -27,7 +27,6 @@ APP_DESCRIPTION = Built with devkitARM & libctru
 APP_AUTHOR = Unspecified Author
 APP_ICON = $(DEVKITPRO)/libctru/default_icon.png
 
-
 all : $(EXE_NAME).3dsx
 
 $(EXE_NAME).3dsx: $(EXE_NAME).elf $(EXE_NAME).smdh
@@ -42,33 +41,21 @@ $(EXE_NAME).elf: print_info $(OBJECTS)
 	@echo Linking $(EXE_NAME)
 	@$(CXX) $(LDFLAGS) -o $(EXE_NAME).elf $(OBJECTS) $(LIBS_DIR) $(LIBS)
 
-  #$(eval CURBIN := $(BUILD_DIR)$*.shbin)
-define shader-as
-  $(eval CURBIN := $(notdir $*.shbin))
-  echo $(CURBIN)
-  echo "extern const u8" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"_end[];" > $(BUILD_DIR)/$(CURBIN).h
-  echo "extern const u8" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"[];" >> $(BUILD_DIR)/$(CURBIN).h
-  echo "extern const u32" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> $(BUILD_DIR)/$(CURBIN).h
-  picasso -o $(BUILD_DIR)/$(CURBIN) $1
-  bin2s $(BUILD_DIR)/$(CURBIN) | $(AS) -o $(BUILD_DIR)$*.shbin.o
-endef
+$(BUILD_DIR)%.shbin.o: $(SRC_DIR)/targets/3ds/resources/%.v.pica
+	@echo compiling shader $@
+	@echo "extern const u8" `(echo $(notdir $(@:%.o=%)) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"_end[];" > $(@:%.o=%.h)
+	@echo "extern const u8" `(echo $(notdir $(@:%.o=%)) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"[];" >> $(@:%.o=%.h)
+	@echo "extern const u32" `(echo $(notdir $(@:%.o=%)) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> $(@:%.o=%.h)
+	@picasso -o $(@:%.o=%) $<
+	@bin2s $(@:%.o=%) | $(AS) -o $@
 
-define bin2o
-  echo v $<
-  echo @ $(@)
-  bin2s $< | $(AS) -o $(@)
-  echo "extern const u8" `(echo $(<F) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"_end[];" > $(@:%.o=%.h)
-  echo "extern const u8" `(echo $(<F) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"[];" >> $(@:%.o=%.h)
-  echo "extern const u32" `(echo $(<F) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> $(@:%.o=%.h)
-endef
-
-$(BUILD_DIR)%.png.o $(BUILD_DIR)%_png.h: data/platform_specific/3ds/%.png
-	@echo $(notdir $<)
-	$(bin2o)
-
-$(BUILD_DIR)%.shbin.o $(BUILD_DIR)%_shbin.h: src/targets/3ds/resources/%.v.pica
-	@echo shader-as $<
-	$(call shader-as,$<)
+$(BUILD_DIR)%.png.o: data/platform_specific/3ds/%.png
+	@echo generating object $@
+	@bin2s $< | $(AS) -o $@
+	@echo generating header $(@:%.o=%.h)
+	@echo "extern const u8" `(echo $(<F) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"_end[];" > $(@:%.o=%.h)
+	@echo "extern const u8" `(echo $(<F) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"[];" >> $(@:%.o=%.h)
+	@echo "extern const u32" `(echo $(<F) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> $(@:%.o=%.h)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
@@ -78,8 +65,8 @@ clean:
 	@rm -rf $(OBJECTS);
 
 print_info:
+	@echo assembler: $(AS)
 	@echo C++ compiler: $(CXX)
 	@mkdir -p $(BUILD_DIR)/targets/gba/resources
 
 .PHONY: clean print_info
-
