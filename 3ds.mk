@@ -59,7 +59,7 @@ $(BUILD_DIR)%.png.o: data/platform_specific/3ds/%.png
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
-	$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
 
 clean:
 	@rm -rf $(OBJECTS);
