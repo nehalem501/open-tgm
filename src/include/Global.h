@@ -5,23 +5,7 @@
 
 #include <stdint.h>
 
-#ifdef TARGET_SFML
-typedef unsigned int tiles_t;
-#endif
-#ifdef TARGET_DUMMY
-typedef uint16_t tiles_t;
-#endif
-#ifdef TARGET_GBA
-#include <gba_types.h>
-typedef u16 tiles_t;
-#endif
-#ifdef TARGET_PSP
-typedef unsigned int tiles_t;
-#endif
-#ifdef TARGET_3DS
-#include <3ds/types.h>
-typedef u32 tiles_t;
-#endif
+#include <TargetTypes.h>
 
 /* Forward declarations to avoid dependency hell */
 class Mode;
