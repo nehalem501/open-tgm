@@ -51,25 +51,25 @@ void print_bits(uint8_t byte) {
     else
         printf("0");
 
-        if (byte & 0x10)
-            printf("1");
-        else
-            printf("0");
+    if (byte & 0x10)
+        printf("1");
+    else
+        printf("0");
 
-        if (byte & 0x20)
-            printf("1");
-        else
-            printf("0");
+    if (byte & 0x20)
+        printf("1");
+    else
+        printf("0");
 
-        if (byte & 0x40)
-            printf("1");
-        else
-            printf("0");
+    if (byte & 0x40)
+        printf("1");
+    else
+        printf("0");
 
-        if (byte & 0x80)
-            printf("1");
-        else
-            printf("0");
+    if (byte & 0x80)
+        printf("1");
+    else
+        printf("0");
 }
 
 void Core::Input::process() {
