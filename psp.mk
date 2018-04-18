@@ -6,7 +6,7 @@ SOURCE_FILES_C = $(wildcard src/targets/psp/resources/*.c)
 OBJS = $(SOURCE_FILES_C:.c=.o) $(SOURCE_FILES_CPP:.cpp=.o)
 
 INCDIR = ./src/include ./src/targets/psp ./extlibs/gLib2D
-CFLAGS = -O2 -G0 -Wall -DTARGET_PSP -DDEBUG
+CFLAGS = -O2 -G0 -Wall -DTARGET_PSP
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
