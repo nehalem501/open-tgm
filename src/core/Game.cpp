@@ -120,8 +120,10 @@ void Core::Game::update(int *state) {
             }
 
             // Remove next line
-            if (m_p1_counter % 8 == 0)
+            if (m_p1_counter % 8 == 0) {
                 stack1.remove_line(m_p1_counter / 8);
+                stack1.reset_outline();
+            }
 
             break;
 

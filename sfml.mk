@@ -47,8 +47,8 @@ BUILD_DIR := $(BUILD_DIR)/$(OS_TARGET)
 all : $(EXE_NAME)
 
 $(EXE_NAME) : print_info $(OBJECTS)
-	@rm -r $(BIN_DIR)/resources
-	@cp -r data/resources/ $(BIN_DIR)
+	@rm -rf $(BIN_DIR)/resources
+	@cp -rf data/resources/ $(BIN_DIR)
 	@echo Linking $(EXE_NAME)
 	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS_DIR) $(LIBS)
 	$(EXTRAS)

@@ -1,13 +1,25 @@
-/* outline.h - GBA */
 
-#ifndef OUTLINE_GBA_H
-#define OUTLINE_GBA_H
+//{{BLOCK(outline)
 
-#define OUTLINE_LEN 1024
-extern const unsigned short outline_tiles[512];
+//======================================================================
+//
+//	outline, 8x128@8, 
+//	Transparent color : 00,FF,FF
+//	+ 16 tiles not compressed
+//	Total size: 1024 = 1024
+//
+//	Time-stamp: 2018-03-30, 20:43:07
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.14
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
 
-#define OUTLINE_PAL_LEN 512
-extern const unsigned short outline_pal[256];
+#ifndef GRIT_OUTLINE_H
+#define GRIT_OUTLINE_H
 
-#endif // OUTLINE_GBA_H
+#define outlineTilesLen 1024
+extern const unsigned short outlineTiles[512];
 
+#endif // GRIT_OUTLINE_H
+
+//}}BLOCK(outline)

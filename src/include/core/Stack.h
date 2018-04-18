@@ -4,6 +4,7 @@
 #define CORE_STACK_H
 
 #include <stdint.h>
+#include <string.h>
 #include <Global.h>
 #include <Piece.h>
 #include <Mode.h>
@@ -47,6 +48,8 @@ namespace Core {
             bool check_lines(Core::Player *player);
             void remove_line(unsigned int line);
 
+            inline void reset_outline() { memset(m_outline, 0,
+                                            sizeof(tiles_t) * MAX_WIDTH *MAX_HEIGHT); };
             void update_outline(unsigned int unsigned_line);
 
             void remove_grey_blocks(Piece *piece);

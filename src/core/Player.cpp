@@ -205,6 +205,11 @@ void Core::Player::update(int *game_state) {
                     //lockPiece(); // TODO
                     //m_stack->removeGreyBlocks(&m_piece);
                     *game_state = GameState::GAME_OVER_ANIM;
+                    m_piece.locked(m_stack);
+                    m_stack->remove_grey_blocks(&m_piece);
+                    m_stack->reset_outline();
+                    m_draw_piece = false;
+                    m_draw_ghost = false;
                     return;
                 }
 
