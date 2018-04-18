@@ -2,16 +2,16 @@
 
 #include "SettingsImpl.h"
 
-void SettingsImpl::initGraphics() {
-    input_msg.initGraphics();
+void SettingsImpl::init_graphics() {
+    m_input_msg.init_graphics();
 
     for (unsigned int i = 0; i < SettingsState::SETTINGS_NB; i++) {
-        settings_str[i].initGraphics();
+        m_settings_str[i].init_graphics();
     }
 
     for (unsigned int i = 0; i < NB_INPUTS; i++) {
-        inputs_str[i].initGraphics();
-        input_states_str[i].initGraphics();
+        m_inputs_str[i].init_graphics();
+        m_input_states_str[i].init_graphics();
     }
 }
 
@@ -19,15 +19,15 @@ void SettingsImpl::draw() const {
     switch (m_state) {
         case SettingsState::LIST:
             for (unsigned int i = 0; i < SettingsState::SETTINGS_NB; i++) {
-                settings_str[i].draw();
+                m_settings_str[i].draw();
             }
             break;
 
         case SettingsState::INPUT_TEST:
-            input_msg.draw();
+            m_input_msg.draw();
             for (unsigned int i = 0; i < NB_INPUTS; i++) {
-                inputs_str[i].draw();
-                input_states_str[i].draw();
+                m_inputs_str[i].draw();
+                m_input_states_str[i].draw();
             }
             break;
     }

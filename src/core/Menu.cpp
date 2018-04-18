@@ -10,28 +10,30 @@
 using namespace std;
 
 Core::Menu::Menu() : m_state(MenuState::HOME), m_mode(0) {
-    //cout << "Menu constructor" << endl;
+    #ifdef DEBUG
+    std::cout << "Menu constructor" << std::endl;
+    #endif
 }
 
 void Core::Menu::update() {
-    input.pollInputs();
+    input.poll_inputs();
 
     switch(m_state) {
         case MenuState::HOME:
             if (input.settings()) {
                 m_state = MenuState::SETTINGS;
-                background.changeToOptions();
+                background.go_to_options();
                 return;
             }
             m_home.update(&m_state);
             break;
 
         case MenuState::CHOOSE_MODE:
-            m_chooseMode.update(&m_state, &m_mode);
+            m_choose_mode.update(&m_state, &m_mode);
             break;
 
         case MenuState::START_GAME:
-            game.startPlayer1(m_mode);
+            game.start_p1(m_mode);
             // TODO
             m_state = MenuState::INGAME;
             break;
@@ -40,7 +42,7 @@ void Core::Menu::update() {
             // Update logic
             game.update(&m_state);
 
-            game.updateGraphics();
+            game.update_graphics();
             //ingame();
             break;
 

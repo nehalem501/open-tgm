@@ -1,14 +1,33 @@
 /* Piece.cpp */
 
 #include <Global.h>
+#include <Shapes.h>
+#include <Stack.h>
 #include <Piece.h>
 
-Piece::Piece() : type(0), orientation(0) {
+Piece::Piece() : m_type(0), m_orientation(0), m_pos_x(0), m_pos_y(0) {
 }
 
-Piece::Piece(tiles_t t, int o) : type(t), orientation(o) {
+Piece::Piece(tiles_t type, int orientation) : m_type(type),
+                                              m_orientation(orientation),
+                                              m_pos_x(0), m_pos_y(0) {
 }
 
-Piece::Piece(tiles_t t, int o, int x, int y) : type(t),
-    orientation(o), pos_x(x), pos_y(y) {
+Piece::Piece(tiles_t type, int orientation, int pos_x, int pos_y) :
+    m_type(type), m_orientation(orientation),
+    m_pos_x(pos_x), m_pos_y(pos_y) {
+}
+
+void Piece::locked(Stack *stack) {
+    int pos_x = m_pos_x - 2;
+    int pos_y = m_pos_y - 1;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (PIECES[m_type][m_orientation][j][i] > 0) {
+                int x = pos_x /*- 2*/ + i;
+                int y = pos_y /*- 1*/ + j;
+                stack->m_field[x + stack->m_width * y] = 8;
+            }
+        }
+    }
 }

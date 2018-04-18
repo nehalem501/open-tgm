@@ -2,11 +2,11 @@
 
 #include "HomeImpl.h"
 
-void HomeImpl::initGraphics() {
-    m_start.initGraphics();
+void HomeImpl::init_graphics() {
+    m_start.init_graphics();
     m_start.update_text("PRESS START");
     m_start.update_pos(17, 16);
-    m_start.updateGraphics();
+    m_start.update_graphics();
 }
 
 void HomeImpl::draw() const {

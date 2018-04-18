@@ -17,6 +17,10 @@ void Core::Stack::init(int pos_x, int pos_y, int width, int height) {
     m_width = width;
     m_height = height;
 
+    #ifdef DEBUG
+    std::cout << "width: " << m_width << "  height: " << m_height << std::endl;
+    #endif
+
     // Position in tiles
     m_pos_x = pos_x;
     m_pos_y = pos_y;
@@ -29,25 +33,25 @@ void Core::Stack::init(int pos_x, int pos_y, int width, int height) {
     memset(m_filled_lines, -1, FILLED_LINES_NB * sizeof(int));
 }
 
-void Core::Stack::startGame(Mode *mode) {
+void Core::Stack::start_game(Mode *mode) {
     // TODO
-    init(m_pos_x, m_pos_y, mode->size_x, mode->size_y);
+    init(m_pos_x, m_pos_y, mode->width(), mode->height());
 }
 
-int Core::Stack::getGhostY(Piece *piece) {
-    bool canGoDown = true;
-    int pos_y = piece->pos_y;
-    while(canGoDown) {
+int Core::Stack::get_ghost_y(Piece *piece) {
+    bool can_go_down = true;
+    int pos_y = piece->pos_y();
+    while(can_go_down) {
         pos_y = pos_y + 1;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                if (PIECES[piece->type][piece->orientation][j][i] > 0) {
-                    int x = piece->pos_x - 2 + i;
+                if (PIECES[piece->type()][piece->orientation()][j][i] > 0) {
+                    int x = piece->pos_x() - 2 + i;
                     int y = pos_y - 1 + j;
                     if (x < 0 || x >= m_width || y >= m_height) {
-                        canGoDown = false;
+                        can_go_down = false;
                     } else if (m_field[x + y * m_width] > 0) {
-                        canGoDown = false;
+                        can_go_down = false;
                     }
                 }
             }
@@ -59,14 +63,14 @@ int Core::Stack::getGhostY(Piece *piece) {
     return (pos_y - 1);
 }
 
-bool Core::Stack::checkNewPosition(Piece *piece, int new_x, int new_y,
+bool Core::Stack::check_new_pos(Piece *piece, int new_x, int new_y,
                                    int new_rotation) {
-    int pos_x = piece->pos_x + new_x;
-    int pos_y = piece->pos_y + new_y;
-    int rotation = modulo(piece->orientation + new_rotation, 4);
+    int pos_x = piece->pos_x() + new_x;
+    int pos_y = piece->pos_y() + new_y;
+    int rotation = modulo(piece->orientation() + new_rotation, 4);
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            if (PIECES[piece->type][rotation][j][i] > 0) {
+            if (PIECES[piece->type()][rotation][j][i] > 0) {
                 int x = pos_x - 2 + i;
                 int y = pos_y - 1 + j;
                 if (x < 0 || x >= m_width || y >= m_height) {
@@ -84,7 +88,7 @@ bool Core::Stack::checkNewPosition(Piece *piece, int new_x, int new_y,
     return true;
 }
 
-void Core::Stack::shiftLine(unsigned int line) {
+void Core::Stack::shift_line(unsigned int line) {
     //std::cout << "height: " << m_height << std::endl;
     if ((int) line > m_height - 1)
         return;
@@ -94,15 +98,15 @@ void Core::Stack::shiftLine(unsigned int line) {
     memmove(m_outline + m_width, m_outline, line * m_width * sizeof(tiles_t));
 
     // Update outline after shifting line
-    updateOutline(line);
-    updateOutline(line + 1);
+    update_outline(line);
+    update_outline(line + 1);
 }
 
-void Core::Stack::shiftLines() {
+void Core::Stack::shift_lines() {
     for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
         if (m_filled_lines[i] != -1) {
             //std::cout << m_filled_lines[i] << ", ";
-            shiftLine(m_filled_lines[i]);
+            shift_line(m_filled_lines[i]);
             m_filled_lines[i] = -1;
         }
     }
@@ -128,8 +132,8 @@ bool Core::Stack::check_line(unsigned int line) {
     return true;
 }
 
-void Core::Stack::checkLines(Core::Player *player) {
-    int pos_y = player->m_piece.pos_y;
+bool Core::Stack::check_lines(Core::Player *player) {
+    int pos_y = player->m_piece.pos_y();
 
     int lines_to_clear = 0;
     int bravo = check_bravo() ? 4 : 1;
@@ -143,15 +147,15 @@ void Core::Stack::checkLines(Core::Player *player) {
             memset(m_outline + row, 0, m_width * sizeof(tiles_t));
 
             // Update outline of surrounding lines
-            updateOutline(row_nb - 1);
-            updateOutline(row_nb + 1);
+            update_outline(row_nb - 1);
+            update_outline(row_nb + 1);
 
             // Add line coords to remove line later
             m_filled_lines[lines_to_clear] = row_nb; // TODO doubles
             //std::cout << row_nb << ", ";
 
             // Activate particles for line clear
-            m_part[lines_to_clear].setEmitter(0, row_nb);
+            m_part[lines_to_clear].set_emitter(0, row_nb);
             m_part[lines_to_clear].init();
 
             // Increment line count
@@ -161,26 +165,30 @@ void Core::Stack::checkLines(Core::Player *player) {
     //std::cout << std::endl;
 
     if (lines_to_clear > 0) {
-        player->updateScore(lines_to_clear, bravo);
-        player->startClear();
-        player->changeLevel(lines_to_clear, true);
-    } else {
-        player->setCombo(1);
-        player->startARE();
+        player->update_score(lines_to_clear, bravo);
+        //player->startClear();
+        player->change_level(lines_to_clear, true);
+        //std::cout << "to clear\n";
+        return true;
     }
+
+    player->set_combo(1);
+    //std::cout << "nothing\n";
+    //player->startARE();
+    return false;
 }
 
-void Core::Stack::removeLine(unsigned int line) {
+void Core::Stack::remove_line(unsigned int line) {
     if ((int) line < m_height) {
         memset(m_field + line * m_width, 0, m_width * sizeof(tiles_t));
-        updateOutline(line - 1);
-        updateOutline(line);
-        updateOutline(line + 1);
+        update_outline(line - 1);
+        update_outline(line);
+        update_outline(line + 1);
 
     }
 }
 
-void Core::Stack::updateOutline(unsigned int unsigned_line) {
+void Core::Stack::update_outline(unsigned int unsigned_line) {
     int line = (int) unsigned_line;
     if (line < m_height) {
         for (int i = 0; i < m_width; i++) {
@@ -206,9 +214,9 @@ void Core::Stack::updateOutline(unsigned int unsigned_line) {
     }
 }
 
-void Core::Stack::removeGreyBlocks(Piece *piece) {
-    int pos_x = piece->pos_x - 2;
-    int pos_y = piece->pos_y - 1;
+void Core::Stack::remove_grey_blocks(Piece *piece) {
+    int pos_x = piece->pos_x() - 2;
+    int pos_y = piece->pos_y() - 1;
     int limit_x = pos_x + SIZE;
     int limit_y = pos_y + SIZE;
 
@@ -224,7 +232,7 @@ void Core::Stack::removeGreyBlocks(Piece *piece) {
     for (int i = pos_y; i < limit_y; i++) {
         for (int j = pos_x; j < limit_x; j++) {
             if (m_field[j + m_width * i] == 8) {
-                m_field[j + m_width * i] = piece->type + 1;
+                m_field[j + m_width * i] = piece->type() + 1;
             }
         }
     }

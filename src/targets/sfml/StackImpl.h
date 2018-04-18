@@ -9,10 +9,10 @@
 
 class StackImpl : public Core::Stack, public sf::Drawable {
     public:
-        void initGraphics();
-        void updateGraphics();
+        void init_graphics();
+        void update_graphics();
+        void resize();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-        void updateSize();
 
     private:
         sf::VertexArray m_vertices;

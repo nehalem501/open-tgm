@@ -6,10 +6,10 @@
 #include <resources/outline.h>
 #include <Global.h>
 
-void initRandom() {
+void init_random() {
 }
 
-void initTextures() {
+void init_textures() {
 
     // Set mode 0 and enable background 0
     SetMode(MODE_0 | BG0_ON | BG1_ON);

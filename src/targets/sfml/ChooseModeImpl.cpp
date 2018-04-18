@@ -6,15 +6,15 @@
 #include <SFML/Graphics.hpp>
 #include "ChooseModeImpl.h"
 
-void ChooseModeImpl::initGraphics() {
+void ChooseModeImpl::init_graphics() {
     /*for (int i = 0; i < NB_MODES; i++) {
         m_modes_strings[i].initGraphics();
     }*/
 }
 
-void ChooseModeImpl::updateSize() {
+void ChooseModeImpl::resize() {
     for (int i = 0; i < NB_MODES; i++) {
-        m_modes_strings[i].updateSize();
+        m_modes_strings[i].resize();
     }
 }
 

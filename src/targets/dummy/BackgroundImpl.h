@@ -7,7 +7,7 @@
 
 class BackgroundImpl : public Core::Background {
     public:
-        void initGraphics();
+        void init_graphics();
         void draw() const;
 };
 

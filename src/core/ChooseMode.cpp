@@ -7,42 +7,44 @@
 #include <Text.h>
 #include <core/ChooseMode.h>
 
-Core::ChooseMode::ChooseMode() : m_selected(false), m_mode(0), m_DASup(0),
-                                 m_DASdown(0) {
-    //std::cout << "Choose mode screen constructor" << std::endl;
+Core::ChooseMode::ChooseMode() : m_selected(false), m_mode(0), m_das_up(0),
+                                 m_das_down(0) {
+    #ifdef DEBUG
+    std::cout << "Choose mode screen constructor" << std::endl;
+    #endif
 }
 
 void Core::ChooseMode::init() {
     for (int i = 0; i < NB_MODES; i++) {
-        m_modes_strings[i].initGraphics();
+        m_modes_strings[i].init_graphics();
         m_modes_strings[i].update_pos(16, 7 + i * 2);
-        m_modes_strings[i].update_text(modes[i]->name);
-        m_modes_strings[i].updateGraphics();
+        m_modes_strings[i].update_text(modes[i]->name());
+        m_modes_strings[i].update_graphics();
     }
 
     // Highlight the first entry
     m_modes_strings[0].update_color(TextColor::YELLOW);
-    m_modes_strings[0].updateGraphics();
+    m_modes_strings[0].update_graphics();
 }
 
 void Core::ChooseMode::update(int *state, int *mode) {
     if (m_selected) {
-        m_DASup += 4;
-        if (m_DASup == 0) {
+        m_das_up += 4;
+        if (m_das_up == 0) {
             m_selected = false;
-            m_DASup = 0;
-            m_DASdown = 0;
+            m_das_up = 0;
+            m_das_down = 0;
             *state = MenuState::START_GAME;
             *mode = m_mode;
             m_mode = 0;
             m_modes_strings[0].update_color(TextColor::YELLOW);
-            m_modes_strings[0].updateGraphics();
+            m_modes_strings[0].update_graphics();
             return;
         }
 
-        m_DASdown += 32;
+        m_das_down += 32;
 
-        if (m_DASdown > 127) {
+        if (m_das_down > 127) {
             m_modes_strings[m_mode].update_color(TextColor::NONE);
         } else {
             m_modes_strings[m_mode].update_color(TextColor::YELLOW);
@@ -53,14 +55,14 @@ void Core::ChooseMode::update(int *state, int *mode) {
 
     // Mode selected, play animation before starting game
     if (input.a()) {
-        m_DASup = 4;
-        m_DASdown = 0;
+        m_das_up = 4;
+        m_das_down = 0;
         m_selected = true;
         return;
     }
 
     if (input.up()) {
-        if (m_DASup == 0) {
+        if (m_das_up == 0) {
             // Revert previous entry to normal color
             m_modes_strings[m_mode].update_color(TextColor::NONE);
 
@@ -72,13 +74,13 @@ void Core::ChooseMode::update(int *state, int *mode) {
             // Highlight newly selected entry
             m_modes_strings[m_mode].update_color(TextColor::YELLOW);
         }
-        m_DASup += 16;
+        m_das_up += 16;
     } else {
-        m_DASup = 0;
+        m_das_up = 0;
     }
 
     if (input.down()) {
-        if (m_DASdown == 0) {
+        if (m_das_down == 0) {
             // Revert previous entry to normal color
             m_modes_strings[m_mode].update_color(TextColor::NONE);
 
@@ -90,8 +92,8 @@ void Core::ChooseMode::update(int *state, int *mode) {
             // Highlight newly selected entry
             m_modes_strings[m_mode].update_color(TextColor::YELLOW);
         }
-        m_DASdown += 16;
+        m_das_down += 16;
     } else {
-        m_DASdown = 0;
+        m_das_down = 0;
     }
 }

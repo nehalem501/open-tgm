@@ -66,7 +66,7 @@ namespace Core {
             inline bool b() { return (m_curr_buttons & B_BIT); };
             inline bool c() { return (m_curr_buttons & C_BIT); };
 
-            int IRS();
+            int irs();
     };
 }
 

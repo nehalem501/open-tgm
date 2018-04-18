@@ -5,6 +5,11 @@
 
 #include <stdint.h>
 
+#ifdef DEBUG
+#include <iostream>
+#include <stdio.h>
+#endif
+
 #ifdef TARGET_SFML
 typedef unsigned int tiles_t;
 #endif
@@ -77,8 +82,8 @@ extern Background background;
 extern Mode* modes[];
 
 void init();
-void initTextures();
-void initGraphics();
-void initRandom();
+void init_textures();
+void init_graphics();
+void init_random();
 
 #endif

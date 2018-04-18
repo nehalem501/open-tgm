@@ -7,7 +7,9 @@
 #include <core/Home.h>
 
 Core::Home::Home() : m_start_timer(0) {
-    //cout << "Home screen constructor" << endl;
+    #ifdef DEBUG
+    std::cout << "Home screen constructor" << std::endl;
+    #endif
 }
 
 void Core::Home::update(int *state) {

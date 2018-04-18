@@ -8,7 +8,7 @@
 #include "GlobalSFML.h"
 #include "PlayerImpl.h"
 
-void PlayerImpl::initGraphics() {
+void PlayerImpl::init_graphics() {
     // Init next piece vertices
     m_next_vertices.setPrimitiveType(sf::Quads);
     m_next_vertices.resize((std::size_t) (SIZE * SIZE * 4));
@@ -33,16 +33,16 @@ void PlayerImpl::initGraphics() {
         m_ghost_vertices[i].color = sf::Color(0, 0, 0, 0);
     }
 
-    updateSize();
+    resize();
 }
 
-void PlayerImpl::updateSize() {
+void PlayerImpl::resize() {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
 
-    score_display.updateSize(m_stack);
-    level_display.updateSize(m_stack);
-    section_display.updateSize(m_stack);
+    m_score_display.resize(m_stack);
+    m_level_display.resize(m_stack);
+    m_section_display.resize(m_stack);
 
     // Update next piece position
     for (int i = 0; i < SIZE; ++i) {
@@ -66,10 +66,10 @@ void PlayerImpl::updateSize() {
         for (int j = 0; j < SIZE; ++j) {
             sf::Vertex* quad = &m_piece_vertices[(i + j * SIZE) * 4];
 
-            quad[0].position = sf::Vector2f(pos_x + (m_piece.pos_x - 2 + i) * tile_size, pos_y + (m_piece.pos_y - 1 + j) * tile_size);
-            quad[1].position = sf::Vector2f(pos_x + ((m_piece.pos_x - 2 + i) + 1) * tile_size, pos_y + (m_piece.pos_y - 1 + j) * tile_size);
-            quad[2].position = sf::Vector2f(pos_x + ((m_piece.pos_x - 2 + i) + 1) * tile_size, pos_y + ((m_piece.pos_y - 1 + j) + 1) * tile_size);
-            quad[3].position = sf::Vector2f(pos_x + (m_piece.pos_x - 2 + i) * tile_size, pos_y + ((m_piece.pos_y - 1 + j) + 1) * tile_size);
+            quad[0].position = sf::Vector2f(pos_x + (m_piece.pos_x() - 2 + i) * tile_size, pos_y + (m_piece.pos_y() - 1 + j) * tile_size);
+            quad[1].position = sf::Vector2f(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * tile_size, pos_y + (m_piece.pos_y() - 1 + j) * tile_size);
+            quad[2].position = sf::Vector2f(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * tile_size, pos_y + ((m_piece.pos_y() - 1 + j) + 1) * tile_size);
+            quad[3].position = sf::Vector2f(pos_x + (m_piece.pos_x() - 2 + i) * tile_size, pos_y + ((m_piece.pos_y() - 1 + j) + 1) * tile_size);
         }
     }
 
@@ -78,15 +78,15 @@ void PlayerImpl::updateSize() {
         for (int j = 0; j < SIZE; ++j) {
             sf::Vertex* quad = &m_ghost_vertices[(i + j * SIZE) * 4];
 
-            quad[0].position = sf::Vector2f(pos_x + (m_piece.pos_x - 2 + i) * tile_size, pos_y + (m_ghost_y - 1 + j) * tile_size);
-            quad[1].position = sf::Vector2f(pos_x + ((m_piece.pos_x - 2 + i) + 1) * tile_size, pos_y + (m_ghost_y - 1 + j) * tile_size);
-            quad[2].position = sf::Vector2f(pos_x + ((m_piece.pos_x - 2 + i) + 1) * tile_size, pos_y + ((m_ghost_y - 1 + j) + 1) * tile_size);
-            quad[3].position = sf::Vector2f(pos_x + (m_piece.pos_x - 2 + i) * tile_size, pos_y + ((m_ghost_y - 1 + j) + 1) * tile_size);
+            quad[0].position = sf::Vector2f(pos_x + (m_piece.pos_x() - 2 + i) * tile_size, pos_y + (m_ghost_y - 1 + j) * tile_size);
+            quad[1].position = sf::Vector2f(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * tile_size, pos_y + (m_ghost_y - 1 + j) * tile_size);
+            quad[2].position = sf::Vector2f(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * tile_size, pos_y + ((m_ghost_y - 1 + j) + 1) * tile_size);
+            quad[3].position = sf::Vector2f(pos_x + (m_piece.pos_x() - 2 + i) * tile_size, pos_y + ((m_ghost_y - 1 + j) + 1) * tile_size);
         }
     }
 }
 
-void PlayerImpl::updateGraphics() {
+void PlayerImpl::update_graphics() {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
 
@@ -129,21 +129,21 @@ void PlayerImpl::updateGraphics() {
     // Apply player's piece texture
     unsigned char alpha = 255;
     if (m_lock > 0) {
-        if ((float) m_lock >= 2.0 * (float) m_current_mode->getLock(m_level) / 5.0)
+        if ((float) m_lock >= 2.0 * (float) m_current_mode->lock(m_level) / 5.0)
             alpha = 210;
 
-        if ((float) m_lock >= 3.0 * (float) m_current_mode->getLock(m_level) / 5.0)
+        if ((float) m_lock >= 3.0 * (float) m_current_mode->lock(m_level) / 5.0)
             alpha = 160;
 
-        if ((float) m_lock >= 4.0 * (float) m_current_mode->getLock(m_level) / 5.0)
+        if ((float) m_lock >= 4.0 * (float) m_current_mode->lock(m_level) / 5.0)
             alpha = 128;
 
-        if (m_lock == m_current_mode->getLock(m_level))
+        if (m_lock == m_current_mode->lock(m_level))
             alpha = 96;
     }
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
-            int tile = PIECES[m_piece.type][m_piece.orientation][j][i];
+            int tile = PIECES[m_piece.type()][m_piece.orientation()][j][i];
             if (tile > 0) {
                 tile--;
 
@@ -157,10 +157,10 @@ void PlayerImpl::updateGraphics() {
                 quad[2].color = sf::Color(alpha, alpha, alpha, 255);
                 quad[3].color = sf::Color(alpha, alpha, alpha, 255);
 
-                quad[0].position = sf::Vector2f(pos_x + (m_piece.pos_x - 2 + i) * tile_size, pos_y + (m_piece.pos_y - 1 + j) * tile_size);
-                quad[1].position = sf::Vector2f(pos_x + ((m_piece.pos_x - 2 + i) + 1) * tile_size, pos_y + (m_piece.pos_y - 1 + j) * tile_size);
-                quad[2].position = sf::Vector2f(pos_x + ((m_piece.pos_x - 2 + i) + 1) * tile_size, pos_y + ((m_piece.pos_y - 1 + j) + 1) * tile_size);
-                quad[3].position = sf::Vector2f(pos_x + (m_piece.pos_x - 2 + i) * tile_size, pos_y + ((m_piece.pos_y - 1 + j) + 1) * tile_size);
+                quad[0].position = sf::Vector2f(pos_x + (m_piece.pos_x() - 2 + i) * tile_size, pos_y + (m_piece.pos_y() - 1 + j) * tile_size);
+                quad[1].position = sf::Vector2f(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * tile_size, pos_y + (m_piece.pos_y() - 1 + j) * tile_size);
+                quad[2].position = sf::Vector2f(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * tile_size, pos_y + ((m_piece.pos_y() - 1 + j) + 1) * tile_size);
+                quad[3].position = sf::Vector2f(pos_x + (m_piece.pos_x() - 2 + i) * tile_size, pos_y + ((m_piece.pos_y() - 1 + j) + 1) * tile_size);
 
                 quad[0].texCoords = sf::Vector2f(tu * FILE_TILE_SIZE, tv * FILE_TILE_SIZE);
                 quad[1].texCoords = sf::Vector2f((tu + 1) * FILE_TILE_SIZE, tv * FILE_TILE_SIZE);
@@ -180,7 +180,7 @@ void PlayerImpl::updateGraphics() {
     // Apply ghost piece texture
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
-            int tile = PIECES[m_piece.type][m_piece.orientation][j][i];
+            int tile = PIECES[m_piece.type()][m_piece.orientation()][j][i];
             if (tile > 0) {
                 tile--;
 
@@ -194,10 +194,10 @@ void PlayerImpl::updateGraphics() {
                 quad[2].color = sf::Color(80, 80, 80, 255);
                 quad[3].color = sf::Color(80, 80, 80, 255);
 
-                quad[0].position = sf::Vector2f(pos_x + (m_piece.pos_x - 2 + i) * tile_size, pos_y + (m_ghost_y - 1 + j) * tile_size);
-                quad[1].position = sf::Vector2f(pos_x + ((m_piece.pos_x - 2 + i) + 1) * tile_size, pos_y + (m_ghost_y - 1 + j) * tile_size);
-                quad[2].position = sf::Vector2f(pos_x + ((m_piece.pos_x - 2 + i) + 1) * tile_size, pos_y + ((m_ghost_y - 1 + j) + 1) * tile_size);
-                quad[3].position = sf::Vector2f(pos_x + (m_piece.pos_x - 2 + i) * tile_size, pos_y + ((m_ghost_y - 1 + j) + 1) * tile_size);
+                quad[0].position = sf::Vector2f(pos_x + (m_piece.pos_x() - 2 + i) * tile_size, pos_y + (m_ghost_y - 1 + j) * tile_size);
+                quad[1].position = sf::Vector2f(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * tile_size, pos_y + (m_ghost_y - 1 + j) * tile_size);
+                quad[2].position = sf::Vector2f(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * tile_size, pos_y + ((m_ghost_y - 1 + j) + 1) * tile_size);
+                quad[3].position = sf::Vector2f(pos_x + (m_piece.pos_x() - 2 + i) * tile_size, pos_y + ((m_ghost_y - 1 + j) + 1) * tile_size);
 
                 quad[0].texCoords = sf::Vector2f(tu * FILE_TILE_SIZE, tv * FILE_TILE_SIZE);
                 quad[1].texCoords = sf::Vector2f((tu + 1) * FILE_TILE_SIZE, tv * FILE_TILE_SIZE);
@@ -216,15 +216,15 @@ void PlayerImpl::updateGraphics() {
 }
 
 void PlayerImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
-    if (m_drawGhost)
+    if (m_draw_ghost)
         target.draw(m_ghost_vertices, &tileset_tex);
 
-    if (m_drawPiece)
+    if (m_draw_piece)
         target.draw(m_piece_vertices, &tileset_tex);
 
     target.draw(m_next_vertices, &tileset_tex);
 
-    target.draw(score_display);
-    target.draw(level_display);
-    target.draw(section_display);
+    target.draw(m_score_display);
+    target.draw(m_level_display);
+    target.draw(m_section_display);
 }

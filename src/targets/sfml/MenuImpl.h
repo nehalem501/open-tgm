@@ -9,8 +9,8 @@
 
 class MenuImpl : public Core::Menu, public sf::Drawable {
     public:
-        void initGraphics();
-        void updateSize();
+        void init_graphics();
+        void resize();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

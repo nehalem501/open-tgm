@@ -30,25 +30,26 @@ namespace Core {
             tiles_t m_field[MAX_WIDTH * MAX_HEIGHT];
 
             Stack();
+            
             void init(int pos_x, int pos_y, int width, int height);
-            void startGame(Mode *mode);
+            void start_game(Mode *mode);
 
-            int getGhostY(Piece *piece);
+            int get_ghost_y(Piece *piece);
 
-            bool checkNewPosition(Piece *piece, int new_x, int new_y,
-                                  int new_rotation);
+            bool check_new_pos(Piece *piece, int new_x, int new_y,
+                               int new_rotation);
 
             bool check_bravo();
             bool check_line(unsigned int line);
 
-            void shiftLine(unsigned int line);
-            void shiftLines();
-            void checkLines(Core::Player *player);
-            void removeLine(unsigned int line);
+            void shift_line(unsigned int line);
+            void shift_lines();
+            bool check_lines(Core::Player *player);
+            void remove_line(unsigned int line);
 
-            void updateOutline(unsigned int unsigned_line);
+            void update_outline(unsigned int unsigned_line);
 
-            void removeGreyBlocks(Piece *piece);
+            void remove_grey_blocks(Piece *piece);
     };
 }
 

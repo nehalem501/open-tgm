@@ -2,9 +2,9 @@
 
 #include "ChooseModeImpl.h"
 
-void ChooseModeImpl::initGraphics() {
+void ChooseModeImpl::init_graphics() {
     /*for (int i = 0; i < NB_MODES; i++) {
-        m_modes_strings[i].initGraphics();
+        m_modes_strings[i].init_raphics();
     }*/
 }
 

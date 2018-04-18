@@ -12,16 +12,16 @@
 
 using namespace std;
 
-void LabelsImpl::initGraphics(Stack *stack) {
+void LabelsImpl::init_graphics(Stack *stack) {
     length = 0;
 
     str.clear();
     positions.clear();
     m_vertices.clear();
 
-    for (unsigned int i = 0; i < m_mode->labels_nb; i++) {
-        str.push_back(string(m_mode->labels[i].string));
-        positions.push_back(sf::Vector2f(m_mode->labels[i].x, m_mode->labels[i].y));
+    for (unsigned int i = 0; i < m_mode->m_labels_nb; i++) {
+        str.push_back(string(m_mode->m_labels[i].string));
+        positions.push_back(sf::Vector2f(m_mode->m_labels[i].x, m_mode->m_labels[i].y));
     }
 
     labels_tex.setSmooth(true);
@@ -42,10 +42,10 @@ void LabelsImpl::initGraphics(Stack *stack) {
         quad[3].color = sf::Color(0, 0, 0, 0);
     }
 
-    updateSize(stack);
+    resize(stack);
 }
 
-void LabelsImpl::updateSize(Stack *stack) {
+void LabelsImpl::resize(Stack *stack) {
     int pos_x = stack->m_pos_x - tile_size / 2;
     int pos_y = stack->m_pos_y;
 

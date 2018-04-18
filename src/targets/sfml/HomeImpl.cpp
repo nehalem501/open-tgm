@@ -6,7 +6,7 @@
 #include "GlobalSFML.h"
 #include "HomeImpl.h"
 
-void HomeImpl::initGraphics() {
+void HomeImpl::init_graphics() {
     if (!m_logo_tex.loadFromFile("resources/open-tgm-logo.png")) {
         std::cout << "ERROR loading Open TGM logo texture" << std::endl;
     }
@@ -22,7 +22,7 @@ void HomeImpl::initGraphics() {
     m_start.setOrigin(m_start_tex.getSize().x / 2.0f, 0);
 }
 
-void HomeImpl::updateSize() {
+void HomeImpl::resize() {
     m_logo.setPosition(screen_size.x / 2, (float) screen_size.y / 8.0f);
     float scale = ((float) screen_size.y / (float) m_logo_tex.getSize().y) / 2.2f;
     m_logo.setScale(scale, scale);

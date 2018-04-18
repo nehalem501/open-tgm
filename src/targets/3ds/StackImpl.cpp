@@ -38,10 +38,10 @@ struct tex_coord outline_coord[] = {
     {3.0f * ts, 3.0f * ts, 4.0f * ts, 4.0f * ts},
 };
 
-void StackImpl::initGraphics() {
+void StackImpl::init_graphics() {
 }
 
-void StackImpl::updateGraphics() {
+void StackImpl::update_graphics() {
 }
 
 void StackImpl::draw() const {

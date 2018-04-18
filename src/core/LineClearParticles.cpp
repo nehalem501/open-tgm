@@ -8,7 +8,7 @@ Core::LineClearParticles::LineClearParticles() {
     m_active = false;
 }
 
-void Core::LineClearParticles::setEmitter(int position_x, int position_y) {
+void Core::LineClearParticles::set_emitter(int position_x, int position_y) {
     //#warning "LineClearParticle::setEmitter not unimplemented"
     m_active = true;
 }

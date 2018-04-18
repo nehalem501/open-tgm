@@ -14,15 +14,15 @@ typedef StackImpl Stack;
 
 class TextImpl : public Core::Text, public sf::Drawable {
     public:
-        void initGraphics();
-        void updateGraphics();
-        void updateSize();
+        void init_graphics();
+        void update_graphics();
+        void resize();
         void update_color(int8_t color);
         void assign_color();
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
-        void updateVertices();
+        void update_vertices();
         sf::VertexArray m_vertices;
 };
 

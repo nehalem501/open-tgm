@@ -11,31 +11,32 @@
 #include <Global.h>
 
 void init() {
-    initRandom();
+    init_random();
     input.init();
-    initModes();
+    init_modes();
 
     frame1.init(&stack1);
     player1.init(&stack1);
 
-    menu.m_chooseMode.init();
+    menu.m_choose_mode.init();
 }
 
-void initGraphics() {
+void init_graphics() {
     stack_position = StackPosition::CENTERED,
-    initTextures();
+    init_textures();
 
-    menu.initGraphics();
-    background.initGraphics();
+    menu.init_graphics();
+    background.init_graphics();
 
-    player1.initGraphics();
-    stack1.initGraphics();
-    frame1.initGraphics();
-#ifdef MULTIPLAYER
-    player2.initGraphics();
-    stack2.initGraphics();
-    frame2.initGraphics();
-#endif
+    player1.init_graphics();
+    stack1.init_graphics();
+    frame1.init_graphics();
 
-    game.initGraphics();
+    #ifdef MULTIPLAYER
+    player2.init_graphics();
+    stack2.init_graphics();
+    frame2.init_graphics();
+    #endif
+
+    game.init_graphics();
 }

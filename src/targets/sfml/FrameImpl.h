@@ -10,9 +10,9 @@
 
 class FrameImpl : public Core::Frame, public sf::Drawable {
     public:
-        void initGraphics();
-        void updateGraphics();
-        void updateSize(Stack *stack);
+        void init_graphics();
+        void update_graphics();
+        void resize(Stack *stack);
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:

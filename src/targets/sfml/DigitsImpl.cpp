@@ -5,22 +5,22 @@
 #include "GlobalSFML.h"
 #include "DigitsImpl.h"
 
-void DigitsImpl::initGraphics() {
+void DigitsImpl::init_graphics() {
     m_vertices.setPrimitiveType(sf::Quads);
 }
 
-void DigitsImpl::updateGraphics(Stack *stack) {
+void DigitsImpl::update_graphics(Stack *stack) {
     if (m_has_changed) {
         m_has_changed = false;
-        updateVertices(stack);
+        update_vertices(stack);
     }
 }
 
-void DigitsImpl::updateSize(Stack *stack) {
-    updateVertices(stack);
+void DigitsImpl::resize(Stack *stack) {
+    update_vertices(stack);
 }
 
-void DigitsImpl::updateVertices(Stack *stack) {
+void DigitsImpl::update_vertices(Stack *stack) {
     int game_pos_x = stack->m_pos_x;
     int game_pos_y = stack->m_pos_y;
 

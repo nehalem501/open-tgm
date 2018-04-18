@@ -4,7 +4,7 @@
 #include <glib2d.h>
 #include "BackgroundImpl.h"
 
-void BackgroundImpl::initGraphics() {
+void BackgroundImpl::init_graphics() {
     m_texture = g2dTexLoad("resources/background.png", G2D_SWIZZLE);
 }
 

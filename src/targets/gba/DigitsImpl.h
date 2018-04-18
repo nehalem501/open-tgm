@@ -11,8 +11,8 @@ typedef StackImpl Stack;
 
 class DigitsImpl : public Core::Digits {
     public:
-        void initGraphics();
-        void updateGraphics(Stack *stack);
+        void init_graphics();
+        void update_graphics(Stack *stack);
         void draw() const;
 };
 

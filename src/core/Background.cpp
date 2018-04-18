@@ -1,15 +1,10 @@
 /* Background.cpp */
 
+#include <Global.h>
 #include <core/Background.h>
 
 Core::Background::Background() : options(false) {
-    //cout << "Background constructor" << endl;
-}
-
-void Core::Background::changeToOptions() {
-    options = true;
-}
-
-void Core::Background::changeToBackground() {
-    options = false;
+    #ifdef DEBUG
+    std::cout << "Background constructor" << std::endl;
+    #endif
 }

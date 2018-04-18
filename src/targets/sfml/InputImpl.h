@@ -55,7 +55,7 @@ class eventKey {
             return false;
         }
 
-        bool testInput() {
+        bool test_input() {
             for (unsigned int i = 0; i < assignedKeys.size(); i++) {
                 switch(assignedKeys[i].myInputType) {
                     case KeyboardInput:
@@ -88,7 +88,7 @@ class eventKey {
 class InputImpl : public Core::Input {
     public:
         void init();
-        void pollInputs();
+        void poll_inputs();
 
     private:
         std::map<int, eventKey> eventKeys;

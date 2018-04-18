@@ -9,7 +9,7 @@
 #include "GlobalSFML.h"
 #include "GameImpl.h"
 
-void GameImpl::updateSize() {
+void GameImpl::resize() {
     // TODO
 
     if (stack_position == StackPosition::CENTERED) {
@@ -17,11 +17,11 @@ void GameImpl::updateSize() {
         stack1.m_pos_y = 3 * tile_size;
     }
 
-    stack1.updateSize();
-    player1.updateSize();
+    stack1.resize();
+    player1.resize();
 
-    timer1.updateSize(&stack1);
-    labels1.updateSize(&stack1);
+    m_timer1.resize(&stack1);
+    m_labels1.resize(&stack1);
 
      // TODO timer2
 }
@@ -30,10 +30,10 @@ void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(player1);
     target.draw(stack1);
 
-    target.draw(timer1); // TODO timer2
-    target.draw(labels1);
+    target.draw(m_timer1); // TODO timer2
+    target.draw(m_labels1);
 
-    switch (m_player1_state) {
+    switch (m_p1_state) {
         case GameState::READY_GO:
             target.draw(m_p1_string);
             break;

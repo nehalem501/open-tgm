@@ -2,24 +2,24 @@
 
 #include "PlayerImpl.h"
 
-void PlayerImpl::initGraphics() {
+void PlayerImpl::init_graphics() {
 }
 
-void PlayerImpl::updateGraphics() {
+void PlayerImpl::update_graphics() {
 }
 
 void PlayerImpl::draw() const {
-    if (m_drawGhost) {
+    if (m_draw_ghost) {
         // Draw ghost piece
     }
 
-    if (m_drawPiece) {
+    if (m_draw_piece) {
         // Draw player piece
     }
 
     // Draw next piece
 
-    score_display.draw();
-    level_display.draw();
-    section_display.draw();
+    m_score_display.draw();
+    m_level_display.draw();
+    m_section_display.draw();
 }

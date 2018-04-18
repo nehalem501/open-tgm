@@ -8,12 +8,12 @@
 #include "GlobalSFML.h"
 #include <Global.h>
 
-void initRandom() {
+void init_random() {
     // TODO tgm-random
     srand(time(NULL));
 }
 
-void initTextures() {
+void init_textures() {
     if (!tileset_tex.loadFromFile("resources/tilemap.png")) {
         std::cout << "ERROR loading tilemap texture" << std::endl;
     }

@@ -8,7 +8,7 @@ void InputImpl::init() {
     sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
 }
 
-void InputImpl::pollInputs() {
+void InputImpl::poll_inputs() {
     sceCtrlReadBufferPositive(&m_pad, 1);
 
     m_prev_joystick = m_curr_joystick;

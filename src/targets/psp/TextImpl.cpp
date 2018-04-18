@@ -6,12 +6,12 @@
 #include <GlobalPSP.h>
 #include "TextImpl.h"
 
-void TextImpl::initGraphics() {
+void TextImpl::init_graphics() {
     // We have only one color per Text object
     m_quads[0].verts[0].color = 0xFFFFFFFF; // Set to white
 }
 
-void TextImpl::updateGraphics() {
+void TextImpl::update_graphics() {
     if (m_has_changed) {
         m_has_changed = false;
         m_quads_len = m_length;

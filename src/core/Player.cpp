@@ -16,9 +16,9 @@
 /* Used at program startup */
 void Core::Player::init(::Stack *stack) {
     m_stack = stack;
-    score_display.initGraphics();
-    level_display.initGraphics();
-    section_display.initGraphics();
+    m_score_display.init_graphics();
+    m_level_display.init_graphics();
+    m_section_display.init_graphics();
 }
 
 /* Init the field and all the other stuff */
@@ -32,28 +32,29 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_active_time = 0;
     m_gravity = 0;
     m_gravity_counter = 0;
-    m_section = mode->getSection(0);
+    m_section = mode->section(0);
 
     m_already_dropped = false;
     m_lock_color_delay = 0;
 
-    m_drawPiece = false;
-    m_drawGhost = false;
-    m_startDASleft = false;
-    m_startDASright = false;
+    m_draw_piece = false;
+    m_draw_ghost = false;
+    m_start_das_left = false;
+    m_start_das_right = false;
 
-    m_piece.type = 0;
-    m_piece.orientation = 0;
-    m_piece.pos_x = 0;
-    m_piece.pos_y = 0;
+    //m_piece.type = 0;
+    //m_piece.orientation = 0;
+    //m_piece.pos_x = 0;
+    //m_piece.pos_y = 0;
 
     m_ghost_y = 0;
     m_piece_old_y = 0;
     m_next = 0;
+    m_state = PlayerState::WAITING;
 
-    m_startARE = false;
-    m_startClear = false;
-    m_startLock = false;
+    //m_startARE = false;
+    //m_startClear = false;
+    m_start_lock = false;
     m_previous_down = false;
 
     /*m_rotLeft = true;
@@ -68,14 +69,14 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_soft = 0;
     m_clear = 0;
 
-    m_DASleft = 0;
-    m_DASright = 0;
+    m_das_left = 0;
+    m_das_right = 0;
 
-    score_display.init(mode->score_pos.x, mode->score_pos.y);
-    level_display.init(mode->level_pos.x, mode->level_pos.y);
-    section_display.init(mode->level_target_pos.x, mode->level_target_pos.y);
-    section_display.update(m_section);
-    section_display.updateGraphics(stack);
+    m_score_display.init(mode->score_pos_x(), mode->score_pos_y());
+    m_level_display.init(mode->level_pos_x(), mode->level_pos_y());
+    m_section_display.init(mode->level_target_pos_x(), mode->level_target_pos_y());
+    m_section_display.update(m_section);
+    m_section_display.update_graphics(stack);
 
     // TODO
 /* In TGM1, the history begins filled with 4 Z pieces.
@@ -89,21 +90,20 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_history[3] = Shape::S;
 
     // TODO special rules for first piece
-    changeLevel(0, false);
+    change_level(0, false);
     //nextPiece();
 }
 
 /* Init stuff needed to start a new game */
-void Core::Player::startGame() {
-    m_startARE = true;
-    m_are = m_current_mode->getARE(0);
+void Core::Player::start_game() {
+    m_state = PlayerState::ARE;
+    m_are = m_current_mode->are(0);
 }
 
 /* Use randomizer and get next piece */
-void Core::Player::nextPiece() {
-    m_piece.orientation = 0;
-    m_piece.type = m_next;
-
+void Core::Player::next_piece() {
+    m_piece.init(m_next, 0, 5, 2);
+    m_piece_old_y = m_piece.pos_y();
     m_active_time = 0;
     m_gravity_counter = 0;
 
@@ -127,31 +127,396 @@ void Core::Player::nextPiece() {
     m_history[0] = (tiles_t) r;
 
     m_next = (tiles_t) r;
-
-    m_piece.pos_x = 5;
-    m_piece.pos_y = 2;
-
-    m_piece_old_y = m_piece.pos_y;
 }
+
+//int debug_piece = 0;
 
 /* Update for 1 frame */
 void Core::Player::update(int *game_state) {
-    m_piece_old_y = m_piece.pos_y;
+    switch (m_state) {
+        case PlayerState::WAITING:
+            break;
 
-    if (m_lock_color_delay != 0) {
-        m_lock_color_delay--;
-        if (m_lock_color_delay == 0) {
-            //Piece old(m_history[], 0, m_piece_old_y
-            m_stack->removeGreyBlocks(&m_piece); // TODO
+        case PlayerState::ARE: {
+            m_are++;
+
+            #ifdef DEBUG
+            std::cout << "ARE: " << m_are << std::endl;
+            #endif
+
+            // Left DAS
+            if (input.left()) {
+                if (m_start_das_left) {
+                    check_das_left();
+                } else {
+                    m_start_das_left = true;
+                }
+            } else {
+                if (m_start_das_left) {
+                    m_start_das_left = false;
+                    m_das_left = 0;
+                }
+            }
+
+            // Right DAS
+            if (input.right()) {
+                if (m_start_das_right) {
+                    check_das_right();
+                } else {
+                    m_start_das_right = true;
+                }
+            } else {
+                if (m_start_das_right) {
+                    m_start_das_right = false;
+                    m_das_right = 0;
+                }
+            }
+
+            if (m_are > m_current_mode->are(m_level)) {
+                next_piece();
+
+                m_are = 0;
+                m_sonic = 0;
+                m_soft = 0;
+                m_active_time = 0;
+
+                change_level(1, false);
+                m_draw_piece = true;
+
+                // Hide ghost piece after level 100
+                if (m_level > 100) {
+                    m_draw_ghost = false;
+                } else {
+                    m_draw_ghost = true;
+                }
+
+                m_already_dropped = false;
+
+                int direction = input.irs();
+                if (direction) {
+                    m_piece.rotate(direction, 4);
+                    // You cannot do an IRS that will make you die
+                    if (!m_stack->check_new_pos(&m_piece, 0, 0, 0))
+                        m_piece.orientation(0);
+                }
+
+                // If piece doesn't have room to spawn, it's game over
+                if (!m_stack->check_new_pos(&m_piece, 0, 0, 0)) {
+                    //lockPiece(); // TODO
+                    //m_stack->removeGreyBlocks(&m_piece);
+                    *game_state = GameState::GAME_OVER_ANIM;
+                    return;
+                }
+
+                // Update ghost piece
+                m_ghost_y = m_stack->get_ghost_y(&m_piece);
+
+                // Reset lock delay
+                reset_lock();
+
+                // New state
+                m_state = PlayerState::INGAME;
+            }// else {
+                break;
+            //}
         }
+
+        case PlayerState::NEW_PIECE: {
+            break;
+        }
+
+        case PlayerState::INGAME: {
+            m_piece_old_y = m_piece.pos_y();
+            m_active_time++;
+
+            // Rotate Left
+            if (input.rotate_left()) {
+                rotate(1);
+            }
+
+            // Rotate Right
+            if (input.rotate_right()) {
+                rotate(-1);
+            }
+
+            // Left
+            if (input.left()) {
+                if (m_start_das_left) {
+                    if (check_das_left()) {
+                        move(-1, 0);
+                        m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                        //cout << "left" << endl;
+                    }
+                } else {
+                    m_start_das_left = true;
+                    move(-1, 0);
+                    m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                    //cout << "left" << endl;
+                }
+            } else {
+                if (m_start_das_left) {
+                    m_start_das_left = false;
+                    m_das_left = 0;
+                }
+            }
+
+            // Right
+            if (input.right()) {
+                if (m_start_das_right) {
+                    if (check_das_right()) {
+                        move(1, 0);
+                        m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                        //cout << "right" << endl;
+                    }
+                } else {
+                    m_start_das_right = true;
+                    move(1, 0);
+                    m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                    //cout << "right" << endl;
+                }
+            } else {
+                if (m_start_das_right) {
+                    m_start_das_right = false;
+                    m_das_right = 0;
+                }
+            }
+
+            // Check if piece can go down
+            bool can_go_down = m_stack->check_new_pos(&m_piece, 0, 1, 0);
+
+            // Compute gravity
+            unsigned int number_down = gravity(can_go_down);
+
+            #ifdef DEBUG
+            std::cout << "Can go down: " << can_go_down << std::endl;
+            #endif
+
+            // Down
+            if (input.down()) {
+                if (m_current_mode->keep_down() || !m_previous_down) {
+                    //m_previous_down = true;
+                    m_soft++;
+
+                    #ifdef DEBUG
+                    std::cout << "soft: " << m_soft << std::endl;
+                    #endif
+
+                    if (number_down == 0) {
+                        move(0, 1);
+                    }
+
+                    if (!can_go_down) {
+                        if (!m_already_dropped) {
+                            m_previous_down = true;
+                            m_draw_piece = false;
+                            m_state = PlayerState::LOCK;
+                            return;
+                        }
+                    } else {
+                        if (!m_stack->check_new_pos(&m_piece, 0, 1, 0)) {
+                            m_previous_down = true;
+                            m_draw_piece = false;
+                            m_state = PlayerState::LOCK;
+                            return;
+                        }
+                    }
+                }
+            } else {
+                m_previous_down = false;
+            }
+
+            // Old left right position
+
+            // Gravity
+            if (number_down) { //TODO optimize
+                for (unsigned int i = 0; i < number_down; i++) {
+                    move(0, 1);
+                }
+            }
+
+            // Sonic Drop
+            if (m_current_mode->sonic_drop()) {
+                if (input.sonic_drop()) {
+                    move_sonic();
+                    //std::cout << "drop" << std::endl;
+                }
+            }
+
+            // Old gravity position
+
+            // TODO Bug piece locking midair
+            // Start counting lock delay
+            if (!can_go_down) {
+                if (m_piece_old_y != m_piece.pos_y()) {
+                    reset_lock();
+                } else {
+                    // Change state if finished counting lock delay
+                    if (check_lock()) {
+                        m_draw_piece = false;
+                        m_state = PlayerState::LOCK;
+                        break;
+                    }
+                }
+
+                // Not restart counting if already doing it
+                if (!m_start_lock) {
+                    #ifdef DEBUG
+                    std::cout << "start lock delay" << std::endl;
+                    #endif
+
+                    start_lock();
+                }
+            } else {
+                if (m_lock) { // Check if lock started
+                    if (m_piece_old_y != m_piece.pos_y()) {
+                        reset_lock();
+                    }
+                } else {
+                    reset_lock();
+                }
+            }
+
+            break;
+        }
+
+        case PlayerState::LOCK: {
+            //m_already_dropped = true;
+            //m_locked_piece = true;
+
+            // TODO Fix lock and clear
+            /*
+            tgm1
+            1 Frame normal <- still reacting to input (we can see it as lock_delay + 1)
+            3 Frames grey
+            1 Frame normal
+            cleared <clear delay>
+
+            tgm2
+            1 Frame black (same as ghost)
+            cleared <clear delay> (2 frames grey at beginning
+            for parts of piece not cleared)
+            */
+
+            #ifdef DEBUG
+            std::cout << "state: LOCK" << std::endl;
+            std::cout << "piece_pos_y: " << (int) m_piece.pos_y() << std::endl;
+            #endif
+
+            reset_lock();
+
+            //debug_piece = (int) m_piece.pos_y;
+
+            // Copy piece to stack/field
+            m_piece.locked(m_stack);
+
+            // TODO optimize depending on piece size
+            m_stack->update_outline(m_piece.pos_y() - 2);
+
+            m_stack->update_outline(m_piece.pos_y() - 1);
+            m_stack->update_outline(m_piece.pos_y());
+            m_stack->update_outline(m_piece.pos_y() + 1);
+            m_stack->update_outline(m_piece.pos_y() + 2);
+
+            m_stack->update_outline(m_piece.pos_y() + 3);
+
+            m_lock_color_delay = 2;
+            m_draw_piece = false;
+            m_draw_ghost = false;
+
+            //m_stack->checkLines(this);
+            m_state = PlayerState::LOCKED_ANIM;
+
+            #ifdef DEBUG
+            std::cout << "state: LOCKED_ANIM" << std::endl;
+            #endif
+
+            break;
+        }
+
+        case PlayerState::LOCKED_ANIM:
+            // TODO
+            #ifdef DEBUG
+            std::cout << "color_delay: " << m_lock_color_delay << std::endl;
+            #endif
+
+            if (m_lock_color_delay > 0) {
+                m_lock_color_delay--;
+                return;
+            }
+
+            m_stack->remove_grey_blocks(&m_piece);
+
+            if (m_stack->check_lines(this))
+                m_state = PlayerState::CLEAR;
+            else {
+                m_state = PlayerState::ARE;
+
+                #ifdef DEBUG
+                std::cout << "state: ARE" << std::endl;
+                #endif
+
+                break;
+            }
+
+            // TODO count lock anim + clear ARE / regular ARE difference
+            break;
+
+        case PlayerState::CLEAR: {
+            m_clear++;
+
+            #ifdef DEBUG
+            std::cout << "clear: " << m_clear << std::endl;
+            #endif
+
+            if (m_clear >= m_current_mode->clear(m_level)) {
+                m_clear = 0;
+                m_stack->shift_lines();
+                m_state = PlayerState::ARE;
+            }
+
+            break;
+        }
+
+        default:
+            break;
     }
 
+    //m_piece_old_y = m_piece.pos_y;
+    //debug_piece = m_piece.pos_y;
+
+// TODO Fix lock and clear
+/*
+tgm1
+1 Frame normal
+3 Frames grey
+1 Frame normal
+cleared <clear delay>
+
+tgm2
+1 Frame black
+cleared <clear delay> (2 frames grey at beginning for parts of piece not cleared)
+*/
+
+    /*if (m_lock_color_delay != 0) {
+        m_lock_color_delay--;
+        if (m_lock_color_delay == 0) {
+            //std::cout << "rmgb " << (int) m_piece.pos_y << std::endl << std::endl;
+            m_stack->removeGreyBlocks(&m_piece); // TODO
+
+            if (debug_piece != (int) m_piece.pos_y) {
+                std::cout << "piece old y = " << debug_piece << " current " << (int) m_piece.pos_y << std::endl;
+            }
+            return;
+        }
+    }*/
+
     // Check ARE Delay
-    if (checkARE()) {
+    /*if (checkARE()) {
         nextPiece();
 
         m_sonic = 0;
         m_soft = 0;
+        m_active_time = 0;
 
         //m_values.gravity_counter = 0;
         changeLevel(1, false);
@@ -164,6 +529,7 @@ void Core::Player::update(int *game_state) {
             m_drawGhost = true;
         }
 
+        m_locked_piece = false;
         m_already_dropped = false;
 
         int direction = input.IRS();
@@ -184,9 +550,9 @@ void Core::Player::update(int *game_state) {
 
         // Update ghost piece
         m_ghost_y = m_stack->getGhostY(&m_piece);
-    }
+    }*/
 
-    m_active_time++;
+    /*m_active_time++;
 
     // Rotate Left
     if (input.rotate_left()) {
@@ -290,8 +656,8 @@ void Core::Player::update(int *game_state) {
         for (unsigned int i = 0; i < number_down; i++) {
             move(0, 1);
         }
-    }
-
+    }*/
+/*
     // Start counting lock delay
     if (!m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
         if (notInARE()) {
@@ -320,41 +686,41 @@ void Core::Player::update(int *game_state) {
         resetLock();
         m_stack->checkLines(this);
     }
-
+*/
+/*
     // Clear Delay
     if (checkClear()) {
         m_stack->shiftLines();
         //m_stack->resetCompletedLines();
         startARE();
-    }
+    }*/
 }
 
 /* Move piece */
 void Core::Player::move(int x, int y) {
-    if(m_stack->checkNewPosition(&m_piece, x, y, 0)) {
-        m_piece.pos_x += x;
-        m_piece.pos_y += y;
-        m_ghost_y = m_stack->getGhostY(&m_piece);
+    if(m_stack->check_new_pos(&m_piece, x, y, 0)) {
+        m_piece.move(x, y);
+        m_ghost_y = m_stack->get_ghost_y(&m_piece);
     }
 }
 
 /* Sonic drop */
 void Core::Player::move_sonic() {
-    if(m_stack->checkNewPosition(&m_piece, 0, 1, 0)) {
-        m_sonic = m_ghost_y - m_piece.pos_y;
-        m_piece.pos_y = m_ghost_y;
+    if(m_stack->check_new_pos(&m_piece, 0, 1, 0)) {
+        m_sonic = m_ghost_y - m_piece.pos_y();
+        m_piece.pos_y(m_ghost_y);
     }
 }
 
 /* Rotate piece including wallkicks */
 void Core::Player::rotate(int rotation) {
-    int new_orientation = modulo(m_piece.orientation + rotation, 4);
+    int new_orientation = modulo(m_piece.orientation() + rotation, 4);
 
     // Center column disables rotation with T piece
-    if (m_piece.type == Shape::T) {
-        int x = m_piece.pos_x - 1;
+    if (m_piece.type() == Shape::T) {
+        int x = m_piece.pos_x() - 1;
         if (x >= 0 || x < m_stack->m_width) {
-            int y = m_piece.pos_y - 1;
+            int y = m_piece.pos_y() - 1;
             if (y < m_stack->m_height && y >= 0) {
                 if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                     return;
@@ -364,38 +730,38 @@ void Core::Player::rotate(int rotation) {
     }
 
     // Check basic rotation
-    if (m_stack->checkNewPosition(&m_piece, 0, 0, rotation)) {
-        m_piece.orientation = new_orientation;
-        m_ghost_y = m_stack->getGhostY(&m_piece);
+    if (m_stack->check_new_pos(&m_piece, 0, 0, rotation)) {
+        m_piece.orientation(new_orientation);
+        m_ghost_y = m_stack->get_ghost_y(&m_piece);
     }
 
     // No wallkicks for I and O pieces
-    else if (m_piece.type != Shape::I && m_piece.type != Shape::O) {
+    else if (m_piece.type() != Shape::I && m_piece.type() != Shape::O) {
 
         // Check if center column occupied (J and L pieces case)
-        if (m_piece.type == Shape::J || m_piece.type == Shape::L) {
+        if (m_piece.type() == Shape::J || m_piece.type() == Shape::L) {
             int x = 0;
             int y = 0;
 
             // check if J wallkick is still possible
-            if (m_piece.type == Shape::J) {
-                x = m_piece.pos_x;
-                y = m_piece.pos_y - 1;
+            if (m_piece.type() == Shape::J) {
+                x = m_piece.pos_x();
+                y = m_piece.pos_y() - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
                         if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                             // Check wallkick one block to the right
-                            if (m_stack->checkNewPosition(&m_piece, 1, 0, rotation)) {
-                                m_piece.pos_x++;
-                                m_piece.orientation = new_orientation;
-                                m_ghost_y = m_stack->getGhostY(&m_piece);
+                            if (m_stack->check_new_pos(&m_piece, 1, 0, rotation)) {
+                                m_piece.move(1, 0);
+                                m_piece.orientation(new_orientation);
+                                m_ghost_y = m_stack->get_ghost_y(&m_piece);
                             }
 
                             // Check wallkick one block to the left
-                            if (m_stack->checkNewPosition(&m_piece, -1, 0, rotation)) {
-                                m_piece.pos_x--;
-                                m_piece.orientation = new_orientation;
-                                m_ghost_y = m_stack->getGhostY(&m_piece);
+                            if (m_stack->check_new_pos(&m_piece, -1, 0, rotation)) {
+                                m_piece.move(-1, 0);
+                                m_piece.orientation(new_orientation);
+                                m_ghost_y = m_stack->get_ghost_y(&m_piece);
                             }
 
                             return;
@@ -405,24 +771,24 @@ void Core::Player::rotate(int rotation) {
             }
 
             // check if L wallkick is still possible
-            if (m_piece.type == Shape::L) {
-                x = m_piece.pos_x - 2;
-                y = m_piece.pos_y - 1;
+            if (m_piece.type() == Shape::L) {
+                x = m_piece.pos_x() - 2;
+                y = m_piece.pos_y() - 1;
                 if (x >= 0 || x < m_stack->m_width) {
                     if (y < m_stack->m_height && y >= 0) {
                         if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                             // Check wallkick one block to the right
-                            if (m_stack->checkNewPosition(&m_piece, 1, 0, rotation)) {
-                                m_piece.pos_x++;
-                                m_piece.orientation = new_orientation;
-                                m_ghost_y = m_stack->getGhostY(&m_piece);
+                            if (m_stack->check_new_pos(&m_piece, 1, 0, rotation)) {
+                                m_piece.move(1, 0);
+                                m_piece.orientation(new_orientation);
+                                m_ghost_y = m_stack->get_ghost_y(&m_piece);
                             }
 
                             // Check wallkick one block to the left
-                            if (m_stack->checkNewPosition(&m_piece, -1, 0, rotation)) {
-                                m_piece.pos_x--;
-                                m_piece.orientation = new_orientation;
-                                m_ghost_y = m_stack->getGhostY(&m_piece);
+                            if (m_stack->check_new_pos(&m_piece, -1, 0, rotation)) {
+                                m_piece.move(-1, 0);
+                                m_piece.orientation(new_orientation);
+                                m_ghost_y = m_stack->get_ghost_y(&m_piece);
                             }
 
                             return;
@@ -432,24 +798,24 @@ void Core::Player::rotate(int rotation) {
             }
 
             // Check for wallkicks exceptions
-            x = m_piece.pos_x - 1;
+            x = m_piece.pos_x() - 1;
 
             if (x >= 0 || x < m_stack->m_width) {
-                y = m_piece.pos_y - 1;
+                y = m_piece.pos_y() - 1;
                 if (y < m_stack->m_height && y >= 0) {
                     if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
                     }
                 }
 
-                y = m_piece.pos_y;
+                y = m_piece.pos_y();
                 if (y < m_stack->m_height && y >= 0) {
                     if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
                     }
                 }
 
-                y = m_piece.pos_y + 1;
+                y = m_piece.pos_y() + 1;
                 if (y < m_stack->m_height && y >= 0) {
                     if (m_stack->m_field[x + y * m_stack->m_width] > 0) {
                         return;
@@ -459,24 +825,29 @@ void Core::Player::rotate(int rotation) {
         }
 
         // Check wallkick one block to the right
-        if (m_stack->checkNewPosition(&m_piece, 1, 0, rotation)) {
-            m_piece.pos_x++;
-            m_piece.orientation = new_orientation;
-            m_ghost_y = m_stack->getGhostY(&m_piece);
+        if (m_stack->check_new_pos(&m_piece, 1, 0, rotation)) {
+            m_piece.move(1, 0);
+            m_piece.orientation(new_orientation);
+            m_ghost_y = m_stack->get_ghost_y(&m_piece);
         }
 
         // Check wallkick one block to the left
-        else if (m_stack->checkNewPosition(&m_piece, -1, 0, rotation)) {
-            m_piece.pos_x--;
-            m_piece.orientation = new_orientation;
-            m_ghost_y = m_stack->getGhostY(&m_piece);
+        else if (m_stack->check_new_pos(&m_piece, -1, 0, rotation)) {
+            m_piece.move(-1, 0);
+            m_piece.orientation(new_orientation);
+            m_ghost_y = m_stack->get_ghost_y(&m_piece);
         }
     }
 }
 
 /* Lock down the current piece */
-void Core::Player::lockPiece() {
+/*void Core::Player::lockPiece() {
     m_already_dropped = true;
+    //m_locked_piece = true;
+
+    //std::cout << "lock " << (int) m_piece.pos_y << std::endl;
+    debug_piece = (int) m_piece.pos_y;
+
     int pos_x = m_piece.pos_x;
     int pos_y = m_piece.pos_y;
     for (int i = 0; i < SIZE; i++) {
@@ -503,41 +874,42 @@ void Core::Player::lockPiece() {
     m_lock_color_delay = 2;
     m_drawPiece = false;
     m_drawGhost = false;
-}
+    m_state = PlayerState::LOCKED_ANIM;
+}*/
 
 /* Increase level if possible */
-void Core::Player::changeLevel(int value, bool line_clear) {
+void Core::Player::change_level(int value, bool line_clear) {
     #warning "changeLevel not finished"
 
     // Last level
-    if (m_level >= m_current_mode->max_level)
+    if (m_level >= m_current_mode->max_level())
         return;
 
     // Check for line clear at end of section
     if (m_level == m_section - 1) {
         if (line_clear) {
-            m_section = m_current_mode->getSection(m_level + value);
-            section_display.update(m_section);
-            section_display.updateGraphics(m_stack);
+            m_section = m_current_mode->section(m_level + value);
+            m_section_display.update(m_section);
+            m_section_display.update_graphics(m_stack);
         } else {
             return;
         }
     }
 
     m_level += value;
-    level_display.update(m_level);
-    level_display.updateGraphics(m_stack);
-    m_gravity = m_current_mode->getGravity(m_level);
+    m_level_display.update(m_level);
+    m_level_display.update_graphics(m_stack);
+    m_gravity = m_current_mode->gravity(m_level);
 }
 
 /* Update player's score */
-void Core::Player::updateScore(unsigned int nb_lines, bool bravo) {
+void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
     m_combo += (2 * nb_lines) - 2;
     unsigned int bravo_val = (bravo) ? 4 : 1;
 
     // TODO check torikan for lvl_aft_clear
     unsigned int lvl_aft_clear = m_level + nb_lines;
-    uint32_t speed = m_current_mode->getLock(m_level) - m_active_time;
+    uint32_t speed = m_current_mode->lock(m_level) - m_active_time;
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
     /*std::cout << "level : " << m_level << std::endl;
     std::cout << "nblines : " << (unsigned int) nb_lines << std::endl;
@@ -553,14 +925,28 @@ void Core::Player::updateScore(unsigned int nb_lines, bool bravo) {
                                           m_combo, bravo_val, lvl_aft_clear,
                                           speed);
     //std::cout << "score : " << m_score << std::endl << std::endl;
-    score_display.update(m_score);
-    score_display.updateGraphics(m_stack);
+    m_score_display.update(m_score);
+    m_score_display.update_graphics(m_stack);
 }
 
 /* Give number of G for current gravity */
-unsigned int Core::Player::gravity() {
+unsigned int Core::Player::gravity(bool can_go_down) {
+    if (!can_go_down) {
+        m_gravity_counter = 0;
+
+        #ifdef DEBUG
+        std::cout << "gravity_counter: " << m_gravity_counter << std::endl;
+        #endif
+
+        return 0;
+    }
+
     m_gravity_counter += m_gravity;
-    //cout << gravity_counter << endl;
+
+    #ifdef DEBUG
+    std::cout << "gravity_counter: " << m_gravity_counter << std::endl;
+    #endif
+
     if (m_gravity_counter >= 256) {
         m_gravity_counter /= 256;
         unsigned int number_down = m_gravity_counter;
@@ -575,12 +961,18 @@ unsigned int Core::Player::gravity() {
 }
 
 /* Check if lock delay finished */
-bool Core::Player::checkLock() {
-    if (m_startLock) {
-        if (m_lock > m_current_mode->getLock(m_level)) {
-            //cout << "lock: " << lock << endl;
+bool Core::Player::check_lock() {
+    if (m_start_lock) {
+	// TODO test
+	m_lock++;
+
+        #ifdef DEBUG
+        std::cout << "lock: " << m_lock << std::endl;
+        #endif
+
+        if (m_lock >= m_current_mode->lock(m_level)) {
             m_lock = 0;
-            m_startLock = false;
+            m_start_lock = false;
             return true;
         }
     }
@@ -588,7 +980,7 @@ bool Core::Player::checkLock() {
 }
 
 /* Count ARE delay and check if finished */
-bool Core::Player::checkARE() {
+/*bool Core::Player::checkARE() {
     if (m_startARE) {
         m_are++;
         //cout << "ARE: " << are << endl;
@@ -600,14 +992,14 @@ bool Core::Player::checkARE() {
         }
     }
     return false;
-}
+}*/
 
 /* Count clear delay and check if finished */
-bool Core::Player::checkClear() {
+/*bool Core::Player::checkClear() {
     if (m_startClear) {
         m_clear++;
         //cout << "CLEAR: " << clearDelay << endl;
-        if (m_clear > m_current_mode->getClear(m_level)) {
+        if (m_clear >= m_current_mode->getClear(m_level)) {
             //cout << "clear: " << clearDelay << endl;
             m_clear = 0;
             m_startClear = false;
@@ -615,15 +1007,19 @@ bool Core::Player::checkClear() {
         }
     }
     return false;
-}
+}*/
 
 /* Count DAS frames for left input and check if fully charged */
-bool Core::Player::checkDASleft() {
-    if (m_startDASleft) {
-        m_DASleft++;
-        //cout << "DAS_LEFT: " << dasLeft << endl;
-        if (m_DASleft > m_current_mode->getDAS(m_level)) {
-            m_DASleft = m_current_mode->getDAS(m_level);
+bool Core::Player::check_das_left() {
+    if (m_start_das_left) {
+        m_das_left++;
+
+        #ifdef DEBUG
+        std::cout << "left DAS: " << m_das_left << std::endl;
+        #endif
+
+        if (m_das_left > m_current_mode->das(m_level)) {
+            m_das_left = m_current_mode->das(m_level);
             return true;
         }
     }
@@ -631,12 +1027,16 @@ bool Core::Player::checkDASleft() {
 }
 
 /* Count DAS frames for right input and check if fully charged */
-bool Core::Player::checkDASright() {
-    if (m_startDASright) {
-        m_DASright++;
-        //cout << "DAS_RIGHT: " << dasRight << endl;
-        if (m_DASright > m_current_mode->getDAS(m_level)) {
-            m_DASright = m_current_mode->getDAS(m_level);
+bool Core::Player::check_das_right() {
+    if (m_start_das_right) {
+        m_das_right++;
+
+        #ifdef DEBUG
+        std::cout << "right DAS: " << m_das_right << std::endl;
+        #endif
+
+        if (m_das_right > m_current_mode->das(m_level)) {
+            m_das_right = m_current_mode->das(m_level);
             return true;
         }
     }

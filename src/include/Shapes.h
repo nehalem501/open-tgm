@@ -28,7 +28,7 @@ enum {
     RIGHT
 };
 
-static int8_t PIECES[NB_TYPES][NB_ROTATIONS][SIZE][SIZE] = {
+const int8_t PIECES[NB_TYPES][NB_ROTATIONS][SIZE][SIZE] = {
     { // I
         {
             {0, 0, 0, 0},

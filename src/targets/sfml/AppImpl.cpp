@@ -24,7 +24,7 @@ int tile_size = screen_size.y / TILE_RATIO;
 
 void app() {
     // Resize graphics to window size
-    menu.updateSize();
+    menu.resize();
     bool fullscreen = false; // TODO load config
 
     // Used to remember window size when going fullscreen
@@ -81,7 +81,7 @@ void app() {
                             screen_size = window_size;
                             fullscreen = false;
 
-                            menu.updateSize();
+                            menu.resize();
                         } else {
                             window_size = window.getSize();
                             window.create(sf::VideoMode::getDesktopMode(), "Open TGM", sf::Style::Fullscreen);
@@ -91,7 +91,7 @@ void app() {
                             window.display();
 
                             fullscreen = true;
-                            menu.updateSize();
+                            menu.resize();
                         }
                     }
                 }
@@ -108,7 +108,7 @@ void app() {
                         window.clear();
                         window.display();
 
-                        menu.updateSize();
+                        menu.resize();
                     }
                 }
             }

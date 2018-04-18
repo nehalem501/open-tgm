@@ -8,9 +8,9 @@
 #include <Game.h>
 #include "MenuImpl.h"
 
-void MenuImpl::initGraphics() {
-    m_home.initGraphics();
-    m_chooseMode.initGraphics();
+void MenuImpl::init_graphics() {
+    m_home.init_graphics();
+    m_choose_mode.init_graphics();
 
     // TODO
     stack1.m_pos_x = (G2D_SCR_W / 2) - (stack1.m_width / 2) * 10;
@@ -32,7 +32,7 @@ void MenuImpl::draw() const {
 
         case MenuState::CHOOSE_MODE:
             frame1.draw();
-            m_chooseMode.draw();
+            m_choose_mode.draw();
             break;
 
         case MenuState::START_GAME:

@@ -3,11 +3,11 @@
 #include <Stack.h>
 #include "TextImpl.h"
 
-void TextImpl::initGraphics() {
+void TextImpl::init_graphics() {
 
 }
 
-void TextImpl::updateGraphics() {
+void TextImpl::update_graphics() {
     if (m_has_changed) {
         m_has_changed = false;
         // Update graphics here

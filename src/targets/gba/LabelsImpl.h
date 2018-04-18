@@ -8,7 +8,7 @@
 
 class LabelsImpl : public Core::Labels {
     public:
-        void initGraphics(Stack *stack);
+        void init_graphics(Stack *stack);
         void draw() const;
 };
 
