@@ -26,8 +26,7 @@ SOURCES = $(wildcard $(SRC_DIR)/core/*.cpp) $(wildcard $(SRC_DIR)/modes/*.cpp)
 unexport TARGETS_MK TARGETS ARGS
 export
 
-all:
-	@$(MAKE) -f $(DEFAULT).mk $(ARGS)
+all: $(DEFAULT)
 
 $(TARGETS): BIN_DIR = bin/$@
 $(TARGETS): BUILD_DIR = build/$@
@@ -42,8 +41,7 @@ $(TARGETS): % : %.mk
 	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/$@ $(BUILD_DIR)/modes
 	$(MAKE) -f $< $(filter-out $@,$(ARGS))
 
-clean:
-	$(MAKE) -f $(DEFAULT).mk clean
+clean: $(DEFAULT)
 
 .PHONY: all clean $(TARGETS)
 
