@@ -44,9 +44,9 @@ EXE_NAME := $(subst $(BIN_DIR), $(BIN_DIR)/$(OS_TARGET), $(EXE_NAME))
 BIN_DIR := $(BIN_DIR)/$(OS_TARGET)
 BUILD_DIR := $(BUILD_DIR)/$(OS_TARGET)
 
-all : $(EXE_NAME)
+all: $(EXE_NAME)
 
-$(EXE_NAME) : print_info $(OBJECTS)
+$(EXE_NAME): print_info $(OBJECTS)
 	@rm -rf $(BIN_DIR)/resources
 	@cp -rf data/resources/ $(BIN_DIR)
 	@echo Linking $(EXE_NAME)
@@ -57,12 +57,11 @@ $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
 	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
 
-clean :
-	rm -f $(OBJECTS);
+clean:
+	@rm -f $(OBJECTS);
 
 print_info:
 	@echo C++ compiler: $(CXX)
-	echo $(EXE_NAME)
 	@mkdir -p $(BIN_DIR)
 	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/sfml $(BUILD_DIR)/modes
 
