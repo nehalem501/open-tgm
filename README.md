@@ -20,6 +20,8 @@ Planned ports: (not necessarily implemented in this order)
 - Wii
 - PlayStation 1
 - PlayStation 2
+- PlayStation 3
+- Saturn
 - Dreamcast
 
 Possible ports if the target hardware is powerful enough: (needs some testing)
