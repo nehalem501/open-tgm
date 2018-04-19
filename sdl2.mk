@@ -1,13 +1,13 @@
 # Dummy target Makefile
 
 CXXFLAGS += -DTARGET_SDL2 -O2 -std=c++98 `sdl2-config --cflags`
-LIBS = `sdl2-config --libs`
+LIBS = `sdl2-config --libs` -lGLEW -lGL
 
 all : $(EXE_NAME)
 
 $(EXE_NAME) : print_info $(OBJECTS)
 	@echo Linking $(EXE_NAME)
-	$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS)
+	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
