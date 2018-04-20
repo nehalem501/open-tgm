@@ -1,6 +1,7 @@
 /* Input.cpp */
 
 #include <stdint.h>
+#include <Global.h>
 #include <core/Input.h>
 
 /* Is used to check if more than one direction is pressed */
@@ -26,11 +27,18 @@ static uint8_t input_lut[] = {
 Core::Input::Input() : m_curr_joystick(0x00),
                  m_prev_joystick(0x00),
                  m_curr_buttons(0x00),
-                 m_prev_buttons(0x00) {
-    //cout << "Input constructor" << endl;
+                 m_prev_buttons(0x00),
+                 m_autorepeat_up(0),
+                 m_autorepeat_down(0) {
+    #ifdef DEBUG
+    std::cout << "Input constructor" << std::endl;
+    #endif
 }
+
+#ifdef DEBUG
 #include <stdio.h>
-void print_bits(uint8_t byte) {
+
+static void print_bits(uint8_t byte) {
     if (byte & 0x01)
         printf("1");
     else
@@ -71,6 +79,7 @@ void print_bits(uint8_t byte) {
     else
         printf("0");
 }
+#endif
 
 void Core::Input::process() {
     // If UP and DOWN are pressed
@@ -145,6 +154,36 @@ void Core::Input::process() {
             m_curr_joystick &= ~(LEFT_BIT | RIGHT_BIT);
         }
     }*/
+}
+
+bool Core::Input::menu_key_up() {
+    if (up()) {
+        if (m_autorepeat_up == 0) {
+            m_autorepeat_up += MENU_KEY_AUTOREPEAT;
+            return true;
+        } else {
+            m_autorepeat_up += MENU_KEY_AUTOREPEAT;
+            return false;
+        }
+    }
+
+    m_autorepeat_up = 0;
+    return false;
+}
+
+bool Core::Input::menu_key_down() {
+    if (down()) {
+        if (m_autorepeat_down == 0) {
+            m_autorepeat_down += MENU_KEY_AUTOREPEAT;
+            return true;
+        } else {
+            m_autorepeat_down += MENU_KEY_AUTOREPEAT;
+            return false;
+        }
+    }
+
+    m_autorepeat_down = 0;
+    return false;
 }
 
 int Core::Input::irs() {

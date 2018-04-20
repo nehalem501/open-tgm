@@ -5,6 +5,8 @@
 
 #include <stdint.h>
 
+#define MENU_KEY_AUTOREPEAT 16
+
 #define CLEANED_INPUT 0x0F
 #define RAW_INPUT 0xF0
 
@@ -29,15 +31,15 @@
 namespace Core {
     class Input {
         protected:
-            /*bool m_start, m_settings, m_up, m_down, m_left, m_right;
-            bool m_a, m_b, m_c;
-            bool prev_up, prev_down, prev_left, prev_right, prev_a, prev_c;*/
-
             uint8_t m_curr_joystick;
             uint8_t m_prev_joystick;
 
             uint8_t m_curr_buttons;
             uint8_t m_prev_buttons;
+
+            // Only for menus
+            uint8_t m_autorepeat_up;
+            uint8_t m_autorepeat_down;
 
             void process();
 
@@ -65,6 +67,9 @@ namespace Core {
             inline bool a() { return (m_curr_buttons & A_BIT); };
             inline bool b() { return (m_curr_buttons & B_BIT); };
             inline bool c() { return (m_curr_buttons & C_BIT); };
+
+            bool menu_key_up();
+            bool menu_key_down();
 
             int irs();
     };
