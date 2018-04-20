@@ -61,7 +61,9 @@ const char *INPUTS_STR[NB_INPUTS] = {
 
 Core::Settings::Settings() : m_state(-1), m_selected(0), m_das_up(0),
                              m_das_down(0) {
-    //cout << "Settings screen constructor" << endl;
+    #ifdef DEBUG
+    std::cout << "Settings screen constructor" << std::endl;
+    #endif
 
     edit_text(&m_input_msg, 9, 23, TextColor::WHITE, "EXIT: RIGHT AND START");
 
@@ -93,36 +95,26 @@ void Core::Settings::init() {
 void Core::Settings::update(int *menustate) {
     switch (m_state) {
         case SettingsState::LIST:
-            if (input.up()) {
-                if (m_das_up == 0) {
-                    m_settings_str[m_selected].update_color(TextColor::TRANSPARENT);
+            if (input.menu_key_up()) {
+                m_settings_str[m_selected].update_color(TextColor::TRANSPARENT);
 
-                    if (m_selected <= 0)
-                        m_selected = SettingsState::SETTINGS_NB - 1;
-                    else
-                        m_selected--;
+                if (m_selected <= 0)
+                    m_selected = SettingsState::SETTINGS_NB - 1;
+                else
+                    m_selected--;
 
-                    m_settings_str[m_selected].update_color(TextColor::WHITE);
-                }
-                m_das_up += 16;
-            } else {
-                m_das_up = 0;
+                m_settings_str[m_selected].update_color(TextColor::WHITE);
             }
 
-            if (input.down()) {
-                if (m_das_down == 0) {
-                    m_settings_str[m_selected].update_color(TextColor::TRANSPARENT);
+            if (input.menu_key_down()) {
+                m_settings_str[m_selected].update_color(TextColor::TRANSPARENT);
 
-                    if (m_selected >= SettingsState::SETTINGS_NB - 1)
-                        m_selected = 0;
-                    else
-                        m_selected++;
+                if (m_selected >= SettingsState::SETTINGS_NB - 1)
+                    m_selected = 0;
+                else
+                    m_selected++;
 
-                    m_settings_str[m_selected].update_color(TextColor::WHITE);
-                }
-                m_das_down += 16;
-            } else {
-                m_das_down = 0;
+                m_settings_str[m_selected].update_color(TextColor::WHITE);
             }
 
             if (input.a()) {

@@ -28,6 +28,15 @@ void Core::ChooseMode::init() {
 }
 
 void Core::ChooseMode::update(int *state, int *mode) {
+    // Mode selected, play animation before starting game
+    if (input.a()) {
+        m_das_up = 4;
+        m_das_down = 0;
+        m_selected = true;
+        return;
+    }
+
+    // Playing animation
     if (m_selected) {
         m_das_up += 4;
         if (m_das_up == 0) {
@@ -53,47 +62,29 @@ void Core::ChooseMode::update(int *state, int *mode) {
         return;
     }
 
-    // Mode selected, play animation before starting game
-    if (input.a()) {
-        m_das_up = 4;
-        m_das_down = 0;
-        m_selected = true;
-        return;
+    if (input.menu_key_up()) {
+        // Revert previous entry to normal color
+        m_modes_strings[m_mode].update_color(TextColor::NONE);
+
+        if (m_mode <= 0)
+            m_mode = NB_MODES - 1;
+        else
+            m_mode--;
+
+        // Highlight newly selected entry
+        m_modes_strings[m_mode].update_color(TextColor::YELLOW);
     }
 
-    if (input.up()) {
-        if (m_das_up == 0) {
-            // Revert previous entry to normal color
-            m_modes_strings[m_mode].update_color(TextColor::NONE);
+    if (input.menu_key_down()) {
+        // Revert previous entry to normal color
+        m_modes_strings[m_mode].update_color(TextColor::NONE);
 
-            if (m_mode <= 0)
-                m_mode = NB_MODES - 1;
-            else
-                m_mode--;
+        if (m_mode >= NB_MODES - 1)
+            m_mode = 0;
+        else
+            m_mode++;
 
-            // Highlight newly selected entry
-            m_modes_strings[m_mode].update_color(TextColor::YELLOW);
-        }
-        m_das_up += 16;
-    } else {
-        m_das_up = 0;
-    }
-
-    if (input.down()) {
-        if (m_das_down == 0) {
-            // Revert previous entry to normal color
-            m_modes_strings[m_mode].update_color(TextColor::NONE);
-
-            if (m_mode >= NB_MODES - 1)
-                m_mode = 0;
-            else
-                m_mode++;
-
-            // Highlight newly selected entry
-            m_modes_strings[m_mode].update_color(TextColor::YELLOW);
-        }
-        m_das_down += 16;
-    } else {
-        m_das_down = 0;
+        // Highlight newly selected entry
+        m_modes_strings[m_mode].update_color(TextColor::YELLOW);
     }
 }
