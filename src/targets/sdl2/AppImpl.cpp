@@ -124,8 +124,40 @@ void app() {
         printf("OpenGL: shader program linking error\n");
         exit(1);
     }
+
+    GLint vertex_position = glGetAttribLocation(program_id, "position");
         
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+
+    ///////////////////////////////
+
+    GLuint gVBO = 0;
+    GLuint gIBO = 0;
+
+    //VBO data
+	GLfloat vertexData[] =
+	{
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.5f,  0.5f, 0.0f,
+		-0.5f,  0.5f, 0.0f
+	};
+
+	//IBO data
+	GLuint indexData[] = { 0, 1, 2, 3 };
+
+	//Create VBO
+	glGenBuffers( 1, &gVBO );
+    glBindBuffer( GL_ARRAY_BUFFER, gVBO );
+	glBufferData( GL_ARRAY_BUFFER, 3 * 4 * sizeof(GLfloat), vertexData, GL_STATIC_DRAW );
+
+	//Create IBO
+	glGenBuffers( 1, &gIBO );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIBO );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(GLuint), indexData, GL_STATIC_DRAW );
+
+    //////////////////////////////
 
     #ifdef DEBUG
     bool frame_by_frame = false;
@@ -136,7 +168,7 @@ void app() {
     SDL_Event event;
 
     while(!quit) {
-        //while() {
+        //while() { TODO timing code
             while (SDL_PollEvent(&event) != 0) {
                 if (event.type == SDL_QUIT) {
                     quit = true;
@@ -187,6 +219,25 @@ void app() {
             #endif
         
             glClear(GL_COLOR_BUFFER_BIT);
+
+            glUseProgram( program_id );
+
+		    //Enable vertex position
+		    glEnableVertexAttribArray(vertex_position);
+
+		    //Set vertex data
+		    glBindBuffer( GL_ARRAY_BUFFER, gVBO );
+		    glVertexAttribPointer( vertex_position, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), NULL );
+
+		    //Set index data and render
+		    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, gIBO );
+		    glDrawElements( GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, NULL );
+
+		    //Disable vertex position
+		    glDisableVertexAttribArray( vertex_position );
+
+		    //Unbind program
+		    glUseProgram( NULL );
 
             SDL_GL_SwapWindow(window);
         //}

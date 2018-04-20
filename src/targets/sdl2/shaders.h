@@ -7,17 +7,22 @@
 
 const GLchar *vertex_shader_source[] = {
     "#version 130\n"
-    "in vec2 position; "
+    "in vec3 position; "
+    "/*in vec4 color_in;*/ "
+    "out vec4 color_out; "
     "void main() { "
-    "  gl_Position = vec4(position.x, position.y, 0, 1); "
+    "  /*color_out = color_in*/; "
+    "  gl_Position = vec4(position.x, position.y, position.z, 1.0); "
     "}"
 };
 
 const GLchar *fragment_shader_source[] = {
     "#version 130\n"
+    "/*in vec4 color_out;*/ "
     "out vec4 fragment; "
     "void main() { "
-    "  fragment = vec4(1.0, 1.0, 1.0, 1.0); "
+    "  /*fragment = color_out;*/ "
+    "  fragment = vec4(1, 0, 0, 1); "
     "}"
 };
 
