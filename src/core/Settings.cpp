@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <Global.h>
 #include <Input.h>
-#include <Menu.h>
+#include <MainMenu.h>
 #include <Text.h>
 #include <Background.h>
 #include <Utils.h>
@@ -127,7 +127,7 @@ void Core::Settings::update(int *menustate) {
 
             if (input.a()) {
                 if (m_selected == SettingsState::EXIT) {
-                    *menustate = MenuState::HOME;
+                    *menustate = MainMenuState::HOME;
                     background.go_to_background();
                     return;
                 }

@@ -7,7 +7,7 @@
 #include "resources/callbacks.h"
 #include <glib2d.h>
 #include <Global.h>
-#include <Menu.h>
+#include <MainMenu.h>
 #include <Background.h>
 #include <App.h>
 

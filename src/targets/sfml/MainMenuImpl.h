@@ -1,13 +1,13 @@
-/* MenuImpl.h - SFML */
+/* MainMenuImpl.h - SFML */
 
-#ifndef MENU_SFML_H
-#define MENU_SFML_H
+#ifndef MAIN_MENU_SFML_H
+#define MAIN_MENU_SFML_H
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <core/Menu.h>
+#include <core/MainMenu.h>
 
-class MenuImpl : public Core::Menu, public sf::Drawable {
+class MainMenuImpl : public Core::MainMenu, public sf::Drawable {
     public:
         void init_graphics();
         void resize();

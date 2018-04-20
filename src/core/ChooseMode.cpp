@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include <Global.h>
-#include <Menu.h>
+#include <MainMenu.h>
 #include <Input.h>
 #include <Text.h>
 #include <core/ChooseMode.h>
@@ -34,7 +34,7 @@ void Core::ChooseMode::update(int *state, int *mode) {
             m_selected = false;
             m_das_up = 0;
             m_das_down = 0;
-            *state = MenuState::START_GAME;
+            *state = MainMenuState::START_GAME;
             *mode = m_mode;
             m_mode = 0;
             m_modes_strings[0].update_color(TextColor::YELLOW);

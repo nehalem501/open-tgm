@@ -1,6 +1,6 @@
 /* Global.cpp */
 
-#include <Menu.h>
+#include <MainMenu.h>
 #include <Stack.h>
 #include <Frame.h>
 #include <Player.h>

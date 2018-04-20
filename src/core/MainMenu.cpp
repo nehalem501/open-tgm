@@ -1,44 +1,44 @@
-/* BaseMenu.cpp */
+/* MainMainMenu.cpp */
 
 #include <Global.h>
 #include <Home.h>
 #include <Input.h>
 #include <Game.h>
 #include <Background.h>
-#include <core/Menu.h>
+#include <core/MainMenu.h>
 
 using namespace std;
 
-Core::Menu::Menu() : m_state(MenuState::HOME), m_mode(0) {
+Core::MainMenu::MainMenu() : m_state(MainMenuState::HOME), m_mode(0) {
     #ifdef DEBUG
-    std::cout << "Menu constructor" << std::endl;
+    std::cout << "MainMenu constructor" << std::endl;
     #endif
 }
 
-void Core::Menu::update() {
+void Core::MainMenu::update() {
     input.poll_inputs();
 
     switch(m_state) {
-        case MenuState::HOME:
+        case MainMenuState::HOME:
             if (input.settings()) {
-                m_state = MenuState::SETTINGS;
+                m_state = MainMenuState::SETTINGS;
                 background.go_to_options();
                 return;
             }
             m_home.update(&m_state);
             break;
 
-        case MenuState::CHOOSE_MODE:
+        case MainMenuState::CHOOSE_MODE:
             m_choose_mode.update(&m_state, &m_mode);
             break;
 
-        case MenuState::START_GAME:
+        case MainMenuState::START_GAME:
             game.start_p1(m_mode);
             // TODO
-            m_state = MenuState::INGAME;
+            m_state = MainMenuState::INGAME;
             break;
 
-        case MenuState::INGAME:
+        case MainMenuState::INGAME:
             // Update logic
             game.update(&m_state);
 
@@ -46,7 +46,7 @@ void Core::Menu::update() {
             //ingame();
             break;
 
-        case MenuState::SETTINGS:
+        case MainMenuState::SETTINGS:
             m_settings.update(&m_state);
             break;
     }

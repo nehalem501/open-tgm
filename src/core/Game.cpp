@@ -5,7 +5,7 @@
 #include <Player.h>
 #include <Stack.h>
 #include <../modes/modes.h>
-#include <core/Menu.h>
+#include <core/MainMenu.h>
 #include <core/Game.h>
 
 void Core::Game::init_graphics() {
@@ -132,7 +132,7 @@ void Core::Game::update(int *state) {
 
             if (m_p1_counter == 160) {
                 m_p1_counter = 0;
-                *state = MenuState::HOME;
+                *state = MainMenuState::HOME;
             }
 
             break;

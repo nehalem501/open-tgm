@@ -1,4 +1,4 @@
-/* MenuImpl.cpp - SFML */
+/* MainMenuImpl.cpp - SFML */
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
@@ -8,15 +8,15 @@
 #include <Background.h>
 #include <Game.h>
 #include "GlobalSFML.h"
-#include "MenuImpl.h"
+#include "MainMenuImpl.h"
 
-void MenuImpl::init_graphics() {
+void MainMenuImpl::init_graphics() {
     m_home.init_graphics();
     m_choose_mode.init_graphics();
     m_settings.init_graphics();
 }
 
-void MenuImpl::resize() {
+void MainMenuImpl::resize() {
     tile_size = screen_size.y / TILE_RATIO;
 
     background.resize();
@@ -29,36 +29,36 @@ void MenuImpl::resize() {
     frame1.resize(&stack1);
 }
 
-void MenuImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
+void MainMenuImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(background);
     switch(m_state) {
-        case MenuState::HOME:
+        case MainMenuState::HOME:
             target.draw(m_home);
             break;
 
-        case MenuState::CHOOSE_PLAYER:
+        case MainMenuState::CHOOSE_PLAYER:
             target.draw(frame1);
             //target.draw(dataNotUsed);
             //target.draw(newPlaiyer);
             //target.draw(loadPlayer);
             break;
 
-        case MenuState::CHOOSE_MODE:
+        case MainMenuState::CHOOSE_MODE:
             target.draw(frame1);
             target.draw(m_choose_mode);
             break;
 
-        case MenuState::START_GAME:
+        case MainMenuState::START_GAME:
             target.draw(frame1);
             break;
 
-        case MenuState::INGAME:
+        case MainMenuState::INGAME:
             target.draw(frame1);
             // TODO 2 players
             target.draw(game);
             break;
 
-        case MenuState::SETTINGS:
+        case MainMenuState::SETTINGS:
             target.draw(m_settings);
             break;
 

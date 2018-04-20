@@ -1,13 +1,13 @@
-/* Menu.h */
+/* MainMenu.h */
 
-#ifndef CORE_MENU_H
-#define CORE_MENU_H
+#ifndef CORE_MAIN_MENU_H
+#define CORE_MAIN_MENU_H
 
 #include <Home.h>
 #include <ChooseMode.h>
 #include <Settings.h>
 
-namespace MenuState {
+namespace MainMenuState {
     enum {
         HOME = 0,
         CHOOSE_PLAYER,
@@ -24,9 +24,9 @@ namespace MenuState {
 }
 
 namespace Core {
-    class Menu {
+    class MainMenu {
         public:
-            Menu();
+            MainMenu();
 
             void update();
 

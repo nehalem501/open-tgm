@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <Global.h>
 #include <Background.h>
-#include <Menu.h>
+#include <MainMenu.h>
 #include <App.h>
 
 sf::Texture tileset_tex;

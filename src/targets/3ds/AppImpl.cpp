@@ -3,7 +3,7 @@
 #include <3ds.h>
 #include <citro3d.h>
 #include <Global.h>
-#include <Menu.h>
+#include <MainMenu.h>
 #include <Background.h>
 #include "lodepng.h"
 #include <App.h>

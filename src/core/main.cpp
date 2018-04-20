@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <Global.h>
 #include <Input.h>
-#include <Menu.h>
+#include <MainMenu.h>
 #include <Game.h>
 #include <Background.h>
 #include <Player.h>
@@ -28,7 +28,7 @@ Frame frame2;
 
 Input input;
 Game game;
-Menu menu;
+MainMenu menu;
 Background background;
 
 int main() {

@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <Utils.h>
 #include <Global.h>
-#include <Menu.h>
+#include <MainMenu.h>
 #include <Input.h>
 #include <Background.h>
 #include "GlobalSFML.h"
@@ -51,7 +51,7 @@ void SettingsImpl::update(int *menustate) {
 
             if (input.a()) {
                 if (m_selected == SettingsState::EXIT) {
-                    *menustate = MenuState::HOME;
+                    *menustate = MainMenuState::HOME;
                     background.go_to_background();
                     return;
                 }

@@ -18,14 +18,14 @@ class PlayerImpl;
 class StackImpl;
 class InputImpl;
 class GameImpl;
-class MenuImpl;
+class MainMenuImpl;
 class BackgroundImpl;
 class FrameImpl;
 typedef PlayerImpl Player;
 typedef StackImpl Stack;
 typedef InputImpl Input;
 typedef GameImpl Game;
-typedef MenuImpl Menu;
+typedef MainMenuImpl MainMenu;
 typedef BackgroundImpl Background;
 typedef FrameImpl Frame;
 
@@ -61,7 +61,7 @@ extern Frame frame2;
 
 extern Input input;
 extern Game game;
-extern Menu menu;
+extern MainMenu menu;
 extern Background background;
 extern Mode* modes[];
 
