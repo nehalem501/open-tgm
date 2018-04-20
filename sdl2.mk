@@ -1,4 +1,4 @@
-# Dummy target Makefile
+# SDL2 target Makefile
 
 CXXFLAGS += -DTARGET_SDL2 -O2 -std=c++98 `sdl2-config --cflags`
 LIBS = `sdl2-config --libs` -lGLEW -lGL
