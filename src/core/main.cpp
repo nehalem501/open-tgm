@@ -1,4 +1,4 @@
-/* open-tgm.cpp */
+/* main.cpp */
 
 #include <ctime>
 #include <stdint.h>
