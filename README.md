@@ -18,6 +18,7 @@ Planned ports: (not necessarily implemented in this order)
 - Nintendo DS
 - GameCube
 - Wii
+- Switch
 - PlayStation 1
 - PlayStation 2
 - PlayStation 3
