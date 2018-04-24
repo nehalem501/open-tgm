@@ -11,10 +11,6 @@
 #include <core/Player.h>
 #include <LineClearParticles.h>
 
-/* Forward declarations to avoid dependency hell */
-class BasePlayer;
-typedef PlayerImpl Player;
-
 #define FILLED_LINES_NB 4
 
 namespace Core {
@@ -31,7 +27,7 @@ namespace Core {
             tiles_t m_field[MAX_WIDTH * MAX_HEIGHT];
 
             Stack();
-            
+
             void init(int pos_x, int pos_y, int width, int height);
             void start_game(Mode *mode);
 
