@@ -1,13 +1,16 @@
 /* Digits.cpp */
 
 #include <stdint.h>
+#include <Global.h>
 #include <core/Digits.h>
 
 Core::Digits::Digits() : m_value(0),
                    m_pos_x(0),
                    m_pos_y(0),
                    m_has_changed(false) {
-
+    #ifdef DEBUG
+    std::cout << "Digits constructor" << std::endl;
+    #endif
 }
 
 void Core::Digits::init(int pos_x, int pos_y) {
