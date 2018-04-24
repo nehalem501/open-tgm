@@ -1,32 +1,21 @@
 /* LineClearParticles.cpp */
 
-#include <stdint.h>
+#include <Global.h>
 #include <core/LineClearParticles.h>
 
-Core::LineClearParticles::LineClearParticles() {
-    //#warning "LineClearParticle constructor not unimplemented"
-    m_active = false;
+Core::LineClearParticles::LineClearParticles() : m_active(false), m_line(0) {
+    #ifdef DEBUG
+    std::cout << "LineClearParticles constructor" << std::endl;
+    #endif
 }
 
-void Core::LineClearParticles::set_emitter(int position_x, int position_y) {
-    //#warning "LineClearParticle::setEmitter not unimplemented"
+void Core::LineClearParticles::set_emitter(Core::Stack *stack, unsigned int line) {
     m_active = true;
-}
-
-void Core::LineClearParticles::update() {
-    //#warning "LineClearParticle::update not unimplemented"
-}
-
-void Core::LineClearParticles::init() {
-    //#warning "LineClearParticle::init not unimplemented"
+    m_line = line;
+    m_stack = stack;
 }
 
 bool Core::LineClearParticles::end() {
-    //#warning "LineClearParticle::end not unimplemented"
     m_active = false;
     return true;
-}
-
-bool Core::LineClearParticles::is_active() {
-    return m_active;
 }

@@ -155,7 +155,7 @@ bool Core::Stack::check_lines(Core::Player *player) {
             //std::cout << row_nb << ", ";
 
             // Activate particles for line clear
-            m_part[lines_to_clear].set_emitter(0, row_nb);
+            m_part[lines_to_clear].set_emitter(this, row_nb);
             m_part[lines_to_clear].init();
 
             // Increment line count

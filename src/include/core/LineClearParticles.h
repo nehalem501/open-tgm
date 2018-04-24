@@ -4,17 +4,20 @@
 #define CORE_LINE_CLEAR_PARTICLES_H
 
 namespace Core {
+    /* Forward declaration to avoid dependency hell */
+    class Stack;
+
     class LineClearParticles {
         public:
             LineClearParticles();
-            void set_emitter(int position_x, int position_y);
-            void update();
-            void init();
+            void set_emitter(Core::Stack *stack, unsigned int line);
             bool end();
-            bool is_active();
+            inline bool is_active() { return m_active; };
 
-        private:
+        protected:
             bool m_active;
+            int m_line;
+            Core::Stack *m_stack;
     };
 }
 
