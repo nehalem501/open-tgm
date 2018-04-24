@@ -7,8 +7,6 @@
 #include <Background.h>
 #include <core/MainMenu.h>
 
-using namespace std;
-
 Core::MainMenu::MainMenu() : m_state(MainMenuState::HOME), m_mode(0) {
     #ifdef DEBUG
     std::cout << "MainMenu constructor" << std::endl;
