@@ -2,11 +2,26 @@
 
 #include <stdint.h>
 #include <Mode.h>
+#ifdef DEBUG
+#include <Global.h>
+#endif
 #include "tgm2p-master.h"
 
 uint32_t tgm2p_master_score(uint32_t level, uint32_t lines, uint32_t soft,
                             uint32_t sonic, uint32_t combo, uint32_t bravo,
                             uint32_t lvl_aft_clear, uint32_t speed) {
+    #ifdef DEBUG
+    print("level: %d\n"
+          "lines: %d\n"
+          "soft: %d\n"
+          "sonic: %d\n"
+          "combo: %d\n"
+          "bravo: %d\n"
+          "lvl_aft_clear: %d\n"
+          "speed: %d\n", level, lines, soft, sonic,
+                         combo, bravo, lvl_aft_clear, speed);
+    #endif
+
     uint32_t tmp = (level + lines) / 4;
     if ((level + lines) % 4 != 0) // Round Up
         tmp++;
