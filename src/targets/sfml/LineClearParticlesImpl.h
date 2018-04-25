@@ -17,8 +17,8 @@ struct Particle {
 };
 
 class LineClearParticlesImpl : public Core::LineClearParticles,
-                               public sf::Drawable,
-                               public sf::Transformable {
+                               public sf::Drawable/*,
+                               public sf::Transformable*/ {
     public:
         void init();
         void update();
@@ -29,7 +29,6 @@ class LineClearParticlesImpl : public Core::LineClearParticles,
 
         int m_lifetime, m_first;
         int m_color_seed[COLOR_SEED_SIZE];
-        //sf::Vector2f m_emitter;
         std::vector<Particle> m_particles;
         sf::VertexArray m_vertices;
 };

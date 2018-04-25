@@ -45,37 +45,11 @@ void StackImpl::resize() {
 }
 
 void StackImpl::update_graphics() {
-    /*switch (m_nb_part) {
-        case 1:
-            m_part0.update();
-            if (m_part0.end())
-                m_nb_part = 0;
-            break;
-
-        case 2:
-            m_part0.update();
-            m_part1.update();
-            if (m_part0.end())
-                m_nb_part = 0;
-            break;
-
-        case 3:
-            m_part0.update();
-            m_part1.update();
-            m_part2.update();
-            if (m_part0.end())
-                m_nb_part = 0;
-            break;
-
-        case 4:
-            m_part0.update();
-            m_part1.update();
-            m_part2.update();
-            m_part3.update();
-            if (m_part0.end())
-                m_nb_part = 0;
-            break;
-    }*/
+    for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
+        if (m_part[i].is_active()) {
+            m_part[i].update();
+        }
+    }
 
     unsigned char rgb = 200;
     //unsigned char alpha = 255;

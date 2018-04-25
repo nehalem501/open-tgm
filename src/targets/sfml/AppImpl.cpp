@@ -15,6 +15,7 @@ sf::Texture labels_tex;
 sf::Texture text_tex;
 sf::Texture grades_tex;
 sf::Texture timer_tex;
+sf::Texture particle_tex;
 
 sf::Time timePerFrame;
 

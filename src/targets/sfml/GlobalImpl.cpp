@@ -46,6 +46,12 @@ void init_textures() {
         std::cout << "ERROR loading timer texture" << std::endl;
     }
 
+    if (!particle_tex.loadFromFile("resources/particle.png")) {
+        std::cout << "ERROR loading particle texture" << std::endl;
+    }
+    particle_tex.setSmooth(true);
+
+
     #ifdef DEBUG
     std::cout << "Finished loading textures" << std::endl;
     #endif
