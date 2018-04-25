@@ -7,6 +7,7 @@
 
 class LineClearParticlesImpl : public Core::LineClearParticles {
     public:
+        void init();
         void draw() const;
 };
 
