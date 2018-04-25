@@ -5,6 +5,11 @@
 
 #include <3ds/types.h>
 
+#ifdef DEBUG
+#include <stdio.h>
+#define print printf
+#endif
+
 typedef u32 tiles_t;
 
 #endif

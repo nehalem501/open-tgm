@@ -31,53 +31,51 @@ Core::Input::Input() : m_curr_joystick(0x00),
                  m_autorepeat_up(0),
                  m_autorepeat_down(0) {
     #ifdef DEBUG
-    std::cout << "Input constructor" << std::endl;
+    print("Input constructor\n");
     #endif
 }
 
 #ifdef DEBUG
-#include <stdio.h>
-
 static void print_bits(uint8_t byte) {
     if (byte & 0x01)
-        printf("1");
+        print("1");
     else
-        printf("0");
+        print("0");
 
     if (byte & 0x02)
-        printf("1");
+        print("1");
     else
-        printf("0");
+        print("0");
 
     if (byte & 0x04)
-        printf("1");
+        print("1");
     else
-        printf("0");
+        print("0");
 
     if (byte & 0x08)
-        printf("1");
+        print("1");
     else
-        printf("0");
+        print("0");
 
     if (byte & 0x10)
-        printf("1");
+        print("1");
     else
-        printf("0");
+        print("0");
 
     if (byte & 0x20)
-        printf("1");
+        print("1");
     else
-        printf("0");
+        print("0");
 
     if (byte & 0x40)
-        printf("1");
+        print("1");
     else
-        printf("0");
+        print("0");
 
     if (byte & 0x80)
-        printf("1");
+        print("1");
     else
-        printf("0");
+        print("0");
 }
 #endif
 

@@ -9,7 +9,7 @@ Core::Digits::Digits() : m_value(0),
                    m_pos_y(0),
                    m_has_changed(false) {
     #ifdef DEBUG
-    std::cout << "Digits constructor" << std::endl;
+    print("Digits constructor\n");
     #endif
 }
 

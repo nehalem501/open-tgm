@@ -105,7 +105,7 @@ namespace Core {
 
             inline void reset_lock() {
                 #ifdef DEBUG
-                std::cout << "reset lock" << std::endl;
+                print("reset lock\n");
                 #endif
 
                 m_start_lock = false;

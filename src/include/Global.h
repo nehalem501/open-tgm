@@ -4,12 +4,6 @@
 #define GLOBAL_H
 
 #include <stdint.h>
-
-#ifdef DEBUG
-#include <iostream>
-#include <stdio.h>
-#endif
-
 #include <TargetTypes.h>
 
 /* Forward declarations to avoid dependency hell */

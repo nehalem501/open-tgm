@@ -5,6 +5,6 @@
 
 Core::Background::Background() : options(false) {
     #ifdef DEBUG
-    std::cout << "Background constructor" << std::endl;
+    print("Background constructor\n");
     #endif
 }

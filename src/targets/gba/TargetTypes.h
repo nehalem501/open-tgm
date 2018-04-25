@@ -5,6 +5,11 @@
 
 #include <gba_types.h>
 
+#ifdef DEBUG
+#include <stdio.h>
+#define print printf
+#endif
+
 typedef u16 tiles_t;
 
 #endif

@@ -18,7 +18,7 @@ void Core::Stack::init(int pos_x, int pos_y, int width, int height) {
     m_height = height;
 
     #ifdef DEBUG
-    std::cout << "width: " << m_width << "  height: " << m_height << std::endl;
+    print("width: %d  height: %d\n", m_width, m_height);
     #endif
 
     // Position in tiles

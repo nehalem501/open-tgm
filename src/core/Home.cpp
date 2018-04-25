@@ -8,7 +8,7 @@
 
 Core::Home::Home() : m_start_timer(0) {
     #ifdef DEBUG
-    std::cout << "Home screen constructor" << std::endl;
+    print("Home screen constructor\n");
     #endif
 }
 

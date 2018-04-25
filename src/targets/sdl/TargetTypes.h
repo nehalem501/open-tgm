@@ -3,6 +3,11 @@
 #ifndef TARGET_TYPES_SDL_H
 #define TARGET_TYPES_SDL_H
 
+#ifdef DEBUG
+#include <stdio.h>
+#define print printf
+#endif
+
 typedef uint16_t tiles_t;
 
 #endif

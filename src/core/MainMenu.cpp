@@ -9,7 +9,7 @@
 
 Core::MainMenu::MainMenu() : m_state(MainMenuState::HOME), m_mode(0) {
     #ifdef DEBUG
-    std::cout << "MainMenu constructor" << std::endl;
+    print("MainMenu constructor\n");
     #endif
 }
 

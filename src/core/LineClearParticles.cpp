@@ -5,7 +5,7 @@
 
 Core::LineClearParticles::LineClearParticles() : m_active(false), m_line(0) {
     #ifdef DEBUG
-    std::cout << "LineClearParticles constructor" << std::endl;
+    print("LineClearParticles constructor\n");
     #endif
 }
 

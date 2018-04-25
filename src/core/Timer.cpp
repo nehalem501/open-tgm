@@ -25,7 +25,7 @@ void Core::Timer::update() {
     uint32_t min = (m_time / (100 * 60)) % 60;
 
     #ifdef DEBUG
-    printf("time: %02d:%02d:%02d\n", min, sec, centsec);
+    print("time: %02d:%02d:%02d\n", min, sec, centsec);
     #endif
 
     m_str[0] = min / 10;

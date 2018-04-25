@@ -73,7 +73,7 @@ void Core::Game::update(int *state) {
             m_p1_counter++;
 
             #ifdef DEBUG
-            std::cout << "p1_counter (ready & go): " << (int) m_p1_counter << std::endl;
+            print("p1_counter (ready & go): %d\n", (int) m_p1_counter);
             #endif
 
             // Display 'GO'

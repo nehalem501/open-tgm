@@ -62,7 +62,7 @@ const char *INPUTS_STR[NB_INPUTS] = {
 Core::Settings::Settings() : m_state(-1), m_selected(0), m_das_up(0),
                              m_das_down(0) {
     #ifdef DEBUG
-    std::cout << "Settings screen constructor" << std::endl;
+    print("Settings screen constructor\n");
     #endif
 
     edit_text(&m_input_msg, 9, 23, TextColor::WHITE, "EXIT: RIGHT AND START");

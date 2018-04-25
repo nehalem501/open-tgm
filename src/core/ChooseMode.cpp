@@ -10,7 +10,7 @@
 Core::ChooseMode::ChooseMode() : m_selected(false), m_mode(0), m_das_up(0),
                                  m_das_down(0) {
     #ifdef DEBUG
-    std::cout << "Choose mode screen constructor" << std::endl;
+    print("Choose mode screen constructor\n");
     #endif
 }
 

@@ -141,7 +141,7 @@ void Core::Player::update(int *game_state) {
             m_are++;
 
             #ifdef DEBUG
-            std::cout << "ARE: " << m_are << std::endl;
+            print("ARE: %d\n", (int) m_are);
             #endif
 
             // Left DAS
@@ -293,7 +293,7 @@ void Core::Player::update(int *game_state) {
             unsigned int number_down = gravity(can_go_down);
 
             #ifdef DEBUG
-            std::cout << "Can go down: " << can_go_down << std::endl;
+            print("Can go down: %s\n", can_go_down ? "true" : "false");
             #endif
 
             // Down
@@ -303,7 +303,7 @@ void Core::Player::update(int *game_state) {
                     m_soft++;
 
                     #ifdef DEBUG
-                    std::cout << "soft: " << m_soft << std::endl;
+                    print("soft: %d\n", (int) m_soft);
                     #endif
 
                     if (number_down == 0) {
@@ -366,7 +366,7 @@ void Core::Player::update(int *game_state) {
                 // Not restart counting if already doing it
                 if (!m_start_lock) {
                     #ifdef DEBUG
-                    std::cout << "start lock delay" << std::endl;
+                    print("start lock delay\n");
                     #endif
 
                     start_lock();
@@ -403,8 +403,8 @@ void Core::Player::update(int *game_state) {
             */
 
             #ifdef DEBUG
-            std::cout << "state: LOCK" << std::endl;
-            std::cout << "piece_pos_y: " << (int) m_piece.pos_y() << std::endl;
+            print("state: LOCK\n");
+            print("piece_pos_y: %d\n", (int) m_piece.pos_y());
             #endif
 
             reset_lock();
@@ -432,7 +432,7 @@ void Core::Player::update(int *game_state) {
             m_state = PlayerState::LOCKED_ANIM;
 
             #ifdef DEBUG
-            std::cout << "state: LOCKED_ANIM" << std::endl;
+            print("state: LOCKED_ANIM\n");
             #endif
 
             break;
@@ -441,7 +441,7 @@ void Core::Player::update(int *game_state) {
         case PlayerState::LOCKED_ANIM:
             // TODO
             #ifdef DEBUG
-            std::cout << "color_delay: " << m_lock_color_delay << std::endl;
+            print("color_delay: %d\n", (int) m_lock_color_delay);
             #endif
 
             if (m_lock_color_delay > 0) {
@@ -457,7 +457,7 @@ void Core::Player::update(int *game_state) {
                 m_state = PlayerState::ARE;
 
                 #ifdef DEBUG
-                std::cout << "state: ARE" << std::endl;
+                print("state: ARE\n");
                 #endif
 
                 break;
@@ -470,7 +470,7 @@ void Core::Player::update(int *game_state) {
             m_clear++;
 
             #ifdef DEBUG
-            std::cout << "clear: " << m_clear << std::endl;
+            print("clear: %d\n", (int) m_clear);
             #endif
 
             if (m_clear >= m_current_mode->clear(m_level)) {
