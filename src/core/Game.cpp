@@ -11,6 +11,7 @@
 void Core::Game::init_graphics() {
     m_timer1.init_graphics();
     m_p1_string.init_graphics();
+    m_p1_string.update_stack(&stack1);
 
     #ifdef MULTIPLAYER
     m_timer2.init_graphics();
@@ -39,7 +40,7 @@ void Core::Game::p1_ready_go() {
 
     // Display 'READY'
     m_p1_string.update_text(READY_STR);
-    m_p1_string.update_pos(18, 14);
+    m_p1_string.update_pos(3, 11);
     m_p1_string.update_graphics();
 }
 
@@ -78,7 +79,7 @@ void Core::Game::update(int *state) {
             // Display 'GO'
             if (m_p1_counter > 60) {
                 m_p1_string.update_text(GO_STR);
-                m_p1_string.update_pos(19, 14);
+                m_p1_string.update_pos(4, 11);
                 m_p1_string.update_graphics();
             }
 
@@ -113,7 +114,7 @@ void Core::Game::update(int *state) {
             if (m_p1_counter == 0) {
                 m_p1_counter = 0;
                 m_p1_string.update_text(GAME_OVER_STR);
-                m_p1_string.update_pos(16, 14);
+                m_p1_string.update_pos(1, 11);
                 m_p1_string.update_graphics();
                 m_p1_state = GameState::GAME_OVER_TEXT;
                 return;
