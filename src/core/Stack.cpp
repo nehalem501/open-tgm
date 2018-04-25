@@ -165,6 +165,8 @@ bool Core::Stack::check_lines(Core::Player *player) {
     //std::cout << std::endl;
 
     if (lines_to_clear > 0) {
+        // TODO we need to compute the 'real' next level value
+        // for update score, so before using change_level
         player->update_score(lines_to_clear, bravo);
         //player->startClear();
         player->change_level(lines_to_clear, true);
