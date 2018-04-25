@@ -21,12 +21,13 @@ void MainMenuImpl::resize() {
 
     background.resize();
 
-    m_home.resize();
-    m_choose_mode.resize();
-    m_settings.resize();
     // TODO check for multiplayer
     game.resize();
     frame1.resize(&stack1);
+
+    m_home.resize();
+    m_choose_mode.resize();
+    m_settings.resize();
 }
 
 void MainMenuImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {

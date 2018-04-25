@@ -85,6 +85,11 @@ void TextImpl::update_vertices() {
     int position_x = tile_size * m_pos_x;
     int position_y = tile_size * m_pos_y;
 
+    if (m_stack != NULL) {
+        position_x += m_stack->m_pos_x;
+        position_y += m_stack->m_pos_y;
+    }
+
     float factor = 76.35f;
     //int factor = 75;
 
