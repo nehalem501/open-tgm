@@ -51,7 +51,7 @@ void LineClearParticlesImpl::init() {
             position.x = pos_x + floor(i / 40.0f) * tile_size;
             position.y = pos_y;
         }
- 
+
         switch (rand() % 4) {
             case 0:
             case 1:
@@ -61,7 +61,7 @@ void LineClearParticlesImpl::init() {
                 quad[2].position = position + sf::Vector2f(tile_size / 2.5f, tile_size / 2.5f);
                 quad[3].position = position + sf::Vector2f(0.0f, tile_size / 2.5f);
                 break;
- 
+
             case 3:
                 quad[0].position = position;
                 quad[1].position = position + sf::Vector2f(tile_size / 3.0f, 0.0f);
@@ -80,23 +80,23 @@ void LineClearParticlesImpl::init() {
             case 0:
                 color = sf::Color(255, 128, 128, 255);
                 break;
- 
+
             case 1:
                 color = sf::Color(128, 255, 128, 255);
                 break;
- 
+
             case 2:
                 color = sf::Color(128, 128, 255, 255);
                 break;
- 
+
             case 3:
                 color = sf::Color(255, 255, 128, 255);
                 break;
- 
+
             case 4:
                 color = sf::Color(128, 255, 255, 255);
                 break;
- 
+
             case 5:
                 color = sf::Color(255, 128, 255, 255);
                 break;
@@ -118,12 +118,12 @@ void LineClearParticlesImpl::update() {
     // No need to update vertices when outside screen
     if (m_first > 100)
         return;
- 
+
     for (unsigned int i = 0; i < PARTICLES_NUMBER; i++) {
         // update the particle lifetime
         sf::Vertex* quad = &m_vertices[i * 4];
         Particle& p = m_particles[i];
- 
+
         if (m_first > 28.0f)
             p.lifetime-= 2;
         else
@@ -138,26 +138,26 @@ void LineClearParticlesImpl::update() {
 
             continue;
         }
- 
+
         // update the position of the corresponding vertex
-        p.velocity.x *= 0.98f;
-        p.velocity.y = (p.velocity.y * 0.98f) + 0.25f;
+        p.velocity.x *= 0.95f;
+        p.velocity.y = (p.velocity.y * 0.95f) + 0.20f;
 
         quad[0].position.x += p.velocity.x;
         quad[0].position.y += p.velocity.y;
- 
+
         quad[1].position.x += p.velocity.x;
         quad[1].position.y += p.velocity.y;
- 
+
         quad[2].position.x += p.velocity.x;
         quad[2].position.y += p.velocity.y;
- 
+
         quad[3].position.x += p.velocity.x;
         quad[3].position.y += p.velocity.y;
- 
+
         // update the alpha (transparency) of the particle according to its lifetime
         float ratio = (float) p.lifetime / (float) m_lifetime;
- 
+
         quad[0].color.a = static_cast<sf::Uint8>(ratio * 255);
         quad[1].color.a = static_cast<sf::Uint8>(ratio * 255);
         quad[2].color.a = static_cast<sf::Uint8>(ratio * 255);
@@ -166,7 +166,7 @@ void LineClearParticlesImpl::update() {
 }
 
 void LineClearParticlesImpl::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    if (m_first > 1) { 
+    if (m_first > 1) {
         states.texture = &particle_tex;
         states.blendMode = sf::BlendAdd;
         target.draw(m_vertices, states);
