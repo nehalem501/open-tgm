@@ -902,6 +902,11 @@ void Core::Player::change_level(int value, bool line_clear) {
     }
 
     m_level += value;
+
+    // Happens if we clear multiple lines at the end of last section
+    if (m_level >= m_current_mode->max_level())
+        m_level = m_current_mode->max_level();
+
     m_level_display.update(m_level);
     m_level_display.update_graphics(m_stack);
     m_gravity = m_current_mode->gravity(m_level);
@@ -913,6 +918,8 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
     unsigned int bravo_val = (bravo) ? 4 : 1;
 
     // TODO check torikan for lvl_aft_clear
+    // lvl_aft_clear != m_level + nb_lines when finishing the game
+    // (300 in easy, 500 torikan in death, 999 in other modes)
     unsigned int lvl_aft_clear = m_level + nb_lines;
     uint32_t speed = m_current_mode->lock(m_level) - m_active_time;
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);

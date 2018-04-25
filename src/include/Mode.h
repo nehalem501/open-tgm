@@ -24,14 +24,15 @@ enum {
     GRADE_S7,
     GRADE_S8,
     GRADE_S9,
+    GRADE_M,
     GRADE_GM,
     GRADE_MAX_NB
 };
 
 enum {
-    CREDITS_REQUIRED,
-    CREDITS_PLAYABLE,
-    NO_CREDITS
+    MROLL_REQUIRED,
+    MROLL_PLAYABLE,
+    NO_MROLL
 };
 
 struct Timing {
