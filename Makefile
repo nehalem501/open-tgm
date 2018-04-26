@@ -28,6 +28,8 @@ export
 
 all: $(DEFAULT)
 
+all-targets: $(TARGETS)
+
 $(TARGETS): BIN_DIR = bin/$@
 $(TARGETS): BUILD_DIR = build/$@
 $(TARGETS): HEADERS += -I$(SRC_DIR)/targets/$@
@@ -39,7 +41,7 @@ $(TARGETS): % : %.mk
 	@echo Selected target: $@
 	@mkdir -p $(BIN_DIR)
 	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/$@ $(BUILD_DIR)/modes
-	$(MAKE) -f $< $(filter-out $(TARGETS),$(ARGS))
+	$(MAKE) -f $< $(filter-out $(TARGETS) all-targets,$(ARGS))
 
 clean: $(DEFAULT)
 
