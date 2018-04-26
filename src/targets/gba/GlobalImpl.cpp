@@ -11,7 +11,6 @@ void init_random() {
 }
 
 void init_textures() {
-
     // Set mode 0 and enable background 0
     SetMode(MODE_0 | BG0_ON | BG1_ON);
 
