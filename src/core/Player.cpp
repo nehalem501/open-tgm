@@ -221,14 +221,14 @@ void Core::Player::update(int *game_state) {
 
                 // New state
                 m_state = PlayerState::INGAME;
-            }// else {
+            } else {
                 break;
-            //}
+            }
         }
 
-        case PlayerState::NEW_PIECE: {
+        /*case PlayerState::NEW_PIECE: {
             break;
-        }
+        }*/
 
         case PlayerState::INGAME: {
             m_piece_old_y = m_piece.pos_y();
@@ -947,7 +947,7 @@ unsigned int Core::Player::gravity(bool can_go_down) {
         m_gravity_counter = 0;
 
         #ifdef DEBUG
-        std::cout << "gravity_counter: " << m_gravity_counter << std::endl;
+        print("gravity_counter: %d\n", (int) m_gravity_counter);
         #endif
 
         return 0;
@@ -956,16 +956,15 @@ unsigned int Core::Player::gravity(bool can_go_down) {
     m_gravity_counter += m_gravity;
 
     #ifdef DEBUG
-    std::cout << "gravity_counter: " << m_gravity_counter << std::endl;
+    print("gravity_counter: %d\n", (int) m_gravity_counter);
     #endif
 
-    if (m_gravity_counter >= 256) {
-        m_gravity_counter /= 256;
-        unsigned int number_down = m_gravity_counter;
+    if (m_gravity_counter > 256) {
+        unsigned int number_down = m_gravity_counter / 256;
         if (number_down == 0)
             return 1;
 
-        m_gravity_counter = 0;
+        m_gravity_counter %= 256;
         return number_down;
     }
 
