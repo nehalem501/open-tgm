@@ -26,6 +26,6 @@ void TextImpl::draw() const {
     // Draw text
     u16 *screen = (u16*) MAP_BASE_ADR(24) + 10;
     for (int i = 0; i < m_length; i++) {
-        screen[m_pos_x + m_pos_y * 32] = m_str[i];
+        screen[i + m_pos_x + m_pos_y * 32] = m_str[i];
     }
 }
