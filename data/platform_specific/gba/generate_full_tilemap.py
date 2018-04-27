@@ -12,6 +12,9 @@ class Entry():
         self.map = map
         self.position = position
 
+    def __str__(self):
+        return str(self.__class__) + ": " + str(self.__dict__)
+
 all_entries = []
 
 # tilemap.png
@@ -20,11 +23,11 @@ all_entries.append(Entry("tilemap", 9, 0, 0))
 # outline.png
 all_entries.append(Entry("outline", 16, 1, 0))
 
-# ui-font-letters.png
-all_entries.append(Entry("ui-font-letters", 26, 1, 65))
-
 # ui-font-digits.png
 all_entries.append(Entry("ui-font-digits", 10, 1, 48))
+
+# ui-font-letters.png
+all_entries.append(Entry("ui-font-letters", 26, 1, 65))
 
 # change entries to one common big tilemap
 for entry in all_entries:
@@ -42,35 +45,45 @@ for i, val in enumerate(all_entries):
         tmp.append(val)
     else:
         # we need to add empty space
-        tmp.append(Entry("empty", prev - val.position, 0, prev))
+        tmp.append(Entry("empty", val.position - prev, 0, prev))
         tmp.append(val)
 
 all_entries = tmp
 
+#for e in all_entries:
+#    print(e)
+
+
 # run convert to create on big image
-tmp = []
+#tmp = []
 cmd = ['convert', all_entries[0].name + '.png', '-append', '-']
 print(' '.join(cmd))
-tmp.append(subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE))
+prog = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+out, err = prog.communicate()
 
 for entry in all_entries[1:]:
     cmd = ['convert', '-', entry.name + '.png', '-append', '-']
     if entry.name == "empty":
         i = entry.length
+        print(i)
         print(' '.join(cmd) + ' x' + str(i))
-        #while i > 0:
-        #    tmp.append(subprocess.Popen(cmd, stdout=subprocess.PIPE,
-        #                                     stderr=subprocess.PIPE,
-        #                                     stdin=tmp[-1].stdout))
-        #    i += 1
+        while i > 0:
+            prog = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                         stderr=subprocess.PIPE,
+                                         stdin=subprocess.PIPE)
+            #print("data length: " + str(len(out)))
+            out, err = prog.communicate(out)
+            i -= 1
     else:
         print(' '.join(cmd))
-        tmp.append(subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                                         stderr=subprocess.PIPE,
-                                         stdin=tmp[-1].stdout))
+        prog = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                stdin=subprocess.PIPE)
+        out, err = prog.communicate(out)
 
 cmd = ['convert', '-', 'fulltilemap.png']
 print(' '.join(cmd))
-tmp.append(subprocess.Popen(cmd, stdin=tmp[-1].stdout))
+prog = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+prog.communicate(out)
 
-tmp[-1].communicate()
+
