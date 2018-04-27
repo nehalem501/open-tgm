@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+#
+# To generate .h and .c file, run:
+# ~/devkitPro/devkitARM/bin/grit fulltilemap.png -ftc -gt -gB8 -gT 00FFFF -gu16 -p -pu16
+#
 
 import subprocess
 
