@@ -5,7 +5,7 @@
 void HomeImpl::init_graphics() {
     m_start.init_graphics();
     m_start.update_text("PRESS START");
-    m_start.update_pos(10, 10);
+    m_start.update_pos(0, 0);
     m_start.update_graphics();
 }
 
