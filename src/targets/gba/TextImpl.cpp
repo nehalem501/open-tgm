@@ -1,5 +1,6 @@
 /* TextImpl.cpp - GBA */
 
+#include <gba.h>
 #include <Stack.h>
 #include "TextImpl.h"
 
@@ -23,4 +24,8 @@ void TextImpl::update_color(int8_t color) {
 
 void TextImpl::draw() const {
     // Draw text
+    const u16 *screen = (u16*) MAP_BASE_ADR(24) + 10;
+    for (int i = 0; i < 1000; i++) {
+        screen[i] = 'A' + (i % 26);
+    }
 }

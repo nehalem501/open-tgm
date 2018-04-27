@@ -15,7 +15,7 @@ void VblankInterrupt() {
     background.draw();
     menu.draw();
 
-    u16 stack[m_width * m_height] = {
+    /*u16 stack[m_width * m_height] = {
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 
@@ -55,7 +55,7 @@ void VblankInterrupt() {
     //local_screen[32 * 12] = 15;
     for (int i = 0; i < m_height - 2; i++) {
         memcpy(local_screen + 32 * i, stack + m_width * (i + 2), m_width * 2);
-    }
+    }*/
 }
 
 void app() {
