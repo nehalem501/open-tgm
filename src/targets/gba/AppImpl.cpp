@@ -11,9 +11,8 @@
 #include <cstring>
 
 void VblankInterrupt() {
-    // Draw frame
-    background.draw();
-    menu.draw();
+    // Clear screen
+    memset((u16*) MAP_BASE_ADR(24), 0, sizeof(u16) * 32 * 20);
 
     /*u16 stack[m_width * m_height] = {
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -56,6 +55,10 @@ void VblankInterrupt() {
     for (int i = 0; i < m_height - 2; i++) {
         memcpy(local_screen + 32 * i, stack + m_width * (i + 2), m_width * 2);
     }*/
+    
+    // Draw frame
+    background.draw();
+    menu.draw();
 }
 
 void app() {
