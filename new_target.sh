@@ -24,5 +24,5 @@ do
 done
 
 # Copy Makefile with new target name
-sed "s/DUMMY/$TARGET_UPPERCASE/" "dummy.mk"> "$TARGET_LOWERCASE.mk"
+sed "s/DUMMY/$TARGET_UPPERCASE/;s/Dummy/$FULL_NAME/" "dummy.mk"> "$TARGET_LOWERCASE.mk"
 
