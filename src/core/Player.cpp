@@ -333,7 +333,7 @@ void Core::Player::update(int *game_state) {
             // Old left right position
 
             // Gravity
-            if (number_down) { //TODO optimize
+            if (can_go_down && number_down) { //TODO optimize
                 for (unsigned int i = 0; i < number_down; i++) {
                     move(0, 1);
                 }
