@@ -7,6 +7,7 @@
 
 void GameImpl::draw() const {
     #warning "Dummy Game::draw not finished"
+    //player1.draw();
     stack1.draw();
     player1.draw();
 
