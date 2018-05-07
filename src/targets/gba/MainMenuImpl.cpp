@@ -8,6 +8,9 @@
 #include "MainMenuImpl.h"
 
 void MainMenuImpl::init_graphics() {
+    // TODO
+    stack1.m_pos_x = 10;
+
     m_home.init_graphics();
     m_choose_mode.init_graphics();
 }
