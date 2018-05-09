@@ -22,5 +22,13 @@ void TextImpl::update_color(int8_t color) {
 }
 
 void TextImpl::draw() const {
-    // Draw text
+    int x = m_pos_x;
+    int y = m_pos_y;
+
+    if (m_stack != NULL) {
+        x += m_stack->m_pos_x;
+        y += m_stack->m_pos_y;
+    }
+
+    // Draw text at x, y position
 }

@@ -117,6 +117,13 @@ void TextImpl::update_vertices() {
     int pos_x = 9 * m_pos_x;
     int pos_y = 9 * m_pos_y;
 
+    if (m_stack != NULL) {
+        // TODO fix bug in choose mode menu
+        // (seems like global init is not called)
+        pos_x += m_stack->m_pos_x;
+        pos_y += m_stack->m_pos_y;
+    }
+
     for (unsigned int i = 0; i < m_length; ++i) {
         char c = m_str[i];
 

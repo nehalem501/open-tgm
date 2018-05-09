@@ -25,7 +25,16 @@ void TextImpl::update_color(int8_t color) {
 void TextImpl::draw() const {
     // Draw text
     u16 *screen = (u16*) MAP_BASE_ADR(24);
+
+    int x = m_pos_x;
+    int y = m_pos_y;
+
+    if (m_stack != NULL) {
+        x += m_stack->m_pos_x;
+        y += m_stack->m_pos_y;
+    }
+
     for (int i = 0; i < m_length; i++) {
-        screen[i + m_pos_x + m_pos_y * 32] = m_str[i];
+        screen[i + x + y * 32] = m_str[i];
     }
 }

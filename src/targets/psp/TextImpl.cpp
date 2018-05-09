@@ -76,6 +76,11 @@ void TextImpl::update_vertices() {
     int pos_x = 10 * m_pos_x;
     int pos_y = 10 * m_pos_y;
 
+    if (m_stack != NULL) {
+        pos_x += m_stack->m_pos_x;
+        pos_y += m_stack->m_pos_y;
+    }
+
     if (m_length > TEXT_LEN_LIMIT)
         m_length = TEXT_LEN_LIMIT;
 
