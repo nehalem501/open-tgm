@@ -1,17 +1,14 @@
 # PSP target Makefile
 
+SOURCES_C = $(wildcard src/targets/psp/resources/*.c)
+OBJS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o)) $(addprefix $(BUILD_DIR)/, $(SOURCES_C:src/%.c=%.o))
 
-SOURCE_FILES_CPP = $(wildcard src/core/*.cpp) $(wildcard src/targets/psp/*.cpp) $(wildcard src/modes/*.cpp)
-SOURCE_FILES_C = $(wildcard src/targets/psp/resources/*.c)
-OBJS = $(SOURCE_FILES_C:.c=.o) $(SOURCE_FILES_CPP:.cpp=.o)
-
-INCDIR = ./src/include ./src/targets/psp ./extlibs/gLib2D
+HEADERS += -Iextlibs/gLib2D
 CFLAGS = -O2 -G0 -Wall -DTARGET_PSP
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
-LIBDIR = ./extlibs/gLib2D
-LDFLAGS =
+LDFLAGS = -Lextlibs/gLib2D
 LIBS = -lglib2d -ljpeg -lpng -lz -lpspgum -lpspgu -lpsprtc -lm -lpspvram
 
 # 
@@ -25,8 +22,18 @@ PSP_EBOOT_TITLE = Open TGM
 TARGET = ./build/psp/open-tgm
 EXTRA_TARGETS = $(PSP_EBOOT)
 
+all: print_info $(FINAL_TARGET)
+
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
+
+$(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
+	@echo $(CXX) $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
+
+$(BUILD_DIR)%.o: $(SRC_DIR)%.c
+	@echo $(CC) $<
+	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
 
 #logo.o: logo.raw
 #	bin2o -i logo.raw logo.o logo
@@ -37,4 +44,11 @@ include $(PSPSDK)/lib/build.mak
 #	rm -rf ./build/psp/resources
 #	cp -r ./data/platform_specific/psp ./build/psp
 #	mv ./build/psp/psp ./build/psp/resources
+
+print_info:
+	@echo C compiler: $(CC)
+	@echo C++ compiler: $(CXX)
+	@mkdir -p $(BUILD_DIR)/targets/psp/resources
+
+.PHONY: print_info
 
