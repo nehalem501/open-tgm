@@ -30,15 +30,15 @@ $(EXE_NAME).gba : $(EXE_NAME).elf
 
 $(EXE_NAME).elf : print_info $(OBJECTS)
 	@echo Linking $(EXE_NAME)
-	$(CXX) $(LDFLAGS) -specs=gba.specs $(OBJECTS) -o $(EXE_NAME).elf $(LIBS_DIR) $(LIBS)
+	@$(CXX) $(LDFLAGS) -specs=gba.specs $(OBJECTS) -o $(EXE_NAME).elf $(LIBS_DIR) $(LIBS)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
-	$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 	@echo $(CC) $<
-	$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
 
 clean :
 	@rm -rf $(OBJECTS);
@@ -46,9 +46,6 @@ clean :
 print_info:
 	@echo C compiler: $(CC)
 	@echo C++ compiler: $(CXX)
-	@echo SOURCES_C $(SOURCES_C)
-	@echo SOURCES $(SOURCES)
-	@echo OBJECTS $(OBJECTS)
 	@mkdir -p $(BUILD_DIR)/targets/gba/resources
 
 .PHONY: clean print_info
