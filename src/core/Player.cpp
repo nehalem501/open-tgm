@@ -978,7 +978,7 @@ bool Core::Player::check_lock() {
 	m_lock++;
 
         #ifdef DEBUG
-        std::cout << "lock: " << m_lock << std::endl;
+        print("lock: %d\n", (int) m_lock);
         #endif
 
         if (m_lock >= m_current_mode->lock(m_level)) {
@@ -1026,7 +1026,7 @@ bool Core::Player::check_das_left() {
         m_das_left++;
 
         #ifdef DEBUG
-        std::cout << "left DAS: " << m_das_left << std::endl;
+        print("left DAS: %d\n", (int) m_das_left);
         #endif
 
         if (m_das_left > m_current_mode->das(m_level)) {
@@ -1043,7 +1043,7 @@ bool Core::Player::check_das_right() {
         m_das_right++;
 
         #ifdef DEBUG
-        std::cout << "right DAS: " << m_das_right << std::endl;
+        print("right DAS: %d\n", (int) m_das_right);
         #endif
 
         if (m_das_right > m_current_mode->das(m_level)) {
