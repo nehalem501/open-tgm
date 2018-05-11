@@ -47,7 +47,7 @@ void edit_text(Text *text, int pos_x, int pos_y, int color, const char *str) {
     text->update_color(color);
 }
 
-void set(bool state, Text *text) {
+void set_button_state(bool state, Text *text) {
     if (state) {
         text->update_text("ON");
         text->update_graphics();

@@ -64,18 +64,18 @@ void SettingsImpl::update(int *menustate) {
             break;
 
         case SettingsState::INPUT_TEST:
-            set(input.start(), &m_input_states_str[0]);
-            set(input.up(), &m_input_states_str[1]);
-            set(input.down(), &m_input_states_str[2]);
-            set(input.left(), &m_input_states_str[3]);
-            set(input.right(), &m_input_states_str[4]);
-            set(input.a(), &m_input_states_str[5]);
-            set(input.b(), &m_input_states_str[6]);
-            set(input.c(), &m_input_states_str[7]);
+            set_button_state(input.start(), &m_input_states_str[0]);
+            set_button_state(input.up(), &m_input_states_str[1]);
+            set_button_state(input.down(), &m_input_states_str[2]);
+            set_button_state(input.left(), &m_input_states_str[3]);
+            set_button_state(input.right(), &m_input_states_str[4]);
+            set_button_state(input.a(), &m_input_states_str[5]);
+            set_button_state(input.b(), &m_input_states_str[6]);
+            set_button_state(input.c(), &m_input_states_str[7]);
 
             #ifdef DEBUG
-            set(input.rotate_left(), &m_input_states_str[8]);
-            set(input.rotate_right(), &m_input_states_str[9]);
+            set_button_state(input.rotate_left(), &m_input_states_str[8]);
+            set_button_state(input.rotate_right(), &m_input_states_str[9]);
             #endif
 
             // Exit
