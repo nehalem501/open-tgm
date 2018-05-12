@@ -29,6 +29,11 @@ g2dTexture *timer_tex = NULL;
 
 void app() {
     setupCallbacks();
+
+    #ifdef DEBUG
+    pspDebugScreenInit();
+    #endif
+
     g2dInit();
 
     tileset_tex = g2dTexLoad((char *) "resources/tilemap.png", G2D_SWIZZLE);
