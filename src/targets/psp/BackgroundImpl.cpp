@@ -5,7 +5,7 @@
 #include "BackgroundImpl.h"
 
 void BackgroundImpl::init_graphics() {
-    m_texture = g2dTexLoad("resources/background.png", G2D_SWIZZLE);
+    m_texture = g2dTexLoad((char *) "resources/background.png", G2D_SWIZZLE);
 }
 
 void BackgroundImpl::draw() const {
