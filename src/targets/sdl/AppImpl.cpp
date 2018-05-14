@@ -47,6 +47,9 @@ void app() {
     SDL_EnableUNICODE(SDL_TRUE);
 
     init_opengl(win_width, win_height);
+    // TODO
+    // Init graphical assets
+    init_graphics();
 
     SDL_WM_SetCaption("Open TGM", NULL);
 

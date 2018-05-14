@@ -155,6 +155,9 @@ void app() {
     C3D_RenderTargetSetOutput(target, GFX_TOP, GFX_LEFT, DISPLAY_TRANSFER_FLAGS);
 
     init_gpu_stuff();
+    // TODO
+    // Init graphical assets
+    init_graphics();
 
 	//consoleInit(GFX_BOTTOM, NULL);
 

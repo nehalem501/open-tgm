@@ -35,9 +35,6 @@ int main() {
     // Init game stuff
     init();
 
-    // Init graphical assets
-    init_graphics();
-
     // Run game
     app();
 

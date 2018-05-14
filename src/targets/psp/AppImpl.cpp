@@ -36,6 +36,10 @@ void app() {
 
     g2dInit();
 
+    // TODO
+    // Init graphical assets
+    init_graphics();
+
     tileset_tex = g2dTexLoad((char *) "resources/tilemap.png", G2D_SWIZZLE);
     outline_tex = g2dTexLoad((char *) "resources/tilemap2.png", G2D_SWIZZLE);
     text_tex = g2dTexLoad((char *) "resources/ui-font.png", G2D_SWIZZLE);
