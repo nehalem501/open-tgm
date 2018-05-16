@@ -1,10 +1,10 @@
 /* GlobalPSP.cpp - PSP */
 
-#include <glib2d.h>
+//#include <glib2d.h>
 #include "GlobalPSP.h"
 
 void set_tile_piece(int tile) {
-    switch (tile) {
+    /*switch (tile) {
         case 1:
             g2dSetCropXY(0, 0);
             break;
@@ -36,11 +36,11 @@ void set_tile_piece(int tile) {
         case 8:
             g2dSetCropXY(30, 10);
             break;
-    }
+    }*/
 }
 
 void set_tile_outline(int tile) {
-    switch (tile) {
+    /*switch (tile) {
         case 0x01:
             g2dSetCropXY(10, 0);
             break;
@@ -100,5 +100,5 @@ void set_tile_outline(int tile) {
         case 0x0F:
             g2dSetCropXY(30, 30);
             break;
-    }
+    }*/
 }

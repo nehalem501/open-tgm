@@ -1,6 +1,6 @@
 /* PlayerImpl.cpp - PSP */
 
-#include <glib2d.h>
+//#include <glib2d.h>
 #include <Shapes.h>
 #include <Stack.h>
 #include "GlobalPSP.h"
@@ -16,26 +16,26 @@ void PlayerImpl::draw() const {
     int pos_x = m_stack->m_pos_x;
     int pos_y = m_stack->m_pos_y;
 
-    g2dBeginQuads(tileset_tex);
-    g2dSetCropWH(10, 10);
+    //g2dBeginQuads(tileset_tex);
+    //g2dSetCropWH(10, 10);
 
     if (m_draw_ghost) {
         // Draw ghost piece
-        g2dSetAlpha(80);
+        //g2dSetAlpha(80);
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 int tile = PIECES[m_piece.type()][m_piece.orientation()][j][i];
                 if (tile > 0) {
                     set_tile_piece(tile);
 
-                    g2dSetCoordXY(pos_x + (m_piece.pos_x() - 2 + i) * 10, pos_y + (m_ghost_y - 1 + j) * 10);
+                    /*g2dSetCoordXY(pos_x + (m_piece.pos_x() - 2 + i) * 10, pos_y + (m_ghost_y - 1 + j) * 10);
                     g2dAdd();
                     g2dSetCoordXY(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * 10, pos_y + (m_ghost_y - 1 + j) * 10);
                     g2dAdd();
                     g2dSetCoordXY(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * 10, pos_y + ((m_ghost_y - 1 + j) + 1) * 10);
                     g2dAdd();
                     g2dSetCoordXY(pos_x + (m_piece.pos_x() - 2 + i) * 10, pos_y + ((m_ghost_y - 1 + j) + 1) * 10);
-                    g2dAdd();
+                    g2dAdd();*/
                 }
             }
         }
@@ -59,7 +59,7 @@ void PlayerImpl::draw() const {
                 alpha = 96;
         }
 
-        g2dSetAlpha(alpha);
+        //g2dSetAlpha(alpha);
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -67,14 +67,14 @@ void PlayerImpl::draw() const {
                 if (tile > 0) {
                     set_tile_piece(tile);
 
-                    g2dSetCoordXY(pos_x + (m_piece.pos_x() - 2 + i) * 10, pos_y + (m_piece.pos_y() - 1 + j) * 10);
+                    /*g2dSetCoordXY(pos_x + (m_piece.pos_x() - 2 + i) * 10, pos_y + (m_piece.pos_y() - 1 + j) * 10);
                     g2dAdd();
                     g2dSetCoordXY(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * 10, pos_y + (m_piece.pos_y() - 1 + j) * 10);
                     g2dAdd();
                     g2dSetCoordXY(pos_x + ((m_piece.pos_x() - 2 + i) + 1) * 10, pos_y + ((m_piece.pos_y() - 1 + j) + 1) * 10);
                     g2dAdd();
                     g2dSetCoordXY(pos_x + (m_piece.pos_x() - 2 + i) * 10, pos_y + ((m_piece.pos_y() - 1 + j) + 1) * 10);
-                    g2dAdd();
+                    g2dAdd();*/
                 }
             }
         }
@@ -87,19 +87,19 @@ void PlayerImpl::draw() const {
             if (tile > 0) {
                 set_tile_piece(tile);
 
-                g2dSetCoordXY(pos_x + (i + 3) * 10, pos_y - 5+ (j - 2) * 10);
+                /*g2dSetCoordXY(pos_x + (i + 3) * 10, pos_y - 5+ (j - 2) * 10);
                 g2dAdd();
                 g2dSetCoordXY(pos_x + (i + 4) * 10, pos_y - 5 + (j - 2) * 10);
                 g2dAdd();
                 g2dSetCoordXY(pos_x + (i + 4) * 10, pos_y - 5 + (j - 1) * 10);
                 g2dAdd();
                 g2dSetCoordXY(pos_x + (i + 3) * 10, pos_y - 5 + (j - 1) * 10);
-                g2dAdd();
+                g2dAdd();*/
             }
         }
     }
 
-    g2dEnd();
+    //g2dEnd();
 
     m_score_display.draw();
     m_level_display.draw();
