@@ -72,6 +72,10 @@ void app() {
     // Allow Interrupts
     REG_IME = 1;
 
+    // TODO
+    // Init graphical assets
+    init_graphics();
+
     while (true) {
         // Do frame
         menu.update();

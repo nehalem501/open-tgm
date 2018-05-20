@@ -24,6 +24,7 @@ Planned ports: (not necessarily implemented in this order)
 - PlayStation 3
 - Original Xbox
 - Xbox 360
+- Xbox One
 - Saturn
 - Dreamcast
 

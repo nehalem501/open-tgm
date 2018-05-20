@@ -1,6 +1,6 @@
 /* MainMenuImpl.cpp - PSP */
 
-#include <glib2d.h>
+//#include <glib2d.h>
 #include <Global.h>
 #include <Frame.h>
 #include <Home.h>
@@ -13,7 +13,7 @@ void MainMenuImpl::init_graphics() {
     m_choose_mode.init_graphics();
 
     // TODO
-    stack1.m_pos_x = (G2D_SCR_W / 2) - (stack1.m_width / 2) * 10;
+    stack1.m_pos_x = (480 / 2) - (stack1.m_width / 2) * 10;
     stack1.m_pos_y = 3 * 10;
 }
 

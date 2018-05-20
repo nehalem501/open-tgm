@@ -9,7 +9,7 @@ CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS = -Lextlibs/gLib2D
-LIBS = -lglib2d -ljpeg -lpng -lz -lpspgum -lpspgu -lpsprtc -lm -lpspvram
+LIBS = -ljpeg -lpng -lz -lpspgum -lpspgu -lpsprtc -lm -lpspvram
 
 # 
 PSP_EBOOT = bin/psp/EBOOT.PBP

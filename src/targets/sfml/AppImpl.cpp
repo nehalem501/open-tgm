@@ -24,6 +24,9 @@ sf::Vector2u screen_size(320, 240);
 int tile_size = screen_size.y / TILE_RATIO;
 
 void app() {
+    // Init graphical assets
+    init_graphics();
+
     // Resize graphics to window size
     menu.resize();
     bool fullscreen = false; // TODO load config

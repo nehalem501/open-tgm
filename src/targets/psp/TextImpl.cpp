@@ -1,7 +1,7 @@
 /* TextImpl.cpp - PSP */
 
 #include <stdlib.h>
-#include <glib2d.h>
+//#include <glib2d.h>
 #include <Stack.h>
 #include <TargetTypes.h>
 #include <GlobalPSP.h>
@@ -612,13 +612,13 @@ void TextImpl::update_vertices() {
 }
 
 void TextImpl::draw() const {
-    g2dBeginQuads(text_tex);
+    //g2dBeginQuads(text_tex);
 
     // We have only one color per Text object
-    g2dSetColor(m_quads[0].verts[0].color);
+    //g2dSetColor(m_quads[0].verts[0].color);
 
     for (unsigned int i = 0; i < m_quads_len; ++i) {
-        g2dSetCropXY(m_quads[i].tex_x, m_quads[i].tex_y);
+        /*g2dSetCropXY(m_quads[i].tex_x, m_quads[i].tex_y);
         g2dSetCropWH(m_quads[i].tex_w, m_quads[i].tex_h);
 
         g2dSetCoordXY(m_quads[i].verts[0].x, m_quads[i].verts[0].y);
@@ -631,8 +631,8 @@ void TextImpl::draw() const {
         g2dAdd();
 
         g2dSetCoordXY(m_quads[i].verts[3].x, m_quads[i].verts[3].y);
-        g2dAdd();
+        g2dAdd();*/
     }
 
-    g2dEnd();
+    //g2dEnd();
 }
