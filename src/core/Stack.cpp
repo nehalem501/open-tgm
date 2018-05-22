@@ -1,7 +1,7 @@
 /* Stack.cpp */
 
 #include <stdint.h>
-#include <cstring>
+#include <string.h>
 #include <Piece.h>
 #include <Shapes.h>
 #include <Utils.h>

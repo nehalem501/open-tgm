@@ -1,9 +1,7 @@
 /* Player.cpp */
 
-#include <cstdlib>
+#include <stdlib.h>
 #include <stdint.h>
-#include <cmath>
-#include <ctime>
 #include <Global.h>
 #include <Input.h>
 #include <Shapes.h>

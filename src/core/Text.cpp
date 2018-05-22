@@ -1,5 +1,6 @@
 /* Text.cpp */
 
+#include <stddef.h>
 #include <string.h>
 #include <Stack.h>
 #include <core/Text.h>

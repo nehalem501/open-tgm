@@ -39,6 +39,7 @@ void app() {
 
     sceGuInit();
     sceGuStart(GU_DIRECT, list);
+    sceGuDrawBuffer(GU_PSM_8888, , );
 
     //g2dInit();
 

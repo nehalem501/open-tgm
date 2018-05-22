@@ -1,6 +1,6 @@
 /* modes.cpp */
 
-#include <cstdlib>
+#include <stdlib.h>
 #include <Mode.h>
 #include "modes.h"
 

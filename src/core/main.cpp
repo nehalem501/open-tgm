@@ -1,6 +1,5 @@
 /* main.cpp */
 
-#include <time.h>
 #include <stdint.h>
 #include <Global.h>
 #include <Input.h>
