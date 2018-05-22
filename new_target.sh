@@ -5,8 +5,13 @@ PROJECT_ROOT=$(cd "${0%/*}" && echo $PWD)
 cd "$PROJECT_ROOT"
 
 # Get target name and generate strings
-echo Enter new target full name:
-read FULL_NAME
+if [ $# -eq 1 ]
+then
+    FULL_NAME=$1
+else
+    echo Enter new target full name:
+    read FULL_NAME
+fi
 TARGET=${FULL_NAME//[^a-zA-Z0-9]/_}
 TARGET_LOWERCASE=`echo "$TARGET" | tr '[:upper:]' '[:lower:]'`
 TARGET_UPPERCASE=`echo "$TARGET" | tr '[:lower:]' '[:upper:]'`
