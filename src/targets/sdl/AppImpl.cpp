@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include "timing.h"
+#include <Global.h>
 #include <App.h>
 
 static void init_opengl(int width, int height) {
