@@ -43,48 +43,59 @@ Published under the GPLv3.0
 You need to have devkitPro with devkitARM installed and properly configured.
 
 To build, type this in a shell in the project's root directory:
-    make gba
+```
+$ make gba
+```
 
-The resulting GBA ROM file will be:
-    bin/gba/open-tgm.gba
+The resulting GBA ROM file will be `bin/gba/open-tgm.gba`.
 
 ### 3DS
 You need to have devkitPro with devkitARM installed and properly configured.
 
 To build, type this in a shell in the project's root directory:
-    make 3ds
+```
+$ make 3ds
+```
 
-The resulting 3DS ROM files will be:
-    bin/3ds/open-tgm.3dsx
-    bin/3ds/open-tgm.smdh
+The resulting 3DS ROM files will be `bin/3ds/open-tgm.3dsx` and `bin/3ds/open-tgm.smdh`.
 
 ### PlayStation Portable
 You need to have the PSP Software Development Kit (PSPSDK) installed and properly configured.
 
 To build, type this in a shell in the project's root directory:
-    make psp
+```
+$ make psp
+```
 
 ### PlayStation Vita
 You need to have Vita SDK installed and properly configured.
 
 To build, type this in a shell in the project's root directory:
-    make psvita
+```
+$ make psvita
+```
 
 ### PlayStation 1
 You need to have PSXSDK installed and properly configured.
 
 To build, type this in a shell in the project's root directory:
-    make psx
+```
+$ make psx
+```
 
 ### PlayStation 2
 You need to have PS2SDK installed and properly configured.
 
 To build, type this in a shell in the project's root directory:
-    make ps2
+```
+$ make ps2
+```
 
 ### PlayStation 3
 You need to have PS3SDK and PSL1GHT installed and properly configured.
 
 To build, type this in a shell in the project's root directory:
-    make ps3
+```
+$ make ps3
+```
 
