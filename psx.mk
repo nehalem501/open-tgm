@@ -1,6 +1,5 @@
 # PSX target Makefile
 
-CC = psx-gcc
 CXX = psx-g++
 
 CXXFLAGS += -DTARGET_PSX -O2 -std=c++98
@@ -8,8 +7,8 @@ CXXFLAGS += -DTARGET_PSX -O2 -std=c++98
 all : $(EXE_NAME)
 
 $(EXE_NAME) : print_info $(OBJECTS)
-	@echo Linking $(EXE_NAME)
-	$(CC) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS)
+	@echo Linking $(EXE_NAME).elf
+	@$(CXX) $(LDFLAGS) -o $(EXE_NAME).elf $(OBJECTS)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
