@@ -1,5 +1,7 @@
 # Open TGM Makefile
 
+VERSION := 0.2.0
+
 # Binary filename
 NAME = open-tgm
 
