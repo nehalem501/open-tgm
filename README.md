@@ -19,6 +19,7 @@ Planned ports: (not necessarily implemented in this order)
 - GameCube
 - Wii
 - Switch
+- PlayStation Vita
 - PlayStation 1
 - PlayStation 2
 - PlayStation 3
@@ -35,4 +36,55 @@ Possible ports if the target hardware is powerful enough: (needs some testing)
 Due to the lack of a C++ compiler for the Super Nintendo / Super Famicom, porting to it is currently impossible.
 
 Published under the GPLv3.0
+
+## Build Instructions
+
+### GameBoy Advance
+You need to have devkitPro with devkitARM installed and properly configured.
+
+To build, type this in a shell in the project's root directory:
+    make gba
+
+The resulting GBA ROM file will be:
+    bin/gba/open-tgm.gba
+
+### 3DS
+You need to have devkitPro with devkitARM installed and properly configured.
+
+To build, type this in a shell in the project's root directory:
+    make 3ds
+
+The resulting 3DS ROM files will be:
+    bin/3ds/open-tgm.3dsx
+    bin/3ds/open-tgm.smdh
+
+### PlayStation Portable
+You need to have the PSP Software Development Kit (PSPSDK) installed and properly configured.
+
+To build, type this in a shell in the project's root directory:
+    make psp
+
+### PlayStation Vita
+You need to have Vita SDK installed and properly configured.
+
+To build, type this in a shell in the project's root directory:
+    make psvita
+
+### PlayStation 1
+You need to have PSXSDK installed and properly configured.
+
+To build, type this in a shell in the project's root directory:
+    make psx
+
+### PlayStation 2
+You need to have PS2SDK installed and properly configured.
+
+To build, type this in a shell in the project's root directory:
+    make ps2
+
+### PlayStation 3
+You need to have PS3SDK and PSL1GHT installed and properly configured.
+
+To build, type this in a shell in the project's root directory:
+    make ps3
 
