@@ -3,26 +3,26 @@
 VERSION := 0.2.0
 
 # Binary filename
-NAME = open-tgm
+NAME := open-tgm
 
 # Default target
-DEFAULT = sfml
+DEFAULT := sfml
 
 # Get target list
-TARGETS_MK = $(wildcard *.mk)
-TARGETS = $(TARGETS_MK:.mk=)
+TARGETS_MK := $(wildcard *.mk)
+TARGETS := $(TARGETS_MK:.mk=)
 
 # Common variables for all targets
-CFLAGS = -Wall -Wextra
-CXXFLAGS = -Wall -Wextra
+CFLAGS := -Wall -DOPENTGM_VERSION=\"$(VERSION)\"
+CXXFLAGS := -Wall -DOPENTGM_VERSION=\"$(VERSION)\"
 
 # Arguments
-ARGS = $(MAKECMDGOALS)
+ARGS := $(MAKECMDGOALS)
 
 # Files and Directories
-SRC_DIR = src
-HEADERS = -I$(SRC_DIR)/include
-SOURCES = $(wildcard $(SRC_DIR)/core/*.cpp) $(wildcard $(SRC_DIR)/modes/*.cpp)
+SRC_DIR := src
+HEADERS := -I$(SRC_DIR)/include
+SOURCES := $(wildcard $(SRC_DIR)/core/*.cpp) $(wildcard $(SRC_DIR)/modes/*.cpp)
 
 # Export variables for makefile of each target
 unexport TARGETS_MK TARGETS ARGS
