@@ -1,7 +1,7 @@
 /* Player.cpp */
 
 #include <stdlib.h>
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Global.h>
 #include <Input.h>
 #include <Shapes.h>

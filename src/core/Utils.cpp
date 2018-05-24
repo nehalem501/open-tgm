@@ -1,6 +1,6 @@
 /* Utils.cpp */
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Text.h>
 #include <Utils.h>
 

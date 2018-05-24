@@ -3,7 +3,7 @@
 #ifndef CORE_INPUT_H
 #define CORE_INPUT_H
 
-#include <stdint.h>
+#include <TargetTypes.h>
 
 #define MENU_KEY_AUTOREPEAT 16
 

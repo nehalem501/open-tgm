@@ -1,6 +1,6 @@
 /* Input.cpp */
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Global.h>
 #include <core/Input.h>
 

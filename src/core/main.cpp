@@ -1,6 +1,6 @@
 /* main.cpp */
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Global.h>
 #include <Input.h>
 #include <MainMenu.h>

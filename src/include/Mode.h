@@ -3,7 +3,7 @@
 #ifndef MODE_H
 #define MODE_H
 
-#include <stdint.h>
+#include <TargetTypes.h>
 
 enum {
     GRADE_9 = 0,

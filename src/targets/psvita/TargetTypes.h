@@ -3,6 +3,8 @@
 #ifndef TARGET_TYPES_PSVITA_H
 #define TARGET_TYPES_PSVITA_H
 
+#include <stdint.h>
+
 void empty_func(const char*, ...);
 #define print empty_print
 

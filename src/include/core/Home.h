@@ -3,7 +3,7 @@
 #ifndef CORE_HOME_H
 #define CORE_HOME_H
 
-#include <stdint.h>
+#include <TargetTypes.h>
 
 namespace Core {
     class Home {

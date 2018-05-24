@@ -1,6 +1,6 @@
 /* Mode.cpp */
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Mode.h>
 
 Mode::Mode(const char* name, bool sonic_drop, bool display_score, bool section,

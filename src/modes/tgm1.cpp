@@ -1,6 +1,5 @@
 /* tgm1.cpp */
 
-#include <stdint.h>
 #include <Mode.h>
 #include "tgm1.h"
 

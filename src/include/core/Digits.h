@@ -3,7 +3,7 @@
 #ifndef CORE_DIGITS_H
 #define CORE_DIGITS_H
 
-#include <stdint.h>
+#include <TargetTypes.h>
 
 namespace Core {
     class Digits {

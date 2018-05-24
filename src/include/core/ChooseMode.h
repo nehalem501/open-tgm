@@ -3,7 +3,7 @@
 #ifndef CORE_CHOOSE_MODE_H
 #define CORE_CHOOSE_MODE_H
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Text.h>
 #include <../modes/modes.h>
 

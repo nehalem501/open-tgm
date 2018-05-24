@@ -7,7 +7,7 @@
 class StackImpl;
 typedef StackImpl Stack;
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Mode.h>
 #include <Piece.h>
 #include <Digits.h>

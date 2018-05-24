@@ -3,7 +3,7 @@
 #ifndef CORE_SETTINGS_H
 #define CORE_SETTINGS_H
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Text.h>
 
 namespace SettingsState {

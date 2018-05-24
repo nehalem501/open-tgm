@@ -3,6 +3,8 @@
 #ifndef TARGET_TYPES_PSP_H
 #define TARGET_TYPES_PSP_H
 
+#include <stdint.h>
+
 #ifdef DEBUG
 #include <pspdebug.h>
 #define print pspDebugScreenPrintf

@@ -1,6 +1,6 @@
 /* ChooseMode.cpp */
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Global.h>
 #include <MainMenu.h>
 #include <Input.h>

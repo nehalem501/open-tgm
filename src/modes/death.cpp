@@ -1,6 +1,5 @@
 /* death.cpp */
 
-#include <stdint.h>
 #include <Mode.h>
 #ifdef DEBUG
 #include <Global.h>

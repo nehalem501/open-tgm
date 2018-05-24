@@ -3,8 +3,8 @@
 #ifndef CORE_STACK_H
 #define CORE_STACK_H
 
-#include <stdint.h>
 #include <string.h>
+#include <TargetTypes.h>
 #include <Global.h>
 #include <Piece.h>
 #include <Mode.h>

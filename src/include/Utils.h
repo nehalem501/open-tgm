@@ -3,7 +3,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Text.h>
 
 inline int8_t modulo(int a, int n) { return (a % n + n) % n; }

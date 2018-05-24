@@ -3,6 +3,8 @@
 #ifndef TARGET_TYPES_SDL2_H
 #define TARGET_TYPES_SDL2_H
 
+#include <stdint.h>
+
 #ifdef DEBUG
 #include <stdio.h>
 #define print printf

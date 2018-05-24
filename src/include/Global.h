@@ -3,7 +3,6 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include <stdint.h>
 #include <TargetTypes.h>
 
 /* Forward declarations to avoid dependency hell */

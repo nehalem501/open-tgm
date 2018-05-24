@@ -1,6 +1,6 @@
 /* Game.cpp */
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Global.h>
 #include <Player.h>
 #include <Stack.h>

@@ -1,6 +1,6 @@
 /* Digits.cpp */
 
-#include <stdint.h>
+#include <TargetTypes.h>
 #include <Global.h>
 #include <core/Digits.h>
 

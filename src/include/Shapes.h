@@ -3,7 +3,7 @@
 #ifndef SHAPES_H
 #define SHAPES_H
 
-#include <stdint.h>
+#include <TargetTypes.h>
 
 #define NB_TYPES 7
 #define NB_ROTATIONS 4
