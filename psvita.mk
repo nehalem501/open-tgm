@@ -1,5 +1,7 @@
 # PSVita target Makefile
 
+CXX := arm-vita-eabi-g++
+
 CXXFLAGS += -DTARGET_PSVITA -O2 -std=c++98
 
 all : $(EXE_NAME)
