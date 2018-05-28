@@ -35,7 +35,7 @@ Possible ports if the target hardware is powerful enough: (needs some testing)
 
 Due to the lack of a C++ compiler for the Super Nintendo / Super Famicom, porting to it is currently impossible.
 
-Published under the GPLv3.0
+Released under the GPLv3.0 licence or any later version.
 
 ## Build Instructions
 
