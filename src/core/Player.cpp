@@ -918,6 +918,7 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
     // TODO check torikan for lvl_aft_clear
     // lvl_aft_clear != m_level + nb_lines when finishing the game
     // (300 in easy, 500 torikan in death, 999 in other modes)
+    // Implement torikan in Mode using callback like score_func
     unsigned int lvl_aft_clear = m_level + nb_lines;
     uint32_t speed = 0;
     if (m_current_mode->lock(m_level) > m_active_time) {
@@ -942,6 +943,9 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
                                           m_combo, bravo_val, lvl_aft_clear,
                                           speed);
     //std::cout << "score : " << m_score << std::endl << std::endl;
+
+    // TODO Grade
+
     m_score_display.update(m_score);
     m_score_display.update_graphics(m_stack);
 }
