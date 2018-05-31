@@ -6,30 +6,6 @@
 #include <TargetTypes.h>
 
 enum {
-    GRADE_9 = 0,
-    GRADE_8,
-    GRADE_7,
-    GRADE_6,
-    GRADE_5,
-    GRADE_4,
-    GRADE_3,
-    GRADE_2,
-    GRADE_1,
-    GRADE_S1,
-    GRADE_S2,
-    GRADE_S3,
-    GRADE_S4,
-    GRADE_S5,
-    GRADE_S6,
-    GRADE_S7,
-    GRADE_S8,
-    GRADE_S9,
-    GRADE_M,
-    GRADE_GM,
-    GRADE_MAX_NB
-};
-
-enum {
     MROLL_REQUIRED,
     MROLL_PLAYABLE,
     NO_MROLL
