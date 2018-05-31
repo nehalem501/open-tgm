@@ -16,6 +16,7 @@ Work in progress ports:
 
 Planned ports: (not necessarily implemented in this order)
 - Nintendo DS
+- Nintendo 64
 - GameCube
 - Wii
 - Switch
