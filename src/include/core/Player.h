@@ -11,6 +11,7 @@ typedef StackImpl Stack;
 #include <Mode.h>
 #include <Piece.h>
 #include <Digits.h>
+#include <Grade.h>
 
 namespace PlayerState {
     enum {
@@ -33,6 +34,8 @@ namespace Core {
             ::Digits m_score_display;
             ::Digits m_level_display;
             ::Digits m_section_display;
+
+            ::Grade m_grade;
 
         public:
             uint32_t m_score;

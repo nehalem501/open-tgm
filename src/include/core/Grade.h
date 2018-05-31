@@ -3,7 +3,9 @@
 #ifndef CORE_GRADE_H
 #define CORE_GRADE_H
 
-namespace Grade {
+#include <TargetTypes.h>
+
+namespace Grades {
     enum {
         NONE = 0,
         _9,
@@ -28,20 +30,22 @@ namespace Grade {
         GM,
         MAX_NB
     };
-};
+}
 
 namespace Core {
     class Grade {
         public:
             Grade();
             inline void set(unsigned int value) {
-                m_grade = value;
                 m_has_changed = true;
+                m_grade = value;
             }
 
-        protected:
             bool m_has_changed;
+            unsigned int m_internal;
+            unsigned int m_points;
             unsigned int m_grade;
+            unsigned int m_counter;
     };
 }
 

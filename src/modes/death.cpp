@@ -30,6 +30,14 @@ uint32_t death_score(uint32_t level, uint32_t lines, uint32_t soft,
     return (tmp + soft + (2 * sonic)) * lines * combo * bravo + tmp2 + (speed * 7);
 }
 
+void death_grade(uint32_t, unsigned int level, Grade *grade) {
+    if (level == 999) {
+        grade->m_grade = Grades::GM;
+    } else if (level >= 500) {
+        grade->m_grade = Grades::M;
+    }
+}
+
 static struct Timing DEATH_GRAVITY[1] = {{0, 5120}};
 
 static struct Timing DEATH_ARE[5] = {
@@ -94,6 +102,7 @@ Mode mode_death(
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 999,
+/* initial_grade */ Grades::NONE,
 /*       gravity */ DEATH_GRAVITY,
 /*    gravity_nb */ 1,
 /*           are */ DEATH_ARE,
@@ -111,4 +120,5 @@ Mode mode_death(
 /*     score_pos */ DEATH_SCORE_POS,
 /*     level_pos */ DEATH_LEVEL_POS,
 /*   lvl_tgt_pos */ DEATH_LVL_TGT_POS,
-/*    score_func */ death_score);
+/*    score_func */ death_score,
+/*    grade_func */ death_grade);

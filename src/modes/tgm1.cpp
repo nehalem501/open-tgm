@@ -1,6 +1,9 @@
 /* tgm1.cpp */
 
 #include <Mode.h>
+#ifdef DEBUG
+#include <Global.h>
+#endif
 #include "tgm1.h"
 
 uint32_t tgm1_score(uint32_t level, uint32_t lines, uint32_t soft, uint32_t,
@@ -9,6 +12,48 @@ uint32_t tgm1_score(uint32_t level, uint32_t lines, uint32_t soft, uint32_t,
     if ((level + lines) % 4 != 0)
         tmp++;
     return (tmp + soft) * lines * combo * bravo;
+}
+
+struct Condition {
+    unsigned int grade;
+    uint32_t score;
+};
+
+static struct Condition TGM1_GRADE_CONDITIONS[18] {
+    {Grades::_9, 0},
+    {Grades::_8, 400},
+    {Grades::_7, 800},
+    {Grades::_6, 1400},
+    {Grades::_5, 2000},
+    {Grades::_4, 3500},
+    {Grades::_3, 5500},
+    {Grades::_2, 8000},
+    {Grades::_1, 12000},
+    {Grades::S1, 16000},
+    {Grades::S2, 22000},
+    {Grades::S3, 30000},
+    {Grades::S4, 40000},
+    {Grades::S5, 52000},
+    {Grades::S6, 66000},
+    {Grades::S7, 82000},
+    {Grades::S8, 100000},
+    {Grades::S9, 120000}
+};
+
+void tgm1_grade(uint32_t score, unsigned int, Grade *grade) {
+    #ifdef DEBUG
+    print("Grade: %d\n", (int) grade->m_grade);
+    #endif
+
+    for (unsigned int i = grade->m_grade; i < 18; i++) {
+        if (score >= TGM1_GRADE_CONDITIONS[i].score) {
+            grade->m_grade = TGM1_GRADE_CONDITIONS[i].grade;
+        }
+    }
+
+    #ifdef DEBUG
+    print("Grade: %d\n", (int) grade->m_grade);
+    #endif
 }
 
 static struct Timing TGM1_GRAVITY[30] = {
@@ -87,6 +132,7 @@ Mode mode_tgm1(
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 999,
+/* initial_grade */ Grades::_9,
 /*       gravity */ TGM1_GRAVITY,
 /*    gravity_nb */ 30,
 /*           are */ TGM1_ARE,
@@ -104,4 +150,5 @@ Mode mode_tgm1(
 /*     score_pos */ TGM1_SCORE_POS,
 /*     level_pos */ TGM1_LEVEL_POS,
 /*   lvl_tgt_pos */ TGM1_LVL_TGT_POS,
-/*    score_func */ tgm1_score);
+/*    score_func */ tgm1_score,
+/*    grade_func */ tgm1_grade);

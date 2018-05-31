@@ -3,6 +3,7 @@
 #ifndef MODE_H
 #define MODE_H
 
+#include <Grade.h>
 #include <TargetTypes.h>
 
 enum {
@@ -39,6 +40,7 @@ class Mode {
 
         unsigned int m_width, m_height;
         unsigned int m_max_level;
+        unsigned int m_initial_grade;
 
         unsigned int m_gravity_nb;
         unsigned int m_are_nb;
@@ -68,10 +70,17 @@ class Mode {
     public:
         uint32_t (*score_func)(uint32_t, uint32_t, uint32_t, uint32_t,
                                uint32_t, uint32_t, uint32_t, uint32_t);
+        void (*grade_func)(uint32_t, unsigned int, Grade *grade);
 
-        Mode(const char* name, bool sonic_drop, bool display_score,
-             bool section, bool keep_down, unsigned int width,
-             unsigned int height, unsigned int max_level,
+        Mode(const char* name,
+             bool sonic_drop,
+             bool display_score,
+             bool section,
+             bool keep_down,
+             unsigned int width,
+             unsigned int height,
+             unsigned int max_level,
+             unsigned int initial_grade,
              struct Timing* gravity, unsigned int gravity_nb,
              struct Timing* are, unsigned int are_nb,
              struct Timing* line_are, unsigned int line_are_nb,
@@ -79,10 +88,12 @@ class Mode {
              struct Timing* lock, unsigned int lock_nb,
              struct Timing* clear, unsigned int clear_nb,
              struct Label* labels, unsigned int labels_nb,
-             struct Position score_pos, struct Position level_pos,
+             struct Position score_pos,
+             struct Position level_pos,
              struct Position level_target_pos,
-             uint32_t (*func)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t,
-                              uint32_t, uint32_t, uint32_t));
+             uint32_t (*score_f)(uint32_t, uint32_t, uint32_t, uint32_t,
+                                 uint32_t, uint32_t, uint32_t, uint32_t),
+             void (*grade_f)(uint32_t, unsigned int, Grade *grade));
 
         inline const char* name() { return m_name; };
 

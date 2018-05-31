@@ -31,6 +31,9 @@ uint32_t easy_score(uint32_t level, uint32_t lines, uint32_t soft,
     return 6 * score; // TODO Bonus end of game
 }
 
+void easy_grade(uint32_t, unsigned int, Grade*) {
+}
+
 static struct Timing EASY_GRAVITY[32] = {
     {0, 4},
     {8, 5},
@@ -101,6 +104,7 @@ Mode mode_easy(
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 300,
+/* initial_grade */ Grades::NONE,
 /*       gravity */ EASY_GRAVITY,
 /*    gravity_nb */ 32,
 /*           are */ EASY_ARE,
@@ -118,4 +122,5 @@ Mode mode_easy(
 /*     score_pos */ EASY_SCORE_POS,
 /*     level_pos */ EASY_LEVEL_POS,
 /*   lvl_tgt_pos */ EASY_LVL_TGT_POS,
-/*    score_func */ easy_score);
+/*    score_func */ easy_score,
+/*    grade_func */ easy_grade);

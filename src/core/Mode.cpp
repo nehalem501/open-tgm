@@ -1,11 +1,18 @@
 /* Mode.cpp */
 
 #include <TargetTypes.h>
+#include <Grade.h>
 #include <Mode.h>
 
-Mode::Mode(const char* name, bool sonic_drop, bool display_score, bool section,
-           bool keep_down, unsigned int width, unsigned int height,
+Mode::Mode(const char* name,
+           bool sonic_drop,
+           bool display_score,
+           bool section,
+           bool keep_down,
+           unsigned int width,
+           unsigned int height,
            unsigned int max_level,
+           unsigned int initial_grade,
            struct Timing* gravity, unsigned int gravity_nb,
            struct Timing* are, unsigned int are_nb,
            struct Timing* line_are, unsigned int line_are_nb,
@@ -15,17 +22,37 @@ Mode::Mode(const char* name, bool sonic_drop, bool display_score, bool section,
            struct Label* labels, unsigned int labels_nb,
            struct Position score_pos, struct Position level_pos,
            struct Position level_target_pos,
-           uint32_t (*func)(uint32_t, uint32_t, uint32_t, uint32_t,
-                            uint32_t, uint32_t, uint32_t, uint32_t)) :
-    m_name(name), m_sonic_drop(sonic_drop), m_display_score(display_score),
-    m_section(section), m_keep_down(keep_down), m_width(width),
-    m_height(height), m_max_level(max_level), m_gravity_nb(gravity_nb),
-    m_are_nb(are_nb), m_line_are_nb(line_are_nb), m_das_nb(das_nb),
-    m_lock_nb(lock_nb), m_clear_nb(clear_nb), m_labels_nb(labels_nb),
-    m_gravity(gravity), m_are(are), m_line_are(line_are), m_das(das),
-    m_lock(lock), m_clear(clear), m_labels(labels), m_score_pos(score_pos),
-    m_level_pos(level_pos), m_level_target_pos(level_target_pos),
-    score_func(func) {
+           uint32_t (*score_f)(uint32_t, uint32_t, uint32_t, uint32_t,
+                            uint32_t, uint32_t, uint32_t, uint32_t),
+           void (*grade_f)(uint32_t, unsigned int, Grade *grade)) :
+    m_name(name),
+    m_sonic_drop(sonic_drop),
+    m_display_score(display_score),
+    m_section(section),
+    m_keep_down(keep_down),
+    m_width(width),
+    m_height(height),
+    m_max_level(max_level),
+    m_initial_grade(initial_grade),
+    m_gravity_nb(gravity_nb),
+    m_are_nb(are_nb),
+    m_line_are_nb(line_are_nb),
+    m_das_nb(das_nb),
+    m_lock_nb(lock_nb),
+    m_clear_nb(clear_nb),
+    m_labels_nb(labels_nb),
+    m_gravity(gravity),
+    m_are(are),
+    m_line_are(line_are),
+    m_das(das),
+    m_lock(lock),
+    m_clear(clear),
+    m_labels(labels),
+    m_score_pos(score_pos),
+    m_level_pos(level_pos),
+    m_level_target_pos(level_target_pos),
+    score_func(score_f),
+    grade_func(grade_f) {
 }
 
 unsigned int Mode::are(unsigned int level) {
