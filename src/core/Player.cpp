@@ -919,7 +919,11 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
     // lvl_aft_clear != m_level + nb_lines when finishing the game
     // (300 in easy, 500 torikan in death, 999 in other modes)
     unsigned int lvl_aft_clear = m_level + nb_lines;
-    uint32_t speed = m_current_mode->lock(m_level) - m_active_time;
+    uint32_t speed = 0;
+    if (m_current_mode->lock(m_level) > m_active_time) {
+        speed = m_current_mode->lock(m_level) - m_active_time;
+    }
+
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
     /*std::cout << "level : " << m_level << std::endl;
     std::cout << "nblines : " << (unsigned int) nb_lines << std::endl;
