@@ -925,15 +925,18 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
     }
 
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
-    /*std::cout << "level : " << m_level << std::endl;
-    std::cout << "nblines : " << (unsigned int) nb_lines << std::endl;
-    std::cout << "soft : " << (unsigned int) m_soft << std::endl;
-    std::cout << "combo : " << (unsigned int) m_combo << std::endl;
-    std::cout << "bravo : " << (unsigned int) bravo_val << std::endl;
-    std::cout << "sonic : " << (unsigned int) m_sonic << std::endl;
-    std::cout << "active_time : " << m_active_time << std::endl;
-    std::cout << "lvl_aft_clear : " << lvl_aft_clear << std::endl;
-    std::cout << "speed : " << speed << std::endl;*/
+
+    #ifdef DEBUG
+    print("level: %d\n", (int) m_level);
+    print("nblines: %d\n", (int) nb_lines);
+    print("soft: %d\n", (int) m_soft);
+    print("combo: %d\n", (int) m_combo);
+    print("bravo: %d\n", (int) bravo_val);
+    print("sonic: %d\n", (int) m_sonic);
+    print("active_time: %d\n", (int) m_active_time);
+    print("lvl_aft_clear: %d\n", (int) lvl_aft_clear);
+    print("speed: %d\n", (int) speed);
+    #endif
 
     m_score += m_current_mode->score_func(m_level, nb_lines, m_soft, m_sonic,
                                           m_combo, bravo_val, lvl_aft_clear,
