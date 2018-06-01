@@ -48,18 +48,14 @@ class Mode {
         unsigned int m_das_nb;
         unsigned int m_lock_nb;
         unsigned int m_clear_nb;
-    public: // TODO sfml: LabelsImpl.cpp:23/44
         unsigned int m_labels_nb;
 
-    private:
         struct Timing* m_gravity;
         struct Timing* m_are;
         struct Timing* m_line_are;
         struct Timing* m_das;
         struct Timing* m_lock;
         struct Timing* m_clear;
-
-    public: // TODO sfml: LabelsImpl.cpp:23/44
         struct Label* m_labels;
 
     private:
@@ -105,6 +101,10 @@ class Mode {
         inline unsigned int height() { return m_height; };
 
         inline unsigned int max_level() { return m_max_level; };
+
+        inline unsigned int labels_nb() { return m_labels_nb; };
+        inline const Label* labels() { return m_labels; };
+        inline Label get_label(unsigned int i) { return m_labels[i]; };
 
         inline int8_t score_pos_x() { return m_score_pos.x; };
         inline int8_t score_pos_y() { return m_score_pos.y; };
