@@ -6,12 +6,6 @@
 #include <Grade.h>
 #include <TargetTypes.h>
 
-enum {
-    MROLL_REQUIRED,
-    MROLL_PLAYABLE,
-    NO_MROLL
-};
-
 struct Timing {
     unsigned int level;
     unsigned int value;
@@ -37,6 +31,8 @@ class Mode {
         bool m_section;
         //bool m_line_are_test;
         bool m_keep_down;
+
+        unsigned int m_credit_roll;
 
         unsigned int m_width, m_height;
         unsigned int m_max_level;
@@ -73,6 +69,7 @@ class Mode {
              bool display_score,
              bool section,
              bool keep_down,
+             unsigned int credit_roll,
              unsigned int width,
              unsigned int height,
              unsigned int max_level,

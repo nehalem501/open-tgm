@@ -99,6 +99,7 @@ Mode mode_death(
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ false,
+/*   credit_roll */ ,
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 999,
