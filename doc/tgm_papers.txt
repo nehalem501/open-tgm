@@ -85,5 +85,5 @@ ARE: (+line clear ARE)
 DAS:
 IRS:
 clear delay:
-
+TGM1: full credit = 2974 frames (scrolling for 2554 frames, then logo)
 
