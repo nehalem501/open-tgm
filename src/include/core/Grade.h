@@ -5,7 +5,22 @@
 
 #include <TargetTypes.h>
 
-namespace Grades {
+namespace Core {
+    class Grade {
+        public:
+            Grade();
+            inline void set(unsigned int value) {
+                m_has_changed = true;
+                m_grade = value;
+            }
+
+            bool m_has_changed;
+            unsigned int m_internal;
+            unsigned int m_points;
+            unsigned int m_grade;
+            unsigned int m_counter;
+    };
+
     enum {
         NONE = 0,
         _9,
@@ -29,23 +44,6 @@ namespace Grades {
         M,
         GM,
         MAX_NB
-    };
-}
-
-namespace Core {
-    class Grade {
-        public:
-            Grade();
-            inline void set(unsigned int value) {
-                m_has_changed = true;
-                m_grade = value;
-            }
-
-            bool m_has_changed;
-            unsigned int m_internal;
-            unsigned int m_points;
-            unsigned int m_grade;
-            unsigned int m_counter;
     };
 }
 

@@ -4,6 +4,7 @@
 #define MODE_H
 
 #include <Grade.h>
+#include <CreditRoll.h>
 #include <TargetTypes.h>
 
 struct Timing {

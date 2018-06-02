@@ -32,9 +32,9 @@ uint32_t death_score(uint32_t level, uint32_t lines, uint32_t soft,
 
 void death_grade(uint32_t, unsigned int level, Grade *grade) {
     if (level == 999) {
-        grade->m_grade = Grades::GM;
+        grade->m_grade = Grade::GM;
     } else if (level >= 500) {
-        grade->m_grade = Grades::M;
+        grade->m_grade = Grade::M;
     }
 }
 
@@ -99,11 +99,11 @@ Mode mode_death(
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ false,
-/*   credit_roll */ ,
+/*   credit_roll */ CreditRoll::Playable,
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 999,
-/* initial_grade */ Grades::NONE,
+/* initial_grade */ Grade::NONE,
 /*       gravity */ DEATH_GRAVITY,
 /*    gravity_nb */ 1,
 /*           are */ DEATH_ARE,
