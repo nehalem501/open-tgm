@@ -19,31 +19,31 @@ namespace Core {
             unsigned int m_points;
             unsigned int m_grade;
             unsigned int m_counter;
-    };
 
-    enum {
-        NONE = 0,
-        _9,
-        _8,
-        _7,
-        _6,
-        _5,
-        _4,
-        _3,
-        _2,
-        _1,
-        S1,
-        S2,
-        S3,
-        S4,
-        S5,
-        S6,
-        S7,
-        S8,
-        S9,
-        M,
-        GM,
-        MAX_NB
+            enum {
+                None = 0,
+                _9,
+                _8,
+                _7,
+                _6,
+                _5,
+                _4,
+                _3,
+                _2,
+                _1,
+                S1,
+                S2,
+                S3,
+                S4,
+                S5,
+                S6,
+                S7,
+                S8,
+                S9,
+                M,
+                GM,
+                MAX_NB
+            };
     };
 }
 

@@ -105,7 +105,7 @@ Mode mode_easy(
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 300,
-/* initial_grade */ Grade::NONE,
+/* initial_grade */ Grade::None,
 /*       gravity */ EASY_GRAVITY,
 /*    gravity_nb */ 32,
 /*           are */ EASY_ARE,

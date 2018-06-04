@@ -103,7 +103,7 @@ Mode mode_death(
 /*        size_x */ 10,
 /*        size_y */ 22,
 /*     max_level */ 999,
-/* initial_grade */ Grade::NONE,
+/* initial_grade */ Grade::None,
 /*       gravity */ DEATH_GRAVITY,
 /*    gravity_nb */ 1,
 /*           are */ DEATH_ARE,
