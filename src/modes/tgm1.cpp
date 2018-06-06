@@ -91,7 +91,8 @@ static struct Timing TGM1_GRAVITY[30] = {
     {400, 1280},
     {420, 1024},
     {450, 768},
-    {500, 5120}};
+    {500, 5120}
+};
 
 static struct Timing TGM1_ARE[1] = {{0, 30}};
 

@@ -68,34 +68,40 @@ static struct Timing TGM2P_MASTER_GRAVITY[30] = {
     {400, 1280},
     {420, 1024},
     {450, 768},
-    {500, 5120}};
+    {500, 5120}
+};
 
 static struct Timing TGM2P_MASTER_ARE[3] = {
     {0, 25},
     {701, 16},
-    {801, 12}};
+    {801, 12}
+};
 
 static struct Timing TGM2P_MASTER_LINE_ARE[4] = {
     {0, 25},
     {601, 16},
     {701, 12},
-    {801, 6}};
+    {801, 6}
+};
 
 static struct Timing TGM2P_MASTER_DAS[3] = {
     {0, 14},
     {500, 8},
-    {900, 6}};
+    {900, 6}
+};
 
 static struct Timing TGM2P_MASTER_LOCK[2] = {
     {0, 30},
-    {901, 17}};
+    {901, 17}
+};
 
 static struct Timing TGM2P_MASTER_CLEAR[5] = {
     {0, 40},
     {500, 25},
     {601, 16},
     {701, 12},
-    {801, 6}};
+    {801, 6}
+};
 
 static char TGM2P_MASTER_NEXT_STR[] = "NEXT";
 static char TGM2P_MASTER_TIME_STR[] = "TIME";
