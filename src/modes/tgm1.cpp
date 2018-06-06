@@ -19,7 +19,7 @@ struct Condition {
     uint32_t score;
 };
 
-static struct Condition TGM1_GRADE_CONDITIONS[18] {
+static struct Condition TGM1_GRADE_CONDITIONS[18] = {
     {Grade::_9, 0},
     {Grade::_8, 400},
     {Grade::_7, 800},
