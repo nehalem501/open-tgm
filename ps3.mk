@@ -1,5 +1,8 @@
 # PS3 target Makefile
 
+CC := ppu-gcc
+CXX := ppu-g++
+
 CXXFLAGS += -DTARGET_PS3 -O2 -std=c++98
 
 all : $(EXE_NAME)
