@@ -1,4 +1,4 @@
-/* timing.cpp - SDL2 */
+/* timing.cpp - SDL */
 
 #include <stdint.h>
 #include "timing.h"

@@ -1,5 +1,12 @@
 # SDL target Makefile
 
+BACKEND := opengl
+
+BACKEND_SOURCES := $(wildcard $(SRC_DIR)/backends/$(BACKEND)/*.cpp)
+OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o)) $(addprefix $(BUILD_DIR)/, $(BACKEND_SOURCES:src/%.cpp=%.o))
+
+HEADERS += -I$(SRC_DIR)/backends/$(BACKEND)
+
 CXXFLAGS += -DTARGET_SDL -O2 -std=c++98 `sdl-config --cflags`
 LIBS = `sdl-config --libs` -lGL -lGLU
 
@@ -18,6 +25,7 @@ clean :
 
 print_info:
 	@echo C++ compiler: $(CXX)
+	@mkdir -p $(BUILD_DIR)/backends/$(BACKEND)
 
 .PHONY: clean print_info
 

@@ -1,7 +1,7 @@
-/* timing.h - SDL2 */
+/* timing.h - SDL */
 
-#ifndef TIMING_SDL2_H
-#define TIMING_SDL2_H
+#ifndef TIMING_SDL_H
+#define TIMING_SDL_H
 
 #include <stdint.h>
 
