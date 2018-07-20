@@ -6,6 +6,10 @@
 #include <stdint.h>
 //#include <glib2d.h>
 
+#define BUF_WIDTH 512
+#define SCR_WIDTH 480
+#define SCR_HEIGHT 272
+
 //extern g2dTexture *tileset_tex;
 //extern g2dTexture *outline_tex;
 //extern g2dTexture *frame_tex;
