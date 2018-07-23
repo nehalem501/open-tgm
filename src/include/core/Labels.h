@@ -3,7 +3,8 @@
 #ifndef CORE_LABELS_H
 #define CORE_LABELS_H
 
-#include <Mode.h>
+/* Forward declarations to avoid dependency hell */
+class Mode;
 
 namespace Core {
     class Labels {

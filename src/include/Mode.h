@@ -95,6 +95,8 @@ class Mode {
         inline bool display_score() { return m_display_score; };
         inline bool keep_down() { return m_keep_down; };
 
+        inline unsigned int credit_roll() { return m_credit_roll; };
+
         inline unsigned int width() { return m_width; };
         inline unsigned int height() { return m_height; };
 
