@@ -1,31 +1,16 @@
 /* AppImpl.cpp - SDL */
 
 #include <SDL.h>
-#include <SDL_opengl.h>
+//#include <SDL_opengl.h>
 #include "timing.h"
 #include <Global.h>
+#include <Background.h>
+#include <MainMenu.h>
 #include <App.h>
 
-static void init_opengl(int width, int height) {
-    // Init OpenGL
-    //glViewport(0, 0, win_width, win_height);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, width, height, 0, -1, 1);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-    GLenum error = glGetError();
-    if (error != GL_NO_ERROR) {
-        printf("Could not initialize OpenGL: %s\n", gluErrorString(error));
-        exit(1);
-    }
-
-}
+void init_graphics_context(int width, int height);
+void graphics_clear();
+void graphics_display();
 
 void app() {
     int win_width = 320;
@@ -47,7 +32,7 @@ void app() {
 
     SDL_EnableUNICODE(SDL_TRUE);
 
-    init_opengl(win_width, win_height);
+    init_graphics_context(win_width, win_height);
     // TODO
     // Init graphical assets
     init_graphics();
@@ -100,7 +85,7 @@ void app() {
                                             SDL_GetError());
                                     exit(1);
                                 }
-                                init_opengl(win_width, win_height);
+                                init_graphics_context(win_width, win_height);
                                 fullscreen = false;
                             } else {
                                 // Works from  SDL v1.2.10 to get
@@ -114,7 +99,7 @@ void app() {
                                 }
                                 const SDL_VideoInfo* info = SDL_GetVideoInfo();
                                 printf("%dx%d\n", info->current_w, info->current_h);
-                                init_opengl(info->current_w, info->current_h);
+                                init_graphics_context(info->current_w, info->current_h);
                                 fullscreen = true;
                             }
 
@@ -140,9 +125,14 @@ void app() {
             }
             #endif
             
-            glClear(GL_COLOR_BUFFER_BIT);
+            menu.update();
             
-            glBegin(GL_QUADS);
+            graphics_clear();
+
+            background.draw();
+            menu.draw();
+
+            /*glBegin(GL_QUADS);
             glColor3f(1, 0, 0);
             glVertex2f(10, 10);
             glColor3f(0, 1, 0);
@@ -151,9 +141,9 @@ void app() {
             glVertex2f(100,  100);
             glColor3f(1, 0, 1);
             glVertex2f(10, 100);
-            glEnd();
+            glEnd();*/
             
-            SDL_GL_SwapBuffers();
+	    graphics_display();
 
         //}
 
