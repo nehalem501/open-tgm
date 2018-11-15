@@ -4,6 +4,7 @@
 #define CORE_CHOOSE_MODE_H
 
 #include <TargetTypes.h>
+#include <Stack.h>
 #include <Text.h>
 #include <../modes/modes.h>
 
@@ -11,7 +12,7 @@ namespace Core {
     class ChooseMode {
         public:
             ChooseMode();
-            void init();
+            void init(::Stack *stack);
             void update(int *state, int *mode);
 
         protected:

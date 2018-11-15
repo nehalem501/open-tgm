@@ -50,12 +50,12 @@ $(EXE_NAME): print_info $(OBJECTS)
 	@rm -rf $(BIN_DIR)/resources
 	@cp -rf data/resources/ $(BIN_DIR)
 	@echo Linking $(EXE_NAME)
-	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS_DIR) $(LIBS)
+	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS_DIR) $(LIBS) || echo Failed: $(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS_DIR) $(LIBS)
 	$(EXTRAS)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
-	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $< || echo Failed: $(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
 
 clean:
 	@rm -f $(OBJECTS);

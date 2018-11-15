@@ -27,11 +27,11 @@ void GameImpl::resize() {
 }
 
 void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
-    target.draw(player1);
-    target.draw(stack1);
+    target.draw(m_p1);
+    target.draw(m_p1_stack);
 
-    target.draw(m_timer1); // TODO timer2
-    target.draw(m_labels1);
+    target.draw(m_p1_timer); // TODO timer2
+    target.draw(m_p1_labels);
 
     switch (m_p1_state) {
         case GameState::READY_GO:

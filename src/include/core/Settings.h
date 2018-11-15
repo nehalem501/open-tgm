@@ -4,6 +4,7 @@
 #define CORE_SETTINGS_H
 
 #include <TargetTypes.h>
+#include <Background.h>
 #include <Text.h>
 
 namespace SettingsState {
@@ -26,7 +27,7 @@ namespace Core {
         public:
             Settings();
             void init();
-            void update(int *menustate);
+            void update(int *menustate, ::Background *background);
 
         protected:
             int m_state, m_selected;

@@ -14,13 +14,13 @@ Core::ChooseMode::ChooseMode() : m_selected(false), m_mode(0), m_das_up(0),
     #endif
 }
 
-void Core::ChooseMode::init() {
+void Core::ChooseMode::init(::Stack *stack) {
     for (int i = 0; i < NB_MODES; i++) {
         m_modes_strings[i].init_graphics();
         m_modes_strings[i].update_pos(1, 7 + i * 2);
         m_modes_strings[i].update_text(modes[i]->name());
         // TODO use stack depending on player
-        m_modes_strings[i].update_stack(&stack1);
+        m_modes_strings[i].update_stack(stack);
         m_modes_strings[i].update_graphics();
     }
 

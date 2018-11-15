@@ -7,11 +7,11 @@
 
 void GameImpl::draw() const {
     #warning "PSVita Game::draw not finished"
-    player1.draw();
-    stack1.draw();
+    m_p1->draw();
+    m_p1_stack->draw();
 
-    m_timer1.draw(); // TODO timer2
-    m_labels1.draw();
+    m_p1_timer.draw(); // TODO timer2
+    m_p1_labels.draw();
 
     switch (m_p1_state) {
         case GameState::READY_GO:

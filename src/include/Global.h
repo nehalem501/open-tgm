@@ -40,27 +40,11 @@ namespace StackPosition {
 extern uint32_t rand_seed;
 extern unsigned int stack_position;
 
-extern Player player1;
-extern Stack stack1;
-extern Frame frame1;
-
-#ifdef MULTIPLAYER
-#undef MAX_WIDTH
-#define MAX_WIDTH 14
-extern Player player2;
-extern Stack stack2;
-extern Frame frame2;
-#endif
-
 extern Input input;
-extern Game game;
-extern MainMenu menu;
-extern Background background;
 extern Mode* modes[];
 
 void init();
 void init_textures();
-void init_graphics();
 void init_random();
 
 #endif

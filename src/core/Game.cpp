@@ -8,28 +8,42 @@
 #include <core/MainMenu.h>
 #include <core/Game.h>
 
-void Core::Game::init_graphics() {
-    m_timer1.init_graphics();
-    m_p1_string.init_graphics();
-    m_p1_string.update_stack(&stack1);
+void Core::Game::init(::Stack *stack1,
+                      ::Stack *stack2) {
+    m_p1.init(stack1);
+    m_p1_stack = stack1;
 
     #ifdef MULTIPLAYER
-    m_timer2.init_graphics();
+    m_p2.init(stack2);
+    m_p2_stack = stack2;
+    #endif
+}
+
+void Core::Game::init_graphics() {
+    m_p1.init_graphics();
+    m_p1_timer.init_graphics();
+    m_p1_string.init_graphics();
+    m_p1_string.update_stack(m_p1_stack);
+
+    #ifdef MULTIPLAYER
+    m_p1.init_graphics();
+    m_p2_timer.init_graphics();
     m_p2_string.init_graphics();
+    m_p2_string.update_stack(m_p2_stack);
     #endif
 }
 
 void Core::Game::start_p1(int mode) {
     // TODO choose mode
-    stack1.start_game(modes[mode]);
+    m_p1_stack->start_game(modes[mode]);
 
-    player1.init(&stack1, modes[mode]);
-    player1.init_graphics();
+    m_p1.init(m_p1_stack, modes[mode]);
+    m_p1.init_graphics();
 
-    m_labels1.set_mode(modes[mode]);
-    m_labels1.init_graphics(&stack1);
+    m_p1_labels.set_mode(modes[mode]);
+    m_p1_labels.init_graphics(m_p1_stack);
 
-    m_timer1.init();
+    m_p1_timer.init();
 
     p1_ready_go();
 }
@@ -45,27 +59,27 @@ void Core::Game::p1_ready_go() {
 }
 
 #ifdef MULTIPLAYER
-void Core::Game::start_p2(int8_t mode) {
+void Core::Game::start_p2(int mode) {
     // TODO
-    //player2.init(&stack2);
+    //m_p2.init(&stack2);
 }
 
 void Core::Game::start_doubles() {
     // TODO
-    //player1.init(&stack1);
-    //player2.init(&stack1);
+    //m_p1.init(&stack1);
+    //m_p2.init(&stack1);
 }
 #endif
 
 void Core::Game::update(int *state) {
     switch(m_p1_state) {
         case GameState::INGAME:
-            m_timer1.update();
-            player1.update(&m_p1_state);
+            m_p1_timer.update();
+            m_p1.update(&m_p1_state);
             break;
 
         case GameState::CREDIT_ROLL:
-            player1.update(&m_p1_state);
+            m_p1.update(&m_p1_state);
             break;
 
         case GameState::READY_GO:
@@ -86,20 +100,20 @@ void Core::Game::update(int *state) {
             // Start game
             if (m_p1_counter == 120) {
                 // Start timer and count current frame
-                m_timer1.start();
-                m_timer1.update();
+                m_p1_timer.start();
+                m_p1_timer.update();
 
-                m_labels1.init_graphics(&stack1);
+                m_p1_labels.init_graphics(m_p1_stack);
 
                 // Start game for player 1
-                player1.start_game();
-                player1.update(&m_p1_state);
+                m_p1.start_game();
+                m_p1.update(&m_p1_state);
 
                 // Prepare counter for game over animation
-                m_p1_counter = stack1.m_height * 8;
+                m_p1_counter = m_p1_stack->m_height * 8;
 
                 // First piece to spawn doesn't increase level
-                player1.reset_level();
+                m_p1.reset_level();
 
                 // Change state to Ingame
                 m_p1_state = GameState::INGAME;
@@ -122,8 +136,8 @@ void Core::Game::update(int *state) {
 
             // Remove next line
             if (m_p1_counter % 8 == 0) {
-                stack1.remove_line(m_p1_counter / 8);
-                stack1.reset_outline();
+                m_p1_stack->remove_line(m_p1_counter / 8);
+                m_p1_stack->reset_outline();
             }
 
             break;
@@ -142,10 +156,10 @@ void Core::Game::update(int *state) {
 #ifdef MULTIPLAYER
     switch(m_p2_state) {
         case GameState::INGAME:
-            player2.update();
-            /*if (player2.isGameOver()) {
-              m_player2_state = GameState::GAME_OVER;
-              }*/
+            m_p2.update();
+            /*if (m_p2->isGameOver()) {
+                m_p2_state = GameState::GAME_OVER;
+            }*/
             break;
 
         case GameState::READY_GO:
@@ -163,16 +177,16 @@ void Core::Game::update(int *state) {
 }
 
 void Core::Game::update_graphics() {
-    player1.update_graphics();
-    stack1.update_graphics();
+    m_p1.update_graphics();
+    m_p1_stack->update_graphics();
 
-    m_timer1.update_graphics();
+    m_p1_timer.update_graphics();
 
     #ifdef MULTIPLAYER
-    player2.update_graphics();
-    stack2.update_graphics();
+    m_p2.update_graphics();
+    m_p2_stack2->update_graphics();
 
-    m_timer2.update_graphics();
+    m_p2_timer.update_graphics();
     #endif
 }
 

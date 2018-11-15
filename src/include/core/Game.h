@@ -6,6 +6,8 @@
 #include <Timer.h>
 #include <Labels.h>
 #include <Text.h>
+#include <Stack.h>
+#include <Player.h>
 
 namespace GameState {
     enum {
@@ -25,6 +27,8 @@ const char GAME_OVER_STR[] = "GAME OVER";
 namespace Core {
     class Game {
         public:
+            void init(::Stack *stack1,
+                      ::Stack *stack2);
             void init_graphics();
 
             void update(int *state);
@@ -40,23 +44,27 @@ namespace Core {
             void startDoubles();
         #endif
 
-            ::Timer m_timer1;
-            ::Labels m_labels1;
+            ::Timer m_p1_timer;
+            ::Labels m_p1_labels;
 
         #ifdef MULTIPLAYER
-            ::Timer m_timer2;
-            ::Labels m_labels2;
+            ::Timer m_p2_timer;
+            ::Labels m_p2_labels;
         #endif
 
         protected:
+            ::Player m_p1;
+            ::Stack *m_p1_stack;
+            ::Text m_p1_string;
             int m_p1_state;
             uint8_t m_p1_counter;
-            ::Text m_p1_string;
 
         #ifdef MULTIPLAYER
+            ::Player m_p2;
+            ::Stack *m_p1_stack;
+            ::Text m_p2_string;
             int m_p2_state;
             uint8_t m_p2_counter;
-            ::Text m_p2_string;
         #endif
     };
 }

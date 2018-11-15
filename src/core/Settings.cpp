@@ -92,7 +92,7 @@ void Core::Settings::init() {
     // Text color
 }
 
-void Core::Settings::update(int *menustate) {
+void Core::Settings::update(int *menustate, ::Background *background) {
     switch (m_state) {
         case SettingsState::LIST:
             if (input.menu_key_up()) {
@@ -120,7 +120,7 @@ void Core::Settings::update(int *menustate) {
             if (input.a()) {
                 if (m_selected == SettingsState::EXIT) {
                     *menustate = MainMenuState::HOME;
-                    background.go_to_background();
+                    background->go_to_background();
                     return;
                 }
 
