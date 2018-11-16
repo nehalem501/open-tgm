@@ -14,7 +14,7 @@ void SettingsImpl::init() {
 
 }
 
-void SettingsImpl::update(int *menustate) {
+void SettingsImpl::update(int *menustate, Background *background) {
     switch (m_state) {
         case SettingsState::LIST:
             if (input.up()) {
@@ -52,7 +52,7 @@ void SettingsImpl::update(int *menustate) {
             if (input.a()) {
                 if (m_selected == SettingsState::EXIT) {
                     *menustate = MainMenuState::HOME;
-                    background.go_to_background();
+                    background->go_to_background();
                     return;
                 }
 

@@ -42,6 +42,7 @@ extern unsigned int stack_position;
 
 extern Input input;
 extern Mode* modes[];
+extern MainMenu menu;
 
 void init();
 void init_textures();

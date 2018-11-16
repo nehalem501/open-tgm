@@ -13,22 +13,22 @@ void GameImpl::resize() {
     // TODO
 
     if (stack_position == StackPosition::CENTERED) {
-        stack1.m_pos_x = (screen_size.x / 2) - (stack1.m_width / 2) * tile_size;
-        stack1.m_pos_y = 3 * tile_size;
+        m_p1_stack->m_pos_x = (screen_size.x / 2) - (m_p1_stack->m_width / 2) * tile_size;
+        m_p1_stack->m_pos_y = 3 * tile_size;
     }
 
-    stack1.resize();
-    player1.resize();
+    m_p1_stack->resize();
+    m_p1.resize();
 
-    m_timer1.resize(&stack1);
-    m_labels1.resize(&stack1);
+    m_p1_timer.resize(m_p1_stack);
+    m_p1_labels.resize(m_p1_stack);
 
      // TODO timer2
 }
 
 void GameImpl::draw(sf::RenderTarget& target, sf::RenderStates) const {
     target.draw(m_p1);
-    target.draw(m_p1_stack);
+    target.draw(*m_p1_stack);
 
     target.draw(m_p1_timer); // TODO timer2
     target.draw(m_p1_labels);
