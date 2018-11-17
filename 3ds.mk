@@ -39,7 +39,7 @@ $(EXE_NAME).smdh:
 
 $(EXE_NAME).elf: print_info $(OBJECTS)
 	@echo Linking $(EXE_NAME)
-	@$(CXX) $(LDFLAGS) -o $(EXE_NAME).elf $(OBJECTS) $(LIBS_DIR) $(LIBS) || echo Failed: $(CXX) $(LDFLAGS) -o $(EXE_NAME).elf $(OBJECTS) $(LIBS_DIR) $(LIBS)
+	@$(CXX) $(LDFLAGS) -o $(EXE_NAME).elf $(OBJECTS) $(LIBS_DIR) $(LIBS) || { echo Failed: $(CXX) $(LDFLAGS) -o $(EXE_NAME).elf $(OBJECTS) $(LIBS_DIR) $(LIBS); exit 1; }
 
 $(BUILD_DIR)%.shbin.o: $(SRC_DIR)/targets/3ds/resources/%.v.pica
 	@echo compiling shader $@
@@ -59,7 +59,7 @@ $(BUILD_DIR)%.png.o: data/platform_specific/3ds/%.png
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
-	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $< || echo Failed: $(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $< || { echo Failed: $(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<; exit 1; }
 
 clean:
 	@rm -rf $(OBJECTS);

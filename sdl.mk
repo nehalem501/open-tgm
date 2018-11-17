@@ -14,11 +14,11 @@ all : $(EXE_NAME)
 
 $(EXE_NAME) : print_info $(OBJECTS)
 	@echo Linking $(EXE_NAME)
-	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS) || echo Failed: $(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS)
+	@$(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS) || { echo Failed: $(CXX) $(LDFLAGS) -o $(EXE_NAME) $(OBJECTS) $(LIBS); exit 1; }
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
-	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $< || echo Failed: $(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<
+	@$(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $< || { echo Failed: $(CXX) $(CXXFLAGS) $(HEADERS) -o $@ -c $<; exit 1; }
 
 clean :
 	@rm -rf $(OBJECTS);
