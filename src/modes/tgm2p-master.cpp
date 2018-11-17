@@ -130,6 +130,7 @@ Mode mode_tgm2p_master(
 /*        size_y */ 22,
 /*     max_level */ 999,
 /* initial_grade */ Grade::_9,
+/*  random_tries */ 6,
 /*       gravity */ TGM2P_MASTER_GRAVITY,
 /*    gravity_nb */ 30,
 /*           are */ TGM2P_MASTER_ARE,

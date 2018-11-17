@@ -38,6 +38,7 @@ class Mode {
         unsigned int m_width, m_height;
         unsigned int m_max_level;
         unsigned int m_initial_grade;
+        unsigned int m_random_tries;
 
         unsigned int m_gravity_nb;
         unsigned int m_are_nb;
@@ -75,6 +76,7 @@ class Mode {
              unsigned int height,
              unsigned int max_level,
              unsigned int initial_grade,
+             unsigned int random_tries,
              struct Timing* gravity, unsigned int gravity_nb,
              struct Timing* are, unsigned int are_nb,
              struct Timing* line_are, unsigned int line_are_nb,
@@ -101,6 +103,7 @@ class Mode {
         inline unsigned int height() { return m_height; };
 
         inline unsigned int max_level() { return m_max_level; };
+        inline unsigned int random_tries() { return m_random_tries; };
 
         inline unsigned int labels_nb() { return m_labels_nb; };
         inline const Label* labels() { return m_labels; };

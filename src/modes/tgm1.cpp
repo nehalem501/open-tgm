@@ -135,6 +135,7 @@ Mode mode_tgm1(
 /*        size_y */ 22,
 /*     max_level */ 999,
 /* initial_grade */ Grade::_9,
+/*  random_tries */ 4,
 /*       gravity */ TGM1_GRAVITY,
 /*    gravity_nb */ 30,
 /*           are */ TGM1_ARE,

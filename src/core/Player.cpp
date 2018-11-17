@@ -105,18 +105,17 @@ void Core::Player::next_piece() {
     m_active_time = 0;
     m_gravity_counter = 0;
 
-    uint32_t r;
+    uint32_t r = 0;
 
-    // TODO change number off tries depending on mode (TGM1/TAP)
-    for (int i = 0; i < 5; ++i) {
-        r = tgm_random(&rand_seed) % 7;
+    for (unsigned int i = 0; i < m_current_mode->random_tries(); i++) {
+        r = tgm_random(&rand_seed) % NB_TYPES;
 
         if (r != m_history[0] && r != m_history[1] &&
             r != m_history[2] && r != m_history[3]) {
             break;
         }
 
-        r = tgm_random(&rand_seed) % 7;
+        r = tgm_random(&rand_seed) % NB_TYPES;
     }
 
     m_history[3] = m_history[2];
