@@ -12,8 +12,8 @@ void MainMenuImpl::init_graphics() {
     m_choose_mode.init_graphics();
 
     // TODO
-    stack1.m_pos_x = (400 / 2) - (stack1.m_width / 2) * 9;
-    stack1.m_pos_y = 3 * 9;
+    m_stack1.m_pos_x = (400 / 2) - (m_stack1.m_width / 2) * 9;
+    m_stack1.m_pos_y = 3 * 9;
 }
 
 void MainMenuImpl::draw() const {
