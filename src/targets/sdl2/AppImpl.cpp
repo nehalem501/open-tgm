@@ -128,10 +128,6 @@ void app() {
 
     GLint vertex_position = glGetAttribLocation(program_id, "position");
 
-    // TODO
-    // Init graphical assets
-    init_graphics();
-
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 

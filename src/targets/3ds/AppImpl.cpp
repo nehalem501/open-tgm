@@ -155,9 +155,6 @@ void app() {
     C3D_RenderTargetSetOutput(target, GFX_TOP, GFX_LEFT, DISPLAY_TRANSFER_FLAGS);
 
     init_gpu_stuff();
-    // TODO
-    // Init graphical assets
-    init_graphics();
 
 	//consoleInit(GFX_BOTTOM, NULL);
 
@@ -172,7 +169,6 @@ void app() {
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C3D_FrameDrawOn(target);
 
-        background.draw();
         menu.draw();
 
 		C3D_FrameEnd(0);

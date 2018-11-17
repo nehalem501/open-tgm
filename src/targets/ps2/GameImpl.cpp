@@ -7,7 +7,7 @@
 
 void GameImpl::draw() const {
     #warning "PS2 Game::draw not finished"
-    m_p1->draw();
+    m_p1.draw();
     m_p1_stack->draw();
 
     m_p1_timer.draw(); // TODO timer2

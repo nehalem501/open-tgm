@@ -33,9 +33,6 @@ void app() {
     SDL_EnableUNICODE(SDL_TRUE);
 
     init_graphics_context(win_width, win_height);
-    // TODO
-    // Init graphical assets
-    init_graphics();
 
     SDL_WM_SetCaption("Open TGM", NULL);
 
@@ -129,7 +126,6 @@ void app() {
             
             graphics_clear();
 
-            background.draw();
             menu.draw();
 
             /*glBegin(GL_QUADS);

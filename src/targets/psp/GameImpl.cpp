@@ -6,7 +6,7 @@
 #include "GameImpl.h"
 
 void GameImpl::draw() const {
-    m_p1->draw();
+    m_p1.draw();
     m_p1_stack->draw();
 
     m_p1_timer.draw(); // TODO timer2

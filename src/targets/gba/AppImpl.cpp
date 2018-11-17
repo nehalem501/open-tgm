@@ -57,7 +57,6 @@ void VblankInterrupt() {
     }*/
     
     // Draw frame
-    background.draw();
     menu.draw();
 }
 
@@ -71,10 +70,6 @@ void app() {
 
     // Allow Interrupts
     REG_IME = 1;
-
-    // TODO
-    // Init graphical assets
-    init_graphics();
 
     while (true) {
         // Do frame
