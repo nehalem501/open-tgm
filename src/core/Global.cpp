@@ -23,6 +23,7 @@ void init() {
     input.init();
     init_modes();
     init_textures();
+    menu.init();
     menu.init_graphics();
 }
 

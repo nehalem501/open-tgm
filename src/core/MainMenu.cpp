@@ -12,6 +12,12 @@ Core::MainMenu::MainMenu() : m_state(MainMenuState::HOME), m_mode(0) {
     #ifdef DEBUG
     print("MainMenu constructor\n");
     #endif
+}
+
+void Core::MainMenu::init() {
+    #ifdef DEBUG
+    print("MainMenu init\n");
+    #endif
 
     m_stack1.init_graphics();
     

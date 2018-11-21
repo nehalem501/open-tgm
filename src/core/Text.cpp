@@ -62,6 +62,9 @@ Core::Text::Text(Stack *stack, int pos_x, int pos_y,
 
 void Core::Text::update_text(const char *new_str) {
     if (m_str != new_str) {
+        #ifdef DEBUG
+        print("Text::update_text: %s replaced by %s\n", m_str, new_str);
+        #endif
         m_str = new_str;
         m_length = strlen(m_str);
         m_has_changed = true;

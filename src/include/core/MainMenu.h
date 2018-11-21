@@ -32,6 +32,8 @@ namespace Core {
         public:
             MainMenu();
 
+            void init();
+
             void update();
 
             void home();

@@ -1,6 +1,7 @@
 /* Mode.cpp */
 
 #include <TargetTypes.h>
+#include <Global.h>
 #include <Grade.h>
 #include <Mode.h>
 
@@ -22,7 +23,8 @@ Mode::Mode(const char* name,
            struct Timing* lock, unsigned int lock_nb,
            struct Timing* clear, unsigned int clear_nb,
            struct Label* labels, unsigned int labels_nb,
-           struct Position score_pos, struct Position level_pos,
+           struct Position score_pos,
+           struct Position level_pos,
            struct Position level_target_pos,
            uint32_t (*score_f)(uint32_t, uint32_t, uint32_t, uint32_t,
                             uint32_t, uint32_t, uint32_t, uint32_t),
@@ -57,6 +59,9 @@ Mode::Mode(const char* name,
     m_level_target_pos(level_target_pos),
     score_func(score_f),
     grade_func(grade_f) {
+        #ifdef DEBUG
+        print("Mode constructor: %s\n", m_name);
+        #endif
 }
 
 unsigned int Mode::are(unsigned int level) {
