@@ -118,6 +118,9 @@ void Core::Game::update(int *state) {
                 // Change state to Ingame
                 m_p1_state = GameState::INGAME;
                 return;
+            } else {
+                // When we wait, we can still charge DAS
+                m_p1.update(&m_p1_state);
             }
             break;
 

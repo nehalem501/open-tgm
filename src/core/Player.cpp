@@ -132,6 +132,38 @@ void Core::Player::next_piece() {
 void Core::Player::update(int *game_state) {
     switch (m_state) {
         case PlayerState::WAITING:
+            #ifdef DEBUG
+            print("WAITING\n");
+            #endif
+
+            // Left DAS
+            if (input.left()) {
+                if (m_start_das_left) {
+                    check_das_left();
+                } else {
+                    m_start_das_left = true;
+                }
+            } else {
+                if (m_start_das_left) {
+                    m_start_das_left = false;
+                    m_das_left = 0;
+                }
+            }
+
+            // Right DAS
+            if (input.right()) {
+                if (m_start_das_right) {
+                    check_das_right();
+                } else {
+                    m_start_das_right = true;
+                }
+            } else {
+                if (m_start_das_right) {
+                    m_start_das_right = false;
+                    m_das_right = 0;
+                }
+            }
+
             break;
 
         case PlayerState::ARE: {
@@ -216,6 +248,14 @@ void Core::Player::update(int *game_state) {
                 // Reset lock delay
                 reset_lock();
 
+                // We don't want our piece moved when appearing
+                if (m_das_left > 0) {
+                    m_das_left--;
+                }
+                if (m_das_right > 0) {
+                    m_das_right--;
+                }
+
                 // New state
                 m_state = PlayerState::INGAME;
             } else {
@@ -228,6 +268,10 @@ void Core::Player::update(int *game_state) {
         }*/
 
         case PlayerState::INGAME: {
+            #ifdef DEBUG
+            print("INGAME\n");
+            #endif
+
             m_piece_old_y = m_piece.pos_y();
             m_active_time++;
 
