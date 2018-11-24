@@ -20,7 +20,8 @@ namespace PlayerState {
         NEW_PIECE,
         INGAME,
         LOCK,
-        LOCKED_ANIM,
+        LOCKED_ANIM_1,
+        LOCKED_ANIM_2,
         CLEAR,
     };
 }

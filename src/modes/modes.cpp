@@ -9,12 +9,14 @@
 #include "tgm2p-master.h"
 #include "death.h"
 #include "easy.h"
+#include "shirase.h"
 
 Mode* modes[NB_MODES] = {
     &mode_easy,
     &mode_tgm1,
     &mode_tgm2p_master,
-    &mode_death
+    &mode_death,
+    &mode_shirase
 };
 
 

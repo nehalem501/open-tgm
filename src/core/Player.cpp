@@ -11,6 +11,8 @@
 #include <core/Game.h>
 #include <core/Player.h>
 
+#define LOCK_COLOR_DELAY 1
+
 /* Used at program startup */
 void Core::Player::init(::Stack *stack) {
     m_stack = stack;
@@ -201,7 +203,7 @@ void Core::Player::update(int *game_state) {
                 }
             }
 
-            if (m_are > m_current_mode->are(m_level)) {
+            if (m_are >= m_current_mode->are(m_level)) {
                 next_piece();
 
                 m_are = 0;
@@ -438,9 +440,27 @@ void Core::Player::update(int *game_state) {
             cleared <clear delay>
 
             tgm2
+            lock_delay frames locking
             1 Frame black (same as ghost)
             cleared <clear delay> (2 frames grey at beginning
             for parts of piece not cleared)
+
+            death 
+            13 first darker
+            19 darker
+            25 d
+            31 black
+            2 grey
+            17 ARE
+
+            clear
+            13 shifted
+            15 ARE
+
+            doubles clear
+            1 black
+            1 grey + cleared
+            ARE
             */
 
             #ifdef DEBUG
@@ -465,21 +485,21 @@ void Core::Player::update(int *game_state) {
 
             m_stack->update_outline(m_piece.pos_y() + 3);
 
-            m_lock_color_delay = 2;
+            m_lock_color_delay = LOCK_COLOR_DELAY;
             m_draw_piece = false;
             m_draw_ghost = false;
 
             //m_stack->checkLines(this);
-            m_state = PlayerState::LOCKED_ANIM;
+            m_state = PlayerState::LOCKED_ANIM_2;
 
             #ifdef DEBUG
-            print("state: LOCKED_ANIM\n");
+            print("state: LOCKED_ANIM_2\n");
             #endif
 
             break;
         }
 
-        case PlayerState::LOCKED_ANIM:
+        case PlayerState::LOCKED_ANIM_2:
             // TODO
             #ifdef DEBUG
             print("color_delay: %d\n", (int) m_lock_color_delay);
@@ -529,19 +549,6 @@ void Core::Player::update(int *game_state) {
 
     //m_piece_old_y = m_piece.pos_y;
     //debug_piece = m_piece.pos_y;
-
-// TODO Fix lock and clear
-/*
-tgm1
-1 Frame normal
-3 Frames grey
-1 Frame normal
-cleared <clear delay>
-
-tgm2
-1 Frame black
-cleared <clear delay> (2 frames grey at beginning for parts of piece not cleared)
-*/
 }
 
 /* Move piece */
