@@ -132,39 +132,48 @@ void Core::Player::next_piece() {
 
 /* Update for 1 frame */
 void Core::Player::update(int *game_state) {
+    bool move_left = false;
+    bool move_right = false;
+
+    // Left DAS
+    if (input.left()) {
+        if (m_start_das_left) {
+            if (check_das_left()) {
+                move_left = true;
+            }
+        } else {
+            m_start_das_left = true;
+            move_left = true;
+        }
+    } else {
+        if (m_start_das_left) {
+            m_start_das_left = false;
+            m_das_left = 0;
+        }
+    }
+
+    // Right DAS
+    if (input.right()) {
+        if (m_start_das_right) {
+            if (check_das_right()) {
+                move_right = true;
+            }
+        } else {
+            m_start_das_right = true;
+            move_right = true;
+        }
+    } else {
+        if (m_start_das_right) {
+            m_start_das_right = false;
+            m_das_right = 0;
+        }
+    }
+
     switch (m_state) {
         case PlayerState::WAITING:
             #ifdef DEBUG
             print("WAITING\n");
             #endif
-
-            // Left DAS
-            if (input.left()) {
-                if (m_start_das_left) {
-                    check_das_left();
-                } else {
-                    m_start_das_left = true;
-                }
-            } else {
-                if (m_start_das_left) {
-                    m_start_das_left = false;
-                    m_das_left = 0;
-                }
-            }
-
-            // Right DAS
-            if (input.right()) {
-                if (m_start_das_right) {
-                    check_das_right();
-                } else {
-                    m_start_das_right = true;
-                }
-            } else {
-                if (m_start_das_right) {
-                    m_start_das_right = false;
-                    m_das_right = 0;
-                }
-            }
 
             break;
 
@@ -174,34 +183,6 @@ void Core::Player::update(int *game_state) {
             #ifdef DEBUG
             print("ARE: %d\n", (int) m_are);
             #endif
-
-            // Left DAS
-            if (input.left()) {
-                if (m_start_das_left) {
-                    check_das_left();
-                } else {
-                    m_start_das_left = true;
-                }
-            } else {
-                if (m_start_das_left) {
-                    m_start_das_left = false;
-                    m_das_left = 0;
-                }
-            }
-
-            // Right DAS
-            if (input.right()) {
-                if (m_start_das_right) {
-                    check_das_right();
-                } else {
-                    m_start_das_right = true;
-                }
-            } else {
-                if (m_start_das_right) {
-                    m_start_das_right = false;
-                    m_das_right = 0;
-                }
-            }
 
             if (m_are >= m_current_mode->are(m_level)) {
                 next_piece();
@@ -251,12 +232,8 @@ void Core::Player::update(int *game_state) {
                 reset_lock();
 
                 // We don't want our piece moved when appearing
-                if (m_das_left > 0) {
-                    m_das_left--;
-                }
-                if (m_das_right > 0) {
-                    m_das_right--;
-                }
+                move_left = false;
+                move_right = false;
 
                 // New state
                 m_state = PlayerState::INGAME;
@@ -288,45 +265,15 @@ void Core::Player::update(int *game_state) {
             }
 
             // Left
-            if (input.left()) {
-                if (m_start_das_left) {
-                    if (check_das_left()) {
-                        move(-1, 0);
-                        m_ghost_y = m_stack->get_ghost_y(&m_piece);
-                        //cout << "left" << endl;
-                    }
-                } else {
-                    m_start_das_left = true;
-                    move(-1, 0);
-                    m_ghost_y = m_stack->get_ghost_y(&m_piece);
-                    //cout << "left" << endl;
-                }
-            } else {
-                if (m_start_das_left) {
-                    m_start_das_left = false;
-                    m_das_left = 0;
-                }
+            if (move_left) {
+                move(-1, 0);
+                m_ghost_y = m_stack->get_ghost_y(&m_piece);
             }
 
             // Right
-            if (input.right()) {
-                if (m_start_das_right) {
-                    if (check_das_right()) {
-                        move(1, 0);
-                        m_ghost_y = m_stack->get_ghost_y(&m_piece);
-                        //cout << "right" << endl;
-                    }
-                } else {
-                    m_start_das_right = true;
-                    move(1, 0);
-                    m_ghost_y = m_stack->get_ghost_y(&m_piece);
-                    //cout << "right" << endl;
-                }
-            } else {
-                if (m_start_das_right) {
-                    m_start_das_right = false;
-                    m_das_right = 0;
-                }
+            if (move_right) {
+                move(1, 0);
+                m_ghost_y = m_stack->get_ghost_y(&m_piece);
             }
 
             // Check if piece can go down
@@ -461,6 +408,8 @@ void Core::Player::update(int *game_state) {
             1 black
             1 grey + cleared
             ARE
+
+            TODO: DAS and IRS all the time (IRS not working on ARE=15)
             */
 
             #ifdef DEBUG
@@ -505,27 +454,22 @@ void Core::Player::update(int *game_state) {
             print("color_delay: %d\n", (int) m_lock_color_delay);
             #endif
 
-            if (m_lock_color_delay > 0) {
-                m_lock_color_delay--;
-                return;
-            }
-
-            m_stack->remove_grey_blocks(&m_piece);
-
-            if (m_stack->check_lines(this))
+            if (m_stack->check_lines(this)) {
                 m_state = PlayerState::CLEAR;
-            else {
+            } else {
+
+                if (m_lock_color_delay > 0) {
+                    m_lock_color_delay--;
+                    return;
+                }
+
+                m_stack->remove_grey_blocks(&m_piece);
+
                 m_state = PlayerState::ARE;
 
-                #ifdef DEBUG
-                print("state: ARE\n");
-                #endif
-
+                // TODO count lock anim + clear ARE / regular ARE difference
                 break;
             }
-
-            // TODO count lock anim + clear ARE / regular ARE difference
-            break;
 
         case PlayerState::CLEAR: {
             m_clear++;
