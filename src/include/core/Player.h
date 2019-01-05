@@ -53,7 +53,7 @@ namespace Core {
             int m_ghost_y, m_piece_old_y, m_lock_color_delay;
             int m_state;
 
-            unsigned int m_are, m_line_are, m_lock, m_combo;
+            unsigned int m_are, m_lock, m_combo;
             unsigned int m_sonic, m_soft, m_clear;
             unsigned int m_das_left, m_das_right;
 
@@ -62,7 +62,7 @@ namespace Core {
             bool m_draw_piece, m_draw_ghost;
             bool m_start_das_left, m_start_das_right;
 
-            bool m_start_are, m_start_clear, m_start_lock;
+            bool m_line_are, m_start_clear, m_start_lock;
             bool m_previous_down;
 
         public:

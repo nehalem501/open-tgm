@@ -42,26 +42,15 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_start_das_left = false;
     m_start_das_right = false;
 
-    //m_piece.type = 0;
-    //m_piece.orientation = 0;
-    //m_piece.pos_x = 0;
-    //m_piece.pos_y = 0;
-
     m_ghost_y = 0;
     m_piece_old_y = 0;
     m_next = 0;
     m_state = PlayerState::WAITING;
 
-    //m_startARE = false;
-    //m_startClear = false;
     m_start_lock = false;
     m_previous_down = false;
 
-    /*m_rotLeft = true;
-    m_rotRight = true;*/
-
     m_are = 0;
-    m_line_are = 0;
     m_lock = 0;
     m_combo = 0;
 
@@ -97,6 +86,7 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
 /* Init stuff needed to start a new game */
 void Core::Player::start_game() {
     m_state = PlayerState::ARE;
+    m_line_are = false;
     m_are = m_current_mode->are(0);
 }
 
@@ -185,10 +175,18 @@ void Core::Player::update(int *game_state) {
             m_are++;
 
             #ifdef DEBUG
-            print("ARE: %d\n", (int) m_are);
+            if (m_line_are) {
+                print("LINE ARE: %d\n", (int) m_are);
+            } else {
+                print("ARE: %d\n", (int) m_are);
+            }
             #endif
 
-            if (m_are >= m_current_mode->are(m_level)) {
+            bool are_finished = m_line_are ?
+                                (m_are >= m_current_mode->line_are(m_level)) :
+                                (m_are >= m_current_mode->are(m_level));
+
+            if (are_finished) {
                 next_piece();
 
                 m_are = 0;
@@ -244,6 +242,7 @@ void Core::Player::update(int *game_state) {
 
                 // New state
                 m_state = PlayerState::INGAME;
+                m_line_are = false;
             } else {
                 break;
             }
@@ -488,6 +487,7 @@ void Core::Player::update(int *game_state) {
             if (m_clear >= m_current_mode->clear(m_level)) {
                 m_clear = 0;
                 m_stack->shift_lines();
+                m_line_are = true;
                 m_state = PlayerState::ARE;
             }
 
