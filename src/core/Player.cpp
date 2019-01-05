@@ -134,6 +134,7 @@ void Core::Player::next_piece() {
 void Core::Player::update(int *game_state) {
     bool move_left = false;
     bool move_right = false;
+    bool irs = false;
 
     // Left DAS
     if (input.left()) {
@@ -207,9 +208,12 @@ void Core::Player::update(int *game_state) {
                 int direction = input.irs();
                 if (direction) {
                     m_piece.rotate(direction, 4);
+                    irs = true;
                     // You cannot do an IRS that will make you die
-                    if (!m_stack->check_new_pos(&m_piece, 0, 0, 0))
+                    if (!m_stack->check_new_pos(&m_piece, 0, 0, 0)) {
                         m_piece.orientation(0);
+                        irs = false;
+                    }
                 }
 
                 // If piece doesn't have room to spawn, it's game over
@@ -255,12 +259,12 @@ void Core::Player::update(int *game_state) {
             m_active_time++;
 
             // Rotate Left
-            if (input.rotate_left()) {
+            if (!irs && input.rotate_left()) {
                 rotate(1);
             }
 
             // Rotate Right
-            if (input.rotate_right()) {
+            if (!irs && input.rotate_right()) {
                 rotate(-1);
             }
 
