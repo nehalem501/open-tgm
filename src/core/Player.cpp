@@ -136,37 +136,40 @@ void Core::Player::update(int *game_state) {
     bool move_right = false;
     bool irs = false;
 
-    // Left DAS
-    if (input.left()) {
-        if (m_start_das_left) {
-            if (check_das_left()) {
+    // DAS charge unmodified during line clear delay
+    if (m_state != PlayerState::CLEAR) {
+        // Left DAS
+        if (input.left()) {
+            if (m_start_das_left) {
+                if (check_das_left()) {
+                    move_left = true;
+                }
+            } else {
+                m_start_das_left = true;
                 move_left = true;
             }
         } else {
-            m_start_das_left = true;
-            move_left = true;
+            if (m_start_das_left) {
+                m_start_das_left = false;
+                m_das_left = 0;
+            }
         }
-    } else {
-        if (m_start_das_left) {
-            m_start_das_left = false;
-            m_das_left = 0;
-        }
-    }
 
-    // Right DAS
-    if (input.right()) {
-        if (m_start_das_right) {
-            if (check_das_right()) {
+        // Right DAS
+        if (input.right()) {
+            if (m_start_das_right) {
+                if (check_das_right()) {
+                    move_right = true;
+                }
+            } else {
+                m_start_das_right = true;
                 move_right = true;
             }
         } else {
-            m_start_das_right = true;
-            move_right = true;
-        }
-    } else {
-        if (m_start_das_right) {
-            m_start_das_right = false;
-            m_das_right = 0;
+            if (m_start_das_right) {
+                m_start_das_right = false;
+                m_das_right = 0;
+            }
         }
     }
 
@@ -400,13 +403,13 @@ void Core::Player::update(int *game_state) {
             13 first darker
             19 darker
             25 d
-            31 black
+            31 black (32 => grey)
             2 grey
             17 ARE
 
             clear
             13 shifted
-            15 ARE
+            27 ARE
 
             doubles clear
             1 black
