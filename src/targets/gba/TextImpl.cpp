@@ -34,7 +34,17 @@ void TextImpl::draw() const {
         y += m_stack->m_pos_y;
     }
 
-    for (int i = 0; i < m_length; i++) {
-        screen[i + x + y * 32] = m_str[i];
+    if (m_color != 0) {
+        for (unsigned int i = 0; i < m_length; i++) {
+            if (m_str[i] == ' ') {
+                screen[i + x + y * 32] = 0;
+            } else {
+                screen[i + x + y * 32] = m_str[i] + 44;
+            }
+        }
+    } else {
+        for (unsigned int i = 0; i < m_length; i++) {
+            screen[i + x + y * 32] = m_str[i];
+        }
     }
 }

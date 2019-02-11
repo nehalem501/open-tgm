@@ -8,8 +8,7 @@
 namespace TextColor {
     enum {
         NONE = 0,
-        BLACK,
-        WHITE,
+        WHITE = 0,
         RED,
         GREEN,
         BLUE,

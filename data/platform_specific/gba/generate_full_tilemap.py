@@ -33,6 +33,12 @@ all_entries.append(Entry("ui-font-digits", 10, 1, 48))
 # ui-font-letters.png
 all_entries.append(Entry("ui-font-letters", 26, 1, 65))
 
+# ui-font-digits-yellow.png
+all_entries.append(Entry("ui-font-digits-yellow", 10, 1, 48+44))
+
+# ui-font-letters-yellow.png
+all_entries.append(Entry("ui-font-letters-yellow", 26, 1, 65+44))
+
 # change entries to one common big tilemap
 for entry in all_entries:
     if entry.map > 0:
