@@ -24,6 +24,9 @@ all_entries = []
 # tilemap.png
 all_entries.append(Entry("tilemap", 9, 0, 0))
 
+# frame.png
+all_entries.append(Entry("frame", 12, 0, 128))
+
 # outline.png
 all_entries.append(Entry("outline", 16, 1, 0))
 
