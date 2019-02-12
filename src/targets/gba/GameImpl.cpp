@@ -7,8 +7,8 @@
 
 void GameImpl::draw() const {
     #warning "GBA Game::draw not finished"
-    m_p1.draw();
     m_p1_stack->draw();
+    m_p1.draw();
 
     m_p1_timer.draw(); // TODO timer2
     m_p1_labels.draw();
