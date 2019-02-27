@@ -80,8 +80,7 @@ void load_texture(C3D_Tex *tex, const u8 *img, const u32 img_size) {
 	C3D_TexInit(tex, width, height, GPU_RGBA8);
 
 	// Convert image to 3DS tiled texture format
-	C3D_SafeDisplayTransfer ((u32*)gpusrc, GX_BUFFER_DIM(width, height), (u32*) tex->data, GX_BUFFER_DIM(width, height), TEXTURE_TRANSFER_FLAGS);
-	gspWaitForPPF();
+	C3D_SyncDisplayTransfer((u32*)gpusrc, GX_BUFFER_DIM(width, height), (u32*) tex->data, GX_BUFFER_DIM(width, height), TEXTURE_TRANSFER_FLAGS);
 
 	C3D_TexSetFilter(tex, GPU_LINEAR, GPU_NEAREST);
 
@@ -126,10 +125,10 @@ void init_gpu_stuff() {
 	// Configure the first fragment shading substage to just pass through the texture color
 	// See https://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml for more insight
 	C3D_TexEnv* env = C3D_GetTexEnv(0);
-	C3D_TexEnvSrc(env, C3D_Both, GPU_TEXTURE0, GPU_PRIMARY_COLOR, 0);
+	C3D_TexEnvSrc(env, C3D_Both, GPU_TEXTURE0, GPU_PRIMARY_COLOR, GPU_PRIMARY_COLOR);
 	//C3D_TexEnvSrc(env, C3D_Both, GPU_TEXTURE0, 0, 0);
 
-	C3D_TexEnvOp(env, C3D_Both, 0, 0, 0);
+	//C3D_TexEnvOp(env, C3D_Both, 0, 0, 0);
 	C3D_TexEnvFunc(env, C3D_Both, GPU_MODULATE);
 	//C3D_TexEnvFunc(env, C3D_Both, GPU_REPLACE);
 
@@ -151,7 +150,6 @@ void app() {
 
     // Initialize the render target
     C3D_RenderTarget *target = C3D_RenderTargetCreate(240, 400, GPU_RB_RGBA8, GPU_RB_DEPTH24_STENCIL8);
-    C3D_RenderTargetSetClear(target, C3D_CLEAR_ALL, 0x000000FF, 0);
     C3D_RenderTargetSetOutput(target, GFX_TOP, GFX_LEFT, DISPLAY_TRANSFER_FLAGS);
 
     init_gpu_stuff();
@@ -167,6 +165,7 @@ void app() {
 
         // Draw
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
+		C3D_RenderTargetClear(target, C3D_CLEAR_ALL, 0x000000FF, 0);
 		C3D_FrameDrawOn(target);
 
         menu.draw();

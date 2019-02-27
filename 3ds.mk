@@ -15,7 +15,7 @@ ifeq ($(strip $(DEVKITPRO)),)
   $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro")
 endif
 
-export PATH := $(DEVKITARM)/bin:$(PATH)
+export PATH := $(DEVKITPRO)/tools/bin:$(DEVKITPRO)/devkitARM/bin:$(PATH)
 
 HEADERS += -I$(DEVKITPRO)/libctru/include
 
