@@ -33,10 +33,6 @@ void TextImpl::update_color(int8_t color) {
 void TextImpl::assign_color() {
     for (unsigned int i = 0; i < m_vertices.getVertexCount(); i++) {
         switch (m_color) {
-            case TextColor::BLACK:
-                m_vertices[i].color = sf::Color(0, 0, 0, 255);
-                break;
-
             case TextColor::WHITE:
                 m_vertices[i].color = sf::Color(255, 255, 255, 255);
                 break;

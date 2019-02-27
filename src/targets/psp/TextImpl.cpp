@@ -25,10 +25,6 @@ void TextImpl::update_color(int8_t color) {
         m_color = color;
 
         switch (m_color) {
-            case TextColor::BLACK:
-                m_quads[0].verts[0].color = 0xFF000000;
-                break;
-
             case TextColor::WHITE:
                 m_quads[0].verts[0].color = 0xFFFFFFFF;
                 break;
