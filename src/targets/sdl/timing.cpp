@@ -65,7 +65,7 @@ uint64_t get_time_usecs() {
 
 #endif /* __APPLE__ */
 
-#if defined(__unix__) && !defined(__APPLE__)
+#if (defined(__unix__) || defined(__unix)) && !defined(__APPLE__)
 /* POSIX Implementation */
 
 #include <time.h>
@@ -75,9 +75,9 @@ uint64_t get_time_usecs() {
     clock_gettime(CLOCK_MONOTONIC, &time);
     return ((uint64_t) time.tv_sec * 1000000 + (uint64_t) time.tv_nsec / 1000);
 }
-#endif /* defined(__unix__) && !defined(__APPLE__) */
+#endif /* (defined(__unix__) || defined(__unix)) && !defined(__APPLE__) */
 
-#ifdef __unix__
+#if defined(__unix__) || defined(__unix) || defined(__APPLE__)
 /* POSIX Implementation (including macOS & iOS) */
 
 #include <errno.h>
@@ -91,5 +91,5 @@ void sleep_usecs(uint64_t usecs) {
     while ((nanosleep(&ti, &ti) == -1) && (errno == EINTR)) { }
 }
 
-#endif /* __unix__ */
+#endif /* defined(__unix__) || defined(__unix) || defined(__APPLE__) */
 
