@@ -11,7 +11,11 @@
 #include <Frame.h>
 #include <App.h>
 
-int main() {
+#ifdef TARGET_SDL
+#include <SDL.h>
+#endif
+
+int main(int argc, char *argv[]) {
     // Init game stuff
     init();
 
