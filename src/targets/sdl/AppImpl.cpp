@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 //#include <SDL_opengl.h>
-#include "timing.h"
+#include "../utils/timing.h"
 #include <Global.h>
 #include <Background.h>
 #include <MainMenu.h>

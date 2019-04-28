@@ -2,7 +2,7 @@
 
 BACKEND := opengl
 
-BACKEND_SOURCES := $(wildcard $(SRC_DIR)/backends/$(BACKEND)/*.cpp)
+BACKEND_SOURCES := $(wildcard $(SRC_DIR)/backends/$(BACKEND)/*.cpp) $(SRC_DIR)/utils/timing.cpp
 OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o)) $(addprefix $(BUILD_DIR)/, $(BACKEND_SOURCES:src/%.cpp=%.o))
 
 HEADERS += -I$(SRC_DIR)/backends/$(BACKEND)
@@ -26,6 +26,7 @@ clean :
 print_info:
 	@echo C++ compiler: $(CXX)
 	@mkdir -p $(BUILD_DIR)/backends/$(BACKEND)
+	@mkdir -p $(BUILD_DIR)/utils
 
 .PHONY: clean print_info
 

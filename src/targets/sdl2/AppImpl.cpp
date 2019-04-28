@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <Global.h>
 #include <App.h>
-#include "timing.h"
+#include "../utils/timing.h"
 #include "shaders.h"
 
 GLuint program_id = 0;
