@@ -26,8 +26,6 @@ void PlayerImpl::draw() const {
             for (int j = 0; j < SIZE; j++) {
                 int tile = PIECES[m_piece.type()][m_piece.orientation()][j][i];
                 if (tile > 0) {
-                    tile--;
-
                     C3D_ImmSendAttrib(pos_x + (m_piece.pos_x() - 2 + i) * 9, pos_y + (m_ghost_y - 1 + j) * 9, 0.5f, 0.0f);
                     C3D_ImmSendAttrib(tileset_coord[tile].x1, tileset_coord[tile].y1, 0.0f, 0.0f);
                     C3D_ImmSendAttrib(1.0f, 1.0f, 1.0f, 0.3125f);
@@ -77,8 +75,6 @@ void PlayerImpl::draw() const {
             for (int j = 0; j < SIZE; j++) {
                 int tile = PIECES[m_piece.type()][m_piece.orientation()][j][i];
                 if (tile > 0) {
-                    tile--;
-
                     C3D_ImmSendAttrib(pos_x + (m_piece.pos_x() - 2 + i) * 9, pos_y + (m_piece.pos_y() - 1 + j) * 9, 0.5f, 0.0f);
                     C3D_ImmSendAttrib(tileset_coord[tile].x1, tileset_coord[tile].y1, 0.0f, 0.0f);
                     C3D_ImmSendAttrib(1.0f, 1.0f, 1.0f, alpha);
@@ -112,8 +108,6 @@ void PlayerImpl::draw() const {
         for (int j = 0; j < SIZE; j++) {
             int tile = PIECES[m_next][0][j][i];
             if (tile > 0) {
-                tile--;
-
                 C3D_ImmSendAttrib(pos_x + (i + 3) * 9, pos_y - 4 + (j - 2) * 9, 0.5f, 0.0f);
                 C3D_ImmSendAttrib(tileset_coord[tile].x1, tileset_coord[tile].y1, 0.0f, 0.0f);
                 C3D_ImmSendAttrib(1.0f, 1.0f, 1.0f, 1.0f);

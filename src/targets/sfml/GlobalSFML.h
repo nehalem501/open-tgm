@@ -24,6 +24,6 @@ extern int tile_size;
 
 //#define TILE_RATIO 29
 #define TILE_RATIO 27
-#define FILE_TILE_SIZE 128
+#define FILE_TILE_SIZE 64
 
 #endif

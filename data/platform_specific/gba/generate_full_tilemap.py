@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # To generate .h and .c file, run:
-# ~/devkitPro/devkitARM/bin/grit fulltilemap.png -ftc -gt -gB8 -gT 00FFFF -gu16 -p -pu16
+# $DEVKITPRO/tools/bin/grit fulltilemap.png -ftc -gt -gB8 -gT 00FFFF -gu16 -p -pu16
 #
 
 import subprocess
@@ -22,7 +22,7 @@ class Entry():
 all_entries = []
 
 # tilemap.png
-all_entries.append(Entry("tilemap", 9, 0, 0))
+all_entries.append(Entry("tilemap", 32, 0, 0))
 
 # frame.png
 all_entries.append(Entry("frame", 12, 0, 128))

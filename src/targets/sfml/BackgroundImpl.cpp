@@ -9,7 +9,7 @@
 using namespace std;
 
 void BackgroundImpl::init_graphics() {
-    if (!image.loadFromFile("resources/background.png")) {
+    if (!image.loadFromFile("resources/any/background.png")) {
         // ERROR
         std::cout << "ERROR loading background.png" << std::endl;
     }

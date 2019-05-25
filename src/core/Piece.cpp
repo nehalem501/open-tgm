@@ -24,9 +24,9 @@ void Piece::locked(Stack *stack) {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             if (PIECES[m_type][m_orientation][j][i] > 0) {
-                int x = pos_x /*- 2*/ + i;
-                int y = pos_y /*- 1*/ + j;
-                stack->m_field[x + stack->m_width * y] = 8;
+                int x = pos_x + i;
+                int y = pos_y + j;
+                stack->m_field[x + stack->m_width * y] = (m_type + 1) | Block::BLINK_BIT;
             }
         }
     }

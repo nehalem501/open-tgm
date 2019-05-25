@@ -14,6 +14,7 @@ void StackImpl::draw() const {
     //#define m_pos_x 0
     u16 *local_screen = (u16*) MAP_BASE_ADR(16) + m_pos_x;
     for (int i = 0; i < m_height - 2; i++) {
+        // TODO grey (blink) blocks
         memcpy(local_screen + 32 * i, m_field + m_width * (i + 2), m_width * 2);
     }
 

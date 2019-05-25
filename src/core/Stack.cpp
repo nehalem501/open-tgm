@@ -217,6 +217,7 @@ void Core::Stack::update_outline(unsigned int unsigned_line) {
 }
 
 void Core::Stack::remove_grey_blocks(Piece *piece) {
+    // TODO change coordinates if lines were cleared
     int pos_x = piece->pos_x() - 2;
     int pos_y = piece->pos_y() - 1;
     int limit_x = pos_x + SIZE;
@@ -233,9 +234,7 @@ void Core::Stack::remove_grey_blocks(Piece *piece) {
 
     for (int i = pos_y; i < limit_y; i++) {
         for (int j = pos_x; j < limit_x; j++) {
-            if (m_field[j + m_width * i] == 8) {
-                m_field[j + m_width * i] = piece->type() + 1;
-            }
+            m_field[j + m_width * i] &= ~Block::BLINK_BIT;
         }
     }
 }

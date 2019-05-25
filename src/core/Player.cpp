@@ -736,6 +736,11 @@ unsigned int Core::Player::gravity(bool can_go_down) {
 
     if (m_gravity_counter > 256) {
         unsigned int number_down = m_gravity_counter / 256;
+
+        #ifdef DEBUG
+        print("number_down: %d\n", (int) number_down);
+        #endif
+
         if (number_down == 0)
             return 1;
 

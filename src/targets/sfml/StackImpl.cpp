@@ -2,6 +2,7 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include <Shapes.h>
 #include "GlobalSFML.h"
 #include "StackImpl.h"
 
@@ -60,39 +61,18 @@ void StackImpl::update_graphics() {
             // Outline
             int tile = m_outline[i + j * m_width];
             sf::Vertex* quad = &m_vertices_outline[(i + j * m_width) * 4];
-            if (tile > 0) {
-                assign_tile(tile, 255, 144, quad);
-            } else {
-                quad[0].color = sf::Color(0, 0, 0, 0);
-                quad[1].color = sf::Color(0, 0, 0, 0);
-                quad[2].color = sf::Color(0, 0, 0, 0);
-                quad[3].color = sf::Color(0, 0, 0, 0);
-            }
+            assign_tile(tile, 255, 144, quad);
 
             // Stack
             tile = m_field[i + j * m_width];
-            if (tile > 0) {
-                if (tile == 8) {
-                    rgb = 255;
-                    quad[0].color = sf::Color(255, 255, 255, 255);
-                    quad[1].color = sf::Color(255, 255, 255, 255);
-                    quad[2].color = sf::Color(255, 255, 255, 255);
-                    quad[3].color = sf::Color(255, 255, 255, 255);
-                    //cout << "tile8" << endl;
-                } else {
-                    rgb = 200;
-                }
-                tile--;
-
-                quad = &m_vertices[(i + j * m_width) * 4];
-                assign_tile(tile, rgb, 255, quad);
+            quad = &m_vertices[(i + j * m_width) * 4];
+            if (tile & Block::BLINK_BIT) {
+                tile = Block::BLINK;
+                rgb = 255;
             } else {
-                quad = &m_vertices[(i + j * m_width) * 4];
-                quad[0].color = sf::Color(0, 0, 0, 0);
-                quad[1].color = sf::Color(0, 0, 0, 0);
-                quad[2].color = sf::Color(0, 0, 0, 0);
-                quad[3].color = sf::Color(0, 0, 0, 0);
+                rgb = 200;
             }
+            assign_tile(tile, rgb, 255, quad);
         }
     }
 }

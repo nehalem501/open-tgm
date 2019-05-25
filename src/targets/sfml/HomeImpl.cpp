@@ -7,14 +7,14 @@
 #include "HomeImpl.h"
 
 void HomeImpl::init_graphics() {
-    if (!m_logo_tex.loadFromFile("resources/open-tgm-logo.png")) {
+    if (!m_logo_tex.loadFromFile("resources/any/open-tgm-logo.png")) {
         std::cout << "ERROR loading Open TGM logo texture" << std::endl;
     }
     m_logo_tex.setSmooth(true);
     m_logo.setTexture(m_logo_tex);
     m_logo.setOrigin(m_logo_tex.getSize().x / 2.0f, 0);
 
-    if (!m_start_tex.loadFromFile("resources/start-button.png")) {
+    if (!m_start_tex.loadFromFile("resources/any/start-button.png")) {
         std::cout << "ERROR loading start button texture" << std::endl;
     }
     m_start_tex.setSmooth(true);
