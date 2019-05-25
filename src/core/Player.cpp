@@ -11,7 +11,7 @@
 #include <core/Game.h>
 #include <core/Player.h>
 
-#define LOCK_COLOR_DELAY 1
+#define LOCK_COLOR_DELAY 2
 
 /* Used at program startup */
 void Core::Player::init(::Stack *stack) {
@@ -183,7 +183,7 @@ void Core::Player::update(int *game_state) {
             #endif
 
             bool are_finished = m_line_are ?
-                                (m_are >= m_current_mode->line_are(m_level)) :
+                                (m_are > m_current_mode->line_are(m_level) + 1) :
                                 (m_are >= m_current_mode->are(m_level));
 
             if (are_finished) {
@@ -451,7 +451,8 @@ void Core::Player::update(int *game_state) {
             print("state: LOCKED_ANIM_2\n");
             #endif
 
-            break;
+            //break;
+            // TODO LOCKED_ANIM_1 & 2
         }
 
         case PlayerState::LOCKED_ANIM_2:
@@ -484,7 +485,17 @@ void Core::Player::update(int *game_state) {
             print("clear: %d\n", (int) m_clear);
             #endif
 
-            if (m_clear >= m_current_mode->clear(m_level)) {
+            if (m_lock_color_delay > 0) {
+                #ifdef DEBUG
+                print("color_delay: %d\n", (int) m_lock_color_delay);
+                #endif
+
+                m_lock_color_delay--;
+            } else if (m_lock_color_delay <= 0) {
+                m_stack->remove_grey_blocks(&m_piece);
+            }
+
+            if (m_clear > m_current_mode->clear(m_level)) {
                 m_clear = 0;
                 m_stack->shift_lines();
                 m_line_are = true;
