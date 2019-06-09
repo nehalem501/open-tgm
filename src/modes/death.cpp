@@ -99,6 +99,7 @@ Mode mode_death(
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ false,
+/* old_lck_style */ false,
 /*   credit_roll */ CreditRoll::Playable,
 /*        size_x */ 10,
 /*        size_y */ 22,

@@ -30,8 +30,8 @@ class Mode {
         bool m_sonic_drop;
         bool m_display_score;
         bool m_section;
-        //bool m_line_are_test;
         bool m_keep_down;
+        bool m_old_locking_style;
 
         unsigned int m_credit_roll;
 
@@ -71,6 +71,7 @@ class Mode {
              bool display_score,
              bool section,
              bool keep_down,
+             bool old_locking_style,
              unsigned int credit_roll,
              unsigned int width,
              unsigned int height,
@@ -96,6 +97,7 @@ class Mode {
         inline bool sonic_drop() { return m_sonic_drop; };
         inline bool display_score() { return m_display_score; };
         inline bool keep_down() { return m_keep_down; };
+        inline bool old_locking_style() { return m_old_locking_style; };
 
         inline unsigned int credit_roll() { return m_credit_roll; };
 

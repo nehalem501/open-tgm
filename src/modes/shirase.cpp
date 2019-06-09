@@ -100,6 +100,7 @@ Mode mode_shirase(
 /* display_score */ false,
 /*       section */ true,
 /*     keep_down */ false,
+/* old_lck_style */ false,
 /*   credit_roll */ CreditRoll::Playable,
 /*        size_x */ 10,
 /*        size_y */ 22,

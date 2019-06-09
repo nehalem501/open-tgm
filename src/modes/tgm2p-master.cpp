@@ -125,6 +125,7 @@ Mode mode_tgm2p_master(
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ true,
+/* old_lck_style */ false,
 /*   credit_roll */ CreditRoll::Required,
 /*        size_x */ 10,
 /*        size_y */ 22,

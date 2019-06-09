@@ -130,6 +130,7 @@ Mode mode_tgm1(
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ true,
+/* old_lck_style */ true,
 /*   credit_roll */ CreditRoll::Playable,
 /*        size_x */ 10,
 /*        size_y */ 22,
