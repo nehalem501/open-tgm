@@ -20,8 +20,8 @@ namespace PlayerState {
         NEW_PIECE,
         INGAME,
         LOCK,
-        LOCKED_ANIM_1,
-        LOCKED_ANIM_2,
+        LOCKED_ANIM_OLD,
+        LOCKED_ANIM_NEW,
         CLEAR,
     };
 }
@@ -102,7 +102,7 @@ namespace Core {
                 #endif
 
                 m_start_lock = false;
-                m_lock = 0;
+                m_lock = 1; // 1 instead of 0 because of 20G special case
             };
 
             inline void start_lock() { m_start_lock = true; m_lock++; };
