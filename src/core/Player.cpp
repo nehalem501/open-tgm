@@ -52,7 +52,7 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
     m_previous_down = false;
 
     m_are = 0;
-    m_combo = 0;
+    m_combo = 1;
     reset_lock();
 
     m_sonic = 0;
@@ -61,6 +61,8 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
 
     m_das_left = 0;
     m_das_right = 0;
+
+    m_grade.set(Grade::None);
 
     m_score_display.init(mode->score_pos_x(), mode->score_pos_y());
     m_level_display.init(mode->level_pos_x(), mode->level_pos_y());
@@ -449,6 +451,7 @@ void Core::Player::update(int *game_state) {
                 }
 
                 m_stack->remove_grey_blocks(&m_piece);
+                m_combo = 1;
                 m_state = PlayerState::ARE;
                 break;
             }
@@ -470,6 +473,7 @@ void Core::Player::update(int *game_state) {
             if (m_stack->check_lines(this)) {
                 m_state = PlayerState::CLEAR;
             } else {
+                m_combo = 1;
                 m_state = PlayerState::ARE;
                 // Time wasted here counts for ARE in TGM1, so we add it
                 m_are += 3;
@@ -604,7 +608,7 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
                                           speed);
     //std::cout << "score : " << m_score << std::endl << std::endl;
 
-    // TODO Grade
+    m_current_mode->grade_func(m_score, 0 /* TODO */, &m_grade);
 
     m_score_display.update(m_score);
     m_score_display.update_graphics(m_stack);

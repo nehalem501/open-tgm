@@ -136,7 +136,6 @@ bool Core::Stack::check_lines(Core::Player *player) {
     int pos_y = player->m_piece.pos_y();
 
     int lines_to_clear = 0;
-    int bravo = check_bravo() ? 4 : 1;
 
     for (int row_nb = pos_y - 1; row_nb <= pos_y + 2 && row_nb < m_height; row_nb++) {
         if (check_line(row_nb)) {
@@ -167,7 +166,7 @@ bool Core::Stack::check_lines(Core::Player *player) {
     if (lines_to_clear > 0) {
         // TODO we need to compute the 'real' next level value
         // for update score, so before using change_level
-        player->update_score(lines_to_clear, bravo);
+        player->update_score(lines_to_clear, check_bravo());
         //player->startClear();
         player->change_level(lines_to_clear, true);
         //std::cout << "to clear\n";

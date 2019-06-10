@@ -19,7 +19,7 @@ struct Condition {
     uint32_t score;
 };
 
-static struct Condition TGM1_GRADE_CONDITIONS[18] = {
+static struct Condition TGM1_GRADE_CONDITIONS[19] = {
     {Grade::_9, 0},
     {Grade::_8, 400},
     {Grade::_7, 800},
@@ -37,22 +37,23 @@ static struct Condition TGM1_GRADE_CONDITIONS[18] = {
     {Grade::S6, 66000},
     {Grade::S7, 82000},
     {Grade::S8, 100000},
-    {Grade::S9, 120000}
+    {Grade::S9, 120000},
+    {Grade::GM, 126000}
 };
 
 void tgm1_grade(uint32_t score, unsigned int, Grade *grade) {
     #ifdef DEBUG
-    print("Grade: %d\n", (int) grade->m_grade);
+    print("Previous GRADE: %s\n", grade->get_string());
     #endif
 
     for (unsigned int i = grade->m_grade; i < 18; i++) {
         if (score >= TGM1_GRADE_CONDITIONS[i].score) {
-            grade->m_grade = TGM1_GRADE_CONDITIONS[i].grade;
+            grade->set(TGM1_GRADE_CONDITIONS[i].grade);
         }
     }
 
     #ifdef DEBUG
-    print("Grade: %d\n", (int) grade->m_grade);
+    print("GRADE: %s\n", grade->get_string());
     #endif
 }
 
