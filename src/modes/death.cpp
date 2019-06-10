@@ -32,9 +32,9 @@ uint32_t death_score(uint32_t level, uint32_t lines, uint32_t soft,
 
 void death_grade(uint32_t, unsigned int level, Grade *grade) {
     if (level == 999) {
-        grade->m_grade = Grade::GM;
+        grade->set(Grade::GM);
     } else if (level >= 500) {
-        grade->m_grade = Grade::M;
+        grade->set(Grade::M);
     }
 }
 
