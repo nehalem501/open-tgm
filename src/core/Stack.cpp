@@ -63,8 +63,10 @@ int Core::Stack::get_ghost_y(Piece *piece) {
     return (pos_y - 1);
 }
 
-bool Core::Stack::check_new_pos(Piece *piece, int new_x, int new_y,
-                                   int new_rotation) {
+bool Core::Stack::check_player_move(Piece *piece,
+                                    int new_x,
+                                    int new_y,
+                                    int new_rotation) {
     int pos_x = piece->pos_x() + new_x;
     int pos_y = piece->pos_y() + new_y;
     int rotation = modulo(piece->orientation() + new_rotation, 4);

@@ -83,11 +83,6 @@ namespace Core {
 
             void next_piece();
 
-            void move(int x, int y);
-            void move_sonic();
-
-            void rotate(int rotation);
-
             inline void set_combo(int value) { m_combo = value; };
 
             void change_level(int value, bool line_clear);

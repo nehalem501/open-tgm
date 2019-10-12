@@ -34,17 +34,29 @@ class Piece {
         inline void pos_x(int pos_x) { m_pos_x = pos_x; };
         inline void pos_y(int pos_y) { m_pos_y = pos_y; };
 
-        inline void init(tiles_t type, int orientation, int pos_x, int pos_y) {
+        /*inline void init(tiles_t type, int orientation, int pos_x, int pos_y) {
             m_type = type;
             m_orientation = orientation;
             m_pos_x = pos_x;
             m_pos_y = pos_y;
+        };*/
+
+        inline void spawn(tiles_t type) {
+            m_type = type;
+            m_orientation = 0;
+            m_pos_x = 5;
+            m_pos_y = 2;
         };
 
         inline void rotate(int dir, int n) {
             m_orientation = (dir % n + n) % n;
         };
 
+        void move_leftright(Stack *stack, int *ghost_y, int amount);
+        int move_down(int ghost_y, int amount);
+        void rotate_kick(Stack *stack, int *ghost_y, int rotation);
+
+    private:
         inline void move(int x, int y) {
             m_pos_x += x;
             m_pos_y += y;

@@ -28,13 +28,19 @@ namespace Core {
 
             Stack();
 
-            void init(int pos_x, int pos_y, int width, int height);
+            void init(int pos_x,
+                      int pos_y,
+                      int width,
+                      int height);
+
             void start_game(Mode *mode);
 
             int get_ghost_y(Piece *piece);
 
-            bool check_new_pos(Piece *piece, int new_x, int new_y,
-                               int new_rotation);
+            bool check_player_move(Piece *piece,
+                                   int new_x,
+                                   int new_y,
+                                   int new_rotation);
 
             bool check_bravo();
             bool check_line(unsigned int line);
@@ -44,8 +50,9 @@ namespace Core {
             bool check_lines(Core::Player *player);
             void remove_line(unsigned int line);
 
-            inline void reset_outline() { memset(m_outline, 0,
-                                            sizeof(tiles_t) * MAX_WIDTH *MAX_HEIGHT); };
+            inline void reset_outline() {
+                memset(m_outline, 0, sizeof(tiles_t) * MAX_WIDTH *MAX_HEIGHT);
+            };
             void update_outline(unsigned int unsigned_line);
 
             void remove_grey_blocks(Piece *piece);
