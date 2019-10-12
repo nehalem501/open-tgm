@@ -28,7 +28,7 @@ void PlayerImpl::draw() const {
     }
 
     // Draw next piece
-    local_screen -= 10;
+    local_screen += 6;
     int x = 7;
     int y = 0;
     for (int i = 0; i < SIZE; i++) {
