@@ -14,8 +14,8 @@ class HomeImpl : public Core::Home, public sf::Drawable {
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
-        sf::Sprite m_logo, m_start;
-        sf::Texture m_logo_tex, m_start_tex;
+        sf::Sprite m_logo;
+        sf::Texture m_logo_tex;
 };
 
 #endif

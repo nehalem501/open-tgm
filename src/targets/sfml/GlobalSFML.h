@@ -17,7 +17,6 @@ extern sf::Texture digits_tex;
 extern sf::Texture labels_tex;
 extern sf::Texture text_tex;
 extern sf::Texture grades_tex;
-extern sf::Texture timer_tex;
 extern sf::Texture particle_tex;
 
 extern int tile_size;

@@ -40,12 +40,6 @@ void init_textures() {
     }
     text_tex.setSmooth(true);
 
-    //if (!grades_tex.loadFromFile("resources/timer-glyphs.png")) {
-
-    if (!timer_tex.loadFromFile("resources/any/timer-glyphs.png")) {
-        std::cout << "ERROR loading timer texture" << std::endl;
-    }
-
     if (!particle_tex.loadFromFile("resources/any/particle.png")) {
         std::cout << "ERROR loading particle texture" << std::endl;
     }
