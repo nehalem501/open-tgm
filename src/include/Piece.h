@@ -3,20 +3,12 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include <Global.h>
+#include <TargetTypes.h>
 
 /* Forward declarations to avoid dependency hell */
-class StackImpl;
-typedef StackImpl Stack;
+class Stack;
 
 class Piece {
-    private:
-        tiles_t m_type;
-        int m_orientation;
-
-        int m_pos_x;
-        int m_pos_y;
-
     public:
         Piece();
         Piece(tiles_t type, int orientation);
@@ -34,13 +26,6 @@ class Piece {
         inline void pos_x(int pos_x) { m_pos_x = pos_x; };
         inline void pos_y(int pos_y) { m_pos_y = pos_y; };
 
-        /*inline void init(tiles_t type, int orientation, int pos_x, int pos_y) {
-            m_type = type;
-            m_orientation = orientation;
-            m_pos_x = pos_x;
-            m_pos_y = pos_y;
-        };*/
-
         inline void spawn(tiles_t type) {
             m_type = type;
             m_orientation = 0;
@@ -57,10 +42,16 @@ class Piece {
         void rotate_kick(Stack *stack, int *ghost_y, int rotation);
 
     private:
+        tiles_t m_type;
+        int m_orientation;
+
+        int m_pos_x;
+        int m_pos_y;
+
         inline void move(int x, int y) {
             m_pos_x += x;
             m_pos_y += y;
         };
 };
 
-#endif
+#endif // PIECE_H

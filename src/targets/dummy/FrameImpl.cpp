@@ -8,5 +8,5 @@ void FrameImpl::init_graphics() {
 void FrameImpl::update_graphics() {
 }
 
-void Frame::draw() const {
+void FrameImpl::render() const {
 }

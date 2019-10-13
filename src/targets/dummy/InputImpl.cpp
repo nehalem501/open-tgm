@@ -2,10 +2,7 @@
 
 #include "InputImpl.h"
 
-void InputImpl::init() {
-}
-
-void InputImpl::poll_inputs() {
+void InputImpl::get_inputs() {
     // Read and store inputs
 
     m_prev_joystick = m_curr_joystick;

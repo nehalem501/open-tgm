@@ -3,8 +3,23 @@
 #ifndef HOME_H
 #define HOME_H
 
+#include <TargetTypes.h>
+#include <Text.h>
 #include <HomeImpl.h>
 
-typedef HomeImpl Home;
+class Home {
+    public:
+        Home();
 
-#endif
+        void draw();
+
+        void update(int *state);
+
+    private:
+        Text m_start;
+        int8_t m_start_timer;
+
+        HomeImpl m_implementation;
+};
+
+#endif // HOME_H

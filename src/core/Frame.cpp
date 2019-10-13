@@ -1,8 +1,13 @@
 /* Frame.cpp */
 
-#include <Stack.h>
-#include <core/Frame.h>
+#include <Frame.h>
 
-void Core::Frame::init(::Stack *stack) {
-    m_stack = stack;
+Frame::Frame(const Position& parent) : m_parent(parent) {
+    #ifdef DEBUG
+    print("Frame constructor\n");
+    #endif
+}
+
+void Frame::draw() {
+    //m_implementation;
 }

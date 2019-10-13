@@ -5,5 +5,5 @@
 void CreditRollImpl::init_graphics() {
 }
 
-void CreditRollImpl::draw() const {
+void CreditRollImpl::render() const {
 }

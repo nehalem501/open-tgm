@@ -1,21 +1,9 @@
 /* Timer.cpp */
 
 #include <TargetTypes.h>
-#include <Global.h>
-#include <core/Timer.h>
+#include <Timer.h>
 
-void Core::Timer::init() {
-    m_frames = 0;
-
-    m_str[0] = 0;
-    m_str[1] = 0;
-    m_str[2] = 0;
-    m_str[3] = 0;
-    m_str[4] = 0;
-    m_str[5] = 0;
-}
-
-void Core::Timer::update() {
+void Timer::update() {
     m_frames++;
     //m_time = 1.66666666666666666666f * m_frames;
     uint32_t m_time = (1666 * m_frames) / 1000;
@@ -38,7 +26,14 @@ void Core::Timer::update() {
     m_str[5] = centsec % 10;
 }
 
-void Core::Timer::start() {
+void Timer::start() {
     //m_time = 0.0;
     m_frames = 0;
+
+    m_str[0] = 0;
+    m_str[1] = 0;
+    m_str[2] = 0;
+    m_str[3] = 0;
+    m_str[4] = 0;
+    m_str[5] = 0;
 }

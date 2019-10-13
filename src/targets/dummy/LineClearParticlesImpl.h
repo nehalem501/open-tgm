@@ -3,12 +3,10 @@
 #ifndef LINE_CLEAR_PARTICLES_DUMMY_H
 #define LINE_CLEAR_PARTICLES_DUMMY_H
 
-#include <core/LineClearParticles.h>
-
-class LineClearParticlesImpl : public Core::LineClearParticles {
+class LineClearParticlesImpl {
     public:
         void init();
-        void draw() const;
+        void render() const;
 };
 
 #endif

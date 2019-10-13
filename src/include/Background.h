@@ -5,6 +5,19 @@
 
 #include <BackgroundImpl.h>
 
-typedef BackgroundImpl Background;
+class Background {
+    public:
+        Background();
 
-#endif
+        void draw();
+
+        void go_to_options() { m_options = true; };
+        void go_to_background() { m_options = false; };
+
+    private:
+        bool m_options;
+
+        BackgroundImpl m_implementation;
+};
+
+#endif // BACKGROUND_H

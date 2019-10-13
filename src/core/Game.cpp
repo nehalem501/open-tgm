@@ -1,25 +1,12 @@
 /* Game.cpp */
 
-#include <TargetTypes.h>
-#include <Global.h>
 #include <Player.h>
 #include <Stack.h>
 #include <../modes/modes.h>
-#include <core/MainMenu.h>
-#include <core/Game.h>
+#include <MainMenu.h>
+#include <Game.h>
 
-void Core::Game::init(::Stack *stack1,
-                      ::Stack *stack2) {
-    m_p1.init(stack1);
-    m_p1_stack = stack1;
-
-    #ifdef MULTIPLAYER
-    m_p2.init(stack2);
-    m_p2_stack = stack2;
-    #endif
-}
-
-void Core::Game::init_graphics() {
+void Game::init_graphics() {
     m_p1.init_graphics();
     m_p1_timer.init_graphics();
     m_p1_string.init_graphics();
@@ -33,7 +20,7 @@ void Core::Game::init_graphics() {
     #endif
 }
 
-void Core::Game::start_p1(int mode) {
+void Game::start_p1(int mode) {
     // TODO choose mode
     m_p1_stack->start_game(modes[mode]);
 
@@ -48,7 +35,7 @@ void Core::Game::start_p1(int mode) {
     p1_ready_go();
 }
 
-void Core::Game::p1_ready_go() {
+void Game::p1_ready_go() {
     m_p1_state = GameState::READY_GO;
     m_p1_counter = 0;
 
@@ -59,19 +46,19 @@ void Core::Game::p1_ready_go() {
 }
 
 #ifdef MULTIPLAYER
-void Core::Game::start_p2(int mode) {
+void Game::start_p2(int mode) {
     // TODO
     //m_p2.init(&stack2);
 }
 
-void Core::Game::start_doubles() {
+void Game::start_doubles() {
     // TODO
     //m_p1.init(&stack1);
     //m_p2.init(&stack1);
 }
 #endif
 
-void Core::Game::update(int *state) {
+void Game::update(int *state) {
     switch(m_p1_state) {
         case GameState::INGAME:
             m_p1_timer.update();
@@ -179,7 +166,7 @@ void Core::Game::update(int *state) {
 #endif
 }
 
-void Core::Game::update_graphics() {
+void Game::update_graphics() {
     m_p1.update_graphics();
     m_p1_stack->update_graphics();
 
@@ -193,7 +180,7 @@ void Core::Game::update_graphics() {
     #endif
 }
 
-bool Core::Game::has_p1_finished() {
+bool Game::has_p1_finished() {
     if (m_p1_state == GameState::FINISHED) {
         return true;
     } else {
@@ -202,7 +189,7 @@ bool Core::Game::has_p1_finished() {
 }
 
 #ifdef MULTIPLAYER
-bool Core::Game::has_p2_finished() {
+bool Game::has_p2_finished() {
     if (m_p2_state == GameState::FINISHED) {
         return true;
     } else {

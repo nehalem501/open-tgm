@@ -1,7 +1,14 @@
 /* CreditRoll.cpp */
 
 #include <stddef.h>
-#include <core/CreditRoll.h>
+#include <CreditRoll.h>
 
-Core::CreditRoll::CreditRoll() : m_mode(NULL), m_counter(0) {
+CreditRoll::CreditRoll() : m_mode(NULL), m_counter(0) {
+    #ifdef DEBUG
+    print("CreditRoll constructor\n");
+    #endif
+}
+
+void CreditRoll::draw() {
+    m_implementation.render();
 }

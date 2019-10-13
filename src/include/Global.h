@@ -5,23 +5,6 @@
 
 #include <TargetTypes.h>
 
-/* Forward declarations to avoid dependency hell */
-class Mode;
-class PlayerImpl;
-class StackImpl;
-class InputImpl;
-class GameImpl;
-class MainMenuImpl;
-class BackgroundImpl;
-class FrameImpl;
-typedef PlayerImpl Player;
-typedef StackImpl Stack;
-typedef InputImpl Input;
-typedef GameImpl Game;
-typedef MainMenuImpl MainMenu;
-typedef BackgroundImpl Background;
-typedef FrameImpl Frame;
-
 namespace StackPosition {
     enum {
         CENTERED = 0,
@@ -48,4 +31,4 @@ void init();
 void init_textures();
 void init_random();
 
-#endif
+#endif // GLOBAL_H

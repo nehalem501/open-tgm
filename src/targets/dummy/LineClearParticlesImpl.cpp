@@ -5,5 +5,5 @@
 void LineClearParticlesImpl::init() {
 }
 
-void LineClearParticlesImpl::draw() const {
+void LineClearParticlesImpl::render() const {
 }

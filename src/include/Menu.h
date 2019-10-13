@@ -7,4 +7,4 @@ class Menu {
 
 };
 
-#endif
+#endif // MENU_H

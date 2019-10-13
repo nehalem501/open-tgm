@@ -1,10 +1,13 @@
 /* Background.cpp */
 
-#include <Global.h>
-#include <core/Background.h>
+#include <Background.h>
 
-Core::Background::Background() : options(false) {
+Background::Background() : m_options(false) {
     #ifdef DEBUG
     print("Background constructor\n");
     #endif
+}
+
+void Background::draw() {
+    m_implementation.render(m_options);
 }

@@ -5,10 +5,10 @@
 #include <MainMenu.h>
 #include <Input.h>
 #include <Text.h>
-#include <core/ChooseMode.h>
+#include <ChooseMode.h>
 
-Core::ChooseMode::ChooseMode() : m_selected(false), m_mode(0), m_das_up(0),
-                                 m_das_down(0) {
+Core::ChooseMode::ChooseMode() : m_selected(false),
+                                 m_mode(0) {
     #ifdef DEBUG
     print("Choose mode screen constructor\n");
     #endif
@@ -32,8 +32,8 @@ void Core::ChooseMode::init(::Stack *stack) {
 void Core::ChooseMode::update(int *state, int *mode) {
     // Mode selected, play animation before starting game
     if (input.a()) {
-        m_das_up = 4;
-        m_das_down = 0;
+        //m_das_up = 4;
+        //m_das_down = 0;
         m_selected = true;
         return;
     }
@@ -53,7 +53,7 @@ void Core::ChooseMode::update(int *state, int *mode) {
             return;
         }
 
-        m_das_down += 32;
+        //m_das_down += 32;
 
         if (m_das_down > 127) {
             m_modes_strings[m_mode].update_color(TextColor::NONE);
