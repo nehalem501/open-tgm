@@ -6,37 +6,38 @@
 #include <GradeImpl.h>
 
 class Grade {
-    enum {
-        None = 0,
-        _9,
-        _8,
-        _7,
-        _6,
-        _5,
-        _4,
-        _3,
-        _2,
-        _1,
-        S1,
-        S2,
-        S3,
-        S4,
-        S5,
-        S6,
-        S7,
-        S8,
-        S9,
-        M,
-        GM,
-        MAX_NB
-    };
-        
     public:
+        enum {
+            None = 0,
+            _9,
+            _8,
+            _7,
+            _6,
+            _5,
+            _4,
+            _3,
+            _2,
+            _1,
+            S1,
+            S2,
+            S3,
+            S4,
+            S5,
+            S6,
+            S7,
+            S8,
+            S9,
+            M,
+            GM,
+            MAX_NB
+        };
+
         Grade();
 
         void draw();
 
-        inline void set(const unsigned int value) { m_grade = value; }
+        inline void set(const unsigned int value) { m_grade = value; };
+        inline unsigned int get() { return m_grade; };
 
     private:
         unsigned int m_grade;

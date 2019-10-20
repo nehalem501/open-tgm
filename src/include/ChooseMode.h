@@ -6,14 +6,12 @@
 #include <Text.h>
 #include <../modes/modes.h>
 
-
 class ChooseMode {
     public:
         ChooseMode();
 
-        void draw();
-        
-        void init();
+        void draw() const;
+
         void update(int *state, int *mode);
 
     private:

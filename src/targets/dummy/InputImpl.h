@@ -3,9 +3,9 @@
 #ifndef INPUT_DUMMY_H
 #define INPUT_DUMMY_H
 
-class InputImpl {
-    public:
-        void poll_inputs();
-};
+/* Forward declarations to avoid dependency hell */
+class Input;
+
+void get_inputs(Input& input);
 
 #endif

@@ -1,17 +1,11 @@
 /* StackImpl.cpp - Dummy */
 
+#include <Stack.h>
 #include "StackImpl.h"
 
-void StackImpl::init_graphics() {
+void StackImpl::update(const Stack& stack) {
 }
 
-void StackImpl::update_graphics() {
-}
-
-void StackImpl::draw() const {
+void StackImpl::render() const {
     // Draw stack blocks and outline
-
-    for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
-        m_part[i].draw();
-    }
 }

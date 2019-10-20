@@ -2,7 +2,7 @@
 
 #include <Mode.h>
 #ifdef DEBUG
-#include <Global.h>
+#include <TargetTypes.h>
 #endif
 #include "tgm1.h"
 
@@ -46,7 +46,7 @@ void tgm1_grade(uint32_t score, unsigned int, Grade *grade) {
     print("Previous GRADE: %s\n", grade->get_string());
     #endif
 
-    for (unsigned int i = grade->m_grade; i < 18; i++) {
+    for (unsigned int i = grade->get(); i < 18; i++) {
         if (score >= TGM1_GRADE_CONDITIONS[i].score) {
             grade->set(TGM1_GRADE_CONDITIONS[i].grade);
         }
@@ -121,9 +121,9 @@ static struct Label TGM1_LABELS[6] = {
     {TGM1_NEXT_AT_STR, 12, 6}
 };
 
-struct Position TGM1_SCORE_POS = {12, 12};
-struct Position TGM1_LEVEL_POS = {12, 16};
-struct Position TGM1_LVL_TGT_POS = {12, 18};
+struct DigitsPosition TGM1_SCORE_POS = {12, 12};
+struct DigitsPosition TGM1_LEVEL_POS = {12, 16};
+struct DigitsPosition TGM1_LVL_TGT_POS = {12, 18};
 
 Mode mode_tgm1(
 /*          name */ "TGM",

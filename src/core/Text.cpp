@@ -2,86 +2,76 @@
 
 #include <stddef.h>
 #include <string.h>
+#include <Position.h>
 #include <Stack.h>
-#include <core/Text.h>
+#include <Text.h>
 
-Core::Text::Text() :
-        m_pos_x(0),
-        m_pos_y(0),
+Text::Text() :
+        m_position(Position(0, 0)),
+        m_parent(NULL),
         m_color(0),
-        m_has_changed(true),
         m_length(0),
-        m_str(NULL),
-        m_stack(NULL) {
-
+        m_str(NULL) {
+    #ifdef DEBUG
+    print("Text constructor\n");
+    #endif
 }
 
-Core::Text::Text(int pos_x, int pos_y) :
-        m_pos_x(pos_x),
-        m_pos_y(pos_y),
+Text::Text(Position position, Position *parent) :
+        m_position(position),
+        m_parent(parent),
         m_color(0),
-        m_has_changed(true),
         m_length(0),
-        m_str(NULL),
-        m_stack(NULL) {
-
+        m_str(NULL) {
+    #ifdef DEBUG
+    print("Text constructor\n");
+    #endif
 }
 
-Core::Text::Text(int pos_x, int pos_y, int color, const char *str) :
-        m_pos_x(pos_x),
-        m_pos_y(pos_y),
+Text::Text(Position position, Position *parent, int color, const char *str) :
+        m_position(position),
+        m_parent(parent),
         m_color(color),
-        m_has_changed(true),
         m_length(0),
-        m_str(NULL),
-        m_stack(NULL) {
-    update_text(str);
+        m_str(NULL) {
+    #ifdef DEBUG
+    print("Text constructor\n");
+    #endif
+    text(str);
 }
 
-Core::Text::Text(Stack *stack, int pos_x, int pos_y) :
-        m_pos_x(pos_x),
-        m_pos_y(pos_y),
-        m_color(0),
-        m_has_changed(true),
-        m_length(0),
-        m_str(NULL),
-        m_stack(stack) {
-
+void Text::position(Position position) {
+    if (m_position.x != position.x || m_position.y != position.y) {
+        #ifdef DEBUG
+        print(
+            "Text::update_position: (%d, %d) replaced by (%d, %d)\n",
+            m_position.x,
+            m_position.y,
+            position.x,
+            position.y);
+        #endif
+        m_position = position;
+        // TODO update
+    }
 }
 
-Core::Text::Text(Stack *stack, int pos_x, int pos_y,
-                 int color, const char *str) : m_pos_x(pos_x),
-                                               m_pos_y(pos_y),
-                                               m_color(color),
-                                               m_has_changed(true),
-                                               m_length(0),
-                                               m_str(NULL),
-                                               m_stack(stack) {
-    update_text(str);
-}
-
-void Core::Text::update_text(const char *new_str) {
+void Text::text(const char *new_str) {
     if (m_str != new_str) {
         #ifdef DEBUG
         print("Text::update_text: %s replaced by %s\n", m_str, new_str);
         #endif
         m_str = new_str;
         m_length = strlen(m_str);
-        m_has_changed = true;
+        // TODO update
     }
 }
 
-void Core::Text::update_pos(int pos_x, int pos_y) {
-    if (m_pos_x != pos_x || m_pos_y != pos_y) {
-        m_pos_x = pos_x;
-        m_pos_y = pos_y;
-        m_has_changed = true;
-    }
-}
-
-void Core::Text::update_stack(Stack *new_stack) {
-    if (m_stack != new_stack) {
-        m_stack = new_stack;
-        m_has_changed = true;
+void Text::color(int color) {
+    if (m_color != color) {
+        #ifdef DEBUG
+        print("Text::update_color: %d replaced by %d\n", m_color, color);
+        #endif
+        m_color = color;
+        // TODO update
     }
 }

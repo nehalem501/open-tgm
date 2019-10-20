@@ -3,13 +3,13 @@
 #ifndef STACK_DUMMY_H
 #define STACK_DUMMY_H
 
-#include <core/Stack.h>
+/* Forward declarations to avoid dependency hell */
+class Stack;
 
-class StackImpl : public Core::Stack {
+class StackImpl {
     public:
-        void init_graphics();
-        void update_graphics();
-        void draw() const;
+        void update(const Stack& stack);
+        void render() const;
 };
 
 #endif

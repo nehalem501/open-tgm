@@ -11,7 +11,7 @@ class Home {
     public:
         Home();
 
-        void draw();
+        void draw() const;
 
         void update(int *state);
 

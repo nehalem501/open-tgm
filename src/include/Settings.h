@@ -26,9 +26,8 @@ class Settings {
     public:
         Settings();
 
-        void draw();
+        void draw() const;
 
-        void init();
         void update(int *menustate, Background *background);
 
     private:

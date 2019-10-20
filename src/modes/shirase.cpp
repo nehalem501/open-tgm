@@ -90,9 +90,9 @@ static struct Label SHIRASE_LABELS[3] = {
     //{SHIRASE_POINTS_STR, 12, 11}
 };
 
-struct Position SHIRASE_SCORE_POS = {12, 12};
-struct Position SHIRASE_LEVEL_POS = {12, 16};
-struct Position SHIRASE_LVL_TGT_POS = {12, 18};
+struct DigitsPosition SHIRASE_SCORE_POS = {12, 12};
+struct DigitsPosition SHIRASE_LEVEL_POS = {12, 16};
+struct DigitsPosition SHIRASE_LVL_TGT_POS = {12, 18};
 
 Mode mode_shirase(
 /*          name */ "SHIRASE",

@@ -17,7 +17,7 @@
 
 int main(int argc, char *argv[]) {
     // Init game stuff
-    init();
+    //init();
 
     // Run game
     app();

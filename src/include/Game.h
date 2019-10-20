@@ -32,7 +32,7 @@ class Game {
 
         void draw();
 
-        void init_graphics();
+        //void init_graphics();
 
         void update(int *state);
         void update_graphics();
@@ -43,7 +43,7 @@ class Game {
 
         #ifdef MULTIPLAYER
         void start_p2(int mode);
-        bool has_p2_inished();
+        bool has_p2_finished();
         void start_doubles();
         #endif
 

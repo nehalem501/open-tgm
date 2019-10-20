@@ -9,12 +9,15 @@
 
 class Digits {
     public:
-        Digits(const Position position, Position *parent);
+        Digits();
+        Digits(Position position, Position *parent);
 
-        void draw();
+        void draw() const;
 
         void set(const uint32_t value);
         uint32_t get() { return m_value; }
+
+        void position(Position position) { m_position = position; };
 
     private:
         uint32_t m_value;

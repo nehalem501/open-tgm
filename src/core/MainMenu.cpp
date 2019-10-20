@@ -6,46 +6,40 @@
 #include <Input.h>
 #include <Game.h>
 #include <Background.h>
-#include <core/MainMenu.h>
+#include <MainMenu.h>
 
-Core::MainMenu::MainMenu() : m_state(MainMenuState::HOME), m_mode(0) {
+MainMenu::MainMenu() : m_state(MainMenuState::HOME), m_mode(0) {
     #ifdef DEBUG
     print("MainMenu constructor\n");
     #endif
 }
 
-void Core::MainMenu::init() {
+/*void MainMenu::init() {
     #ifdef DEBUG
     print("MainMenu init\n");
     #endif
-
-    m_stack1.init_graphics();
     
-    m_frame1.init(&m_stack1);
-    m_frame1.init_graphics();
+    //m_frame1.init();
 
     #ifdef MULTIPLAYER
-    m_stack2.init_graphics();
-
-    m_frame2.init(&m_stack2);
-    m_frame2.init_graphics();
+    //m_frame2.init(&m_stack2);
     #endif
 
     // TODO multiplayer
-    m_choose_mode.init(&m_stack1);
+    //m_choose_mode.init(&m_stack1);
 
     #ifdef MULTIPLAYER
-    m_game.init(&m_stack1, &m_stack2);
+    //m_game.init(&m_stack1, &m_stack2);
     #else
-    m_game.init(&m_stack1, NULL);
+    //m_game.init(&m_stack1, NULL);
     #endif
 
-    m_game.init_graphics();
+    //m_game.init_graphics();
 
-    m_background.init_graphics();
-}
+    //m_background.init_graphics();
+}*/
 
-void Core::MainMenu::update() {
+void MainMenu::update() {
     input.poll_inputs();
 
     switch(m_state) {
@@ -72,7 +66,7 @@ void Core::MainMenu::update() {
             // Update logic
             m_game.update(&m_state);
 
-            m_game.update_graphics();
+            //m_game.update_graphics();
             //ingame();
             break;
 

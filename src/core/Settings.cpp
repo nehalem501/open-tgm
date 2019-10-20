@@ -7,7 +7,7 @@
 #include <Text.h>
 #include <Background.h>
 #include <Utils.h>
-#include <core/Settings.h>
+#include <Settings.h>
 
 const char INPUT_TEST_STR[] = "INPUT TEST";
 const char EXIT_STR[] = "EXIT";
@@ -59,62 +59,73 @@ const char *INPUTS_STR[NB_INPUTS] = {
 
 #endif //DEBUG
 
-Core::Settings::Settings() : m_state(-1), m_selected(0), m_das_up(0),
-                             m_das_down(0) {
+Settings::Settings() : m_state(-1), m_selected(0), m_das_up(0), m_das_down(0) {
     #ifdef DEBUG
     print("Settings screen constructor\n");
     #endif
 
-    edit_text(&m_input_msg, 9, 23, TextColor::WHITE, "EXIT: RIGHT AND START");
+    //edit_text(&m_input_msg, 9, 23, TextColor::WHITE, "EXIT: RIGHT AND START");
 
     for (unsigned int i = 0; i < SettingsState::SETTINGS_NB; i++) {
-        edit_text(&m_settings_str[i], 5, 7 + i * 2, TextColor::TRANSPARENT,
-                  SETTINGS_STR[i]);
+        /*edit_text(
+            &m_settings_str[i],
+            5,
+            7 + i * 2,
+            TextColor::TRANSPARENT,
+            SETTINGS_STR[i]);*/
     }
 
-    m_settings_str[0].update_color(TextColor::WHITE);
+    m_settings_str[0].color(TextColor::WHITE);
 
     // Init input test display
     for (unsigned int i = 0; i < NB_INPUTS; i++) {
-        edit_text(&m_inputs_str[i], 5, 6 + i * 2, TextColor::WHITE,
-                  INPUTS_STR[i]);
-        edit_text(&m_input_states_str[i], 11, 6 + i * 2, TextColor::TRANSPARENT,
-                  "OFF");
+        /*edit_text(
+            &m_inputs_str[i],
+            5,
+            6 + i * 2,
+            TextColor::WHITE,
+            INPUTS_STR[i]);
+        edit_text(
+            &m_input_states_str[i],
+            11,
+            6 + i * 2,
+            TextColor::TRANSPARENT,
+            "OFF");*/
     }
 }
 
-void Core::Settings::init() {
+/*void Core::Settings::init() {
     m_state = -1;
     m_selected = 0;
     m_das_up = 0;
     m_das_down = 0;
 
     // Text color
-}
+}*/
 
-void Core::Settings::update(int *menustate, ::Background *background) {
+void Settings::update(int *menustate, ::Background *background) {
     switch (m_state) {
         case SettingsState::LIST:
             if (input.menu_key_up()) {
-                m_settings_str[m_selected].update_color(TextColor::TRANSPARENT);
+                m_settings_str[m_selected].color(TextColor::TRANSPARENT);
 
                 if (m_selected <= 0)
                     m_selected = SettingsState::SETTINGS_NB - 1;
                 else
                     m_selected--;
 
-                m_settings_str[m_selected].update_color(TextColor::WHITE);
+                m_settings_str[m_selected].color(TextColor::WHITE);
             }
 
             if (input.menu_key_down()) {
-                m_settings_str[m_selected].update_color(TextColor::TRANSPARENT);
+                m_settings_str[m_selected].color(TextColor::TRANSPARENT);
 
                 if (m_selected >= SettingsState::SETTINGS_NB - 1)
                     m_selected = 0;
                 else
                     m_selected++;
 
-                m_settings_str[m_selected].update_color(TextColor::WHITE);
+                m_settings_str[m_selected].color(TextColor::WHITE);
             }
 
             if (input.a()) {
@@ -132,7 +143,7 @@ void Core::Settings::update(int *menustate, ::Background *background) {
             break;
 
         case SettingsState::INPUT_TEST:
-            set_button_state(input.start(), &m_input_states_str[0]);
+            /*set_button_state(input.start(), &m_input_states_str[0]);
             set_button_state(input.up(), &m_input_states_str[1]);
             set_button_state(input.down(), &m_input_states_str[2]);
             set_button_state(input.left(), &m_input_states_str[3]);
@@ -144,7 +155,7 @@ void Core::Settings::update(int *menustate, ::Background *background) {
             #ifdef DEBUG
             set_button_state(input.rotate_left(), &m_input_states_str[8]);
             set_button_state(input.rotate_right(), &m_input_states_str[9]);
-            #endif
+            #endif*/
 
             // Exit
             if (input.right() && input.start()) {

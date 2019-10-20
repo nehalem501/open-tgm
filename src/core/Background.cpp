@@ -1,5 +1,6 @@
 /* Background.cpp */
 
+#include <TargetTypes.h>
 #include <Background.h>
 
 Background::Background() : m_options(false) {

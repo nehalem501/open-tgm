@@ -4,6 +4,9 @@
 #define GLOBAL_H
 
 #include <TargetTypes.h>
+#include <Position.h>
+#include <Input.h>
+#include <Mode.h>
 
 namespace StackPosition {
     enum {
@@ -25,7 +28,8 @@ extern unsigned int stack_position;
 
 extern Input input;
 extern Mode* modes[];
-extern MainMenu menu;
+//extern MainMenu menu;
+extern Position screen_position;
 
 void init();
 void init_textures();

@@ -1,3 +1,6 @@
 /* Labels.cpp */
 
-#include <core/Labels.h>
+#include <Labels.h>
+
+Labels::Labels(const Position& parent) : m_parent(parent) {
+}

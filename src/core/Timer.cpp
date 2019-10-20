@@ -5,7 +5,6 @@
 
 void Timer::update() {
     m_frames++;
-    //m_time = 1.66666666666666666666f * m_frames;
     uint32_t m_time = (1666 * m_frames) / 1000;
 
     uint32_t centsec = m_time % 100;
@@ -16,24 +15,25 @@ void Timer::update() {
     print("time: %02d:%02d:%02d\n", min, sec, centsec);
     #endif
 
-    m_str[0] = min / 10;
-    m_str[1] = min % 10;
+    m_digits[0] = min / 10;
+    m_digits[1] = min % 10;
 
-    m_str[2] = sec / 10;
-    m_str[3] = sec % 10;
+    m_digits[2] = sec / 10;
+    m_digits[3] = sec % 10;
 
-    m_str[4] = centsec / 10;
-    m_str[5] = centsec % 10;
+    m_digits[4] = centsec / 10;
+    m_digits[5] = centsec % 10;
+
+    m_implementation.update(m_digits);
 }
 
 void Timer::start() {
-    //m_time = 0.0;
     m_frames = 0;
 
-    m_str[0] = 0;
-    m_str[1] = 0;
-    m_str[2] = 0;
-    m_str[3] = 0;
-    m_str[4] = 0;
-    m_str[5] = 0;
+    m_digits[0] = 0;
+    m_digits[1] = 0;
+    m_digits[2] = 0;
+    m_digits[3] = 0;
+    m_digits[4] = 0;
+    m_digits[5] = 0;
 }

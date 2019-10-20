@@ -89,9 +89,9 @@ static struct Label DEATH_LABELS[4] = {
     {DEATH_POINTS_STR, 12, 11}
 };
 
-struct Position DEATH_SCORE_POS = {12, 12};
-struct Position DEATH_LEVEL_POS = {12, 16};
-struct Position DEATH_LVL_TGT_POS = {12, 18};
+struct DigitsPosition DEATH_SCORE_POS = {12, 12};
+struct DigitsPosition DEATH_LEVEL_POS = {12, 16};
+struct DigitsPosition DEATH_LVL_TGT_POS = {12, 18};
 
 Mode mode_death(
 /*          name */ "DEATH",

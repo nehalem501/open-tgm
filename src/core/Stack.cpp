@@ -6,13 +6,15 @@
 #include <Shapes.h>
 #include <Utils.h>
 #include <Mode.h>
-#include <core/Player.h>
-#include <core/Stack.h>
+#include <Player.h>
+#include <Stack.h>
 
-Core::Stack::Stack() : m_height(22), m_width(10) {
+Stack::Stack() :
+        m_height(22),
+        m_width(10) {
 }
 
-void Core::Stack::init(int pos_x, int pos_y, int width, int height) {
+void Stack::init(Position *parent, int width, int height) {
     // Stack size
     m_width = width;
     m_height = height;
@@ -21,36 +23,40 @@ void Core::Stack::init(int pos_x, int pos_y, int width, int height) {
     print("width: %d  height: %d\n", m_width, m_height);
     #endif
 
-    // Position in tiles
-    m_pos_x = pos_x;
-    m_pos_y = pos_y;
+    // Parent position in tiles
+    m_parent = parent;
 
     // Init Stack
     memset(m_field, 0, MAX_WIDTH * MAX_HEIGHT * sizeof(tiles_t));
-    memset(m_field, 0, MAX_WIDTH * MAX_HEIGHT * sizeof(tiles_t));
+    memset(m_outline, 0, MAX_WIDTH * MAX_HEIGHT * sizeof(tiles_t));
 
     // Init filled lines storage
     memset(m_filled_lines, -1, FILLED_LINES_NB * sizeof(int));
+
+    // Initialize particles
+    for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
+        //m_particles[i];
+    }
 }
 
-void Core::Stack::start_game(Mode *mode) {
+void Stack::start_game(Mode *mode) {
     // TODO
-    init(m_pos_x, m_pos_y, mode->width(), mode->height());
+    init(m_parent, mode->width(), mode->height());
 }
 
-int Core::Stack::get_ghost_y(Piece *piece) {
+int Stack::get_ghost_y(Piece *piece) {
     bool can_go_down = true;
-    int pos_y = piece->pos_y();
+    int pos_y = piece->position_y();
     while(can_go_down) {
         pos_y = pos_y + 1;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (PIECES[piece->type()][piece->orientation()][j][i] > 0) {
-                    int x = piece->pos_x() - 2 + i;
+                    int x = piece->position_x() - 2 + i;
                     int y = pos_y - 1 + j;
                     if (x < 0 || x >= m_width || y >= m_height) {
                         can_go_down = false;
-                    } else if (m_field[x + y * m_width] > 0) {
+                    } else if (block(x, y) > 0) {
                         can_go_down = false;
                     }
                 }
@@ -63,12 +69,13 @@ int Core::Stack::get_ghost_y(Piece *piece) {
     return (pos_y - 1);
 }
 
-bool Core::Stack::check_player_move(Piece *piece,
-                                    int new_x,
-                                    int new_y,
-                                    int new_rotation) {
-    int pos_x = piece->pos_x() + new_x;
-    int pos_y = piece->pos_y() + new_y;
+bool Stack::check_player_move(
+        Piece *piece,
+        int new_x,
+        int new_y,
+        int new_rotation) {
+    int pos_x = piece->position_x() + new_x;
+    int pos_y = piece->position_y() + new_y;
     int rotation = modulo(piece->orientation() + new_rotation, 4);
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -77,8 +84,7 @@ bool Core::Stack::check_player_move(Piece *piece,
                 int y = pos_y - 1 + j;
                 if (x < 0 || x >= m_width || y >= m_height) {
                     return false;
-                }
-                else if (m_field[x + y * m_width] > 0) {
+                } else if (block(x, y) > 0) {
                     return false;
                 }
             }
@@ -90,7 +96,7 @@ bool Core::Stack::check_player_move(Piece *piece,
     return true;
 }
 
-void Core::Stack::shift_line(unsigned int line) {
+void Stack::shift_line(unsigned int line) {
     //std::cout << "height: " << m_height << std::endl;
     if ((int) line > m_height - 1)
         return;
@@ -104,7 +110,7 @@ void Core::Stack::shift_line(unsigned int line) {
     update_outline(line + 1);
 }
 
-void Core::Stack::shift_lines() {
+void Stack::shift_lines() {
     for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
         if (m_filled_lines[i] != -1) {
             //std::cout << m_filled_lines[i] << ", ";
@@ -115,7 +121,7 @@ void Core::Stack::shift_lines() {
     //std::cout << std::endl;
 }
 
-bool Core::Stack::check_bravo() {
+bool Stack::check_bravo() {
     unsigned int size = m_width * m_height;
     for (unsigned int i = 0; i < size; i++) {
         if (m_field[i])
@@ -125,7 +131,7 @@ bool Core::Stack::check_bravo() {
     return true;
 }
 
-bool Core::Stack::check_line(unsigned int line) {
+bool Stack::check_line(unsigned int line) {
     for (unsigned int i = line * m_width; i < (line + 1) * m_width; i++) {
         if (m_field[i] == 0)
             return false;
@@ -134,8 +140,8 @@ bool Core::Stack::check_line(unsigned int line) {
     return true;
 }
 
-bool Core::Stack::check_lines(Core::Player *player) {
-    int pos_y = player->m_piece.pos_y();
+bool Stack::check_lines(Player& player) {
+    int pos_y = player.piece().position_y();
 
     int lines_to_clear = 0;
 
@@ -156,8 +162,7 @@ bool Core::Stack::check_lines(Core::Player *player) {
             //std::cout << row_nb << ", ";
 
             // Activate particles for line clear
-            m_part[lines_to_clear].set_emitter(this, row_nb);
-            m_part[lines_to_clear].init();
+            m_particles[lines_to_clear].set_emitter(row_nb);
 
             // Increment line count
             lines_to_clear++;
@@ -168,20 +173,20 @@ bool Core::Stack::check_lines(Core::Player *player) {
     if (lines_to_clear > 0) {
         // TODO we need to compute the 'real' next level value
         // for update score, so before using change_level
-        player->update_score(lines_to_clear, check_bravo());
+        player.update_score(lines_to_clear, check_bravo());
         //player->startClear();
-        player->change_level(lines_to_clear, true);
+        player.change_level(lines_to_clear, true);
         //std::cout << "to clear\n";
         return true;
     }
 
-    player->set_combo(1);
+    player.set_combo(1);
     //std::cout << "nothing\n";
     //player->startARE();
     return false;
 }
 
-void Core::Stack::remove_line(unsigned int line) {
+void Stack::remove_line(unsigned int line) {
     if ((int) line < m_height) {
         memset(m_field + line * m_width, 0, m_width * sizeof(tiles_t));
         update_outline(line - 1);
@@ -191,7 +196,7 @@ void Core::Stack::remove_line(unsigned int line) {
     }
 }
 
-void Core::Stack::update_outline(unsigned int unsigned_line) {
+void Stack::update_outline(unsigned int unsigned_line) {
     int line = (int) unsigned_line;
     if (line < m_height) {
         for (int i = 0; i < m_width; i++) {
@@ -217,10 +222,10 @@ void Core::Stack::update_outline(unsigned int unsigned_line) {
     }
 }
 
-void Core::Stack::remove_grey_blocks(Piece *piece) {
+void Stack::remove_grey_blocks(const Piece& piece) {
     // TODO change coordinates if lines were cleared
-    int pos_x = piece->pos_x() - 2;
-    int pos_y = piece->pos_y() - 1;
+    int pos_x = piece.position_x() - 2;
+    int pos_y = piece.position_y() - 1;
     int limit_x = pos_x + SIZE;
     int limit_y = pos_y + SIZE;
 

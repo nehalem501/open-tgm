@@ -1,8 +1,8 @@
 /* Input.cpp */
 
 #include <TargetTypes.h>
-#include <Global.h>
-#include <core/Input.h>
+#include <InputImpl.h>
+#include <Input.h>
 
 /* Is used to check if more than one direction is pressed */
 static uint8_t input_lut[] = {
@@ -24,62 +24,33 @@ static uint8_t input_lut[] = {
 /* 1111 */ 1
 };
 
-Core::Input::Input() : m_curr_joystick(0x00),
-                 m_prev_joystick(0x00),
-                 m_curr_buttons(0x00),
-                 m_prev_buttons(0x00),
-                 m_autorepeat_up(0),
-                 m_autorepeat_down(0) {
+Input::Input() :
+        m_curr_joystick(0x00),
+        m_prev_joystick(0x00),
+        m_curr_buttons(0x00),
+        m_prev_buttons(0x00),
+        m_autorepeat_up(0),
+        m_autorepeat_down(0) {
     #ifdef DEBUG
     print("Input constructor\n");
     #endif
 }
 
-#ifdef DEBUG
-static void print_bits(uint8_t byte) {
-    if (byte & 0x01)
-        print("1");
-    else
-        print("0");
+void Input::poll_inputs() {
+    // Read and store inputs
 
-    if (byte & 0x02)
-        print("1");
-    else
-        print("0");
+    m_prev_joystick = m_curr_joystick;
+    m_prev_buttons = m_curr_buttons;
 
-    if (byte & 0x04)
-        print("1");
-    else
-        print("0");
+    m_curr_joystick = 0x00;
+    m_curr_buttons = 0x00;
 
-    if (byte & 0x08)
-        print("1");
-    else
-        print("0");
+    get_inputs(*this);
 
-    if (byte & 0x10)
-        print("1");
-    else
-        print("0");
-
-    if (byte & 0x20)
-        print("1");
-    else
-        print("0");
-
-    if (byte & 0x40)
-        print("1");
-    else
-        print("0");
-
-    if (byte & 0x80)
-        print("1");
-    else
-        print("0");
+    process();
 }
-#endif
 
-void Core::Input::process() {
+void Input::process() {
     // If UP and DOWN are pressed
     if ((m_curr_joystick & (UP_BIT | DOWN_BIT)) == (UP_BIT | DOWN_BIT)) {
         if ((m_prev_joystick & (RAW_UP_BIT | RAW_DOWN_BIT)) == (RAW_UP_BIT | RAW_DOWN_BIT)) {
@@ -154,7 +125,7 @@ void Core::Input::process() {
     }*/
 }
 
-bool Core::Input::menu_key_up() {
+bool Input::menu_key_up() {
     if (up()) {
         if (m_autorepeat_up == 0) {
             m_autorepeat_up += MENU_KEY_AUTOREPEAT;
@@ -169,7 +140,7 @@ bool Core::Input::menu_key_up() {
     return false;
 }
 
-bool Core::Input::menu_key_down() {
+bool Input::menu_key_down() {
     if (down()) {
         if (m_autorepeat_down == 0) {
             m_autorepeat_down += MENU_KEY_AUTOREPEAT;
@@ -184,7 +155,7 @@ bool Core::Input::menu_key_down() {
     return false;
 }
 
-int Core::Input::irs() {
+int Input::irs() {
     if ((m_curr_buttons & A_BIT) || (m_curr_buttons & C_BIT)) {
         m_curr_buttons ^= ROT_L_BIT | ROT_R_BIT;
         return 1;
@@ -197,3 +168,47 @@ int Core::Input::irs() {
 
     return 0;
 }
+
+#ifdef DEBUG
+static void print_bits(uint8_t byte) {
+    if (byte & 0x01)
+        print("1");
+    else
+        print("0");
+
+    if (byte & 0x02)
+        print("1");
+    else
+        print("0");
+
+    if (byte & 0x04)
+        print("1");
+    else
+        print("0");
+
+    if (byte & 0x08)
+        print("1");
+    else
+        print("0");
+
+    if (byte & 0x10)
+        print("1");
+    else
+        print("0");
+
+    if (byte & 0x20)
+        print("1");
+    else
+        print("0");
+
+    if (byte & 0x40)
+        print("1");
+    else
+        print("0");
+
+    if (byte & 0x80)
+        print("1");
+    else
+        print("0");
+}
+#endif

@@ -91,9 +91,9 @@ static struct Label EASY_LABELS[4] = {
     {EASY_POINTS_STR, 12, 11}
 };
 
-struct Position EASY_SCORE_POS = {12, 12};
-struct Position EASY_LEVEL_POS = {12, 16};
-struct Position EASY_LVL_TGT_POS = {12, 18};
+struct DigitsPosition EASY_SCORE_POS = {12, 12};
+struct DigitsPosition EASY_LEVEL_POS = {12, 16};
+struct DigitsPosition EASY_LVL_TGT_POS = {12, 18};
 
 Mode mode_easy(
 /*          name */ "EASY",

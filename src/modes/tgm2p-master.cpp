@@ -115,9 +115,9 @@ static struct Label TGM2P_MASTER_LABELS[4] = {
     {TGM2P_MASTER_SCORE_STR, 12, 11}
 };
 
-struct Position TGM2P_MASTER_SCORE_POS = {12, 12};
-struct Position TGM2P_MASTER_LVL_POS = {12, 16};
-struct Position TGM2P_MASTER_LVL_TGT_POS = {12, 18};
+struct DigitsPosition TGM2P_MASTER_SCORE_POS = {12, 12};
+struct DigitsPosition TGM2P_MASTER_LVL_POS = {12, 16};
+struct DigitsPosition TGM2P_MASTER_LVL_TGT_POS = {12, 18};
 
 Mode mode_tgm2p_master(
 /*          name */ "TAP MASTER",

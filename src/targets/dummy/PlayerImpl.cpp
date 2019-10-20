@@ -1,14 +1,12 @@
 /* PlayerImpl.cpp - Dummy */
 
+#include <Player.h>
 #include "PlayerImpl.h"
 
-void PlayerImpl::init_graphics() {
+void PlayerImpl::update(const Player& player) {
 }
 
-void PlayerImpl::update_graphics() {
-}
-
-void PlayerImpl::draw() const {
+void PlayerImpl::render() const {
     if (m_draw_ghost) {
         // Draw ghost piece
     }
@@ -18,8 +16,4 @@ void PlayerImpl::draw() const {
     }
 
     // Draw next piece
-
-    m_score_display.draw();
-    m_level_display.draw();
-    m_section_display.draw();
 }

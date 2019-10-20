@@ -3,13 +3,16 @@
 #ifndef PLAYER_DUMMY_H
 #define PLAYER_DUMMY_H
 
-#include <core/Player.h>
+/* Forward declarations to avoid dependency hell */
+class Player;
 
-class PlayerImpl : public Core::Player {
+class PlayerImpl {
     public:
-        void init_graphics();
-        void update_graphics();
-        void draw() const;
+        void update(const Player& player);
+        void render() const;
+
+    private:
+        bool m_draw_piece, m_draw_ghost;
 };
 
 #endif

@@ -1,12 +1,29 @@
 /* Game.cpp */
 
+#include <TargetTypes.h>
 #include <Player.h>
 #include <Stack.h>
 #include <../modes/modes.h>
 #include <MainMenu.h>
 #include <Game.h>
 
-void Game::init_graphics() {
+Game::Game() :
+        m_p1_position(Position(1, 1)),
+        m_p1_frame(m_p1_position),
+        m_p1_labels(m_p1_position)
+        #ifdef MULTIPLAYER
+        ,
+        m_p2_position(Position(16, 1)),
+        m_p2_frame(m_p1_position),
+        m_p2_labels(m_p1_position)
+        #endif
+        {
+    #ifdef DEBUG
+    print("Game constructor\n");
+    #endif
+}
+
+/*void Game::init_graphics() {
     m_p1.init_graphics();
     m_p1_timer.init_graphics();
     m_p1_string.init_graphics();
@@ -18,19 +35,19 @@ void Game::init_graphics() {
     m_p2_string.init_graphics();
     m_p2_string.update_stack(m_p2_stack);
     #endif
-}
+}*/
 
 void Game::start_p1(int mode) {
     // TODO choose mode
-    m_p1_stack->start_game(modes[mode]);
+    m_p1_stack.start_game(modes[mode]);
 
-    m_p1.init(m_p1_stack, modes[mode]);
-    m_p1.init_graphics();
+    m_p1.init(&m_p1_position, modes[mode]);
+    //m_p1.init_graphics();
 
     m_p1_labels.set_mode(modes[mode]);
-    m_p1_labels.init_graphics(m_p1_stack);
+    //m_p1_labels.init_graphics(m_p1_stack);
 
-    m_p1_timer.init();
+    m_p1_timer.start();
 
     p1_ready_go();
 }
@@ -40,9 +57,9 @@ void Game::p1_ready_go() {
     m_p1_counter = 0;
 
     // Display 'READY'
-    m_p1_string.update_text(READY_STR);
-    m_p1_string.update_pos(3, 11);
-    m_p1_string.update_graphics();
+    m_p1_string.text(READY_STR);
+    // TODO
+    m_p1_string.position(Position(3, 11));
 }
 
 #ifdef MULTIPLAYER
@@ -62,11 +79,11 @@ void Game::update(int *state) {
     switch(m_p1_state) {
         case GameState::INGAME:
             m_p1_timer.update();
-            m_p1.update(&m_p1_state);
+            m_p1.update(&m_p1_stack, &m_p1_state);
             break;
 
         case GameState::CREDIT_ROLL:
-            m_p1.update(&m_p1_state);
+            m_p1.update(&m_p1_stack, &m_p1_state);
             break;
 
         case GameState::READY_GO:
@@ -79,9 +96,8 @@ void Game::update(int *state) {
 
             // Display 'GO'
             if (m_p1_counter > 60) {
-                m_p1_string.update_text(GO_STR);
-                m_p1_string.update_pos(4, 11);
-                m_p1_string.update_graphics();
+                m_p1_string.text(GO_STR);
+                m_p1_string.position(Position(4, 11));
             }
 
             // Start game
@@ -90,14 +106,14 @@ void Game::update(int *state) {
                 m_p1_timer.start();
                 m_p1_timer.update();
 
-                m_p1_labels.init_graphics(m_p1_stack);
+                //m_p1_labels.init_graphics(m_p1_stack);
 
                 // Start game for player 1
                 m_p1.start_game();
-                m_p1.update(&m_p1_state);
+                m_p1.update(&m_p1_stack, &m_p1_state);
 
                 // Prepare counter for game over animation
-                m_p1_counter = m_p1_stack->m_height * 8;
+                m_p1_counter = m_p1_stack.height() * 8;
 
                 // First piece to spawn doesn't increase level
                 m_p1.reset_level();
@@ -107,7 +123,7 @@ void Game::update(int *state) {
                 return;
             } else {
                 // When we wait, we can still charge DAS
-                m_p1.update(&m_p1_state);
+                m_p1.update(&m_p1_stack, &m_p1_state);
             }
             break;
 
@@ -117,17 +133,16 @@ void Game::update(int *state) {
             // Animation finished, display 'GAME OVER'
             if (m_p1_counter == 0) {
                 m_p1_counter = 0;
-                m_p1_string.update_text(GAME_OVER_STR);
-                m_p1_string.update_pos(1, 11);
-                m_p1_string.update_graphics();
+                m_p1_string.text(GAME_OVER_STR);
+                m_p1_string.position(Position(1, 11));
                 m_p1_state = GameState::GAME_OVER_TEXT;
                 return;
             }
 
             // Remove next line
             if (m_p1_counter % 8 == 0) {
-                m_p1_stack->remove_line(m_p1_counter / 8);
-                m_p1_stack->reset_outline();
+                m_p1_stack.remove_line(m_p1_counter / 8);
+                m_p1_stack.reset_outline();
             }
 
             break;
@@ -146,7 +161,7 @@ void Game::update(int *state) {
 #ifdef MULTIPLAYER
     switch(m_p2_state) {
         case GameState::INGAME:
-            m_p2.update();
+            m_p2.update(&m_p2_stack, &m_p2_state);
             /*if (m_p2->isGameOver()) {
                 m_p2_state = GameState::GAME_OVER;
             }*/
@@ -166,9 +181,9 @@ void Game::update(int *state) {
 #endif
 }
 
-void Game::update_graphics() {
+/*void Game::update_graphics() {
     m_p1.update_graphics();
-    m_p1_stack->update_graphics();
+    m_p1_stack.update_graphics();
 
     m_p1_timer.update_graphics();
 
@@ -178,7 +193,7 @@ void Game::update_graphics() {
 
     m_p2_timer.update_graphics();
     #endif
-}
+}*/
 
 bool Game::has_p1_finished() {
     if (m_p1_state == GameState::FINISHED) {

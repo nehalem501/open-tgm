@@ -29,9 +29,7 @@ class MainMenu {
     public:
         MainMenu();
 
-        void draw();
-
-        void init();
+        void draw() const;
 
         void update();
 

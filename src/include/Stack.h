@@ -5,13 +5,15 @@
 
 #include <string.h>
 #include <TargetTypes.h>
-#include <Piece.h>
-#include <Player.h>
+#include <Position.h>
+#include <Global.h>
 #include <LineClearParticles.h>
 #include <StackImpl.h>
 
 /* Forward declarations to avoid dependency hell */
 class Mode;
+class Piece;
+class Player;
 
 #define FILLED_LINES_NB 4 // TODO 8 for BIG mode
 
@@ -21,23 +23,24 @@ class Stack {
 
         void draw();
 
-        void init(int pos_x, int pos_y, int width, int height);
+        void init(Position *parent, int width, int height);
 
         void start_game(Mode *mode);
 
         int get_ghost_y(Piece *piece);
 
-        bool check_player_move(Piece *piece,
-                               int new_x,
-                               int new_y,
-                               int new_rotation);
+        bool check_player_move(
+            Piece *piece,
+            int new_x,
+            int new_y,
+            int new_rotation);
 
         bool check_bravo();
         bool check_line(unsigned int line);
 
         void shift_line(unsigned int line);
         void shift_lines();
-        bool check_lines(Player *player);
+        bool check_lines(Player& player);
         void remove_line(unsigned int line);
 
         inline void reset_outline() {
@@ -45,7 +48,17 @@ class Stack {
         };
         void update_outline(unsigned int unsigned_line);
 
-        void remove_grey_blocks(Piece *piece);
+        void remove_grey_blocks(const Piece& piece);
+
+        inline int height() { return m_height; };
+        inline int width() { return m_width; };
+
+        inline tiles_t block(int x, int y) {
+            return m_field[x + m_width * y];
+        };
+        inline void update_block(int x, int y, tiles_t value) {
+            m_field[x + m_width * y] = value;
+        };
 
     private:
         int m_height, m_width;
@@ -56,7 +69,7 @@ class Stack {
 
         int m_filled_lines[FILLED_LINES_NB];
 
-        LineClearParticles m_part[FILLED_LINES_NB];
+        LineClearParticles m_particles[FILLED_LINES_NB];
 
         StackImpl m_implementation;
 };

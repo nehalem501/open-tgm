@@ -24,18 +24,19 @@ namespace TextColor {
 class Text {
     public:
         Text();
-        Text(int pos_x, int pos_y);
-        Text(int pos_x, int pos_y, int color, const char *str);
-        Text(Stack *stack, int pos_x, int pos_y);
-        Text(Stack *stack, int pos_x, int pos_y,
-             int color, const char *str);
+        Text(Position position, Position *parent);
+        Text(
+            Position position,
+            Position *parent,
+            int color,
+            const char *str);
 
         void position(Position position);
         void text(const char *new_str);
-        void color(const int color);
+        void color(int color);
 
     private:
-        Position m_position,
+        Position m_position;
         Position *m_parent;
 
         int m_color;

@@ -12,6 +12,7 @@
 
 /* Forward declarations to avoid dependency hell */
 class Mode;
+class Stack;
 
 namespace PlayerState {
     enum {
@@ -22,31 +23,36 @@ namespace PlayerState {
         LOCK,
         LOCKED_ANIM_OLD,
         LOCKED_ANIM_NEW,
-        CLEAR,
+        CLEAR
     };
 }
 
 class Player {
     public:
-        void init(Position *stack, Mode *mode);
+        Player() { };
 
+        void draw() const;
+
+        void init(Position *position, Mode *mode);
         void start_game();
 
         inline void reset_level() {
             m_level = 0;
-            m_level_display.update(0);
+            m_level_display.set(0);
             //m_level_display.update_graphics(m_stack);
         };
 
-        void update(int *game_state);
-
-    private:
-        void next_piece();
-
-        inline void set_combo(int value) { m_combo = value; };
+        void update(Stack *stack, int *game_state);
 
         void change_level(int value, bool line_clear);
         void update_score(unsigned int nb_lines, bool bravo);
+
+        inline void set_combo(int value) { m_combo = value; };
+
+        inline const Piece& piece() { return m_piece; };
+
+    private:
+        void next_piece();
 
         bool check_lock();
 

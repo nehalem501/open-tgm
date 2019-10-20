@@ -9,13 +9,13 @@
 class Mode;
 
 class CreditRoll {
-    enum {
-        None = 0,
-        Playable,
-        Required
-    };
-
     public:
+        enum {
+            None = 0,
+            Playable,
+            Required
+        };
+
         CreditRoll();
 
         void draw();

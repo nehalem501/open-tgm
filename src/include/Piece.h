@@ -4,6 +4,7 @@
 #define PIECE_H
 
 #include <TargetTypes.h>
+#include <Position.h>
 
 /* Forward declarations to avoid dependency hell */
 class Stack;
@@ -12,25 +13,25 @@ class Piece {
     public:
         Piece();
         Piece(tiles_t type, int orientation);
-        Piece(tiles_t type, int orientation, int pos_x, int pos_y);
+        Piece(tiles_t type, int orientation, Position position);
 
         void locked(Stack *stack);
 
         inline tiles_t type() const { return m_type; };
         inline int orientation() const { return m_orientation; };
-        inline int pos_x() const { return m_pos_x; };
-        inline int pos_y() const { return m_pos_y; };
+        inline int position_x() const { return m_position.x; };
+        inline int position_y() const { return m_position.y; };
 
         inline void type(tiles_t type) { m_type = type; };
         inline void orientation(int o) { m_orientation = o; };
-        inline void pos_x(int pos_x) { m_pos_x = pos_x; };
-        inline void pos_y(int pos_y) { m_pos_y = pos_y; };
+        inline void position_x(int pos_x) { m_position.x = pos_x; };
+        inline void position_y(int pos_y) { m_position.y = pos_y; };
 
         inline void spawn(tiles_t type) {
             m_type = type;
             m_orientation = 0;
-            m_pos_x = 5;
-            m_pos_y = 2;
+            m_position.x = 5;
+            m_position.y = 2;
         };
 
         inline void rotate(int dir, int n) {
@@ -42,15 +43,13 @@ class Piece {
         void rotate_kick(Stack *stack, int *ghost_y, int rotation);
 
     private:
-        tiles_t m_type;
+        Position m_position;
         int m_orientation;
-
-        int m_pos_x;
-        int m_pos_y;
+        tiles_t m_type;
 
         inline void move(int x, int y) {
-            m_pos_x += x;
-            m_pos_y += y;
+            m_position.x += x;
+            m_position.y += y;
         };
 };
 

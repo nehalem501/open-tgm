@@ -8,7 +8,8 @@
 
 class LineClearParticles {
     public:
-        LineClearParticles(const Position& parent);
+        LineClearParticles();
+        LineClearParticles(Position *parent);
 
         void draw();
 
@@ -18,9 +19,9 @@ class LineClearParticles {
         inline bool is_active() { return m_active; };
 
     private:
+        Position *m_parent;
         int m_line;
         bool m_active;
-        const Position& m_parent;
 
         LineClearParticlesImpl m_implementation;
 };

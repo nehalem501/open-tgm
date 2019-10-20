@@ -1,21 +1,29 @@
 /* LineClearParticles.cpp */
 
 #include <Global.h>
-#include <core/LineClearParticles.h>
+#include <LineClearParticles.h>
 
-Core::LineClearParticles::LineClearParticles() : m_active(false), m_line(0) {
+LineClearParticles::LineClearParticles() : m_line(0), m_active(false) {
     #ifdef DEBUG
     print("LineClearParticles constructor\n");
     #endif
 }
 
-void Core::LineClearParticles::set_emitter(Core::Stack *stack, unsigned int line) {
-    m_active = true;
-    m_line = line;
-    m_stack = stack;
+LineClearParticles::LineClearParticles(Position *parent) :
+        m_parent(parent),
+        m_line(0),
+        m_active(false) {
+    #ifdef DEBUG
+    print("LineClearParticles constructor\n");
+    #endif
 }
 
-bool Core::LineClearParticles::end() {
+void LineClearParticles::set_emitter( unsigned int line) {
+    m_active = true;
+    m_line = line;
+}
+
+bool LineClearParticles::end() {
     m_active = false;
     return true;
 }

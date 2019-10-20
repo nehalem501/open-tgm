@@ -4,7 +4,6 @@
 #define INPUT_H
 
 #include <TargetTypes.h>
-#include <InputImpl.h>
 
 #define MENU_KEY_AUTOREPEAT 16
 
@@ -57,6 +56,24 @@ class Input {
         inline bool b() { return (m_curr_buttons & B_BIT); };
         inline bool c() { return (m_curr_buttons & C_BIT); };
 
+        inline void pressed_up() { m_curr_joystick |= UP_BIT | RAW_UP_BIT; };
+        inline void pressed_down() {
+            m_curr_joystick |= DOWN_BIT | RAW_DOWN_BIT;
+        };
+        inline void pressed_left() {
+            m_curr_joystick |= LEFT_BIT | RAW_LEFT_BIT;
+        };
+        inline void pressed_right() {
+            m_curr_joystick |= RIGHT_BIT | RAW_RIGHT_BIT;
+        };
+
+        inline void pressed_a() { m_curr_buttons |= A_BIT; };
+        inline void pressed_b() { m_curr_buttons |= B_BIT; };
+        inline void pressed_c() { m_curr_buttons |= C_BIT; };
+
+        inline void pressed_start() { m_curr_buttons |= START_BIT; };
+        inline void pressed_settings() { m_curr_buttons |= SETTINGS_BIT; };
+
         bool menu_key_up();
         bool menu_key_down();
 
@@ -74,8 +91,6 @@ class Input {
         uint8_t m_autorepeat_down;
 
         void process();
-
-        InputImpl m_implementation;
 };
 
 #endif // INPUT_H

@@ -8,23 +8,15 @@
 #include <Mode.h>
 #include <Utils.h>
 #include <Stack.h>
-#include <core/Game.h>
-#include <core/Player.h>
+#include <Game.h>
+#include <Player.h>
 
 #define OLD_LOCK_COLOR_DELAY 3
 #define NEW_LOCK_COLOR_DELAY 2
 
-/* Used at program startup */
-void Core::Player::init(::Stack *stack) {
-    m_stack = stack;
-    m_score_display.init_graphics();
-    m_level_display.init_graphics();
-    m_section_display.init_graphics();
-}
-
 /* Init the field and all the other stuff */
-void Core::Player::init(::Stack *stack, Mode *mode) {
-    m_stack = stack;
+void Player::init(Position *position, Mode *mode) {
+    //stack = stack;
     m_current_mode = mode;
 
     m_score = 0;
@@ -64,11 +56,10 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
 
     m_grade.set(Grade::None);
 
-    m_score_display.init(mode->score_pos_x(), mode->score_pos_y());
-    m_level_display.init(mode->level_pos_x(), mode->level_pos_y());
-    m_section_display.init(mode->level_target_pos_x(), mode->level_target_pos_y());
-    m_section_display.update(m_section);
-    m_section_display.update_graphics(stack);
+    m_score_display.position(mode->score_position());
+    m_level_display.position(mode->level_position());
+    m_section_display.position(mode->level_target_position());
+    m_section_display.set(m_section);
 
     // TODO
 /* In TGM1, the history begins filled with 4 Z pieces.
@@ -87,14 +78,14 @@ void Core::Player::init(::Stack *stack, Mode *mode) {
 }
 
 /* Init stuff needed to start a new game */
-void Core::Player::start_game() {
+void Player::start_game() {
     m_state = PlayerState::ARE;
     m_line_are = false;
     m_are = m_current_mode->are(0);
 }
 
 /* Update game for 1 frame */
-void Core::Player::update(int *game_state) {
+void Player::update(Stack *stack, int *game_state) {
     bool move_left = false;
     bool move_right = false;
     bool irs = false;
@@ -184,27 +175,27 @@ void Core::Player::update(int *game_state) {
                     m_piece.rotate(direction, 4);
                     irs = true;
                     // You cannot do an IRS that will make you die
-                    if (!m_stack->check_player_move(&m_piece, 0, 0, 0)) {
+                    if (!stack->check_player_move(&m_piece, 0, 0, 0)) {
                         m_piece.orientation(0);
                         irs = false;
                     }
                 }
 
                 // If piece doesn't have room to spawn, it's game over
-                if (!m_stack->check_player_move(&m_piece, 0, 0, 0)) {
+                if (!stack->check_player_move(&m_piece, 0, 0, 0)) {
                     //lockPiece(); // TODO
-                    //m_stack->removeGreyBlocks(&m_piece);
+                    //stack->removeGreyBlocks(&m_piece);
                     *game_state = GameState::GAME_OVER_ANIM;
-                    m_piece.locked(m_stack);
-                    m_stack->remove_grey_blocks(&m_piece);
-                    m_stack->reset_outline();
+                    m_piece.locked(stack);
+                    stack->remove_grey_blocks(m_piece);
+                    stack->reset_outline();
                     m_draw_piece = false;
                     m_draw_ghost = false;
                     return;
                 }
 
                 // Update ghost piece
-                m_ghost_y = m_stack->get_ghost_y(&m_piece);
+                m_ghost_y = stack->get_ghost_y(&m_piece);
 
                 // Reset lock delay
                 reset_lock();
@@ -238,31 +229,31 @@ void Core::Player::update(int *game_state) {
             print("INGAME\n");
             #endif
 
-            m_piece_old_y = m_piece.pos_y();
+            m_piece_old_y = m_piece.position_y();
             m_active_time++;
 
             // Rotate Left
             if (!irs && input.rotate_left()) {
-                m_piece.rotate_kick(m_stack, &m_ghost_y, 1);
+                m_piece.rotate_kick(stack, &m_ghost_y, 1);
             }
 
             // Rotate Right
             if (!irs && input.rotate_right()) {
-                m_piece.rotate_kick(m_stack, &m_ghost_y, -1);
+                m_piece.rotate_kick(stack, &m_ghost_y, -1);
             }
 
             // Left
             if (move_left) {
-                m_piece.move_leftright(m_stack, &m_ghost_y,  -1);
+                m_piece.move_leftright(stack, &m_ghost_y,  -1);
             }
 
             // Right
             if (move_right) {
-                m_piece.move_leftright(m_stack, &m_ghost_y, 1);
+                m_piece.move_leftright(stack, &m_ghost_y, 1);
             }
 
             // Check if piece can go down
-            bool can_go_down = m_stack->check_player_move(&m_piece, 0, 1, 0);
+            bool can_go_down = stack->check_player_move(&m_piece, 0, 1, 0);
 
             // Compute gravity
             unsigned int number_down = gravity(can_go_down);
@@ -298,7 +289,7 @@ void Core::Player::update(int *game_state) {
                             }
                         }
                     } else {
-                        if (!m_stack->check_player_move(&m_piece, 0, 1, 0)) {
+                        if (!stack->check_player_move(&m_piece, 0, 1, 0)) {
                             m_previous_down = true;
                             m_state = PlayerState::LOCK;
                             m_draw_piece = false;
@@ -331,7 +322,7 @@ void Core::Player::update(int *game_state) {
 
             // Start counting lock delay
             if (!can_go_down) {
-                if (m_piece_old_y != m_piece.pos_y()) {
+                if (m_piece_old_y != m_piece.position_y()) {
                     reset_lock();
                 } else {
                     // Change state if finished counting lock delay
@@ -359,7 +350,7 @@ void Core::Player::update(int *game_state) {
                 }
             } else {
                 if (m_lock) { // Check if lock started
-                    if (m_piece_old_y != m_piece.pos_y()) {
+                    if (m_piece_old_y != m_piece.position_y()) {
                         reset_lock();
                     }
                 }
@@ -374,11 +365,11 @@ void Core::Player::update(int *game_state) {
 
             #ifdef DEBUG
             print("state: LOCK\n");
-            print("piece_pos_y: %d\n", (int) m_piece.pos_y());
+            print("piece_pos_y: %d\n", (int) m_piece.position_y());
             #endif
 
             // Copy piece to stack/field
-            m_piece.locked(m_stack);
+            m_piece.locked(stack);
 
             if (m_current_mode->old_locking_style()) {
                 m_lock_color_delay = OLD_LOCK_COLOR_DELAY;
@@ -388,14 +379,14 @@ void Core::Player::update(int *game_state) {
                 m_lock_color_delay = NEW_LOCK_COLOR_DELAY;
 
                 // TODO optimize depending on piece size
-                m_stack->update_outline(m_piece.pos_y() - 2);
+                stack->update_outline(m_piece.position_y() - 2);
 
-                m_stack->update_outline(m_piece.pos_y() - 1);
-                m_stack->update_outline(m_piece.pos_y());
-                m_stack->update_outline(m_piece.pos_y() + 1);
-                m_stack->update_outline(m_piece.pos_y() + 2);
+                stack->update_outline(m_piece.position_y() - 1);
+                stack->update_outline(m_piece.position_y());
+                stack->update_outline(m_piece.position_y() + 1);
+                stack->update_outline(m_piece.position_y() + 2);
 
-                m_stack->update_outline(m_piece.pos_y() + 3);
+                stack->update_outline(m_piece.position_y() + 3);
 
                 m_state = PlayerState::LOCKED_ANIM_NEW;
 
@@ -410,7 +401,7 @@ void Core::Player::update(int *game_state) {
             print("color_delay: %d\n", (int) m_lock_color_delay);
             #endif
 
-            if (m_stack->check_lines(this)) {
+            if (stack->check_lines(*this)) {
                 m_state = PlayerState::CLEAR;
             } else {
                 if (m_lock_color_delay > 0) {
@@ -418,7 +409,7 @@ void Core::Player::update(int *game_state) {
                     return;
                 }
 
-                m_stack->remove_grey_blocks(&m_piece);
+                stack->remove_grey_blocks(m_piece);
                 m_combo = 1;
                 m_state = PlayerState::ARE;
                 break;
@@ -431,14 +422,14 @@ void Core::Player::update(int *game_state) {
 
             if (m_lock_color_delay > 0) {
                 if (m_lock_color_delay == 1) {
-                    m_stack->remove_grey_blocks(&m_piece);
+                    stack->remove_grey_blocks(m_piece);
                 }
 
                 m_lock_color_delay--;
                 return;
             }
 
-            if (m_stack->check_lines(this)) {
+            if (stack->check_lines(*this)) {
                 m_state = PlayerState::CLEAR;
             } else {
                 m_combo = 1;
@@ -450,14 +441,14 @@ void Core::Player::update(int *game_state) {
             // TODO optimize depending on piece size
             // Should be enough to do this only in ARE case, but bug
             // with outline when clearing lines
-            m_stack->update_outline(m_piece.pos_y() - 2);
+            stack->update_outline(m_piece.position_y() - 2);
 
-            m_stack->update_outline(m_piece.pos_y() - 1);
-            m_stack->update_outline(m_piece.pos_y());
-            m_stack->update_outline(m_piece.pos_y() + 1);
-            m_stack->update_outline(m_piece.pos_y() + 2);
+            stack->update_outline(m_piece.position_y() - 1);
+            stack->update_outline(m_piece.position_y());
+            stack->update_outline(m_piece.position_y() + 1);
+            stack->update_outline(m_piece.position_y() + 2);
 
-            m_stack->update_outline(m_piece.pos_y() + 3);
+            stack->update_outline(m_piece.position_y() + 3);
 
             break;
 
@@ -475,12 +466,12 @@ void Core::Player::update(int *game_state) {
 
                 m_lock_color_delay--;
             } else if (m_lock_color_delay <= 0) {
-                m_stack->remove_grey_blocks(&m_piece);
+                stack->remove_grey_blocks(m_piece);
             }
 
             if (m_clear >= m_current_mode->clear(m_level)) {
                 m_clear = 0;
-                m_stack->shift_lines();
+                stack->shift_lines();
                 m_line_are = true;
                 if (m_current_mode->old_locking_style()) {
                     m_are += 5;
@@ -497,9 +488,9 @@ void Core::Player::update(int *game_state) {
 }
 
 /* Use randomizer and get next piece */
-void Core::Player::next_piece() {
+void Player::next_piece() {
     m_piece.spawn(m_next);
-    m_piece_old_y = m_piece.pos_y();
+    m_piece_old_y = m_piece.position_y();
     m_active_time = 0;
     m_gravity_counter = 0;
 
@@ -525,8 +516,8 @@ void Core::Player::next_piece() {
 }
 
 /* Increase level if possible */
-void Core::Player::change_level(int value, bool line_clear) {
-    #warning "changeLevel not finished"
+void Player::change_level(int value, bool line_clear) {
+    // TODO changeLevel not finished
 
     // Last level
     if (m_level >= m_current_mode->max_level())
@@ -536,8 +527,7 @@ void Core::Player::change_level(int value, bool line_clear) {
     if (m_level == m_section - 1) {
         if (line_clear) {
             m_section = m_current_mode->section(m_level + value);
-            m_section_display.update(m_section);
-            m_section_display.update_graphics(m_stack);
+            m_section_display.set(m_section);
         } else {
             return;
         }
@@ -549,13 +539,12 @@ void Core::Player::change_level(int value, bool line_clear) {
     if (m_level >= m_current_mode->max_level())
         m_level = m_current_mode->max_level();
 
-    m_level_display.update(m_level);
-    m_level_display.update_graphics(m_stack);
+    m_level_display.set(m_level);
     m_gravity = m_current_mode->gravity(m_level);
 }
 
 /* Update player's score */
-void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
+void Player::update_score(unsigned int nb_lines, bool bravo) {
     m_combo += (2 * nb_lines) - 2;
     unsigned int bravo_val = (bravo) ? 4 : 1;
 
@@ -590,12 +579,11 @@ void Core::Player::update_score(unsigned int nb_lines, bool bravo) {
 
     m_current_mode->grade_func(m_score, 0 /* TODO */, &m_grade);
 
-    m_score_display.update(m_score);
-    m_score_display.update_graphics(m_stack);
+    m_score_display.set(m_score);
 }
 
 /* Give number of G for current gravity */
-unsigned int Core::Player::gravity(bool can_go_down) {
+unsigned int Player::gravity(bool can_go_down) {
     if (!can_go_down) {
         m_gravity_counter = 0;
 
@@ -631,7 +619,7 @@ unsigned int Core::Player::gravity(bool can_go_down) {
 }
 
 /* Check if lock delay finished */
-bool Core::Player::check_lock() {
+bool Player::check_lock() {
     if (m_start_lock) {
         // TODO test
         m_lock++;
@@ -648,7 +636,7 @@ bool Core::Player::check_lock() {
 }
 
 /* Count DAS frames for left input and check if fully charged */
-bool Core::Player::check_das_left() {
+bool Player::check_das_left() {
     if (m_start_das_left) {
         m_das_left++;
 
@@ -665,7 +653,7 @@ bool Core::Player::check_das_left() {
 }
 
 /* Count DAS frames for right input and check if fully charged */
-bool Core::Player::check_das_right() {
+bool Player::check_das_right() {
     if (m_start_das_right) {
         m_das_right++;
 
@@ -679,4 +667,12 @@ bool Core::Player::check_das_right() {
         }
     }
     return false;
+}
+
+void Player::draw() const {
+    // TODO render
+    
+    m_score_display.draw();
+    m_level_display.draw();
+    m_section_display.draw();
 }
