@@ -2,8 +2,5 @@
 
 #include "LabelsImpl.h"
 
-void LabelsImpl::init_graphics() {
-}
-
-void LabelsImpl::render() const{
+void LabelsImpl::render() const {
 }

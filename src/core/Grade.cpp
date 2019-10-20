@@ -8,3 +8,7 @@ Grade::Grade() :
         m_points(0),
         m_counter(0) {
 }
+
+void Grade::draw() const {
+    m_implementation.render();
+}

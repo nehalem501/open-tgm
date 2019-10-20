@@ -37,3 +37,7 @@ void Timer::start() {
     m_digits[4] = 0;
     m_digits[5] = 0;
 }
+
+void Timer::draw() const {
+    m_implementation.render();
+}

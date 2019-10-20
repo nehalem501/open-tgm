@@ -9,6 +9,6 @@ Background::Background() : m_options(false) {
     #endif
 }
 
-void Background::draw() {
+void Background::draw() const {
     m_implementation.render(m_options);
 }

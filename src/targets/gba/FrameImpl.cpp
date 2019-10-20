@@ -1,17 +1,15 @@
 /* FrameImpl.cpp - GBA */
 
 #include <gba.h>
+#include <Frame.h>
 #include "FrameImpl.h"
 
-void FrameImpl::init_graphics() {
+void FrameImpl::update() {
 }
 
-void FrameImpl::update_graphics() {
-}
-
-void Frame::draw() const {
+void FrameImpl::render() const {
     // Left part of frame
-    u16 *local_screen = (u16*) MAP_BASE_ADR(16) + m_stack->m_pos_x - 1;
+    u16 *local_screen = (u16*) MAP_BASE_ADR(16) + m_frame.position().x - 1;
     for (int i = 0; i < 12; i++) {
         local_screen[32 * i] = 128 + i;
     }
@@ -20,7 +18,7 @@ void Frame::draw() const {
     }
 
     // Right part of frame
-    local_screen = (u16*) MAP_BASE_ADR(16) + m_stack->m_pos_x + 10;
+    local_screen = (u16*) MAP_BASE_ADR(16) + m_frame.position().x + 10;
     for (int i = 0; i < 8; i++) {
         local_screen[32 * i] = 132 + i;
     }

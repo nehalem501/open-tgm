@@ -164,3 +164,7 @@ void Settings::update(int *menustate, ::Background *background) {
             break;
     }
 }
+
+void Settings::draw() const {
+    // TODO
+}

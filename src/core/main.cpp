@@ -15,12 +15,14 @@
 #include <SDL.h>
 #endif
 
+static MainMenu menu;
+
 int main(int argc, char *argv[]) {
     // Init game stuff
     //init();
 
     // Run game
-    app();
+    app(menu);
 
     return 0;
 }

@@ -3,7 +3,9 @@
 #include <TargetTypes.h>
 #include <Frame.h>
 
-Frame::Frame(const Position& parent) : m_parent(parent) {
+Frame::Frame(const Position& parent) :
+        m_parent(parent),
+        m_implementation(*this) {
     #ifdef DEBUG
     print("Frame constructor\n");
     #endif
@@ -17,6 +19,6 @@ void Frame::set_size(int height, int width) {
 }
 #endif
 
-void Frame::draw() {
-    //m_implementation;
+void Frame::draw() const {
+    m_implementation.render();
 }

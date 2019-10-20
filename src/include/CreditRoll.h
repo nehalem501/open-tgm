@@ -18,7 +18,7 @@ class CreditRoll {
 
         CreditRoll();
 
-        void draw();
+        void draw() const;
         
         inline void set_mode(Mode *new_mode) { m_mode = new_mode; }
         inline bool end() { return (m_counter == 0); }

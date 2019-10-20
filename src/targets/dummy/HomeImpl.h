@@ -5,7 +5,6 @@
 
 class HomeImpl {
     public:
-        void init_graphics();
         void render() const;
 };
 

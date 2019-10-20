@@ -1,50 +1,41 @@
 /* TextImpl.cpp - GBA */
 
 #include <gba.h>
-#include <Stack.h>
+#include <TargetTypes.h>
+#include <Position.h>
+#include <Text.h>
 #include "TextImpl.h"
 
-void TextImpl::init_graphics() {
-
+void TextImpl::update_position() {
+    // Update position here
 }
 
-void TextImpl::update_graphics() {
-    if (m_has_changed) {
-        m_has_changed = false;
-        // Update graphics here
-    }
+void TextImpl::update_text() {
+    // Update text here
 }
 
-void TextImpl::update_color(int8_t color) {
-    if (m_color != color) {
-        m_color = color;
-        // Update color here
-    }
+void TextImpl::update_color() {
+    // Update color here
 }
 
-void TextImpl::draw() const {
-    // Draw text
+void TextImpl::render() const {
+    // Draw text at x, y position
     u16 *screen = (u16*) MAP_BASE_ADR(24);
 
-    int x = m_pos_x;
-    int y = m_pos_y;
+    const int x = m_text.position_x();
+    const int y = m_text.position_y();
 
-    if (m_stack != NULL) {
-        x += m_stack->m_pos_x;
-        y += m_stack->m_pos_y;
-    }
-
-    if (m_color != 0) {
-        for (unsigned int i = 0; i < m_length; i++) {
-            if (m_str[i] == ' ') {
+    if (m_text.color() != 0) {
+        for (unsigned int i = 0; i < m_text.length(); i++) {
+            if (m_text.text()[i] == ' ') {
                 screen[i + x + y * 32] = 0;
             } else {
-                screen[i + x + y * 32] = m_str[i] + 44;
+                screen[i + x + y * 32] = m_text.text()[i] + 44;
             }
         }
     } else {
-        for (unsigned int i = 0; i < m_length; i++) {
-            screen[i + x + y * 32] = m_str[i];
+        for (unsigned int i = 0; i < m_text.length(); i++) {
+            screen[i + x + y * 32] = m_text.text()[i];
         }
     }
 }

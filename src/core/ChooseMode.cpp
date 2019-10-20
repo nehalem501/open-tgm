@@ -89,3 +89,9 @@ void ChooseMode::update(int *state, int *mode) {
         m_modes_strings[m_mode].color(TextColor::YELLOW);
     }
 }
+
+void ChooseMode::draw() const {
+    for (int i = 0; i < NB_MODES; i++) {
+        m_modes_strings[i].draw();
+    }
+}

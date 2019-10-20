@@ -6,34 +6,39 @@
 #include <Stack.h>
 #include <Text.h>
 
+static Position default_position(0, 0);
+
 Text::Text() :
-        m_position(Position(0, 0)),
-        m_parent(NULL),
+        m_position(default_position),
+        m_parent(default_position),
         m_color(0),
         m_length(0),
-        m_str(NULL) {
+        m_str(NULL),
+        m_implementation(*this) {
     #ifdef DEBUG
     print("Text constructor\n");
     #endif
 }
 
-Text::Text(Position position, Position *parent) :
+Text::Text(Position position, Position& parent) :
         m_position(position),
         m_parent(parent),
         m_color(0),
         m_length(0),
-        m_str(NULL) {
+        m_str(NULL),
+        m_implementation(*this) {
     #ifdef DEBUG
     print("Text constructor\n");
     #endif
 }
 
-Text::Text(Position position, Position *parent, int color, const char *str) :
+Text::Text(Position position, Position& parent, int color, const char *str) :
         m_position(position),
         m_parent(parent),
         m_color(color),
         m_length(0),
-        m_str(NULL) {
+        m_str(NULL),
+        m_implementation(*this) {
     #ifdef DEBUG
     print("Text constructor\n");
     #endif
@@ -74,4 +79,8 @@ void Text::color(int color) {
         m_color = color;
         // TODO update
     }
+}
+
+void Text::draw() const {
+    m_implementation.render();
 }

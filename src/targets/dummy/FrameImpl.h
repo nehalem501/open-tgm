@@ -3,11 +3,17 @@
 #ifndef FRAME_DUMMY_H
 #define FRAME_DUMMY_H
 
+/* Forward declarations to avoid dependency hell */
+class Frame;
+
 class FrameImpl {
     public:
-        void init_graphics();
-        void update_graphics();
+        FrameImpl(Frame& frame) : m_frame(frame) { };
+        void update();
         void render() const;
+
+    private:
+        Frame& m_frame;
 };
 
 #endif

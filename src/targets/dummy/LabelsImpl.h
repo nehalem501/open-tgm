@@ -5,7 +5,6 @@
 
 class LabelsImpl {
     public:
-        void init_graphics();
         void render() const;
 };
 

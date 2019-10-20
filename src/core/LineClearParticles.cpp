@@ -27,3 +27,7 @@ bool LineClearParticles::end() {
     m_active = false;
     return true;
 }
+
+void LineClearParticles::draw() const {
+    m_implementation.render();
+}

@@ -5,7 +5,7 @@
 
 class CreditRollImpl {
     public:
-        void init_graphics();
+        void update();
         void render() const;
 };
 

@@ -29,7 +29,7 @@ namespace PlayerState {
 
 class Player {
     public:
-        Player() { };
+        Player() : m_implementation(*this) { };
 
         void draw() const;
 
@@ -50,6 +50,11 @@ class Player {
         inline void set_combo(int value) { m_combo = value; };
 
         inline const Piece& piece() { return m_piece; };
+
+        inline bool draw_piece() { return m_draw_piece; };
+        inline bool draw_ghost() { return m_draw_ghost; };
+
+        inline tiles_t get_next_piece() { return m_next; };
 
     private:
         void next_piece();

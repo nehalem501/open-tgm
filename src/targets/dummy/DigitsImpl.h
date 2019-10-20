@@ -7,8 +7,7 @@
 
 class DigitsImpl {
     public:
-        void init_graphics();
-        void update_graphics(const uint32_t value);
+        void update(const uint32_t value);
         void render() const;
 };
 

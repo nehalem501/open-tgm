@@ -1,16 +1,18 @@
 /* TextImpl.cpp - Dummy */
 
-#include <Stack.h>
+#include <TargetTypes.h>
+#include <Position.h>
 #include "TextImpl.h"
 
-void TextImpl::init_graphics() {
+void TextImpl::update_position() {
+    // Update position here
 }
 
-void TextImpl::update_graphics() {
-    // Update graphics here
+void TextImpl::update_text() {
+    // Update text here
 }
 
-void TextImpl::update_color(int8_t color) {
+void TextImpl::update_color() {
     // Update color here
 }
 

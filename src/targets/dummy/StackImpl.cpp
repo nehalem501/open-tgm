@@ -3,7 +3,7 @@
 #include <Stack.h>
 #include "StackImpl.h"
 
-void StackImpl::update(const Stack& stack) {
+void StackImpl::update() {
 }
 
 void StackImpl::render() const {

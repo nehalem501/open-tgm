@@ -13,7 +13,7 @@ class Labels {
     public:
         Labels(const Position& parent);
 
-        void draw();
+        void draw() const;
 
         inline void set_mode(Mode *new_mode) { m_mode = new_mode; };
 

@@ -25,7 +25,7 @@ Digits::Digits(Position position, Position *parent) :
 
 void Digits::set(const uint32_t value) {
     if (value != m_value) {
-        m_implementation.update_graphics(value);
+        m_implementation.update(value);
     }
 }
 

@@ -9,12 +9,16 @@
 #include <Player.h>
 #include <Stack.h>
 
+static Position default_position(5, 5);
+
 Stack::Stack() :
         m_height(22),
-        m_width(10) {
+        m_width(10),
+        m_parent(default_position),
+        m_implementation(*this) {
 }
 
-void Stack::init(Position *parent, int width, int height) {
+void Stack::init(Position& parent, int width, int height) {
     // Stack size
     m_width = width;
     m_height = height;
@@ -243,4 +247,9 @@ void Stack::remove_grey_blocks(const Piece& piece) {
             m_field[j + m_width * i] &= ~Block::BLINK_BIT;
         }
     }
+}
+
+
+void Stack::draw() const {
+    m_implementation.render();
 }

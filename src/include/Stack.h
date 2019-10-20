@@ -21,9 +21,9 @@ class Stack {
     public:
         Stack();
 
-        void draw();
+        void draw() const;
 
-        void init(Position *parent, int width, int height);
+        void init(Position &parent, int width, int height);
 
         void start_game(Mode *mode);
 
@@ -53,6 +53,9 @@ class Stack {
         inline int height() { return m_height; };
         inline int width() { return m_width; };
 
+        inline tiles_t* field() { return m_field; };
+        inline tiles_t* outline() { return m_outline; };
+
         inline tiles_t block(int x, int y) {
             return m_field[x + m_width * y];
         };
@@ -60,9 +63,11 @@ class Stack {
             m_field[x + m_width * y] = value;
         };
 
+        inline const Position& position() { return m_parent; };
+
     private:
         int m_height, m_width;
-        Position *m_parent;
+        Position &m_parent;
 
         tiles_t m_field[MAX_WIDTH * MAX_HEIGHT];
         tiles_t m_outline[MAX_WIDTH * MAX_HEIGHT];

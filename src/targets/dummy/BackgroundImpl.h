@@ -5,7 +5,6 @@
 
 class BackgroundImpl {
     public:
-        void init_graphics();
         void render(const bool options) const;
 };
 

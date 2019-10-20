@@ -11,6 +11,8 @@ class Timer {
     public:
         Timer() { };
 
+        void draw() const;
+
         void start();
         void update();
 

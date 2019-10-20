@@ -10,13 +10,15 @@ class Frame {
     public:
         Frame(const Position& parent);
 
-        void draw();
+        void draw() const;
 
         //TODO color;
 
         #ifdef MULTIPLAYER
         void set_size(int height, int width);
         #endif
+
+        inline const Position& position() { return m_parent; };
 
     private:
         const Position& m_parent;

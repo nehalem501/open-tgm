@@ -3,13 +3,12 @@
 #ifndef TIMER_GBA_H
 #define TIMER_GBA_H
 
-#include <core/Timer.h>
+#include <TargetTypes.h>
 
-class TimerImpl : public Core::Timer {
+class TimerImpl {
     public:
-        void init_graphics();
-        void update_graphics();
-        void draw() const;
+        void update(const uint8_t m_digits[6]);
+        void render() const;
 };
 
 #endif

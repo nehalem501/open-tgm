@@ -3,26 +3,28 @@
 #include <gba.h>
 #include <Shapes.h>
 #include <Piece.h>
+#include <Player.h>
 #include "PlayerImpl.h"
 
-void PlayerImpl::init_graphics() {
+void PlayerImpl::update() {
 }
 
-void PlayerImpl::update_graphics() {
-}
-
-void PlayerImpl::draw() const {
+void PlayerImpl::render() const {
     u16 *local_screen = (u16*) MAP_BASE_ADR(16) + 10;
 
-    if (m_draw_ghost) {
+    if (m_player.draw_ghost()) {
         // Draw ghost piece
     }
 
-    if (m_draw_piece) {
+    if (m_player.draw_piece()) {
         // Draw player piece
+        const Piece& piece = m_player.piece();
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                local_screen[32 * (m_piece.pos_y() - 3 + i) + (m_piece.pos_x() - 2 + j)] |= PIECES[m_piece.type()][m_piece.orientation()][i][j];
+                local_screen[
+                    32 * (piece.position_y() - 3 + i)
+                    + (piece.position_x() - 2 + j)] |=
+                        PIECES[piece.type()][piece.orientation()][i][j];
             }
         }
     }
@@ -33,11 +35,8 @@ void PlayerImpl::draw() const {
     int y = 0;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            local_screen[32 * (y - 1 + i) + (x - 2 + j)] = PIECES[m_next][0][i][j];
+            local_screen[32 * (y - 1 + i) + (x - 2 + j)] =
+                PIECES[m_player.get_next_piece()][0][i][j];
         }
     }
-
-    m_score_display.draw();
-    m_level_display.draw();
-    m_section_display.draw();
 }

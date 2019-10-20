@@ -23,5 +23,5 @@ void Home::update(int *state) {
 }
 
 void Home::draw() const {
-    
+    // TODO
 }

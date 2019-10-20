@@ -8,11 +8,12 @@ class Player;
 
 class PlayerImpl {
     public:
-        void update(const Player& player);
+        PlayerImpl(Player& player) : m_player(player) { };
+        void update();
         void render() const;
 
     private:
-        bool m_draw_piece, m_draw_ghost;
+        Player& m_player;
 };
 
 #endif

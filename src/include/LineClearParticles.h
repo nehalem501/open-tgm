@@ -11,7 +11,7 @@ class LineClearParticles {
         LineClearParticles();
         LineClearParticles(Position *parent);
 
-        void draw();
+        void draw() const;
 
         void set_emitter(unsigned int line);
         bool end();

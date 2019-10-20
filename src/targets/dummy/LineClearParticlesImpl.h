@@ -3,9 +3,12 @@
 #ifndef LINE_CLEAR_PARTICLES_DUMMY_H
 #define LINE_CLEAR_PARTICLES_DUMMY_H
 
+#include <Position.h>
+
 class LineClearParticlesImpl {
     public:
-        void init();
+        void reset(Position& position);
+        void update();
         void render() const;
 };
 

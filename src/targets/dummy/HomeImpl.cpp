@@ -2,9 +2,6 @@
 
 #include "HomeImpl.h"
 
-void HomeImpl::init_graphics() {
-}
-
 void HomeImpl::render() const {
     /*if (m_start_timer > -20) {
         // Draw start

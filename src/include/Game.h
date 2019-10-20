@@ -30,7 +30,7 @@ class Game {
     public:
         Game();
 
-        void draw();
+        void draw() const;
 
         //void init_graphics();
 

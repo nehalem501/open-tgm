@@ -9,7 +9,7 @@ class Background {
     public:
         Background();
 
-        void draw();
+        void draw() const;
 
         void go_to_options() { m_options = true; };
         void go_to_background() { m_options = false; };

@@ -1,6 +1,7 @@
 /* CreditRoll.cpp */
 
 #include <stddef.h>
+#include <TargetTypes.h>
 #include <CreditRoll.h>
 
 CreditRoll::CreditRoll() : m_mode(NULL), m_counter(0) {
@@ -9,6 +10,6 @@ CreditRoll::CreditRoll() : m_mode(NULL), m_counter(0) {
     #endif
 }
 
-void CreditRoll::draw() {
+void CreditRoll::draw() const {
     m_implementation.render();
 }
