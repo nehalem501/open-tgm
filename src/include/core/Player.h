@@ -45,6 +45,7 @@ namespace Core {
         protected:
             uint32_t m_itemBagFlags;
             uint8_t m_NumberOfPiecesBeforeItemSpawn;
+            uint32_t m_randomItemVariable;
             ::Stack *m_stack;
             Mode *m_current_mode;
 

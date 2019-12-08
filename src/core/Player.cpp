@@ -530,10 +530,10 @@ typedef enum {
 static const uint8_t InitItemSeed[NUMITEMTYPES] = { 50u, 1u, 250u, 250u, 100u, 50u, 3u, 150u, 100u, 5u, 50u, 250u, 150u, 250u, 3u, 150u, 3u, 150u, 5u };
 
 uint32_t Rand(uint32_t seed, uint32_t limit) {
-  return seed % limit;
+  return (seed * 1209843u ) % limit;
 }
 
-ItemType NextItem(uint32_t* itemBagFlags) {
+ItemType NextItem(uint32_t seedIndex, uint32_t* itemBagFlags) {
     uint8_t itemSeed[NUMITEMTYPES];
     for (uint16_t itemNum = 0u; itemNum < NUMITEMTYPES; itemNum++) {
         itemSeed[itemNum] = InitItemSeed[itemNum];
@@ -560,7 +560,7 @@ ItemType NextItem(uint32_t* itemBagFlags) {
             // sumMax = (NumScreenFrames + Rand(4750u)) % seedSum + 1u;
             // NumScreenFrames is the total number of frames the game has been at the game screen.
             // Rand(limit) is a PRNG that generates an integer in the range [0, limit).
-            sumMax = Rand(20984u, 4750u) % seedSum + 1u;
+            sumMax = Rand(seedIndex, 4750u) % seedSum + 1u;
 
             uint16_t itemNum = 0u;
             for (uint16_t seedSum = 0u; itemNum < NUMITEMTYPES; itemNum++) {
@@ -614,10 +614,12 @@ void Core::Player::next_piece() {
     if (!m_itemBagFlags) {
         m_itemBagFlags = UINT32_C(0x7FFFF);
     }
+    m_randomItemVariable += m_gravity_counter + m_das_left + m_das_right;
+    m_randomItemVariable *= 5u;
     m_NumberOfPiecesBeforeItemSpawn--;
     if (!m_NumberOfPiecesBeforeItemSpawn) {
         m_NumberOfPiecesBeforeItemSpawn = 20u;
-        ItemType itemName = NextItem(&m_itemBagFlags);
+        ItemType itemName = NextItem(m_randomItemVariable, &m_itemBagFlags);
 #ifdef DEBUG
         print("NEW ITEM\n : %s", itemNames[itemName]);
 #endif
