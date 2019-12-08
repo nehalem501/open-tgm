@@ -3,13 +3,17 @@
 #ifndef STACK_PS2_H
 #define STACK_PS2_H
 
-#include <core/Stack.h>
+/* Forward declarations to avoid dependency hell */
+class Stack;
 
-class StackImpl : public Core::Stack {
+class StackImpl {
     public:
-        void init_graphics();
-        void update_graphics();
-        void draw() const;
+        StackImpl(Stack& stack) : m_stack(stack) { };
+        void update();
+        void render() const;
+
+    private:
+        Stack& m_stack;
 };
 
 #endif

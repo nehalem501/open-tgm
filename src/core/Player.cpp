@@ -676,3 +676,4 @@ void Player::draw() const {
     m_level_display.draw();
     m_section_display.draw();
 }
+

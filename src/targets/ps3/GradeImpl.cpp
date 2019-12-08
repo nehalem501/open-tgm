@@ -2,8 +2,8 @@
 
 #include "GradeImpl.h"
 
-void GradeImpl::init_graphics() {
+void GradeImpl::update() {
 }
 
-void GradeImpl::draw() const {
+void GradeImpl::render() const {
 }

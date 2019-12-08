@@ -14,7 +14,7 @@ ifeq ($(strip $(DEVKITPRO)),)
   $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro")
 endif
 
-export PATH := $(DEVKITARM)/bin:$(PATH)
+export PATH := $(DEVKITARM)/bin:$(DEVKITPRO)/tools/bin:$(PATH)
 
 HEADERS += -I$(DEVKITPRO)/libgba/include
 

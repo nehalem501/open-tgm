@@ -1,25 +1,19 @@
 /* PlayerImpl.cpp - PS3 */
 
+#include <Player.h>
 #include "PlayerImpl.h"
 
-void PlayerImpl::init_graphics() {
+void PlayerImpl::update() {
 }
 
-void PlayerImpl::update_graphics() {
-}
-
-void PlayerImpl::draw() const {
-    if (m_draw_ghost) {
+void PlayerImpl::render() const {
+    if (m_player.draw_ghost()) {
         // Draw ghost piece
     }
 
-    if (m_draw_piece) {
+    if (m_player.draw_piece()) {
         // Draw player piece
     }
 
     // Draw next piece
-
-    m_score_display.draw();
-    m_level_display.draw();
-    m_section_display.draw();
 }

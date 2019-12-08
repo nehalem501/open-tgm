@@ -31,3 +31,4 @@ bool LineClearParticles::end() {
 void LineClearParticles::draw() const {
     m_implementation.render();
 }
+

@@ -253,3 +253,4 @@ void Stack::remove_grey_blocks(const Piece& piece) {
 void Stack::draw() const {
     m_implementation.render();
 }
+

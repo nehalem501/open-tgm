@@ -3,13 +3,17 @@
 #ifndef PLAYER_PSX_H
 #define PLAYER_PSX_H
 
-#include <core/Player.h>
+/* Forward declarations to avoid dependency hell */
+class Player;
 
-class PlayerImpl : public Core::Player {
+class PlayerImpl {
     public:
-        void init_graphics();
-        void update_graphics();
-        void draw() const;
+        PlayerImpl(Player& player) : m_player(player) { };
+        void update();
+        void render() const;
+
+    private:
+        Player& m_player;
 };
 
 #endif

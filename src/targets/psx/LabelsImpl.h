@@ -3,13 +3,9 @@
 #ifndef LABELS_PSX_H
 #define LABELS_PSX_H
 
-#include <Stack.h>
-#include <core/Labels.h>
-
-class LabelsImpl : public Core::Labels {
+class LabelsImpl {
     public:
-        void init_graphics(Stack *stack);
-        void draw() const;
+        void render() const;
 };
 
 #endif

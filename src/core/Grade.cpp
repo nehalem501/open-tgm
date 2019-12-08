@@ -12,3 +12,4 @@ Grade::Grade() :
 void Grade::draw() const {
     m_implementation.render();
 }
+

@@ -3,12 +3,13 @@
 #ifndef LINE_CLEAR_PARTICLES_PS2_H
 #define LINE_CLEAR_PARTICLES_PS2_H
 
-#include <core/LineClearParticles.h>
+#include <Position.h>
 
-class LineClearParticlesImpl : public Core::LineClearParticles {
+class LineClearParticlesImpl {
     public:
-        void init();
-        void draw() const;
+        void reset(Position& position);
+        void update();
+        void render() const;
 };
 
 #endif

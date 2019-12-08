@@ -3,12 +3,9 @@
 #ifndef INPUT_PSVITA_H
 #define INPUT_PSVITA_H
 
-#include <core/Input.h>
+/* Forward declarations to avoid dependency hell */
+class Input;
 
-class InputImpl : public Core::Input {
-    public:
-        void init();
-        void poll_inputs();
-};
+void get_inputs(Input& input);
 
 #endif

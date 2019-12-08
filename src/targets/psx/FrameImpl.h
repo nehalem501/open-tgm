@@ -3,13 +3,17 @@
 #ifndef FRAME_PSX_H
 #define FRAME_PSX_H
 
-#include <core/Frame.h>
+/* Forward declarations to avoid dependency hell */
+class Frame;
 
-class FrameImpl : public Core::Frame {
+class FrameImpl {
     public:
-        void init_graphics();
-        void update_graphics();
-        void draw() const;
+        FrameImpl(Frame& frame) : m_frame(frame) { };
+        void update();
+        void render() const;
+
+    private:
+        Frame& m_frame;
 };
 
 #endif

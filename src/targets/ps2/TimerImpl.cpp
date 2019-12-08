@@ -1,12 +1,10 @@
 /* TimerImpl.cpp - PS2 */
 
+#include <TargetTypes.h>
 #include "TimerImpl.h"
 
-void TimerImpl::init_graphics() {
+void TimerImpl::update(const uint8_t m_digits[6]) {
 }
 
-void TimerImpl::update_graphics() {
-}
-
-void TimerImpl::draw() const {
+void TimerImpl::render() const {
 }

@@ -1,8 +1,11 @@
 /* AppImpl.cpp - PS2 */
 
-#include <Global.h>
+#include <MainMenu.h>
 #include <App.h>
 
-void app() {
-    
+void app(MainMenu& menu) {
+    // For each frame {
+        menu.update();
+        menu.draw();
+    // }
 }

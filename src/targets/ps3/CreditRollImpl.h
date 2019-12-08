@@ -3,12 +3,10 @@
 #ifndef CREDIT_ROLL_PS3_H
 #define CREDIT_ROLL_PS3_H
 
-#include <core/CreditRoll.h>
-
-class CreditRollImpl : public Core::CreditRoll {
+class CreditRollImpl {
     public:
-        void init_graphics();
-        void draw() const;
+        void update();
+        void render() const;
 };
 
 #endif

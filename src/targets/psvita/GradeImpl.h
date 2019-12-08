@@ -3,12 +3,10 @@
 #ifndef GRADE_PSVITA_H
 #define GRADE_PSVITA_H
 
-#include <core/Grade.h>
-
-class GradeImpl : public Core::Grade {
+class GradeImpl {
     public:
-        void init_graphics();
-        void draw() const;
+        void update();
+        void render() const;
 };
 
 #endif
