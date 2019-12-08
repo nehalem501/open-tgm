@@ -24,6 +24,8 @@ void Core::Player::init(::Stack *stack) {
 
 /* Init the field and all the other stuff */
 void Core::Player::init(::Stack *stack, Mode *mode) {
+    m_itemBagFlags = UINT32_C(0);
+    m_NumberOfPiecesBeforeItemSpawn = 20u;
     m_stack = stack;
     m_current_mode = mode;
 
@@ -496,8 +498,130 @@ void Core::Player::update(int *game_state) {
     }
 }
 
+/**COPIED AND SLIGHTLY MODIFIED FROM NIGHTMARECI'S ITEM DISASSEMBLY
+  See : https://tetrisconcept.net/threads/tap-item-randomizer-test-tool.3893/
+  */
+typedef enum {
+    ITEMTYPE_NULL,
+    ITEMTYPE_DEATHBLOCK,
+    ITEMTYPE_NEGAFIELD,
+    ITEMTYPE_COLORBLOCK,
+    ITEMTYPE_TOPDELFIELD,
+    ITEMTYPE_BOTTOMDELFIELD,
+    ITEMTYPE_RIGHTMOVFIELD,
+    ITEMTYPE_LEFTMOVFIELD,
+    ITEMTYPE_DELEVEN,
+    ITEMTYPE_180DEGREEFIELD,
+    ITEMTYPE_SHOTGUN,
+    ITEMTYPE_HARDBLOCK,
+    ITEMTYPE_LASER,
+    ITEMTYPE_ROLLROLL,
+    ITEMTYPE_TRANSFORM,
+    ITEMTYPE_FREEFALL,
+    ITEMTYPE_XRAY,
+    ITEMTYPE_EXCHGFIELD,
+    ITEMTYPE_MIRRORBLOCK,
+    ITEMTYPE_DARKBLOCK,
+    NUMITEMTYPES = ITEMTYPE_DARKBLOCK,
+} ItemType;
+#define TOITEMNUM(itemType) ((uint8_t)((itemType) - 1))
+#define TOITEMTYPE(itemNum) ((ItemType)((itemNum) + 1))
+
+static const uint8_t InitItemSeed[NUMITEMTYPES] = { 50u, 1u, 250u, 250u, 100u, 50u, 3u, 150u, 100u, 5u, 50u, 250u, 150u, 250u, 3u, 150u, 3u, 150u, 5u };
+
+uint32_t Rand(uint32_t seed, uint32_t limit) {
+  return seed % limit;
+}
+
+ItemType NextItem(uint32_t* itemBagFlags) {
+    uint8_t itemSeed[NUMITEMTYPES];
+    for (uint16_t itemNum = 0u; itemNum < NUMITEMTYPES; itemNum++) {
+        itemSeed[itemNum] = InitItemSeed[itemNum];
+    }
+
+    for (uint16_t itemNum = 0u; itemNum < NUMITEMTYPES; itemNum++) {
+        if (!(*itemBagFlags & (1 << itemNum))) {
+            itemSeed[itemNum] = 0u;
+        }
+    }
+
+    uint16_t seedSum = 0u;
+    for (uint16_t itemNum = 0u; itemNum < NUMITEMTYPES; itemNum++) {
+        seedSum += itemSeed[itemNum];
+    }
+
+    // The original codes has this check, but seedSum is never zero here, since
+    // this function is only called with an item bag having at least one item
+    // type remaining.
+    if (seedSum > 0u) {
+        while (true) {
+            uint16_t sumMax;
+            // Feel free to replace the C rand() call here with anything. The original code is like this:
+            // sumMax = (NumScreenFrames + Rand(4750u)) % seedSum + 1u;
+            // NumScreenFrames is the total number of frames the game has been at the game screen.
+            // Rand(limit) is a PRNG that generates an integer in the range [0, limit).
+            sumMax = Rand(20984u, 4750u) % seedSum + 1u;
+
+            uint16_t itemNum = 0u;
+            for (uint16_t seedSum = 0u; itemNum < NUMITEMTYPES; itemNum++) {
+                seedSum += itemSeed[itemNum];
+                if (seedSum >= sumMax) {
+                    break;
+                }
+            }
+            // Though the original code has this check, in practice, item
+            // generation never fails.
+            if (itemNum == NUMITEMTYPES) {
+                return ITEMTYPE_NULL;
+            }
+            if (*itemBagFlags & (UINT32_C(1) << itemNum)) {
+                *itemBagFlags &= ~(UINT32_C(1) << itemNum);
+                return TOITEMTYPE(itemNum);
+            }
+        }
+    }
+    // Only needed to silence compiler warnings.
+    return ITEMTYPE_NULL;
+}
+
+const char* itemNames[NUMITEMTYPES + 1] = {
+    "FAIL",
+    "DEATH BLOCK",
+    "NEGA FIELD",
+    "COLOR BLOCK",
+    "TOP DEL FIELD",
+    "BOTTOM DEL FIELD",
+    "RIGHT MOV FIELD",
+    "LEFT MOV FIELD",
+    "DEL EVEN",
+    "180 DEGREE FIELD",
+    "SHOTGUN",
+    "HARD BLOCK",
+    "LASER",
+    "ROLL ROLL",
+    "TRANSFORM",
+    "FREEFALL",
+    "XRAY",
+    "EXCHG FIELD",
+    "MIRROR BLOCK",
+    "DARK BLOCK"
+};
+/** END OF NIGHTMARECI'S DISASSEMBLY
+  */
+
 /* Use randomizer and get next piece */
 void Core::Player::next_piece() {
+    if (!m_itemBagFlags) {
+        m_itemBagFlags = UINT32_C(0x7FFFF);
+    }
+    m_NumberOfPiecesBeforeItemSpawn--;
+    if (!m_NumberOfPiecesBeforeItemSpawn) {
+        m_NumberOfPiecesBeforeItemSpawn = 20u;
+        ItemType itemName = NextItem(&m_itemBagFlags);
+#ifdef DEBUG
+        print("NEW ITEM\n : %s", itemNames[itemName]);
+#endif
+    }
     m_piece.spawn(m_next);
     m_piece_old_y = m_piece.pos_y();
     m_active_time = 0;
