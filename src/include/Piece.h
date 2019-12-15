@@ -54,6 +54,7 @@ class Piece {
 
         void move_leftright(Stack *stack, int *ghost_y, int amount);
         int move_down(int ghost_y, int amount);
+        void rotate_transform(Stack *stack, int *ghost_y, int rotation);
         void rotate_kick(Stack *stack, int *ghost_y, int rotation);
 
     private:

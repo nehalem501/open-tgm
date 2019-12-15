@@ -5,6 +5,7 @@
 #include <Utils.h>
 #include <Stack.h>
 #include <Piece.h>
+#include <random>
 
 Piece::Piece() : m_type(0), m_orientation(0), m_pos_x(0), m_pos_y(0) {
 }
@@ -53,6 +54,69 @@ int Piece::move_down(int ghost_y, int amount) {
     }
 
     return m_pos_y - old_pos_y;
+}
+
+void Piece::rotate_transform(Stack *stack, int *ghost_y, int rotation) {
+    tiles_t old_type = m_type;
+    int old_orientation = m_orientation;
+    int old_pos_y = m_pos_y;
+    int old_pos_x = m_pos_x;
+    int old_ghost_y = *ghost_y;
+    tiles_t all_types[7] = {Shape::I, Shape::O, Shape::T, Shape::S, Shape::Z, Shape::L, Shape::J};
+    bool type_can_exist[7] = {false, false, false, false, false, false, false};
+
+    uint8_t typeIndex = 0;
+    uint8_t nb_types_that_can_exist = 0;
+    while (typeIndex < 7) {
+        tiles_t type_tested_for_existence = all_types[typeIndex];
+        m_type = type_tested_for_existence;
+        m_orientation = old_orientation;
+        rotate_kick(stack, ghost_y, rotation);
+        // A little dirty, we should factor this into a function rotation_works/can_rotate
+        if (m_orientation != old_orientation) {
+            // Rotation worked, so we register this piece
+            type_can_exist[typeIndex] = true;
+            nb_types_that_can_exist++;
+        } else if (old_type == type_tested_for_existence) {
+            // Interrupt : Piece could not rotate under normal circumstances
+            *ghost_y = old_ghost_y;
+            m_pos_x = old_pos_x;
+            m_pos_y = old_pos_y;
+            m_type = old_type;
+            m_orientation = old_orientation;
+            return;
+        }
+        *ghost_y = old_ghost_y;
+        m_pos_x = old_pos_x;
+        m_pos_y = old_pos_y;
+        m_type = old_type;
+        m_orientation = old_orientation;
+        typeIndex++;
+    }
+    // Defensive programming : nb_types_that_can_exist should normally be > 0
+    if (nb_types_that_can_exist == 0)
+        return;
+    uint8_t randomVariable = (rand()) % nb_types_that_can_exist;
+    typeIndex = 0;
+    uint8_t typeIndex_that_can_work = 0;
+#ifdef DEBUG
+    print("[Transform] all types : %u", nb_types_that_can_exist);
+    print("random var : %u", randomVariable);
+#endif
+    while (typeIndex < 7) {
+        if (type_can_exist[typeIndex] && typeIndex_that_can_work == randomVariable) {
+            *ghost_y = old_ghost_y;
+            m_type = all_types[typeIndex];
+            m_pos_x = old_pos_x;
+            m_pos_y = old_pos_y;
+            m_orientation = old_orientation;
+            rotate_kick(stack, ghost_y, rotation);
+            return;
+        } else {
+            typeIndex_that_can_work++;
+        }
+        typeIndex++;
+    }
 }
 
 /* Rotate piece including wallkicks */
