@@ -2,9 +2,9 @@
 
 #include <3ds.h>
 #include <citro3d.h>
-#include <Global.h>
+//#include <Global.h>
 #include <MainMenu.h>
-#include <Background.h>
+//#include <Background.h>
 #include "lodepng.h"
 #include <App.h>
 
@@ -144,7 +144,7 @@ void end_gpu_stuff() {
 	DVLB_Free(vshader_dvlb);
 }
 
-void app() {
+void app(MainMenu& menu) {
     gfxInitDefault();
     C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 

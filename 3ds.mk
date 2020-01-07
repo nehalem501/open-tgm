@@ -6,6 +6,10 @@ CXX = arm-none-eabi-g++
 CXXFLAGS += -DTARGET_3DS -O2 -mword-relocations -fomit-frame-pointer -ffunction-sections -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -DARM11 -D_3DS -fno-rtti -fno-exceptions -std=gnu++11
 LDFLAGS = -specs=3dsx.specs -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -Wl,-Map,$(BUILD_DIR)/$(NAME).map
 
+HEADERS += -I$(SRC_DIR)/gpu
+SOURCES += $(wildcard $(SRC_DIR)/gpu/*.cpp)
+OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o))
+
 PICA_FILES := $(wildcard src/targets/3ds/resources/*.v.pica)
 PNG_FILES := $(wildcard data/platform_specific/3ds/*.png)
 OBJECTS := $(addprefix $(BUILD_DIR)/, $(PNG_FILES:data/platform_specific/3ds/%=%.o)) $(OBJECTS)
@@ -67,6 +71,6 @@ clean:
 print_info:
 	@echo assembler: $(AS)
 	@echo C++ compiler: $(CXX)
-	@mkdir -p $(BUILD_DIR)/targets/gba/resources
+	@mkdir -p $(BUILD_DIR)/gpu
 
 .PHONY: clean print_info

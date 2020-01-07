@@ -10,6 +10,10 @@
 #define print printf
 #endif
 
+#include <citro3d.h>
+
 typedef uint32_t tiles_t;
+typedef float gpu_float_t;
+typedef C3D_Tex texture_t;
 
 #endif
