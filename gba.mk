@@ -1,7 +1,8 @@
 # GBA target Makefile
 
-CXX = arm-none-eabi-g++
 CC = arm-none-eabi-gcc
+CXX = arm-none-eabi-g++
+OBJCOPY = arm-none-eabi-objcopy
 
 SOURCES_C = $(wildcard $(SRC_DIR)/targets/gba/resources/*.c)
 OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o)) $(addprefix $(BUILD_DIR)/, $(SOURCES_C:src/%.c=%.o))
@@ -24,7 +25,8 @@ LIBS_DIR = -L$(DEVKITPRO)/libgba/lib
 all : $(EXE_NAME).gba
 
 $(EXE_NAME).gba : $(EXE_NAME).elf
-	arm-none-eabi-objcopy -O binary $< $@
+	@echo generating GBA rom
+	@$(DEVKITARM)/bin/$(OBJCOPY) -O binary $< $@
 	@echo built ... $(notdir $@)
 	gbafix $@
 
