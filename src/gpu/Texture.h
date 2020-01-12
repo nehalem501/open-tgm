@@ -3,7 +3,7 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include <TargetTypes.h>
+#include <GPUTypes.h>
 
 namespace TextureID {
     enum {
@@ -17,6 +17,9 @@ namespace TextureID {
 }
 
 class Texture {
+    public:
+        Texture() { };
+        Texture(texture_t texture) : m_texture(texture) { };
     private:
         texture_t m_texture;
 };

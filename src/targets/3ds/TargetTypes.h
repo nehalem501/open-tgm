@@ -10,10 +10,6 @@
 #define print printf
 #endif
 
-#include "lib3ds.h"
-
 typedef uint32_t tiles_t;
-typedef float gpu_float_t;
-typedef C3D_Tex texture_t;
 
-#endif
+#endif // TARGET_TYPES_3DS_H

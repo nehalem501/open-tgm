@@ -3,15 +3,16 @@
 #ifndef BACKGROUND_GPU_H
 #define BACKGROUND_GPU_H
 
-#include "Sprite.h"
+#include "Rect.h"
 
 class BackgroundImpl {
     public:
-        BackgroundImpl() : m_image(0, 0, 100, 200, NULL) { };
+        BackgroundImpl();
         void render(const bool options) const;
 
     private:
-        Sprite m_image;
+        Rect m_background_gradient;
+        Rect m_background_image;
 };
 
 #endif

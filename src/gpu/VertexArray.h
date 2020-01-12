@@ -26,6 +26,10 @@ class VertexArray2D {
             #endif
         };
 
+        inline void texture(Texture *texture) {
+            m_implementation.m_texture = texture;
+        };
+
         inline void render() const { m_implementation.render(); };
 };
 
