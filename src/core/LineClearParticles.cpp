@@ -18,7 +18,7 @@ LineClearParticles::LineClearParticles(Position *parent) :
     #endif
 }
 
-void LineClearParticles::set_emitter( unsigned int line) {
+void LineClearParticles::set_emitter(unsigned int line) {
     m_active = true;
     m_line = line;
 }

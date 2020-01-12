@@ -30,7 +30,7 @@ uint32_t tgm2p_master_score(uint32_t level, uint32_t lines, uint32_t soft,
     return (tmp + soft + (2 * sonic)) * lines * combo * bravo + tmp2 + (speed * 7);
 }
 
-void tgm2p_master_grade(uint32_t score, unsigned int level, Grade *grade) {
+void tgm2p_master_grade(uint32_t /*score*/, unsigned int /*level*/, Grade* /*grade*/) {
 }
 
 static struct Timing TGM2P_MASTER_GRAVITY[30] = {

@@ -16,7 +16,9 @@
 
 /* Init the field and all the other stuff */
 void Player::init(Position *position, Mode *mode) {
-    //stack = stack;
+    // TODO: position
+    m_parent = position;
+
     m_current_mode = mode;
 
     m_score = 0;
@@ -214,9 +216,11 @@ void Player::update(Stack *stack, int *game_state) {
                 // New state
                 m_state = PlayerState::INGAME;
                 m_line_are = false;
-            } else {
-                break;
+
+                goto ingame;
             }
+            
+            break;
         }
 
         // Maybe unnecessary ?
@@ -225,6 +229,7 @@ void Player::update(Stack *stack, int *game_state) {
         }*/
 
         case PlayerState::INGAME: {
+        ingame:
             #ifdef DEBUG
             print("INGAME\n");
             #endif
@@ -374,7 +379,6 @@ void Player::update(Stack *stack, int *game_state) {
             if (m_current_mode->old_locking_style()) {
                 m_lock_color_delay = OLD_LOCK_COLOR_DELAY;
                 m_state = PlayerState::LOCKED_ANIM_OLD;
-                break;
             } else {
                 m_lock_color_delay = NEW_LOCK_COLOR_DELAY;
 
@@ -393,16 +397,23 @@ void Player::update(Stack *stack, int *game_state) {
                 #ifdef DEBUG
                 print("state: LOCKED_ANIM_NEW\n");
                 #endif
+
+                goto locked_animation_new;
             }
+
+            break;
         }
 
         case PlayerState::LOCKED_ANIM_NEW:
+        locked_animation_new:
             #ifdef DEBUG
             print("color_delay: %d\n", (int) m_lock_color_delay);
             #endif
 
             if (stack->check_lines(*this)) {
                 m_state = PlayerState::CLEAR;
+
+                goto locked_animation_old;
             } else {
                 if (m_lock_color_delay > 0) {
                     m_lock_color_delay--;
@@ -412,10 +423,12 @@ void Player::update(Stack *stack, int *game_state) {
                 stack->remove_grey_blocks(m_piece);
                 m_combo = 1;
                 m_state = PlayerState::ARE;
-                break;
             }
 
+            break;
+
         case PlayerState::LOCKED_ANIM_OLD:
+        locked_animation_old:
             #ifdef DEBUG
             print("color_delay: %d\n", (int) m_lock_color_delay);
             #endif

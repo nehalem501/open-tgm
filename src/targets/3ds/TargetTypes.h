@@ -10,7 +10,7 @@
 #define print printf
 #endif
 
-#include <citro3d.h>
+#include "lib3ds.h"
 
 typedef uint32_t tiles_t;
 typedef float gpu_float_t;

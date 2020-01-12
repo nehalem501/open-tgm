@@ -7,7 +7,7 @@
 
 class BackgroundImpl {
     public:
-        BackgroundImpl() : m_image(0, 0, 100, 100, NULL) { };
+        BackgroundImpl() : m_image(0, 0, 100, 200, NULL) { };
         void render(const bool options) const;
 
     private:

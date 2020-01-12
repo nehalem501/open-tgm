@@ -6,27 +6,27 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <GPUImpl.h>
 #include "Vertex.h"
 #include "Texture.h"
-
-void render_vertices_2d(const Vertex2D *vertices, unsigned int length);
 
 template <size_t N>
 class VertexArray2D {
     public:
-        VertexArray2D(Texture *texture) : m_texture(texture) { memset(m_vertices, 0, sizeof(m_vertices)); };
-        inline void render() const { render_vertices_2d(m_vertices, N); };
+        VertexArray2DImpl<N> m_implementation;
 
-    private:
-        Texture *m_texture;
-    public: // TODO
-        Vertex2D m_vertices[N];
+    public:
+        Vertex2D (&vertices)[N];
+
+        VertexArray2D(Texture *texture) :
+                m_implementation(texture),
+                vertices(*((Vertex2D(*)[N]) m_implementation.m_vertices)) {
+            #ifdef DEBUG
+            print("VertexArray2D<%d> constructor\n", (int) N);
+            #endif
+        };
+
+        inline void render() const { m_implementation.render(); };
 };
-
-/*template <size_t N>
-class VertexArray3D {
-    private:
-        Vertex3D m_vertices[N];
-};*/
 
 #endif // VERTEX_ARRAY_H

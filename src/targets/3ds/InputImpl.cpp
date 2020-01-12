@@ -1,6 +1,6 @@
 /* InputImpl.cpp - 3DS */
 
-#include <3ds.h>
+#include "lib3ds.h"
 #include <Input.h>
 #include "InputImpl.h"
 

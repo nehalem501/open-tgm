@@ -4,8 +4,9 @@
 #include <Global.h>
 #include <Input.h>
 #include <Text.h>
-#include <ChooseMode.h>
+#include <MainMenu.h>
 #include <../modes/modes.h>
+#include <ChooseMode.h>
 
 ChooseMode::ChooseMode() :
         m_mode(0),
@@ -29,6 +30,10 @@ ChooseMode::ChooseMode() :
 }
 
 void ChooseMode::update(int *state, int *mode) {
+    // TODO: remove, just to keep compiler happy
+    *state = MainMenuState::START_GAME;
+    *mode = m_mode;
+
     // Mode selected, play animation before starting game
     if (input.a()) {
         //m_das_up = 4;

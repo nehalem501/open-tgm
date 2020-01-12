@@ -3,8 +3,7 @@
 #ifndef GLOBAL_3DS_H
 #define GLOBAL_3DS_H
 
-#include <3ds.h>
-#include <citro3d.h>
+#include "lib3ds.h"
 
 extern C3D_Tex empty_tex;
 extern C3D_Tex background_tex;
@@ -34,4 +33,4 @@ struct quad {
     vertex verts[4];
 };
 
-#endif
+#endif // GLOBAL_3DS_H
