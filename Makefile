@@ -13,8 +13,8 @@ TARGETS_MK := $(wildcard *.mk)
 TARGETS := $(TARGETS_MK:.mk=)
 
 # Common variables for all targets
-CFLAGS := -Wall -pedantic-errors -DOPENTGM_VERSION=\"$(VERSION)\"
-CXXFLAGS := -Wall -pedantic-errors -DOPENTGM_VERSION=\"$(VERSION)\"
+CFLAGS := -Wall -Wextra -pedantic-errors -Werror -DOPENTGM_VERSION=\"$(VERSION)\"
+CXXFLAGS := -Wall -Wextra -pedantic-errors -Werror -DOPENTGM_VERSION=\"$(VERSION)\"
 
 # Arguments
 ARGS := $(MAKECMDGOALS)
