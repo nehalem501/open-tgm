@@ -15,9 +15,9 @@ class Image {
             gpu_float_t y,
             gpu_float_t width,
             gpu_float_t height,
-            Texture *texture);
+            TextureID texture);
 
-        inline void texture(Texture *texture) { m_rect.texture(texture); };
+        inline void texture(TextureID texture) { m_rect.texture(texture); };
 
         inline void move(gpu_float_t x, gpu_float_t y) { m_rect.move(x, y); };
 
@@ -28,11 +28,6 @@ class Image {
         inline void size(gpu_float_t width, gpu_float_t height) {
             m_rect.size(width, height);
         };
-
-        //inline Vertex2D& top_left() { return m_vertex_array.vertices[0]; };
-        //inline Vertex2D& top_right() { return m_vertex_array.vertices[3]; };
-        //inline Vertex2D& bottom_left() { return m_vertex_array.vertices[1]; };
-        //inline Vertex2D& bottom_right() { return m_vertex_array.vertices[2]; };
 
         inline void render() const { m_rect.render(); };
 

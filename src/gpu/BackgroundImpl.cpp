@@ -6,20 +6,23 @@
 BackgroundImpl::BackgroundImpl() :
         m_background_gradient(
             0, 0, 100, 200,
-            GPU_BLUE, GPU_BLUE, GPU_BLACK, GPU_BLACK,
-            NULL),
-        m_background_image(0, 0, 100, 200, get_texture(TextureID::BACKGROUND)) {
+            TOP_LEFT, GPU_BLUE,
+            TOP_RIGHT, GPU_BLUE,
+            BOTTOM_LEFT, GPU_BLACK,
+            BOTTOM_RIGHT, GPU_BLACK,
+            TexturesID::NONE),
+        m_background_image(10, 10, 100, 200, TexturesID::BACKGROUND) {
     #ifdef DEBUG
     print("BackgroundImpl constructor\n");
     #endif
 }
 
 void BackgroundImpl::render(const bool options) const {
-    if (options) {
+    if (options) { }
         // Draw settings background
-        m_background_gradient.render();
-    } else {
+        m_background_gradient.render();/*
+    } else {*/
         // Draw game background
-        m_background_image.render();
-    }
+        m_background_image.render();/*
+    }*/
 }

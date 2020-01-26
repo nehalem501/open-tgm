@@ -5,6 +5,7 @@
 
 #include <TargetTypes.h>
 #include <Position.h>
+#include <Typeface.h>
 
 /* Forward declarations to avoid dependency hell */
 class Text;
@@ -20,6 +21,7 @@ class TextImpl {
 
     private:
         Text& m_text;
+        //Typeface m_typeface;
 };
 
 #endif

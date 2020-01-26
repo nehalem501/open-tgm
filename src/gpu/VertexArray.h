@@ -18,7 +18,7 @@ class VertexArray2D {
     public:
         Vertex2D (&vertices)[N];
 
-        VertexArray2D(Texture *texture) :
+        VertexArray2D(TextureID texture) :
                 m_implementation(texture),
                 vertices(*((Vertex2D(*)[N]) m_implementation.m_vertices)) {
             #ifdef DEBUG
@@ -26,7 +26,7 @@ class VertexArray2D {
             #endif
         };
 
-        inline void texture(Texture *texture) {
+        inline void texture(TextureID texture) {
             m_implementation.m_texture = texture;
         };
 

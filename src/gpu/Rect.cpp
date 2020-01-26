@@ -7,11 +7,15 @@ Rect::Rect(
     gpu_float_t y,
     gpu_float_t width,
     gpu_float_t height,
-    ColorRGBA top_left,
-    ColorRGBA top_right,
-    ColorRGBA bottom_left,
-    ColorRGBA bottom_right,
-    Texture *texture) :
+    TexCoord top_left_tex_coords,
+    ColorRGBA top_left_color,
+    TexCoord top_right_tex_coords,
+    ColorRGBA top_right_color,
+    TexCoord bottom_left_tex_coords,
+    ColorRGBA bottom_left_color,
+    TexCoord bottom_right_tex_coords,
+    ColorRGBA bottom_right_color,
+    TextureID texture) :
         m_vertex_array(texture) {
     #ifdef DEBUG
     print("Rect constructor: %s\n", m_name);
@@ -19,20 +23,34 @@ Rect::Rect(
 
     m_vertex_array.vertices[0] = {
         x, y,
-        0, 0,
-        top_left.r, top_left.g, top_left.b, top_left.a };
+        top_left_tex_coords.u, top_left_tex_coords.v,
+        top_left_color.r,
+        top_left_color.g,
+        top_left_color.b,
+        top_left_color.a };
     m_vertex_array.vertices[1] = {
         x, y + height,
-        0, 0,
-        bottom_left.r, bottom_left.g, bottom_left.b, bottom_left.a };
+        bottom_left_tex_coords.u, bottom_left_tex_coords.v,
+        bottom_left_color.r,
+        bottom_left_color.g,
+        bottom_left_color.b,
+        bottom_left_color.a };
     m_vertex_array.vertices[2] = {
         x + width, y + height,
-        0, 0,
-        bottom_right.r, bottom_right.g, bottom_right.b, bottom_right.a };
+        bottom_right_tex_coords.u,
+        bottom_right_tex_coords.v,
+        bottom_right_color.r,
+        bottom_right_color.g,
+        bottom_right_color.b,
+        bottom_right_color.a };
     m_vertex_array.vertices[3] = {
         x + width, y,
-        0, 0,
-        top_right.r, top_right.g, top_right.b, top_right.a };
+        top_right_tex_coords.u,
+        top_right_tex_coords.v,
+        top_right_color.r,
+        top_right_color.g,
+        top_right_color.b,
+        top_right_color.a };
 }
 
 void Rect::render() const {

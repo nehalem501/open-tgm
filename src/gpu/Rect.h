@@ -15,13 +15,17 @@ class Rect {
             gpu_float_t y,
             gpu_float_t width,
             gpu_float_t height,
-            ColorRGBA top_left,
-            ColorRGBA top_right,
-            ColorRGBA bottom_left,
-            ColorRGBA bottom_right,
-            Texture *texture);
+            TexCoord top_left_tex_coords,
+            ColorRGBA top_left_color,
+            TexCoord top_right_tex_coords,
+            ColorRGBA top_right_color,
+            TexCoord bottom_left_tex_coords,
+            ColorRGBA bottom_left_color,
+            TexCoord bottom_right_tex_coords,
+            ColorRGBA bottom_right_color,
+            TextureID texture);
 
-        inline void texture(Texture *texture) {
+        inline void texture(TextureID texture) {
             m_vertex_array.texture(texture);
         };
 

@@ -5,9 +5,12 @@
 
 #include <GPUTypes.h>
 
-namespace TextureID {
+typedef unsigned int TextureID;
+
+namespace TexturesID {
     enum {
-        BACKGROUND = 0,
+        NONE = 0,
+        BACKGROUND,
         BLOCKS,
         TEXT,
         LABELS,
@@ -15,15 +18,5 @@ namespace TextureID {
         NB_TEXTURES
     };
 }
-
-class Texture {
-    public:
-        Texture() { };
-        Texture(texture_t texture) : m_texture(texture) { };
-    private:
-        texture_t m_texture;
-};
-
-Texture* get_texture(unsigned int id);
 
 #endif // TEXTURE_H
