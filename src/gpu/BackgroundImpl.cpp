@@ -4,16 +4,14 @@
 #include "BackgroundImpl.h"
 
 BackgroundImpl::BackgroundImpl() :
-        m_background_gradient(0, 0, 100, 200, NULL),
+        m_background_gradient(
+            0, 0, 100, 200,
+            GPU_BLUE, GPU_BLUE, GPU_BLACK, GPU_BLACK,
+            NULL),
         m_background_image(0, 0, 100, 200, get_texture(TextureID::BACKGROUND)) {
     #ifdef DEBUG
     print("BackgroundImpl constructor\n");
     #endif
-
-    m_background_gradient.top_left().color(0, 0, 1, 1);
-    m_background_gradient.top_right().color(0, 0, 1, 1);
-    m_background_gradient.bottom_left().color(0, 0, 0, 1);
-    m_background_gradient.bottom_right().color(0, 0, 0, 1);
 }
 
 void BackgroundImpl::render(const bool options) const {

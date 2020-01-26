@@ -4,6 +4,7 @@
 #define BACKGROUND_GPU_H
 
 #include "Rect.h"
+#include "Image.h"
 
 class BackgroundImpl {
     public:
@@ -12,7 +13,7 @@ class BackgroundImpl {
 
     private:
         Rect m_background_gradient;
-        Rect m_background_image;
+        Image m_background_image;
 };
 
 #endif

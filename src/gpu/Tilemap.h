@@ -8,8 +8,10 @@
 
 template <size_t N>
 class Tilemap {
+    public:
+        //;
     private:
-        Position m_position;
+        //Position m_position;
         VertexArray2D<N * 4> m_vertex_array;
 };
 
