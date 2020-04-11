@@ -3,6 +3,7 @@
 #ifndef HOME_H
 #define HOME_H
 
+#include <stdint.h>
 #include <TargetTypes.h>
 #include <Text.h>
 #include <HomeImpl.h>
@@ -17,9 +18,9 @@ class Home {
 
     private:
         Text m_start;
-        int8_t m_start_timer;
+        uint8_t m_start_timer;
 
-        HomeImpl m_implementation;
+        //HomeImpl m_implementation;
 };
 
 #endif // HOME_H

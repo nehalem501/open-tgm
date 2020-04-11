@@ -2,7 +2,7 @@
 
 #include <gba.h>
 #include <Global.h>
-#include <MainMenu.h>
+#include <Scene.h>
 #include <Background.h>
 #include <App.h>
 
@@ -10,17 +10,17 @@
 #define m_height 22
 #include <cstring>
 
-static MainMenu *main_menu;
+static Scene *main_scene;
 
 void VblankInterrupt() {
     // Clear screen
     memset((u16*) MAP_BASE_ADR(24), 0, sizeof(u16) * 32 * 20);
     
     // Draw frame
-    main_menu->draw();
+    main_scene->draw();
 }
 
-void app(MainMenu& menu) {
+void app(Scene& scene) {
     // Set up the interrupt handlers
     irqInit();
     irqSet( IRQ_VBLANK, VblankInterrupt);
@@ -31,11 +31,11 @@ void app(MainMenu& menu) {
     // Allow Interrupts
     REG_IME = 1;
 
-    main_menu = &menu;
+    main_scene = &scene;
 
     while (true) {
         // Do frame
-        menu.update();
+        scene.update();
 
         // Wait for Vblank to draw
         VBlankIntrWait();

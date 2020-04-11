@@ -11,18 +11,17 @@
 class Rect {
     public:
         Rect(
-            gpu_float_t x,
-            gpu_float_t y,
+            Vector2D coords,
             gpu_float_t width,
             gpu_float_t height,
-            TexCoord top_left_tex_coords,
-            ColorRGBA top_left_color,
-            TexCoord top_right_tex_coords,
-            ColorRGBA top_right_color,
-            TexCoord bottom_left_tex_coords,
-            ColorRGBA bottom_left_color,
-            TexCoord bottom_right_tex_coords,
-            ColorRGBA bottom_right_color,
+            const TexCoord& top_left_tex_coords,
+            const ColorRGBA& top_left_color,
+            const TexCoord& top_right_tex_coords,
+            const ColorRGBA& top_right_color,
+            const TexCoord& bottom_left_tex_coords,
+            const ColorRGBA& bottom_left_color,
+            const TexCoord& bottom_right_tex_coords,
+            const ColorRGBA bottom_right_color,
             TextureID texture);
 
         inline void texture(TextureID texture) {

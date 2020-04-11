@@ -72,6 +72,7 @@ class Mode {
         inline unsigned int height() { return m_height; };
 
         inline unsigned int max_level() { return m_max_level; };
+        inline unsigned int initial_grade() { return m_initial_grade; };
         inline unsigned int random_tries() { return m_random_tries; };
 
         inline unsigned int labels_nb() { return m_labels_nb; };

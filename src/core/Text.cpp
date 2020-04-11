@@ -6,11 +6,8 @@
 #include <Stack.h>
 #include <Text.h>
 
-static Position default_position(0, 0);
-
 Text::Text() :
-        m_position(default_position),
-        m_parent(default_position),
+        m_position(0, 0),
         m_color(0),
         m_length(0),
         m_str(NULL),
@@ -20,9 +17,8 @@ Text::Text() :
     #endif
 }
 
-Text::Text(Position position, Position& parent) :
+Text::Text(Position position) :
         m_position(position),
-        m_parent(parent),
         m_color(0),
         m_length(0),
         m_str(NULL),
@@ -32,9 +28,8 @@ Text::Text(Position position, Position& parent) :
     #endif
 }
 
-Text::Text(Position position, Position& parent, int color, const char *str) :
+Text::Text(Position position, int color, const char *str) :
         m_position(position),
-        m_parent(parent),
         m_color(color),
         m_length(0),
         m_str(NULL),
@@ -45,7 +40,7 @@ Text::Text(Position position, Position& parent, int color, const char *str) :
     text(str);
 }
 
-void Text::position(Position position) {
+void Text::position(const Position &position) {
     if (m_position.x != position.x || m_position.y != position.y) {
         #ifdef DEBUG
         print(
@@ -79,6 +74,10 @@ void Text::color(int color) {
         m_color = color;
         // TODO update
     }
+}
+
+void Text::layout(const Position &parent) {
+    m_implementation.layout(parent); // TODO position
 }
 
 void Text::draw() const {

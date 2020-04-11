@@ -2,10 +2,14 @@
 
 #include <Labels.h>
 
-Labels::Labels(const Position& parent) : m_parent(parent) {
+Labels::Labels() {
+    // TODO
+}
+
+void Labels::layout(const Position &parent) {
+    m_implementation.layout(parent);
 }
 
 void Labels::draw() const {
     // TODO
 }
-

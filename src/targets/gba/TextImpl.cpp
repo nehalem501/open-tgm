@@ -18,12 +18,16 @@ void TextImpl::update_color() {
     // Update color here
 }
 
+void TextImpl::layout(const Position & /*position*/) {
+    // TODO
+}
+
 void TextImpl::render() const {
     // Draw text at x, y position
     u16 *screen = (u16*) MAP_BASE_ADR(24);
 
-    const int x = m_text.position_x();
-    const int y = m_text.position_y();
+    const int x = m_text.position().x;
+    const int y = m_text.position().y;
 
     if (m_text.color() != 0) {
         for (unsigned int i = 0; i < m_text.length(); i++) {

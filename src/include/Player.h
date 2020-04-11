@@ -106,7 +106,7 @@ class Player {
         bool m_draw_piece, m_draw_ghost;
         bool m_start_das_left, m_start_das_right;
 
-        bool m_line_are, m_start_clear, m_start_lock;
+        bool m_line_are, /*m_start_clear,*/ m_start_lock;
         bool m_previous_down;
 
         bool m_already_dropped;

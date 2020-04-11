@@ -3,7 +3,9 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <stdint.h>
 #include <Position.h>
+#include <ChooseMode.h>
 #include <Timer.h>
 #include <Labels.h>
 #include <Text.h>
@@ -13,7 +15,8 @@
 
 namespace GameState {
     enum {
-        READY_GO = 0,
+        CHOOSE_MODE = 0,
+        READY_GO,
         INGAME,
         CREDIT_ROLL,
         GAME_OVER_ANIM,
@@ -28,47 +31,28 @@ const char GAME_OVER_STR[] = "GAME OVER";
 
 class Game {
     public:
-        Game();
+        Game(Position &position);
 
         void draw() const;
-
-        //void init_graphics();
 
         void update(int *state);
         void update_graphics();
 
-        void start_p1(int mode);
-        void p1_ready_go();
-        bool has_p1_finished();
-
-        #ifdef MULTIPLAYER
-        void start_p2(int mode);
-        bool has_p2_finished();
-        void start_doubles();
-        #endif
+        void start(int mode);
+        void ready_go();
+        bool has_ended();
 
     private:
-        Position m_p1_position;
-        Player m_p1;
-        Stack m_p1_stack;
-        Frame m_p1_frame;
-        Text m_p1_string;
-        Timer m_p1_timer;
-        Labels m_p1_labels;
-        int m_p1_state;
-        uint8_t m_p1_counter;
-
-        #ifdef MULTIPLAYER
-        Position m_p2_position;
-        Player m_p2;
-        Stack m_p2_stack;
-        Frame m_p2_frame;
-        Text m_p2_string;
-        Timer m_p2_timer;
-        Labels m_p2_labels;
-        int m_p2_state;
-        uint8_t m_p2_counter;
-        #endif
+        Position &m_position;
+        ChooseMode m_choose_mode;
+        Player m_player;
+        Stack m_stack;
+        Frame m_frame;
+        Text m_string; // TODO
+        Timer m_timer;
+        Labels m_labels;
+        int m_state;
+        uint8_t m_counter; // TODO
 };
 
 #endif // GAME_H

@@ -9,7 +9,13 @@ Grade::Grade() :
         m_counter(0) {
 }
 
+void Grade::update() {
+    // TODO
+    m_internal++;
+    m_points++;
+    m_counter++;
+}
+
 void Grade::draw() const {
     m_implementation.render();
 }
-

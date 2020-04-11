@@ -4,9 +4,8 @@
 #include <Global.h>
 #include <Input.h>
 #include <Text.h>
-#include <MainMenu.h>
 #include <../modes/modes.h>
-#include <ChooseMode.h>
+#include <Game.h>
 
 ChooseMode::ChooseMode() :
         m_mode(0),
@@ -29,17 +28,16 @@ ChooseMode::ChooseMode() :
     //m_modes_strings[0].update_graphics();
 }
 
-void ChooseMode::update(int *state, int *mode) {
+bool ChooseMode::update(int *mode) {
     // TODO: remove, just to keep compiler happy
-    *state = MainMenuState::START_GAME;
-    *mode = m_mode;
+      *mode = m_mode;
 
     // Mode selected, play animation before starting game
     if (input.a()) {
         //m_das_up = 4;
         //m_das_down = 0;
         m_selected = true;
-        return;
+        return false;
     }
 
     // Playing animation
@@ -54,7 +52,7 @@ void ChooseMode::update(int *state, int *mode) {
             m_mode = 0;
             m_modes_strings[0].color(TextColor::YELLOW);
             //m_modes_strings[0].update_graphics();
-            return;
+            return true;
         }*/
 
         //m_das_down += 32;
@@ -65,7 +63,7 @@ void ChooseMode::update(int *state, int *mode) {
             m_modes_strings[m_mode].color(TextColor::YELLOW);
         }*/
 
-        return;
+        return false;
     }
 
     if (input.menu_key_up()) {
@@ -93,6 +91,8 @@ void ChooseMode::update(int *state, int *mode) {
         // Highlight newly selected entry
         m_modes_strings[m_mode].color(TextColor::YELLOW);
     }
+
+    return false;
 }
 
 void ChooseMode::draw() const {

@@ -4,9 +4,9 @@
 #define APP_H
 
 /* Forward declarations to avoid dependency hell */
-class MainMenu;
+class Scene;
 
-void app(MainMenu& menu);
+void app(Scene& scene);
 
 #endif
 

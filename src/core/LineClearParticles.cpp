@@ -1,6 +1,7 @@
 /* LineClearParticles.cpp */
 
 #include <Global.h>
+#include <Position.h>
 #include <LineClearParticles.h>
 
 LineClearParticles::LineClearParticles() : m_line(0), m_active(false) {
@@ -9,18 +10,10 @@ LineClearParticles::LineClearParticles() : m_line(0), m_active(false) {
     #endif
 }
 
-LineClearParticles::LineClearParticles(Position *parent) :
-        m_parent(parent),
-        m_line(0),
-        m_active(false) {
-    #ifdef DEBUG
-    print("LineClearParticles constructor\n");
-    #endif
-}
-
-void LineClearParticles::set_emitter(unsigned int line) {
+void LineClearParticles::set_emitter(const Position & /*parent*/, int line) {
     m_active = true;
     m_line = line;
+    // TODO
 }
 
 bool LineClearParticles::end() {

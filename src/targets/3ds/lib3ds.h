@@ -3,7 +3,7 @@
 #ifndef WRAP_3DS_HEADERS_H
 #define WRAP_3DS_HEADERS_H
 
-// We need this because ISO C++ prohibits anonymous structs
+// We need this hack because ISO C++ prohibits anonymous structs
 #include "../../utils/disable_warnings_start.h"
 
 #include <3ds.h>

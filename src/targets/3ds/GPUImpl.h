@@ -25,7 +25,7 @@ class VertexArray2DImpl {
 
         VertexArray2DImpl(TextureID texture) : m_texture(texture) {
             m_vertices = (Vertex2D*) linearAlloc(sizeof(Vertex2D) * N);
-            memset(m_vertices, 0, sizeof(Vertex2D) * N);
+            memset((void*) m_vertices, 0, sizeof(Vertex2D) * N);
 
             m_indices = (gpu_indices_t*) linearAlloc(
                 sizeof(gpu_indices_t) * INDICES_LEN);

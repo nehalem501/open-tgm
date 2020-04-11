@@ -8,12 +8,12 @@ class Stack;
 
 class StackImpl {
     public:
-        StackImpl(Stack& stack) : m_stack(stack) { };
+        StackImpl(const Stack& stack) : m_stack(stack) { };
         void update();
         void render() const;
 
     private:
-        Stack& m_stack;
+        const Stack& m_stack;
 };
 
 #endif

@@ -9,17 +9,15 @@
 class LineClearParticles {
     public:
         LineClearParticles();
-        LineClearParticles(Position *parent);
 
         void draw() const;
 
-        void set_emitter(unsigned int line);
+        void set_emitter(const Position &parent, int line);
         bool end();
 
         inline bool is_active() { return m_active; };
 
     private:
-        Position *m_parent;
         int m_line;
         bool m_active;
 

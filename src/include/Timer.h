@@ -11,13 +11,13 @@ class Timer {
     public:
         Timer() { };
 
+        void layout(const Position &position);
         void draw() const;
 
         void start();
         void update();
 
     private:
-        Position *m_parent;
         uint32_t m_frames;
         uint8_t m_digits[6];
 

@@ -8,12 +8,12 @@ class Frame;
 
 class FrameImpl {
     public:
-        FrameImpl(Frame& frame) : m_frame(frame) { };
+        FrameImpl(const Frame& frame) : m_frame(frame) { };
         void update();
         void render() const;
 
     private:
-        Frame& m_frame;
+        const Frame& m_frame;
 };
 
 #endif

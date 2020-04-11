@@ -1,4 +1,4 @@
-/* AppImpl.cpp - Dummy */
+/* AppImpl.cpp - dummy_gpu */
 
 #include <Scene.h>
 #include <App.h>

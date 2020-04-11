@@ -50,20 +50,20 @@ class Stack {
 
         void remove_grey_blocks(const Piece& piece);
 
-        inline int height() { return m_height; };
-        inline int width() { return m_width; };
+        inline int height() const { return m_height; };
+        inline int width() const { return m_width; };
 
-        inline tiles_t* field() { return m_field; };
-        inline tiles_t* outline() { return m_outline; };
+        inline const tiles_t* field() const { return m_field; };
+        inline const tiles_t* outline() const { return m_outline; };
 
-        inline tiles_t block(int x, int y) {
+        inline tiles_t block(int x, int y) const {
             return m_field[x + m_width * y];
         };
         inline void update_block(int x, int y, tiles_t value) {
             m_field[x + m_width * y] = value;
         };
 
-        inline const Position& position() { return m_parent; };
+        inline const Position& position() const { return m_parent; };
 
     private:
         int m_height, m_width;

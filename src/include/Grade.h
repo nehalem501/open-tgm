@@ -36,6 +36,8 @@ class Grade {
 
         void draw() const;
 
+        void update();
+
         inline void set(const unsigned int value) { m_grade = value; };
         inline unsigned int get() { return m_grade; };
 

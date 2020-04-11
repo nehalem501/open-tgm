@@ -3,7 +3,7 @@
 #include <TargetTypes.h>
 #include <Global.h>
 #include <Input.h>
-#include <MainMenu.h>
+#include <Scene.h>
 #include <Text.h>
 #include <Background.h>
 #include <Utils.h>
@@ -130,7 +130,7 @@ void Settings::update(int *menustate, ::Background *background) {
 
             if (input.a()) {
                 if (m_selected == SettingsState::EXIT) {
-                    *menustate = MainMenuState::HOME;
+                    *menustate = SceneState::HOME;
                     background->go_to_background();
                     return;
                 }

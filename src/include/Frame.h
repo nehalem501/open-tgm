@@ -16,9 +16,11 @@ class Frame {
 
         #ifdef MULTIPLAYER
         void set_size(int height, int width);
+        int width() const { return m_width; }
+        int height() const { return m_height; }
         #endif
 
-        inline const Position& position() { return m_parent; };
+        inline const Position& position() const { return m_parent; };
 
     private:
         const Position& m_parent;

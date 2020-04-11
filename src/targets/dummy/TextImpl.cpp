@@ -2,6 +2,7 @@
 
 #include <TargetTypes.h>
 #include <Position.h>
+#include <Text.h>
 #include "TextImpl.h"
 
 void TextImpl::update_position() {
@@ -14,6 +15,11 @@ void TextImpl::update_text() {
 
 void TextImpl::update_color() {
     // Update color here
+    m_text.color();
+}
+
+void TextImpl::layout(const Position & /*position*/) {
+    // TODO
 }
 
 void TextImpl::render() const {

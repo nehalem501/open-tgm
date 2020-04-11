@@ -2,7 +2,7 @@
 
 #include "lib3ds.h"
 //#include <Global.h>
-#include <MainMenu.h>
+#include <Scene.h>
 //#include <Background.h>
 #include "lodepng.h"
 #include <Texture.h>
@@ -179,7 +179,7 @@ void end_gpu_stuff() {
 	DVLB_Free(shader2d_dvlb);
 }
 
-void app(MainMenu& menu) {
+void app(Scene& scene) {
     gfxInitDefault();
     C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 
@@ -196,14 +196,14 @@ void app(MainMenu& menu) {
         hidScanInput(); // Refresh Inputs
 
         // Process one frame
-        menu.update();
+        scene.update();
 
         // Draw
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 		C3D_RenderTargetClear(target, C3D_CLEAR_ALL, 0x000000FF, 0);
 		C3D_FrameDrawOn(target);
 
-        menu.draw();
+        scene.draw();
 
 		C3D_FrameEnd(0);
     }

@@ -12,7 +12,7 @@ class ChooseMode {
 
         void draw() const;
 
-        void update(int *state, int *mode);
+        bool update(int *mode);
 
     private:
         int m_mode;

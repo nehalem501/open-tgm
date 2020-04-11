@@ -11,16 +11,15 @@ class Mode;
 
 class Labels {
     public:
-        Labels(const Position& parent);
+        Labels();
 
+        void layout(const Position &parent);
         void draw() const;
 
         inline void set_mode(Mode *new_mode) { m_mode = new_mode; };
 
     private:
         Mode *m_mode;
-        const Position& m_parent;
-
         LabelsImpl m_implementation;
 };
 

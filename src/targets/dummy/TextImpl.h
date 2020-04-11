@@ -11,15 +11,17 @@ class Text;
 
 class TextImpl {
     public:
-        TextImpl(Text& text) : m_text(text) { };
+        TextImpl(const Text& text) : m_text(text) { };
 
         void update_position();
         void update_text();
         void update_color();
+
+        void layout(const Position &position);
         void render() const;
 
     private:
-        Text& m_text;
+        const Text& m_text;
 };
 
 #endif

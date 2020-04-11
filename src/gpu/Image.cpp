@@ -4,17 +4,17 @@
 #include "Image.h"
 
 Image::Image(
-    gpu_float_t x,
-    gpu_float_t y,
+    Vector2D coords,
     gpu_float_t width,
     gpu_float_t height,
     TextureID texture) :
         m_rect(
-            x, y, width, height,
-            TOP_LEFT, GPU_WHITE,
-            TOP_RIGHT, GPU_WHITE,
-            BOTTOM_LEFT, GPU_WHITE,
-            BOTTOM_RIGHT, GPU_WHITE,
+            coords,
+            width, height,
+            GPU_TOP_LEFT, GPU_WHITE,
+            GPU_TOP_RIGHT, GPU_WHITE,
+            GPU_BOTTOM_LEFT, GPU_WHITE,
+            GPU_BOTTOM_RIGHT, GPU_WHITE,
             texture) {
     #ifdef DEBUG
     print("Image constructor: %s\n", m_name);

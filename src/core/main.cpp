@@ -1,28 +1,20 @@
 /* main.cpp */
 
-#include <TargetTypes.h>
-#include <Global.h>
-#include <Input.h>
-#include <MainMenu.h>
-#include <Game.h>
-#include <Background.h>
-#include <Player.h>
-#include <Stack.h>
-#include <Frame.h>
+#include <Scene.h>
 #include <App.h>
 
 #ifdef TARGET_SDL
 #include <SDL.h>
 #endif
 
-static MainMenu menu;
+static Scene scene;
 
 int main(int, char **) {
     // Init game stuff
     //init();
 
     // Run game
-    app(menu);
+    app(scene);
 
     return 0;
 }

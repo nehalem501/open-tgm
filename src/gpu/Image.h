@@ -11,8 +11,7 @@
 class Image {
     public:
         Image(
-            gpu_float_t x,
-            gpu_float_t y,
+            Vector2D coords,
             gpu_float_t width,
             gpu_float_t height,
             TextureID texture);

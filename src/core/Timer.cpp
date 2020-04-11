@@ -38,6 +38,10 @@ void Timer::start() {
     m_digits[5] = 0;
 }
 
+void Timer::layout(const Position &position) {
+    m_implementation.layout(position);
+}
+
 void Timer::draw() const {
     m_implementation.render();
 }
