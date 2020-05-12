@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <GL/glew.h>
 #include <Global.h>
+#include <Scene.h>
 #include <App.h>
 #include "../utils/timing.h"
 #include "shaders.h"
@@ -67,12 +68,12 @@ bool link_program(GLuint program, GLuint v_shader, GLuint f_shader) {
     return true;
 }
 
-void app() {
+void app(Scene& scene) {
     SDL_Window *window = NULL;
     SDL_GLContext context;
     int win_width = 320;
     int win_height = 240;
-    bool fullscreen = false; // TODO load config
+    //bool fullscreen = false; // TODO load config
 
     // Init SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -239,6 +240,10 @@ void app() {
 
 		    //Unbind program
 		    glUseProgram( NULL );
+
+            // TODO
+            scene.update();
+            scene.draw();
 
             SDL_GL_SwapWindow(window);
         //}

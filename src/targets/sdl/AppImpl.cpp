@@ -1,20 +1,48 @@
 /* AppImpl.cpp - SDL */
 
+// TODO
+#define GL_SILENCE_DEPRECATION
+
+#include <stdio.h>
 #include <SDL.h>
-//#include <SDL_opengl.h>
+#include <SDL_opengl.h>
 #include "../utils/timing.h"
 #include <Global.h>
 #include <Background.h>
-#include <MainMenu.h>
+#include <Scene.h>
 #include <App.h>
 
-void init_graphics_context(int width, int height);
-void graphics_clear();
-void graphics_display();
+Size screen = { 320, 240 };
 
-void app() {
-    int win_width = 320;
-    int win_height = 240;
+void init_graphics_context(int width, int height) {
+    // Init OpenGL
+    //glViewport(0, 0, win_width, win_height);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, width, height, 0, -1, 1);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR) {
+        printf("Could not initialize OpenGL: %s\n", gluErrorString(error));
+        exit(1);
+    }
+}
+
+void graphics_clear() {
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void graphics_display() {
+    SDL_GL_SwapBuffers();
+}
+
+void app(Scene& scene) {
     bool fullscreen = false; // TODO load config
 
     // Init SDL
@@ -24,7 +52,7 @@ void app() {
     }
 
     // Create app window
-    if (SDL_SetVideoMode(win_width, win_height, 0,
+    if (SDL_SetVideoMode(screen.width, screen.height, 0,
                          SDL_OPENGL | SDL_RESIZABLE) == NULL) {
         printf("Could not create window: %s\n", SDL_GetError());
         exit(1);
@@ -32,7 +60,7 @@ void app() {
 
     SDL_EnableUNICODE(SDL_TRUE);
 
-    init_graphics_context(win_width, win_height);
+    init_graphics_context(screen.width, screen.height);
 
     SDL_WM_SetCaption("Open TGM", NULL);
 
@@ -75,14 +103,13 @@ void app() {
                         
                         case SDLK_F10: // TODO
                             if (fullscreen) {
-                                if (SDL_SetVideoMode(win_width, win_height, 0,
-                                                     SDL_OPENGL |
-                                                     SDL_RESIZABLE) == NULL) {
+                                if (SDL_SetVideoMode(screen.width, screen.height,
+                                                     0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
                                     printf("Could not create window: %s\n",
                                             SDL_GetError());
                                     exit(1);
                                 }
-                                init_graphics_context(win_width, win_height);
+                                init_graphics_context(screen.width, screen.height);
                                 fullscreen = false;
                             } else {
                                 // Works from  SDL v1.2.10 to get
@@ -112,6 +139,8 @@ void app() {
                 }
             }
 
+            SDL_PumpEvents();
+
             #ifdef DEBUG
             if (frame_by_frame) {
                 if (!do_frame) {
@@ -122,11 +151,11 @@ void app() {
             }
             #endif
             
-            menu.update();
+            scene.update();
             
             graphics_clear();
 
-            menu.draw();
+            scene.draw();
 
             /*glBegin(GL_QUADS);
             glColor3f(1, 0, 0);
@@ -139,7 +168,7 @@ void app() {
             glVertex2f(10, 100);
             glEnd();*/
             
-	    graphics_display();
+	        graphics_display();
 
         //}
 

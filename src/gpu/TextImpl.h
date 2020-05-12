@@ -5,25 +5,26 @@
 
 #include <TargetTypes.h>
 #include <Position.h>
-#include <Typeface.h>
+#include <Glyphs.h>
+
+#define TEXT_LEN_MAX 256 // TODO
 
 /* Forward declarations to avoid dependency hell */
 class Text;
 
 class TextImpl {
     public:
-        TextImpl(const Text& text) : m_text(text) { };
+        TextImpl(const Text& text);
 
         void update_position();
         void update_text();
         void update_color();
 
-        void layout(const Position &position);
         void render() const;
 
     private:
         const Text& m_text;
-        //Typeface m_typeface;
+        Glyphs<TEXT_LEN_MAX> m_glyphs;
 };
 
 #endif

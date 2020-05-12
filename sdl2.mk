@@ -2,10 +2,10 @@
 
 BACKEND := opengl3
 
-BACKEND_SOURCES := $(wildcard $(SRC_DIR)/backends/$(BACKEND)/*.cpp) $(SRC_DIR)/utils/timing.cpp
+BACKEND_SOURCES := $(wildcard $(SRC_DIR)/gpu/*.cpp) $(wildcard $(SRC_DIR)/backends/$(BACKEND)/*.cpp) $(SRC_DIR)/utils/timing.cpp
 OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o)) $(addprefix $(BUILD_DIR)/, $(BACKEND_SOURCES:src/%.cpp=%.o))
 
-HEADERS += -I$(SRC_DIR)/backends/$(BACKEND)
+HEADERS += -I$(SRC_DIR)/gpu -I$(SRC_DIR)/backends/$(BACKEND)
 
 CXXFLAGS += -DTARGET_SDL2 -O2 -std=c++98 `sdl2-config --cflags`
 LIBS = `sdl2-config --libs` -lGLEW -lGL
@@ -26,6 +26,7 @@ clean :
 print_info:
 	@echo C++ compiler: $(CXX)
 	@mkdir -p $(BUILD_DIR)/backends/$(BACKEND)
+	@mkdir -p $(BUILD_DIR)/gpu
 	@mkdir -p $(BUILD_DIR)/utils
 
 .PHONY: clean print_info

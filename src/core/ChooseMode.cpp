@@ -16,7 +16,7 @@ ChooseMode::ChooseMode() :
 
     for (int i = 0; i < NB_MODES; i++) {
         //m_modes_strings[i].init_graphics();
-        m_modes_strings[i].position(Position(1, 7 + i * 2));
+        m_modes_strings[i].position(Position(1, 7 + i * 2), Position(0, 0)); // TODO
         m_modes_strings[i].text(modes[i]->name());
         // TODO use stack depending on player
         //m_modes_strings[i].update_stack(stack);

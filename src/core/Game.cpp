@@ -33,7 +33,7 @@ void Game::ready_go() {
     // Display 'READY'
     m_string.text(READY_STR);
     // TODO
-    m_string.position(Position(3, 11));
+    m_string.position(Position(3, 11), m_position); // TODO
 }
 
 // TODO change how Scene is notified
@@ -66,7 +66,7 @@ void Game::update(int *scene_state) {
             // Display 'GO'
             if (m_counter > 60) {
                 m_string.text(GO_STR);
-                m_string.position(Position(4, 11));
+                m_string.position(Position(4, 11), m_position); // TODO
             }
 
             // Start game
@@ -103,7 +103,7 @@ void Game::update(int *scene_state) {
             if (m_counter == 0) {
                 m_counter = 0;
                 m_string.text(GAME_OVER_STR);
-                m_string.position(Position(1, 11));
+                m_string.position(Position(1, 11), m_position); // TODO
                 m_state = GameState::GAME_OVER_TEXT;
                 return;
             }

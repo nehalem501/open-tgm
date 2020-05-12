@@ -3,6 +3,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <Size.h>
 #include <Home.h>
 #include <GameView.h>
 #include <Settings.h>

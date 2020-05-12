@@ -3,25 +3,30 @@
 #include <TargetTypes.h>
 #include <Position.h>
 #include <Text.h>
+#include <Glyphs.h>
 #include "TextImpl.h"
 
+TextImpl::TextImpl(const Text& text) :
+        m_text(text),
+        m_glyphs(text, Fonts::UI_FONT) {
+
+}
+
 void TextImpl::update_position() {
-    // Update position here
+    m_glyphs.position(m_text.position());
 }
 
 void TextImpl::update_text() {
-    // Update text here
+    m_glyphs.position_glyphs(
+        m_text.position(),
+        (unsigned char*) m_text.text(),
+        m_text.length());
 }
 
 void TextImpl::update_color() {
-    // Update color here
-    m_text.color();
-}
-
-void TextImpl::layout(const Position& /*position*/) {
-    // TODO
+    m_glyphs.color(text_color_to_gpu_color(m_text.color()));
 }
 
 void TextImpl::render() const {
-    // Draw text at x, y position
+    m_glyphs.render();
 }

@@ -1,40 +1,31 @@
 /* InputImpl.cpp - SDL */
 
+#include <SDL_keyboard.h>
+#include <Input.h>
 #include "InputImpl.h"
 
-void InputImpl::init() {
-}
-
-void InputImpl::poll_inputs() {
-    // Read and store inputs
-
-    m_prev_joystick = m_curr_joystick;
-    m_prev_buttons = m_curr_buttons;
-
-    m_curr_joystick = 0x00;
-    m_curr_buttons = 0x00;
+void get_inputs(Input& input) {
+    Uint8 *keys = SDL_GetKeyState(NULL);
 
     // Joystick
-    /*if (up)
-        m_curr_joystick |= UP_BIT | RAW_UP_BIT;
-    if (down)
-        m_curr_joystick |= DOWN_BIT | RAW_DOWN_BIT;
-    if (left)
-        m_curr_joystick |= LEFT_BIT | RAW_LEFT_BIT;
-    if (right)
-        m_curr_joystick |= RIGHT_BIT | RAW_RIGHT_BIT;*/
+    if (keys[SDLK_w])
+        input.pressed_up();
+    if (keys[SDLK_s])
+        input.pressed_down();
+    if (keys[SDLK_a])
+        input.pressed_left();
+    if (keys[SDLK_d])
+        input.pressed_right();
 
     // Buttons
-    /*if (a)
-        m_curr_buttons |= A_BIT;
-    if (b)
-        m_curr_buttons |= B_BIT;
-    if (c)
-        m_curr_buttons |= C_BIT;
-    if (start)
-        m_curr_buttons |= START_BIT;
-    if (settings)
-        m_curr_buttons |= SETTINGS_BIT;*/
-
-    process();
+    if (keys[SDLK_j])
+        input.pressed_a();
+    if (keys[SDLK_i])
+        input.pressed_b();
+    if (keys[SDLK_o])
+        input.pressed_c();
+    if (keys[SDLK_RETURN])
+        input.pressed_start();
+    if (keys[SDLK_SPACE])
+        input.pressed_settings();
 }

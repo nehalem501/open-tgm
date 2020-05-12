@@ -5,12 +5,13 @@
 
 #include <stdint.h>
 #include <TargetTypes.h>
+#include <Position.h>
 #include <Text.h>
 #include <HomeImpl.h>
 
 class Home {
     public:
-        Home();
+        Home(const Position& parent);
 
         void draw() const;
 
@@ -19,8 +20,6 @@ class Home {
     private:
         Text m_start;
         uint8_t m_start_timer;
-
-        //HomeImpl m_implementation;
 };
 
 #endif // HOME_H

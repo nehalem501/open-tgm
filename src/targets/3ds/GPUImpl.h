@@ -32,12 +32,12 @@ class VertexArray2DImpl {
 
             const gpu_indices_t quad_indices[] = { 0, 1, 2, 2, 3, 0 };
             for (unsigned int i = 0; i < INDICES_LEN; i += 6) {
-                m_indices[i] = quad_indices[0];
-                m_indices[i + 1] = quad_indices[1];
-                m_indices[i + 2] = quad_indices[2];
-                m_indices[i + 3] = quad_indices[3];
-                m_indices[i + 4] = quad_indices[4];
-                m_indices[i + 5] = quad_indices[5];
+                m_indices[i] = quad_indices[0] + (i / 6) * 4;
+                m_indices[i + 1] = quad_indices[1] + (i / 6) * 4;
+                m_indices[i + 2] = quad_indices[2] + (i / 6) * 4;
+                m_indices[i + 3] = quad_indices[3] + (i / 6) * 4;
+                m_indices[i + 4] = quad_indices[4] + (i / 6) * 4;
+                m_indices[i + 5] = quad_indices[5] + (i / 6) * 4;
             }
         };
 

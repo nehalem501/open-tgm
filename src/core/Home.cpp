@@ -7,11 +7,16 @@
 #include <Scene.h>
 #include <Home.h>
 
-Home::Home() : m_start_timer(0) {
+Home::Home(const Position& parent) :
+        m_start(
+            Position(0, 0, Layouts::CENTERED),
+            parent,
+            TextColor::WHITE,
+            "PRESS START"),
+        m_start_timer(0) {
     #ifdef DEBUG
     print("Home screen constructor\n");
     #endif
-    // TODO m_start
 }
 
 void Home::update(int *state) {
@@ -23,6 +28,7 @@ void Home::update(int *state) {
 }
 
 void Home::draw() const {
-    // TODO
+    if (m_start_timer > 90) {
+        m_start.draw();
+    }
 }
-

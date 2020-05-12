@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 
 const GLchar *vertex_shader_source[] = {
-    "#version 130\n"
+    //"#version 130\n"
     "in vec3 position; "
     "/*in vec4 color_in;*/ "
     "out vec4 color_out; "
@@ -17,7 +17,7 @@ const GLchar *vertex_shader_source[] = {
 };
 
 const GLchar *fragment_shader_source[] = {
-    "#version 130\n"
+    //"#version 130\n"
     "/*in vec4 color_out;*/ "
     "out vec4 fragment; "
     "void main() { "

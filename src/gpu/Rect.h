@@ -11,9 +11,8 @@
 class Rect {
     public:
         Rect(
-            Vector2D coords,
-            gpu_float_t width,
-            gpu_float_t height,
+            const Point2D& coords,
+            const Size2D& size,
             const TexCoord& top_left_tex_coords,
             const ColorRGBA& top_left_color,
             const TexCoord& top_right_tex_coords,

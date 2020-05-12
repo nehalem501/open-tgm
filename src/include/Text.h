@@ -24,13 +24,16 @@ namespace TextColor {
 class Text {
     public:
         Text();
-        Text(Position position);
-        Text(Position position, int color, const char *str);
+        Text(const Position& position, const Position& parent);
+        Text(
+            const Position& position,
+            const Position& parent,
+            int color,
+            const char *str);
 
-        void layout(const Position &parent);
         void draw() const;
 
-        void position(const Position &position);
+        void position(const Position &position, const Position& parent);
         void text(const char *new_str);
         void color(int color);
 

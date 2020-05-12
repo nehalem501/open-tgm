@@ -16,10 +16,18 @@
 #define GPU_BOTTOM_LEFT TexCoord(0.0, 1.0)
 #define GPU_BOTTOM_RIGHT TexCoord(1.0, 1.0)
 
-struct Vector2D {
-    Vector2D(gpu_float_t x, gpu_float_t y) : x(x), y(y) { };
+struct Point2D {
+    Point2D(gpu_float_t x, gpu_float_t y) : x(x), y(y) { };
 
     gpu_float_t x, y;
+};
+
+struct Size2D {
+    Size2D(
+        gpu_float_t width,
+        gpu_float_t height) : width(width), height(height) { };
+
+    gpu_float_t width, height;
 };
 
 struct ColorRGB {
@@ -49,6 +57,11 @@ struct Vertex2D {
     gpu_float_t u, v;
     gpu_float_t r, g, b, a;
 
+    Vertex2D() : // TODO
+            x(0), y(0),
+            u(0), v(0),
+            r(0), g(0), b(0), a(0) { };
+
     Vertex2D(
         gpu_float_t x, gpu_float_t y,
         gpu_float_t u, gpu_float_t v,
@@ -58,7 +71,7 @@ struct Vertex2D {
             r(r), g(g), b(b), a(a) { };
 
     Vertex2D(
-        const Vector2D& xy,
+        const Point2D& xy,
         const TexCoord& uv,
         const ColorRGB& rgb) :
             x(xy.x), y(xy.y),
@@ -66,7 +79,7 @@ struct Vertex2D {
             r(rgb.r), g(rgb.g), b(rgb.b), a(1.0) { };
 
     Vertex2D(
-        const Vector2D& xy,
+        const Point2D& xy,
         const TexCoord& uv,
         const ColorRGBA& rgba) :
             x(xy.x), y(xy.y),

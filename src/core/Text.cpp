@@ -13,34 +13,45 @@ Text::Text() :
         m_str(NULL),
         m_implementation(*this) {
     #ifdef DEBUG
-    print("Text constructor\n");
+    print("Text constructor: <NULL>\n");
     #endif
 }
 
-Text::Text(Position position) :
-        m_position(position),
+Text::Text(const Position& position, const Position& parent) :
+        m_position(
+            Position(
+                position.x + parent.x,
+                position.y + parent.y,
+                position.layout)),
         m_color(0),
         m_length(0),
         m_str(NULL),
         m_implementation(*this) {
     #ifdef DEBUG
-    print("Text constructor\n");
+    print("Text constructor: <NULL>\n");
     #endif
 }
 
-Text::Text(Position position, int color, const char *str) :
-        m_position(position),
+Text::Text(
+    const Position& position,
+    const Position& parent,
+    int color,
+    const char *str) :
+        m_position(
+            Position(
+                position.x + parent.x,
+                position.y + parent.y,
+                position.layout)),
         m_color(color),
-        m_length(0),
-        m_str(NULL),
+        m_length(strlen(str)),
+        m_str(str),
         m_implementation(*this) {
     #ifdef DEBUG
-    print("Text constructor\n");
+    print("Text constructor: '%s'\n", str);
     #endif
-    text(str);
 }
 
-void Text::position(const Position &position) {
+void Text::position(const Position& position, const Position& parent) {
     if (m_position.x != position.x || m_position.y != position.y) {
         #ifdef DEBUG
         print(
@@ -50,8 +61,11 @@ void Text::position(const Position &position) {
             position.x,
             position.y);
         #endif
-        m_position = position;
-        // TODO update
+        m_position = Position(
+            position.x + parent.x,
+            position.y + parent.y,
+            position.layout);
+        m_implementation.update_position();
     }
 }
 
@@ -74,10 +88,6 @@ void Text::color(int color) {
         m_color = color;
         // TODO update
     }
-}
-
-void Text::layout(const Position &parent) {
-    m_implementation.layout(parent); // TODO position
 }
 
 void Text::draw() const {

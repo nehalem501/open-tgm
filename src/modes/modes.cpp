@@ -19,6 +19,5 @@ Mode* modes[NB_MODES] = {
     &mode_shirase
 };
 
-
 void init_modes() {
 }

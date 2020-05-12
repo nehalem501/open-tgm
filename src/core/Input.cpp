@@ -169,7 +169,7 @@ int Input::irs() {
     return 0;
 }
 
-#ifdef DEBUG
+#ifdef UNDEFINED
 static void print_bits(uint8_t byte) {
     if (byte & 0x01)
         print("1");

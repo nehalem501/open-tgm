@@ -4,19 +4,18 @@
 #include "Image.h"
 
 Image::Image(
-    Vector2D coords,
-    gpu_float_t width,
-    gpu_float_t height,
-    TextureID texture) :
+    const Point2D& coords,
+    const Size2D& size,
+    const TextureID& texture) :
         m_rect(
             coords,
-            width, height,
+            size,
             GPU_TOP_LEFT, GPU_WHITE,
             GPU_TOP_RIGHT, GPU_WHITE,
             GPU_BOTTOM_LEFT, GPU_WHITE,
             GPU_BOTTOM_RIGHT, GPU_WHITE,
             texture) {
     #ifdef DEBUG
-    print("Image constructor: %s\n", m_name);
+    print("Image constructor: %d\n", (int) texture);
     #endif
 }

@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <TargetTypes.h>
 #include <GPUImpl.h>
 #include "Vertex.h"
 #include "Texture.h"

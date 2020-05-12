@@ -1,6 +1,7 @@
 /* AppImpl.cpp - GBA */
 
 #include <gba.h>
+#include <Size.h>
 #include <Global.h>
 #include <Scene.h>
 #include <Background.h>
@@ -9,6 +10,8 @@
 #define m_width 10
 #define m_height 22
 #include <cstring>
+
+Size screen = { 30, 20 }; // Size is in tiles
 
 static Scene *main_scene;
 

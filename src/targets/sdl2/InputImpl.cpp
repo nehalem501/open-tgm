@@ -1,40 +1,29 @@
 /* InputImpl.cpp - SDL2 */
 
+#include <Input.h>
 #include "InputImpl.h"
 
-void InputImpl::init() {
-}
-
-void InputImpl::poll_inputs() {
-    // Read and store inputs
-
-    m_prev_joystick = m_curr_joystick;
-    m_prev_buttons = m_curr_buttons;
-
-    m_curr_joystick = 0x00;
-    m_curr_buttons = 0x00;
-
+void get_inputs(Input& input) {
     // Joystick
-    /*if (up)
-        m_curr_joystick |= UP_BIT | RAW_UP_BIT;
-    if (down)
-        m_curr_joystick |= DOWN_BIT | RAW_DOWN_BIT;
-    if (left)
-        m_curr_joystick |= LEFT_BIT | RAW_LEFT_BIT;
-    if (right)
-        m_curr_joystick |= RIGHT_BIT | RAW_RIGHT_BIT;*/
+    if (/* up */ false)
+        input.pressed_up();
+    if (/* down */ false)
+        input.pressed_down();
+    if (/* left */ false)
+        input.pressed_left();
+    if (/* right */ false)
+        input.pressed_right();
 
     // Buttons
-    /*if (a)
-        m_curr_buttons |= A_BIT;
-    if (b)
-        m_curr_buttons |= B_BIT;
-    if (c)
-        m_curr_buttons |= C_BIT;
-    if (start)
-        m_curr_buttons |= START_BIT;
-    if (settings)
-        m_curr_buttons |= SETTINGS_BIT;*/
-
-    process();
+    if (/* a */ false)
+        input.pressed_a();
+    if (/* b */ false)
+        input.pressed_b();
+    if (/* c */ false)
+        input.pressed_c();
+    if (/* start */ false)
+        input.pressed_start();
+    if (/* settings */ false)
+        input.pressed_settings();
 }
+

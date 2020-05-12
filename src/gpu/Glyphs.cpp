@@ -1,0 +1,162 @@
+/* Glyphs.cpp - GPU */
+
+#include <Text.h>
+#include <VertexArray.h>
+#include <Glyph.h>
+#include "ui-font-9px.h" // TODO
+#include <Glyphs.h>
+
+extern const Glyph ui_font_9px[NB_GLYPHS]; // TODO
+
+ColorRGBA text_color_to_gpu_color(int color) {
+    switch (color) {
+        case TextColor::RED:
+            return ColorRGBA(1, 0, 0, 1);
+
+        case TextColor::GREEN:
+            return ColorRGBA(0, 1, 0, 1);
+
+        case TextColor::BLUE:
+            return ColorRGBA(0, 0, 1, 1);
+
+        case TextColor::YELLOW:
+            return ColorRGBA(1, 1, 0, 1);
+
+        case TextColor::MAGENTA:
+            return ColorRGBA(1, 0, 1, 1);
+
+        case TextColor::CYAN:
+            return ColorRGBA(0, 1, 1, 1);
+
+        case TextColor::ORANGE:
+            return ColorRGBA(1, 0.5, 0, 1);
+
+        case TextColor::TRANSPARENT:
+            return ColorRGBA(1, 1, 1, 0.3125);
+
+        case TextColor::WHITE:
+        default:
+            return ColorRGBA(1, 1, 1, 1);
+    }
+}
+
+TextureID font_to_texture(Font font) {
+    switch (font) {
+        case Fonts::UI_FONT:
+            return TexturesID::TEXT;
+
+        case Fonts::LABEL_FONT:
+            return TexturesID::LABELS;
+    
+        default:
+            return TexturesID::NONE;
+    }
+}
+
+const Glyph* get_glyph_array(Font /*font*/) {
+    return ui_font_9px; // TODO
+}
+
+void init_glyphs(
+    Vertex2D *vertices,
+    const Text& text,
+    const Glyph *glyphs,
+    size_t size) {
+
+    ColorRGBA color = text_color_to_gpu_color(text.color());
+
+    for (unsigned int i = 0; i < size * 4; i++) {
+        vertices[i].u = 0;
+        vertices[i].v = 0;
+
+        vertices[i].r = color.r;
+        vertices[i].g = color.b;
+        vertices[i].b = color.g;
+        vertices[i].a = color.a;
+    }
+
+    vertices[0].x = 0;
+    vertices[0].y = 0;
+
+    position_glyphs_from_string(
+        vertices,
+        glyphs,
+        text.position(),
+        (unsigned char*) text.text(),
+        (size_t) text.length(),
+        size);
+}
+
+void set_color(Vertex2D *vertices, const ColorRGBA& new_color, size_t size) {
+    for (unsigned int i = 0; i < size * 4; i++) {
+        vertices[i].r = new_color.r;
+        vertices[i].g = new_color.b;
+        vertices[i].b = new_color.g;
+        vertices[i].a = new_color.a;
+    }
+}
+
+void set_position(Vertex2D *vertices, const Position& position, size_t size) {
+    gpu_float_t x = ((gpu_float_t) position.x) - vertices[0].x;
+    gpu_float_t y = ((gpu_float_t) position.y) - vertices[0].y;
+
+    for (size_t i = 0; i < size * 4; i++) {
+        vertices[i].x += x;
+        vertices[i].y += y;
+    }
+}
+
+void position_glyphs_from_string(
+    Vertex2D *vertices,
+    const Glyph *glyphs,
+    const Position &position,
+    const unsigned char* str,
+    size_t length,
+    size_t size) {
+
+    gpu_float_t offset = 0;
+    gpu_float_t texture_size = 64.0f;
+
+    for (size_t i = 0; i < (size * 4) && i < (length * 4); i += 4) { // TODO
+        const Glyph& glyph = glyphs[str[i / 4]];
+
+        vertices[i].x = position.x + offset;
+        vertices[i].y = position.y;
+        vertices[i].u = glyph.x / texture_size;
+        vertices[i].v = glyph.y / texture_size;
+
+        vertices[i + 1].x = position.x + offset;
+        vertices[i + 1].y = position.y + glyph.height;
+        vertices[i + 1].u = glyph.x / texture_size;
+        vertices[i + 1].v = (glyph.y + glyph.height) / texture_size;
+
+        vertices[i + 2].x = position.x + offset + glyph.width;
+        vertices[i + 2].y = position.y + glyph.height;
+        vertices[i + 2].u = (glyph.x + glyph.width) / texture_size;
+        vertices[i + 2].v = (glyph.y + glyph.height) / texture_size;
+
+        vertices[i + 3].x = position.x + offset + glyph.width;
+        vertices[i + 3].y = position.y;
+        vertices[i + 3].u = (glyph.x + glyph.width) / texture_size;
+        vertices[i + 3].v = glyph.y / texture_size;
+
+        offset += glyph.offset;
+    }
+
+    if (position.layout == Layouts::CENTERED) {
+        gpu_float_t x = ((int) offset) / 2;
+        for (size_t i = 0; i < (size * 4) && i < (length * 4); i++) {
+            vertices[i].x -= x;
+        }
+    }
+
+    if (length < size) {
+        for (unsigned int i = length * 4; i < size * 4; i++) {
+            vertices[i].x = 0;
+            vertices[i].y = 0;
+
+            vertices[i].u = 0;
+            vertices[i].v = 0;
+        }
+    }
+}

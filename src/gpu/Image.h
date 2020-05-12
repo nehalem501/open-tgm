@@ -11,10 +11,9 @@
 class Image {
     public:
         Image(
-            Vector2D coords,
-            gpu_float_t width,
-            gpu_float_t height,
-            TextureID texture);
+            const Point2D& coords,
+            const Size2D& size,
+            const TextureID& texture);
 
         inline void texture(TextureID texture) { m_rect.texture(texture); };
 
@@ -34,4 +33,4 @@ class Image {
         Rect m_rect;
 };
 
-#endif // RECT_H
+#endif // IMAGE_H

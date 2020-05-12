@@ -8,7 +8,9 @@
 #include <Background.h>
 #include <Scene.h>
 
-Scene::Scene() : m_state(SceneState::HOME) {
+Scene::Scene() :
+        m_state(SceneState::HOME),
+        m_home(Position(screen.width / 2, 2 * (screen.height / 3))) {
     #ifdef DEBUG
     print("Scene constructor\n");
     #endif
