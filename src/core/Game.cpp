@@ -13,6 +13,7 @@ Game::Game(Position &position) :
         m_player(position),
         m_stack(position),
         m_frame(m_position),
+        m_string(Coordinates(5, 10, Layouts::CENTERED), m_position),
         m_labels(),
         m_state(GameState::CHOOSE_MODE) {
     #ifdef DEBUG
@@ -35,9 +36,9 @@ void Game::ready_go() {
 
     // Display 'READY'
     m_string.text(READY_STR);
-    m_string.position(
-        Coordinates(0, 10, Layouts::CENTERED),
-        m_position);
+    /*m_string.position(
+        Coordinates(5, 10, Layouts::CENTERED),
+        m_position);*/
 }
 
 // TODO change how Scene is notified
@@ -73,9 +74,9 @@ void Game::update(int *scene_state) {
             // Display 'GO'
             if (m_counter > 60) {
                 m_string.text(GO_STR);
-                m_string.position(
+                /*m_string.position(
                     Coordinates(0, 10, Layouts::CENTERED),
-                    m_position); // TODO
+                    m_position);*/ // TODO
             }
 
             // Start game
@@ -112,9 +113,9 @@ void Game::update(int *scene_state) {
             if (m_counter == 0) {
                 m_counter = 0;
                 m_string.text(GAME_OVER_STR);
-                m_string.position(
+                /*m_string.position(
                     Coordinates(0, 10, Layouts::CENTERED), // TODO
-                    m_position);
+                    m_position);*/
                 m_state = GameState::GAME_OVER_TEXT;
                 return;
             }
