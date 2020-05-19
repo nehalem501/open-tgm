@@ -61,6 +61,36 @@ class VertexArray2DImpl {
                 INDICES_LEN,
                 C3D_UNSIGNED_SHORT,
                 m_indices);
+
+            /*C3D_ImmDrawBegin(GPU_TRIANGLES);
+
+            for (unsigned int i = 0; i < N; i += 4) {
+                C3D_ImmSendAttrib(m_vertices[i].x, m_vertices[i].y, 0.5f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i].u, m_vertices[i].v, 0.0f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i].r, m_vertices[i].g, m_vertices[i].b, m_vertices[i].a);
+
+                C3D_ImmSendAttrib(m_vertices[i + 1].x, m_vertices[i + 1].y, 0.5f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i + 1].u, m_vertices[i + 1].v, 0.0f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i + 1].r, m_vertices[i + 1].g, m_vertices[i + 1].b, m_vertices[i + 1].a);
+
+                C3D_ImmSendAttrib(m_vertices[i + 2].x, m_vertices[i + 2].y, 0.5f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i + 2].u, m_vertices[i + 2].v, 0.0f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i + 2].r, m_vertices[i + 2].g, m_vertices[i + 2].b, m_vertices[i + 2].a);
+
+                C3D_ImmSendAttrib(m_vertices[i + 2].x, m_vertices[i + 2].y, 0.5f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i + 2].u, m_vertices[i + 2].v, 0.0f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i + 2].r, m_vertices[i + 2].g, m_vertices[i + 2].b, m_vertices[i + 2].a);
+
+                C3D_ImmSendAttrib(m_vertices[i + 3].x, m_vertices[i + 3].y, 0.5f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i + 3].u, m_vertices[i + 3].v, 0.0f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i + 3].r, m_vertices[i + 3].g, m_vertices[i + 3].b, m_vertices[i + 3].a);
+
+                C3D_ImmSendAttrib(m_vertices[i].x, m_vertices[i].y, 0.5f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i].u, m_vertices[i].v, 0.0f, 0.0f);
+                C3D_ImmSendAttrib(m_vertices[i].r, m_vertices[i].g, m_vertices[i].b, m_vertices[i].a);
+            }
+
+            C3D_ImmDrawEnd();*/
         };
 };
 

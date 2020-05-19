@@ -5,8 +5,4 @@
 
 #define NB_MODES 5
 
-#include <Mode.h>
-
-void init_modes();
-
 #endif

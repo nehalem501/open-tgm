@@ -9,8 +9,8 @@
 
 Home::Home(const Position& parent) :
         m_start(
-            Position(0, 0, Layouts::CENTERED),
             parent,
+            Coordinates(0, 0, Layouts::CENTERED),
             TextColor::WHITE,
             "PRESS START"),
         m_start_timer(0) {

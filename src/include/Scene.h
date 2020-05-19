@@ -17,11 +17,22 @@ namespace SceneState {
     };
 }
 
+#define PRESS_START_POSITION Position(screen.width / 2, 2 * (screen.height / 3))
+
 class Scene {
     public:
         Scene();
 
         void draw() const;
+
+        #ifdef RESIZABLE
+        void resize() {
+            m_home.resize(PRESS_START_POSITION);
+            m_game_view.resize();
+            m_settings.resize();
+            m_background.resize();
+        }
+        #endif
 
         void update();
 

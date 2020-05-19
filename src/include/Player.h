@@ -5,13 +5,14 @@
 
 #include <TargetTypes.h>
 #include <Position.h>
+#include <Global.h>
 #include <Piece.h>
 #include <Digits.h>
 #include <Grade.h>
+#include <Mode.h>
 #include <PlayerImpl.h>
 
 /* Forward declarations to avoid dependency hell */
-class Mode;
 class Stack;
 
 namespace PlayerState {
@@ -29,11 +30,23 @@ namespace PlayerState {
 
 class Player {
     public:
-        Player() : m_implementation(*this) { };
+        Player(Position& position) :
+            m_current_mode(raw_modes[0]),
+            m_implementation(*this, position) { };
 
         void draw() const;
 
-        void init(Position *position, Mode *mode);
+        #ifdef RESIZABLE
+        void resize() {
+            m_score_display.resize();
+            m_level_display.resize();
+            m_section_display.resize();
+            m_grade.resize();
+            m_implementation.resize();
+        }
+        #endif
+
+        void init(Position& position, const RawMode *mode);
         void start_game();
 
         inline void reset_level() {
@@ -47,14 +60,15 @@ class Player {
         void change_level(int value, bool line_clear);
         void update_score(unsigned int nb_lines, bool bravo);
 
-        inline void set_combo(int value) { m_combo = value; };
+        inline void set_combo(int value) { m_combo = value; }
 
-        inline const Piece& piece() { return m_piece; };
+        inline const Piece& piece() { return m_piece; }
 
-        inline bool draw_piece() { return m_draw_piece; };
-        inline bool draw_ghost() { return m_draw_ghost; };
+        inline bool draw_piece() { return m_draw_piece; }
+        inline bool draw_ghost() { return m_draw_ghost; }
 
-        inline tiles_t get_next_piece() { return m_next; };
+        inline tiles_t get_next_piece() { return m_next; }
+        inline int get_ghost_y() { return m_ghost_y; }
 
     private:
         void next_piece();
@@ -68,6 +82,7 @@ class Player {
 
             m_start_lock = false;
             m_lock = 1; // 1 instead of 0 because of 20G special case
+            m_implementation.update_piece_reset_lock();
         };
 
         inline void start_lock() { m_start_lock = true; m_lock++; };
@@ -87,8 +102,7 @@ class Player {
         uint32_t m_score;
         unsigned int m_level;
 
-        Mode *m_current_mode;
-        Position *m_parent;
+        Mode m_current_mode;
 
         tiles_t m_history[4];
 

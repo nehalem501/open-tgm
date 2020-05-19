@@ -1,9 +1,11 @@
 /* easy.cpp */
 
-#include <Mode.h>
 #ifdef DEBUG
 #include <Global.h>
 #endif
+
+#include <RawMode.h>
+#include <Frame.h>
 #include "easy.h"
 
 uint32_t easy_score(uint32_t level, uint32_t lines, uint32_t soft,
@@ -34,7 +36,7 @@ uint32_t easy_score(uint32_t level, uint32_t lines, uint32_t soft,
 void easy_grade(uint32_t, unsigned int, Grade*) {
 }
 
-static struct Timing EASY_GRAVITY[32] = {
+static const struct Timing EASY_GRAVITY[32] = {
     {0, 4},
     {8, 5},
     {19, 6},
@@ -69,42 +71,43 @@ static struct Timing EASY_GRAVITY[32] = {
     {300, 5120}
 };
 
-static struct Timing EASY_ARE[1] = {{0, 25}};
+static const struct Timing EASY_ARE[1] = {{0, 25}};
 
-static struct Timing EASY_LINE_ARE[1] = {{0, 25}};
+static const struct Timing EASY_LINE_ARE[1] = {{0, 25}};
 
-static struct Timing EASY_DAS[1] = {{0, 14}};
+static const struct Timing EASY_DAS[1] = {{0, 14}};
 
-static struct Timing EASY_LOCK[1] = {{0, 30}};
+static const struct Timing EASY_LOCK[1] = {{0, 30}};
 
-static struct Timing EASY_CLEAR[1] = {{0, 40}};
+static const struct Timing EASY_CLEAR[1] = {{0, 40}};
 
-static char EASY_NEXT_STR[] = "NEXT";
-static char EASY_TIME_STR[] = "TIME";
-static char EASY_LEVEL_STR[] = "LEVEL";
-static char EASY_POINTS_STR[] = "POINTS";
+static const char EASY_NEXT_STR[] = "NEXT";
+static const char EASY_TIME_STR[] = "TIME";
+static const char EASY_LEVEL_STR[] = "LEVEL";
+static const char EASY_POINTS_STR[] = "POINTS";
 
-static struct Label EASY_LABELS[4] = {
+static const struct Label EASY_LABELS[4] = {
     {EASY_NEXT_STR, -1, 0},
     {EASY_TIME_STR, 12, 20},
     {EASY_LEVEL_STR, 12, 15},
     {EASY_POINTS_STR, 12, 11}
 };
 
-struct DigitsPosition EASY_SCORE_POS = {12, 12};
-struct DigitsPosition EASY_LEVEL_POS = {12, 16};
-struct DigitsPosition EASY_LVL_TGT_POS = {12, 18};
+static const struct DigitsPosition EASY_SCORE_POS = {12, 12};
+static const struct DigitsPosition EASY_LEVEL_POS = {12, 16};
+static const struct DigitsPosition EASY_LVL_TGT_POS = {12, 18};
 
-Mode mode_easy(
+const RawMode mode_easy = {
 /*          name */ "EASY",
 /*    sonic_drop */ true,
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ true,
 /* old_lck_style */ false,
+/*   frame_color */ FrameColors::NORMAL,
 /*   credit_roll */ CreditRoll::Playable,
-/*        size_x */ 10,
-/*        size_y */ 22,
+/*   stack_width */ 10,
+/*  stack_height */ 22,
 /*     max_level */ 300,
 /* initial_grade */ Grade::None,
 /*  random_tries */ 6,
@@ -126,4 +129,5 @@ Mode mode_easy(
 /*     level_pos */ EASY_LEVEL_POS,
 /*   lvl_tgt_pos */ EASY_LVL_TGT_POS,
 /*    score_func */ easy_score,
-/*    grade_func */ easy_grade);
+/*    grade_func */ easy_grade
+};

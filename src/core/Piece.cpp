@@ -2,34 +2,35 @@
 
 #include <Shapes.h>
 #include <Utils.h>
+#include <Coordinates.h>
 #include <Stack.h>
 #include <Piece.h>
 
 Piece::Piece() :
-        m_position(0, 0),
+        m_coordinates(0, 0),
         m_orientation(0),
         m_type(0) {
 }
 
 Piece::Piece(tiles_t type, int orientation) :
-        m_position(0, 0),
+        m_coordinates(0, 0),
         m_orientation(orientation),
         m_type(type) {
 }
 
-Piece::Piece(tiles_t type, int orientation, Position position) :
-        m_position(position),
+Piece::Piece(tiles_t type, int orientation, Coordinates coordinates) :
+        m_coordinates(coordinates),
         m_orientation(orientation),
         m_type(type) {
 }
 
 /* Lock piece to stack */
 void Piece::locked(Stack *stack) {
-    int pos_x = m_position.x - 2;
-    int pos_y = m_position.y - 1;
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            if (PIECES[m_type][m_orientation][j][i] > 0) {
+    int pos_x = m_coordinates.x - 2;
+    int pos_y = m_coordinates.y - 1;
+    for (int i = 0; i < PIECE_SIZE; i++) {
+        for (int j = 0; j < PIECE_SIZE; j++) {
+            if (PIECES[m_type][m_orientation][i + j * PIECE_SIZE] > 0) {
                 stack->update_block(
                     pos_x + i,
                     pos_y + j,
@@ -42,22 +43,22 @@ void Piece::locked(Stack *stack) {
 /* Move piece in left or right direction */
 void Piece::move_leftright(Stack *stack, int *ghost_y, int amount) {
     if(stack->check_player_move(this, amount, 0, 0)) {
-        m_position.x += amount;
+        m_coordinates.x += amount;
         *ghost_y = stack->get_ghost_y(this);
     }
 }
 
 /* Move piece downwards */
 int Piece::move_down(int ghost_y, int amount) {
-    int old_pos_y = m_position.y;
+    int old_pos_y = m_coordinates.y;
 
-    if (ghost_y >= (m_position.y + amount)) {
-        m_position.y += amount;
+    if (ghost_y >= (m_coordinates.y + amount)) {
+        m_coordinates.y += amount;
     } else {
-        m_position.y = ghost_y;
+        m_coordinates.y = ghost_y;
     }
 
-    return m_position.y - old_pos_y;
+    return m_coordinates.y - old_pos_y;
 }
 
 /* Rotate piece including wallkicks */
@@ -66,9 +67,9 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
 
     // Center column disables rotation with T piece
     if (m_type == Shape::T) {
-        int x = m_position.x - 1;
+        int x = m_coordinates.x - 1;
         if (x >= 0 || x < stack->width()) {
-            int y = m_position.y - 1;
+            int y = m_coordinates.y - 1;
             if (y < stack->height() && y >= 0) {
                 if (stack->block(x, y) > 0) {
                     return;
@@ -91,8 +92,8 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
 
             // check if J wallkick is still possible
             if (m_type == Shape::J) {
-                x = m_position.x;
-                y = m_position.y - 1;
+                x = m_coordinates.x;
+                y = m_coordinates.y - 1;
                 if (x >= 0 || x < stack->width()) {
                     if (y < stack->height() && y >= 0) {
                         if (stack->block(x, y) > 0) {
@@ -118,8 +119,8 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
 
             // check if L wallkick is still possible
             if (m_type == Shape::L) {
-                x = m_position.x - 2;
-                y = m_position.y - 1;
+                x = m_coordinates.x - 2;
+                y = m_coordinates.y - 1;
                 if (x >= 0 || x < stack->width()) {
                     if (y < stack->height() && y >= 0) {
                         if (stack->block(x, y) > 0) {
@@ -144,24 +145,24 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
             }
 
             // Check for wallkicks exceptions
-            x = m_position.x - 1;
+            x = m_coordinates.x - 1;
 
             if (x >= 0 || x < stack->width()) {
-                y = m_position.y - 1;
+                y = m_coordinates.y - 1;
                 if (y < stack->height() && y >= 0) {
                     if (stack->block(x, y) > 0) {
                         return;
                     }
                 }
 
-                y = m_position.y;
+                y = m_coordinates.y;
                 if (y < stack->height() && y >= 0) {
                     if (stack->block(x, y) > 0) {
                         return;
                     }
                 }
 
-                y = m_position.y + 1;
+                y = m_coordinates.y + 1;
                 if (y < stack->height() && y >= 0) {
                     if (stack->block(x, y) > 0) {
                         return;

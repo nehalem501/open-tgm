@@ -26,8 +26,13 @@ void TextImpl::render() const {
     // Draw text at x, y position
     u16 *screen = (u16*) MAP_BASE_ADR(24);
 
-    const int x = 1;//m_text.position().x;
-    const int y = 1;//m_text.position().y;
+    int offset = 0;
+    if (m_text.position().layout == Layouts::CENTERED) {
+        offset = m_text.length() / 2;
+    }
+
+    const int x = m_text.position().x - offset;
+    const int y = m_text.position().y;
 
     if (m_text.color() != 0) {
         for (unsigned int i = 0; i < m_text.length(); i++) {

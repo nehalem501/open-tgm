@@ -28,6 +28,12 @@ class Settings {
 
         void draw() const;
 
+        #ifdef RESIZABLE
+        void resize() {
+            // TODO
+        }
+        #endif
+
         void update(int *menustate, Background *background);
 
     private:

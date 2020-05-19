@@ -16,10 +16,14 @@ class Labels {
         void layout(const Position &parent);
         void draw() const;
 
-        inline void set_mode(Mode *new_mode) { m_mode = new_mode; };
+        #ifdef RESIZABLE
+        void resize() { m_implementation.resize(); }
+        #endif
+
+        //inline void set_mode(Mode *new_mode) { m_mode = new_mode; }; // TODO
 
     private:
-        Mode *m_mode;
+        //Mode *m_mode;
         LabelsImpl m_implementation;
 };
 

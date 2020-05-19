@@ -12,4 +12,6 @@
 
 typedef uint32_t tiles_t;
 
+#define tile_size 9
+
 #endif // TARGET_TYPES_3DS_H

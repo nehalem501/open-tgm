@@ -12,4 +12,6 @@
 
 typedef uint16_t tiles_t;
 
+extern int tile_size;
+
 #endif

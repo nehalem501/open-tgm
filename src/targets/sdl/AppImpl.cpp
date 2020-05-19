@@ -13,10 +13,13 @@
 #include <App.h>
 
 Size screen = { 320, 240 };
+int tile_size = 8;
 
 void init_graphics_context(int width, int height) {
     // Init OpenGL
-    //glViewport(0, 0, win_width, win_height);
+    glViewport(0, 0, width, height);
+
+    tile_size = height / 27;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -26,6 +29,9 @@ void init_graphics_context(int width, int height) {
     glLoadIdentity();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
@@ -110,6 +116,7 @@ void app(Scene& scene) {
                                     exit(1);
                                 }
                                 init_graphics_context(screen.width, screen.height);
+                                scene.resize();
                                 fullscreen = false;
                             } else {
                                 // Works from  SDL v1.2.10 to get
@@ -124,6 +131,7 @@ void app(Scene& scene) {
                                 const SDL_VideoInfo* info = SDL_GetVideoInfo();
                                 printf("%dx%d\n", info->current_w, info->current_h);
                                 init_graphics_context(info->current_w, info->current_h);
+                                scene.resize();
                                 fullscreen = true;
                             }
 
@@ -135,6 +143,16 @@ void app(Scene& scene) {
                 }
                 if (event.type == SDL_VIDEORESIZE) {
                     // TODO resize
+                    screen.width = event.resize.w;
+                    screen.height = event.resize.h;
+                    if (SDL_SetVideoMode(screen.width, screen.height,
+                                            0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
+                        printf("Could not create window: %s\n",
+                                SDL_GetError());
+                        exit(1);
+                    }
+                    init_graphics_context(event.resize.w, event.resize.h);
+                    scene.resize();
                     break;
                 }
             }

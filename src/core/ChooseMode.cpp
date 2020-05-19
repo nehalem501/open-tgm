@@ -7,35 +7,30 @@
 #include <../modes/modes.h>
 #include <Game.h>
 
-ChooseMode::ChooseMode() :
-        m_mode(0),
-        m_selected(false) {
+const Coordinates ChooseMode::m_coordinates = Coordinates(5, 0);
+
+ChooseMode::ChooseMode(const Position& parent) : m_selected(false), m_mode(0) {
     #ifdef DEBUG
     print("Choose mode screen constructor\n");
     #endif
 
     for (int i = 0; i < NB_MODES; i++) {
-        //m_modes_strings[i].init_graphics();
-        m_modes_strings[i].position(Position(1, 7 + i * 2), Position(0, 0)); // TODO
-        m_modes_strings[i].text(modes[i]->name());
-        // TODO use stack depending on player
-        //m_modes_strings[i].update_stack(stack);
-        //m_modes_strings[i].update_graphics();
+        m_modes_strings[i].position(
+            Coordinates(m_coordinates.x, (7 + i * 2), Layouts::CENTERED),
+            parent);
+        m_modes_strings[i].text(raw_modes[i]->name);
     }
 
     // Highlight the first entry
     m_modes_strings[0].color(TextColor::YELLOW);
-    //m_modes_strings[0].update_graphics();
 }
 
 bool ChooseMode::update(int *mode) {
-    // TODO: remove, just to keep compiler happy
-      *mode = m_mode;
-
     // Mode selected, play animation before starting game
     if (input.a()) {
         //m_das_up = 4;
         //m_das_down = 0;
+        *mode = m_mode;
         m_selected = true;
         return false;
     }
@@ -43,17 +38,16 @@ bool ChooseMode::update(int *mode) {
     // Playing animation
     if (m_selected) {
         /*m_das_up += 4;
-        if (m_das_up == 0) {
+        if (m_das_up == 0) {*/
             m_selected = false;
-            m_das_up = 0;
-            m_das_down = 0;
-            *state = MainMenuState::START_GAME;
+            //m_das_up = 0;
+            //m_das_down = 0;
+            //*state = MainMenuState::START_GAME;
             *mode = m_mode;
             m_mode = 0;
             m_modes_strings[0].color(TextColor::YELLOW);
-            //m_modes_strings[0].update_graphics();
             return true;
-        }*/
+        /*}*/
 
         //m_das_down += 32;
 
@@ -92,11 +86,13 @@ bool ChooseMode::update(int *mode) {
         m_modes_strings[m_mode].color(TextColor::YELLOW);
     }
 
+    *mode = m_mode;
+
     return false;
 }
 
 void ChooseMode::draw() const {
-    for (int i = 0; i < NB_MODES; i++) {
+    for (unsigned int i = 0; i < NB_MODES; i++) {
         m_modes_strings[i].draw();
     }
 }

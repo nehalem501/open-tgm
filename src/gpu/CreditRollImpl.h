@@ -7,6 +7,10 @@ class CreditRollImpl {
     public:
         void update();
         void render() const;
+
+        #ifdef RESIZABLE
+        void resize() { }
+        #endif
 };
 
 #endif

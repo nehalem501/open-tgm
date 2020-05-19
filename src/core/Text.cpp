@@ -7,6 +7,7 @@
 #include <Text.h>
 
 Text::Text() :
+        m_coordinates(0, 0),
         m_position(0, 0),
         m_color(0),
         m_length(0),
@@ -17,12 +18,9 @@ Text::Text() :
     #endif
 }
 
-Text::Text(const Position& position, const Position& parent) :
-        m_position(
-            Position(
-                position.x + parent.x,
-                position.y + parent.y,
-                position.layout)),
+Text::Text(const Coordinates& coordinates, const Position& parent) :
+        m_coordinates(coordinates),
+        m_position(coordinates.to_position() + parent),
         m_color(0),
         m_length(0),
         m_str(NULL),
@@ -33,15 +31,12 @@ Text::Text(const Position& position, const Position& parent) :
 }
 
 Text::Text(
-    const Position& position,
     const Position& parent,
+    const Coordinates& coordinates,
     int color,
     const char *str) :
-        m_position(
-            Position(
-                position.x + parent.x,
-                position.y + parent.y,
-                position.layout)),
+        m_coordinates(coordinates.x, coordinates.y),
+        m_position(coordinates.to_position() + parent),
         m_color(color),
         m_length(strlen(str)),
         m_str(str),
@@ -51,8 +46,14 @@ Text::Text(
     #endif
 }
 
-void Text::position(const Position& position, const Position& parent) {
-    if (m_position.x != position.x || m_position.y != position.y) {
+void Text::position(const Coordinates& coordinates, const Position& parent) {
+    const Position position = coordinates.to_position() + parent;
+
+    if (m_position.x != position.x ||
+        m_position.y != position.y ||
+        m_coordinates.x != coordinates.x ||
+        m_coordinates.y != coordinates.y) {
+
         #ifdef DEBUG
         print(
             "Text::update_position: (%d, %d) replaced by (%d, %d)\n",
@@ -61,10 +62,9 @@ void Text::position(const Position& position, const Position& parent) {
             position.x,
             position.y);
         #endif
-        m_position = Position(
-            position.x + parent.x,
-            position.y + parent.y,
-            position.layout);
+
+        m_coordinates = coordinates;
+        m_position = position;
         m_implementation.update_position();
     }
 }
@@ -76,7 +76,7 @@ void Text::text(const char *new_str) {
         #endif
         m_str = new_str;
         m_length = strlen(m_str);
-        // TODO update
+        m_implementation.update_text();
     }
 }
 
@@ -86,7 +86,7 @@ void Text::color(int color) {
         print("Text::update_color: %d replaced by %d\n", m_color, color);
         #endif
         m_color = color;
-        // TODO update
+        m_implementation.update_color();
     }
 }
 

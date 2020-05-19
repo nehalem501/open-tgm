@@ -15,11 +15,11 @@
 #define NEW_LOCK_COLOR_DELAY 2
 
 /* Init the field and all the other stuff */
-void Player::init(Position *position, Mode *mode) {
+void Player::init(Position& position, const RawMode *mode) {
     // TODO: position
-    m_parent = position;
+    m_implementation.position(position);
 
-    m_current_mode = mode;
+    m_current_mode = Mode(mode);
 
     m_score = 0;
     m_level = 0;
@@ -27,7 +27,7 @@ void Player::init(Position *position, Mode *mode) {
     m_active_time = 0;
     m_gravity = 0;
     m_gravity_counter = 0;
-    m_section = mode->section(0);
+    m_section = m_current_mode.section(0);
 
     m_already_dropped = false;
     m_lock_color_delay = 0;
@@ -58,9 +58,9 @@ void Player::init(Position *position, Mode *mode) {
 
     m_grade.set(Grade::None);
 
-    m_score_display.position(mode->score_position());
-    m_level_display.position(mode->level_position());
-    m_section_display.position(mode->level_target_position());
+    m_score_display.position(m_current_mode.score_position());
+    m_level_display.position(m_current_mode.level_position());
+    m_section_display.position(m_current_mode.level_target_position());
     m_section_display.set(m_section);
 
     // TODO
@@ -83,7 +83,7 @@ void Player::init(Position *position, Mode *mode) {
 void Player::start_game() {
     m_state = PlayerState::ARE;
     m_line_are = false;
-    m_are = m_current_mode->are(0);
+    m_are = m_current_mode.are(0);
 }
 
 /* Update game for 1 frame */
@@ -149,8 +149,8 @@ void Player::update(Stack *stack, int *game_state) {
             #endif
 
             bool are_finished = m_line_are ?
-                                (m_are >= m_current_mode->line_are(m_level) + 2):
-                                (m_are >= m_current_mode->are(m_level));
+                                (m_are >= m_current_mode.line_are(m_level) + 2):
+                                (m_are >= m_current_mode.are(m_level));
 
             if (are_finished) {
                 next_piece();
@@ -269,7 +269,7 @@ void Player::update(Stack *stack, int *game_state) {
 
             // Down
             if (input.down()) {
-                if (m_current_mode->keep_down() || !m_previous_down) {
+                if (m_current_mode.keep_down() || !m_previous_down) {
                     //m_previous_down = true;
                     m_soft++;
 
@@ -285,7 +285,7 @@ void Player::update(Stack *stack, int *game_state) {
                         if (!m_already_dropped) {
                             m_state = PlayerState::LOCK;
                             m_draw_piece = false;
-                            if (m_current_mode->old_locking_style()) {
+                            if (m_current_mode.old_locking_style()) {
                                 goto piece_locked;
                             } else {
                                 // Used as darker piece for blink animation
@@ -298,7 +298,7 @@ void Player::update(Stack *stack, int *game_state) {
                             m_previous_down = true;
                             m_state = PlayerState::LOCK;
                             m_draw_piece = false;
-                            if (m_current_mode->old_locking_style()) {
+                            if (m_current_mode.old_locking_style()) {
                                 goto piece_locked;
                             } else {
                                 // Used as darker piece for blink animation
@@ -319,7 +319,7 @@ void Player::update(Stack *stack, int *game_state) {
             }
 
             // Sonic Drop
-            if (m_current_mode->sonic_drop()) {
+            if (m_current_mode.sonic_drop()) {
                 if (input.sonic_drop()) {
                     m_piece.move_down(m_ghost_y, MAX_HEIGHT);
                 }
@@ -335,7 +335,7 @@ void Player::update(Stack *stack, int *game_state) {
                         reset_lock();
                         m_state = PlayerState::LOCK;
                         m_draw_piece = false;
-                        if (m_current_mode->old_locking_style()) {
+                        if (m_current_mode.old_locking_style()) {
                             goto piece_locked;
                         } else {
                             // Used as darker piece for blink animation
@@ -361,6 +361,12 @@ void Player::update(Stack *stack, int *game_state) {
                 }
             }
 
+            // TODO
+            m_implementation.update_piece_position();
+            m_implementation.update_piece_type();
+            m_implementation.update_ghost_position();
+            m_implementation.update_ghost_type();
+
             break;
         }
 
@@ -376,7 +382,7 @@ void Player::update(Stack *stack, int *game_state) {
             // Copy piece to stack/field
             m_piece.locked(stack);
 
-            if (m_current_mode->old_locking_style()) {
+            if (m_current_mode.old_locking_style()) {
                 m_lock_color_delay = OLD_LOCK_COLOR_DELAY;
                 m_state = PlayerState::LOCKED_ANIM_OLD;
             } else {
@@ -482,11 +488,11 @@ void Player::update(Stack *stack, int *game_state) {
                 stack->remove_grey_blocks(m_piece);
             }
 
-            if (m_clear >= m_current_mode->clear(m_level)) {
+            if (m_clear >= m_current_mode.clear(m_level)) {
                 m_clear = 0;
                 stack->shift_lines();
                 m_line_are = true;
-                if (m_current_mode->old_locking_style()) {
+                if (m_current_mode.old_locking_style()) {
                     m_are += 5;
                 }
                 m_state = PlayerState::ARE;
@@ -509,7 +515,7 @@ void Player::next_piece() {
 
     uint32_t r = 0;
 
-    for (unsigned int i = 0; i < m_current_mode->random_tries(); i++) {
+    for (unsigned int i = 0; i < m_current_mode.random_tries(); i++) {
         r = tgm_random(&rand_seed) % NB_TYPES;
 
         if (r != m_history[0] && r != m_history[1] &&
@@ -526,6 +532,7 @@ void Player::next_piece() {
     m_history[0] = (tiles_t) r;
 
     m_next = (tiles_t) r;
+    m_implementation.update_next_type();
 }
 
 /* Increase level if possible */
@@ -533,13 +540,13 @@ void Player::change_level(int value, bool line_clear) {
     // TODO changeLevel not finished
 
     // Last level
-    if (m_level >= m_current_mode->max_level())
+    if (m_level >= m_current_mode.max_level())
         return;
 
     // Check for line clear at end of section
     if (m_level == m_section - 1) {
         if (line_clear) {
-            m_section = m_current_mode->section(m_level + value);
+            m_section = m_current_mode.section(m_level + value);
             m_section_display.set(m_section);
         } else {
             return;
@@ -549,11 +556,11 @@ void Player::change_level(int value, bool line_clear) {
     m_level += value;
 
     // Happens if we clear multiple lines at the end of last section
-    if (m_level >= m_current_mode->max_level())
-        m_level = m_current_mode->max_level();
+    if (m_level >= m_current_mode.max_level())
+        m_level = m_current_mode.max_level();
 
     m_level_display.set(m_level);
-    m_gravity = m_current_mode->gravity(m_level);
+    m_gravity = m_current_mode.gravity(m_level);
 }
 
 /* Update player's score */
@@ -567,8 +574,8 @@ void Player::update_score(unsigned int nb_lines, bool bravo) {
     // Implement torikan in Mode using callback like score_func
     unsigned int lvl_aft_clear = m_level + nb_lines;
     uint32_t speed = 0;
-    if (m_current_mode->lock(m_level) > m_active_time) {
-        speed = m_current_mode->lock(m_level) - m_active_time;
+    if (m_current_mode.lock(m_level) > m_active_time) {
+        speed = m_current_mode.lock(m_level) - m_active_time;
     }
 
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
@@ -585,12 +592,21 @@ void Player::update_score(unsigned int nb_lines, bool bravo) {
     print("speed: %d\n", (int) speed);
     #endif
 
-    m_score += m_current_mode->score_func(m_level, nb_lines, m_soft, m_sonic,
-                                          m_combo, bravo_val, lvl_aft_clear,
-                                          speed);
-    //std::cout << "score : " << m_score << std::endl << std::endl;
+    m_score += m_current_mode.score(
+        m_level,
+        nb_lines,
+        m_soft,
+        m_sonic,
+        m_combo,
+        bravo_val,
+        lvl_aft_clear,
+        speed);
 
-    m_current_mode->grade_func(m_score, 0 /* TODO */, &m_grade);
+    #ifdef DEBUG
+    print("score: %d\n", (int) m_score);
+    #endif
+
+    m_current_mode.grade(m_score, 0 /* TODO */, &m_grade);
 
     m_score_display.set(m_score);
 }
@@ -641,7 +657,11 @@ bool Player::check_lock() {
         print("lock: %d\n", (int) m_lock);
         #endif
 
-        if (m_lock >= m_current_mode->lock(m_level)) {
+        m_implementation.update_piece_lock_animation(
+            m_lock,
+            m_current_mode.lock(m_level));
+
+        if (m_lock >= m_current_mode.lock(m_level)) {
             return true;
         }
     }
@@ -657,8 +677,8 @@ bool Player::check_das_left() {
         print("left DAS: %d\n", (int) m_das_left);
         #endif
 
-        if (m_das_left > m_current_mode->das(m_level)) {
-            m_das_left = m_current_mode->das(m_level);
+        if (m_das_left > m_current_mode.das(m_level)) {
+            m_das_left = m_current_mode.das(m_level);
             return true;
         }
     }
@@ -674,8 +694,8 @@ bool Player::check_das_right() {
         print("right DAS: %d\n", (int) m_das_right);
         #endif
 
-        if (m_das_right > m_current_mode->das(m_level)) {
-            m_das_right = m_current_mode->das(m_level);
+        if (m_das_right > m_current_mode.das(m_level)) {
+            m_das_right = m_current_mode.das(m_level);
             return true;
         }
     }
@@ -683,7 +703,7 @@ bool Player::check_das_right() {
 }
 
 void Player::draw() const {
-    // TODO render
+    m_implementation.render();
     
     m_score_display.draw();
     m_level_display.draw();

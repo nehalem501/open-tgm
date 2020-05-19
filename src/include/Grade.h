@@ -36,6 +36,10 @@ class Grade {
 
         void draw() const;
 
+        #ifdef RESIZABLE
+        void resize() { m_implementation.resize(); }
+        #endif
+
         void update();
 
         inline void set(const unsigned int value) { m_grade = value; };

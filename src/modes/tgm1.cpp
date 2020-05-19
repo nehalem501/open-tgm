@@ -1,9 +1,11 @@
 /* tgm1.cpp */
 
-#include <Mode.h>
 #ifdef DEBUG
 #include <TargetTypes.h>
 #endif
+
+#include <RawMode.h>
+#include <Frame.h>
 #include "tgm1.h"
 
 uint32_t tgm1_score(uint32_t level, uint32_t lines, uint32_t soft, uint32_t,
@@ -19,7 +21,7 @@ struct Condition {
     uint32_t score;
 };
 
-static struct Condition TGM1_GRADE_CONDITIONS[19] = {
+static const struct Condition TGM1_GRADE_CONDITIONS[19] = {
     {Grade::_9, 0},
     {Grade::_8, 400},
     {Grade::_7, 800},
@@ -57,7 +59,7 @@ void tgm1_grade(uint32_t score, unsigned int, Grade *grade) {
     #endif
 }
 
-static struct Timing TGM1_GRAVITY[30] = {
+static const struct Timing TGM1_GRAVITY[30] = {
     {0, 4},
     {30, 6},
     {35, 8},
@@ -95,24 +97,24 @@ static struct Timing TGM1_GRAVITY[30] = {
     {500, 5120}
 };
 
-static struct Timing TGM1_ARE[1] = {{0, 30}};
+static const struct Timing TGM1_ARE[1] = {{0, 30}};
 
-static struct Timing TGM1_LINE_ARE[1] = {{0, 30}};
+static const struct Timing TGM1_LINE_ARE[1] = {{0, 30}};
 
-static struct Timing TGM1_DAS[1] = {{0, 14}};
+static const struct Timing TGM1_DAS[1] = {{0, 14}};
 
-static struct Timing TGM1_LOCK[1] = {{0, 30}};
+static const struct Timing TGM1_LOCK[1] = {{0, 30}};
 
-static struct Timing TGM1_CLEAR[1] = {{0, 41}};
+static const struct Timing TGM1_CLEAR[1] = {{0, 41}};
 
-static char TGM1_NEXT_STR[] = "NEXT";
-static char TGM1_TIME_STR[] = "TIME";
-static char TGM1_LEVEL_STR[] = "LEVEL";
-static char TGM1_POINTS_STR[] = "POINTS";
-static char TGM1_GRADE_STR[] = "GRADE";
-static char TGM1_NEXT_AT_STR[] = "NEXT AT";
+static const char TGM1_NEXT_STR[] = "NEXT";
+static const char TGM1_TIME_STR[] = "TIME";
+static const char TGM1_LEVEL_STR[] = "LEVEL";
+static const char TGM1_POINTS_STR[] = "POINTS";
+static const char TGM1_GRADE_STR[] = "GRADE";
+static const char TGM1_NEXT_AT_STR[] = "NEXT AT";
 
-static struct Label TGM1_LABELS[6] = {
+static const struct Label TGM1_LABELS[6] = {
     {TGM1_NEXT_STR, -1, 0},
     {TGM1_TIME_STR, 12, 20},
     {TGM1_LEVEL_STR, 12, 15},
@@ -121,20 +123,21 @@ static struct Label TGM1_LABELS[6] = {
     {TGM1_NEXT_AT_STR, 12, 6}
 };
 
-struct DigitsPosition TGM1_SCORE_POS = {12, 12};
-struct DigitsPosition TGM1_LEVEL_POS = {12, 16};
-struct DigitsPosition TGM1_LVL_TGT_POS = {12, 18};
+static const struct DigitsPosition TGM1_SCORE_POS = {12, 12};
+static const struct DigitsPosition TGM1_LEVEL_POS = {12, 16};
+static const struct DigitsPosition TGM1_LVL_TGT_POS = {12, 18};
 
-Mode mode_tgm1(
+const RawMode mode_tgm1 = {
 /*          name */ "TGM",
 /*    sonic_drop */ false,
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ true,
 /* old_lck_style */ true,
+/*   frame_color */ FrameColors::NORMAL,
 /*   credit_roll */ CreditRoll::Playable,
-/*        size_x */ 10,
-/*        size_y */ 22,
+/*   stack_width */ 10,
+/*  stack_height */ 22,
 /*     max_level */ 999,
 /* initial_grade */ Grade::_9,
 /*  random_tries */ 4,
@@ -156,4 +159,5 @@ Mode mode_tgm1(
 /*     level_pos */ TGM1_LEVEL_POS,
 /*   lvl_tgt_pos */ TGM1_LVL_TGT_POS,
 /*    score_func */ tgm1_score,
-/*    grade_func */ tgm1_grade);
+/*    grade_func */ tgm1_grade
+};

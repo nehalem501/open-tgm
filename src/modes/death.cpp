@@ -1,9 +1,11 @@
 /* death.cpp */
 
-#include <Mode.h>
 #ifdef DEBUG
 #include <Global.h>
 #endif
+
+#include <RawMode.h>
+#include <Frame.h>
 #include "death.h"
 
 uint32_t death_score(uint32_t level, uint32_t lines, uint32_t soft,
@@ -38,9 +40,9 @@ void death_grade(uint32_t, unsigned int level, Grade *grade) {
     }
 }
 
-static struct Timing DEATH_GRAVITY[1] = {{0, 5120}};
+static const struct Timing DEATH_GRAVITY[1] = {{0, 5120}};
 
-static struct Timing DEATH_ARE[5] = {
+static const struct Timing DEATH_ARE[5] = {
     {0, 16},
     {101, 12},
     {301, 6},
@@ -48,21 +50,21 @@ static struct Timing DEATH_ARE[5] = {
     {500, 4}
 };
 
-static struct Timing DEATH_LINE_ARE[4] = {
+static const struct Timing DEATH_LINE_ARE[4] = {
     {0, 12},
     {101, 6},
     {401, 5},
     {500, 4}
 };
 
-static struct Timing DEATH_DAS[4] = {
+static const struct Timing DEATH_DAS[4] = {
     {0, 10},
     {200, 9},
     {300, 8},
     {400, 6}
 };
 
-static struct Timing DEATH_LOCK[5] = {
+static const struct Timing DEATH_LOCK[5] = {
     {0, 30},
     {101, 26},
     {201, 22},
@@ -70,39 +72,40 @@ static struct Timing DEATH_LOCK[5] = {
     {401, 15}
 };
 
-static struct Timing DEATH_CLEAR[4] = {
+static const struct Timing DEATH_CLEAR[4] = {
     {0, 12},
     {101, 6},
     {401, 5},
     {500, 4}
 };
 
-static char DEATH_NEXT_STR[] = "NEXT";
-static char DEATH_TIME_STR[] = "TIME";
-static char DEATH_LEVEL_STR[] = "LEVEL";
-static char DEATH_POINTS_STR[] = "POINTS";
+static const char DEATH_NEXT_STR[] = "NEXT";
+static const char DEATH_TIME_STR[] = "TIME";
+static const char DEATH_LEVEL_STR[] = "LEVEL";
+static const char DEATH_POINTS_STR[] = "POINTS";
 
-static struct Label DEATH_LABELS[4] = {
+static const struct Label DEATH_LABELS[4] = {
     {DEATH_NEXT_STR, -1, 0},
     {DEATH_TIME_STR, 12, 20},
     {DEATH_LEVEL_STR, 12, 15},
     {DEATH_POINTS_STR, 12, 11}
 };
 
-struct DigitsPosition DEATH_SCORE_POS = {12, 12};
-struct DigitsPosition DEATH_LEVEL_POS = {12, 16};
-struct DigitsPosition DEATH_LVL_TGT_POS = {12, 18};
+static const struct DigitsPosition DEATH_SCORE_POS = {12, 12};
+static const struct DigitsPosition DEATH_LEVEL_POS = {12, 16};
+static const struct DigitsPosition DEATH_LVL_TGT_POS = {12, 18};
 
-Mode mode_death(
+const RawMode mode_death = {
 /*          name */ "DEATH",
 /*    sonic_drop */ false,
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ false,
 /* old_lck_style */ false,
+/*   frame_color */ FrameColors::RED,
 /*   credit_roll */ CreditRoll::Playable,
-/*        size_x */ 10,
-/*        size_y */ 22,
+/*   stack_width */ 10,
+/*  stack_height */ 22,
 /*     max_level */ 999,
 /* initial_grade */ Grade::None,
 /*  random_tries */ 6,
@@ -124,4 +127,5 @@ Mode mode_death(
 /*     level_pos */ DEATH_LEVEL_POS,
 /*   lvl_tgt_pos */ DEATH_LVL_TGT_POS,
 /*    score_func */ death_score,
-/*    grade_func */ death_grade);
+/*    grade_func */ death_grade
+};

@@ -3,17 +3,36 @@
 #ifndef STACK_GPU_H
 #define STACK_GPU_H
 
+#include <Global.h>
+#include "Texture.h"
+#include "Tilemap.h"
+
 /* Forward declarations to avoid dependency hell */
 class Stack;
 
 class StackImpl {
     public:
-        StackImpl(const Stack& stack) : m_stack(stack) { };
-        void update();
-        void render() const;
+        StackImpl(const Stack& stack);
+
+        void update_field();
+        void update_outline();
+
+        inline void render() const {
+            m_field_tilemap.render();
+            m_outline_tilemap.render();
+        }
+
+        #ifdef RESIZABLE
+        void resize() {
+            m_field_tilemap.resize();
+            m_outline_tilemap.resize();
+        }
+        #endif
 
     private:
         const Stack& m_stack;
+        Tilemap<MAX_WIDTH * MAX_HEIGHT> m_field_tilemap;
+        Tilemap<MAX_WIDTH * MAX_HEIGHT> m_outline_tilemap;
 };
 
 #endif

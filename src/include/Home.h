@@ -15,6 +15,10 @@ class Home {
 
         void draw() const;
 
+        #ifdef RESIZABLE
+        void resize(const Position& parent) { m_start.resize(parent); }
+        #endif
+
         void update(int *state);
 
     private:

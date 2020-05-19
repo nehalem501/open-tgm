@@ -14,6 +14,10 @@ class Timer {
         void layout(const Position &position);
         void draw() const;
 
+        #ifdef RESIZABLE
+        void resize() { m_implementation.resize(); }
+        #endif
+
         void start();
         void update();
 

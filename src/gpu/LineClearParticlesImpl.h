@@ -10,6 +10,10 @@ class LineClearParticlesImpl {
         void reset(Position& position);
         void update();
         void render() const;
+
+        #ifdef RESIZABLE
+        void resize() { }
+        #endif
 };
 
 #endif

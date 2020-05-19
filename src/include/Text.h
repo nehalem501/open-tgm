@@ -4,6 +4,7 @@
 #define TEXT_H
 
 #include <Position.h>
+#include <Coordinates.h>
 #include <TextImpl.h>
 
 namespace TextColor {
@@ -24,16 +25,26 @@ namespace TextColor {
 class Text {
     public:
         Text();
-        Text(const Position& position, const Position& parent);
+
+        Text(const Coordinates& coordinates, const Position& parent);
+
         Text(
-            const Position& position,
             const Position& parent,
+            const Coordinates& coordinates,
             int color,
             const char *str);
 
         void draw() const;
 
-        void position(const Position &position, const Position& parent);
+        #ifdef RESIZABLE
+        void resize(const Position& parent) {
+            m_position = m_coordinates.to_position() + parent;
+            m_implementation.resize();
+        }
+        #endif
+
+        void position(const Coordinates& coordinates, const Position& parent);
+
         void text(const char *new_str);
         void color(int color);
 
@@ -43,6 +54,7 @@ class Text {
         inline int color() const { return m_color; };
 
     private:
+        Coordinates m_coordinates;
         Position m_position;
 
         int m_color;

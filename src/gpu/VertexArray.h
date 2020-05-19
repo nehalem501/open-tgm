@@ -27,6 +27,13 @@ class VertexArray2D {
             #endif
         };
 
+        inline void move(gpu_float_t x, gpu_float_t y) {
+            for (unsigned int i = 0; i < N; i++) {
+                vertices[i].x += x;
+                vertices[i].y += y;
+            }
+        };
+
         inline void texture(TextureID texture) {
             m_implementation.m_texture = texture;
         };

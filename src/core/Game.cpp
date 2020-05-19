@@ -1,14 +1,17 @@
 /* Game.cpp */
 
 #include <TargetTypes.h>
+#include <Global.h>
 #include <Player.h>
 #include <Stack.h>
-#include <../modes/modes.h>
 #include <Scene.h>
 #include <Game.h>
 
 Game::Game(Position &position) :
         m_position(position),
+        m_choose_mode(position),
+        m_player(position),
+        m_stack(position),
         m_frame(m_position),
         m_labels(),
         m_state(GameState::CHOOSE_MODE) {
@@ -18,9 +21,9 @@ Game::Game(Position &position) :
 }
 
 void Game::start(int mode) {
-    m_stack.start_game(modes[mode]);
-    m_player.init(&m_position, modes[mode]);
-    m_labels.set_mode(modes[mode]);
+    m_stack.start_game(raw_modes[mode]);
+    m_player.init(m_position, raw_modes[mode]);
+    //m_labels.set_mode(raw_modes[mode]); TODO
     m_timer.start();
 
     ready_go();
@@ -32,8 +35,9 @@ void Game::ready_go() {
 
     // Display 'READY'
     m_string.text(READY_STR);
-    // TODO
-    m_string.position(Position(3, 11), m_position); // TODO
+    m_string.position(
+        Coordinates(0, 10, Layouts::CENTERED),
+        m_position);
 }
 
 // TODO change how Scene is notified
@@ -43,7 +47,10 @@ void Game::update(int *scene_state) {
             int mode;
             if (m_choose_mode.update(&mode)) {
                 start(mode);
+            } else {
+                m_frame.color(raw_modes[mode]->frame_color);
             }
+
             break;
 
         case GameState::INGAME:
@@ -66,7 +73,9 @@ void Game::update(int *scene_state) {
             // Display 'GO'
             if (m_counter > 60) {
                 m_string.text(GO_STR);
-                m_string.position(Position(4, 11), m_position); // TODO
+                m_string.position(
+                    Coordinates(0, 10, Layouts::CENTERED),
+                    m_position); // TODO
             }
 
             // Start game
@@ -103,7 +112,9 @@ void Game::update(int *scene_state) {
             if (m_counter == 0) {
                 m_counter = 0;
                 m_string.text(GAME_OVER_STR);
-                m_string.position(Position(1, 11), m_position); // TODO
+                m_string.position(
+                    Coordinates(0, 10, Layouts::CENTERED), // TODO
+                    m_position);
                 m_state = GameState::GAME_OVER_TEXT;
                 return;
             }
@@ -137,11 +148,8 @@ bool Game::has_ended() {
 }
 
 void Game::draw() const {
+    m_frame.draw();
     m_stack.draw();
-    m_player.draw();
-
-    m_timer.draw();
-    m_labels.draw();
 
     switch (m_state) {
         case GameState::CHOOSE_MODE:
@@ -149,14 +157,29 @@ void Game::draw() const {
             break;
         
         case GameState::READY_GO:
+            m_player.draw();
             m_string.draw();
+            m_timer.draw();
+            m_labels.draw();
+            break;
+
+        case GameState::INGAME:
+            m_player.draw();
+            m_timer.draw();
+            m_labels.draw();
             break;
 
         case GameState::GAME_OVER_ANIM:
+            m_player.draw();
+            m_timer.draw();
+            m_labels.draw();
             break;
 
         case GameState::GAME_OVER_TEXT:
+            m_player.draw();
             m_string.draw();
+            m_timer.draw();
+            m_labels.draw();
             break;
     }
 }

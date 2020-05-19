@@ -11,6 +11,10 @@ class DigitsImpl {
         void layout(const Position &position);
         void update(const uint32_t value);
         void render() const;
+
+        #ifdef RESIZABLE
+        void resize() { }
+        #endif
 };
 
 #endif

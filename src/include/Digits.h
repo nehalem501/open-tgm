@@ -15,6 +15,10 @@ class Digits {
         void layout(const Position &parent);
         void draw() const;
 
+        #ifdef RESIZABLE
+        void resize() { m_implementation.resize(); }
+        #endif
+
         void set(const uint32_t value);
         uint32_t get() { return m_value; }
 

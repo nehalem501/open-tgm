@@ -1,9 +1,11 @@
 /* shirase.cpp */
 
-#include <Mode.h>
 #ifdef DEBUG
 #include <Global.h>
 #endif
+
+#include <RawMode.h>
+#include <Frame.h>
 #include "shirase.h"
 
 uint32_t shirase_score(uint32_t level, uint32_t lines, uint32_t soft,
@@ -38,14 +40,14 @@ void shirase_grade(uint32_t, unsigned int level, Grade *grade) {
     }
 }
 
-static struct Timing SHIRASE_GRAVITY[1] = {{0, 5120}};
+static const struct Timing SHIRASE_GRAVITY[1] = {{0, 5120}};
 
-static struct Timing SHIRASE_ARE[2] = {
+static const struct Timing SHIRASE_ARE[2] = {
     {0, 10},
     {300, 4}
 };
 
-static struct Timing SHIRASE_LINE_ARE[5] = {
+static const struct Timing SHIRASE_LINE_ARE[5] = {
     {0, 6},
     {100, 5},
     {200, 4},
@@ -53,13 +55,13 @@ static struct Timing SHIRASE_LINE_ARE[5] = {
     {1299, 4}
 };
 
-static struct Timing SHIRASE_DAS[3] = {
+static const struct Timing SHIRASE_DAS[3] = {
     {0, 8},
     {100, 6},
     {500, 4}
 };
 
-static struct Timing SHIRASE_LOCK[8] = {
+static const struct Timing SHIRASE_LOCK[8] = {
     {0, 18},
     {200, 17},
     {300, 15},
@@ -70,7 +72,7 @@ static struct Timing SHIRASE_LOCK[8] = {
     {1299, 15}
 };
 
-static struct Timing SHIRASE_CLEAR[5] = {
+static const struct Timing SHIRASE_CLEAR[5] = {
     {0, 6},
     {100, 5},
     {200, 4},
@@ -78,32 +80,33 @@ static struct Timing SHIRASE_CLEAR[5] = {
     {1299, 6}
 };
 
-static char SHIRASE_NEXT_STR[] = "NEXT";
-static char SHIRASE_TIME_STR[] = "TIME";
-static char SHIRASE_LEVEL_STR[] = "LEVEL";
+static const char SHIRASE_NEXT_STR[] = "NEXT";
+static const char SHIRASE_TIME_STR[] = "TIME";
+static const char SHIRASE_LEVEL_STR[] = "LEVEL";
 //static char SHIRASE_POINTS_STR[] = "POINTS";
 
-static struct Label SHIRASE_LABELS[3] = {
+static const struct Label SHIRASE_LABELS[3] = {
     {SHIRASE_NEXT_STR, -1, 0},
     {SHIRASE_TIME_STR, 12, 20},
     {SHIRASE_LEVEL_STR, 12, 15},
     //{SHIRASE_POINTS_STR, 12, 11}
 };
 
-struct DigitsPosition SHIRASE_SCORE_POS = {12, 12};
-struct DigitsPosition SHIRASE_LEVEL_POS = {12, 16};
-struct DigitsPosition SHIRASE_LVL_TGT_POS = {12, 18};
+static const struct DigitsPosition SHIRASE_SCORE_POS = {12, 12};
+static const struct DigitsPosition SHIRASE_LEVEL_POS = {12, 16};
+static const struct DigitsPosition SHIRASE_LVL_TGT_POS = {12, 18};
 
-Mode mode_shirase(
+const RawMode mode_shirase = {
 /*          name */ "SHIRASE",
 /*    sonic_drop */ false,
 /* display_score */ false,
 /*       section */ true,
 /*     keep_down */ false,
 /* old_lck_style */ false,
+/*   frame_color */ FrameColors::RED,
 /*   credit_roll */ CreditRoll::Playable,
-/*        size_x */ 10,
-/*        size_y */ 22,
+/*   stack_width */ 10,
+/*  stack_height */ 22,
 /*     max_level */ 1300,
 /* initial_grade */ Grade::None,
 /*  random_tries */ 6,
@@ -125,4 +128,5 @@ Mode mode_shirase(
 /*     level_pos */ SHIRASE_LEVEL_POS,
 /*   lvl_tgt_pos */ SHIRASE_LVL_TGT_POS,
 /*    score_func */ shirase_score,
-/*    grade_func */ shirase_grade);
+/*    grade_func */ shirase_grade
+};

@@ -9,7 +9,12 @@
 class BackgroundImpl {
     public:
         BackgroundImpl();
+
         void render(const bool options) const;
+
+        #ifdef RESIZABLE
+        void resize() { } // TODO
+        #endif
 
     private:
         Rect m_background_gradient;

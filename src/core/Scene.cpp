@@ -10,7 +10,7 @@
 
 Scene::Scene() :
         m_state(SceneState::HOME),
-        m_home(Position(screen.width / 2, 2 * (screen.height / 3))) {
+        m_home(PRESS_START_POSITION) {
     #ifdef DEBUG
     print("Scene constructor\n");
     #endif

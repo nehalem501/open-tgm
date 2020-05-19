@@ -9,6 +9,10 @@ class LabelsImpl {
     public:
         void layout(const Position &position);
         void render() const;
+
+        #ifdef RESIZABLE
+        void resize() { }
+        #endif
 };
 
 #endif

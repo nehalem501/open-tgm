@@ -78,6 +78,12 @@ class Glyphs {
 
         inline void render() const { m_vertex_array.render(); };
 
+        #ifdef RESIZABLE
+        void resize() {
+            // TODO
+        }
+        #endif
+
     private:
         //Position m_position;
         const Glyph *m_glyphs;

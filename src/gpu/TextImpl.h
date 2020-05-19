@@ -22,6 +22,10 @@ class TextImpl {
 
         void render() const;
 
+        #ifdef RESIZABLE
+        void resize();
+        #endif
+
     private:
         const Text& m_text;
         Glyphs<TEXT_LEN_MAX> m_glyphs;

@@ -3,8 +3,8 @@
 #ifndef SHIRASE_H
 #define SHIRASE_H
 
-#include <Mode.h>
+#include <RawMode.h>
 
-extern Mode mode_shirase;
+extern const RawMode mode_shirase;
 
 #endif // SHIRASE_H

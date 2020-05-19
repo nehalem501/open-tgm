@@ -3,8 +3,8 @@
 #ifndef EASY_H
 #define EASY_H
 
-#include <Mode.h>
+#include <RawMode.h>
 
-extern Mode mode_easy;
+extern const RawMode mode_easy;
 
 #endif

@@ -3,8 +3,8 @@
 #ifndef TGM1_H
 #define TGM1_H
 
-#include <Mode.h>
+#include <RawMode.h>
 
-extern Mode mode_tgm1;
+extern const RawMode mode_tgm1;
 
 #endif

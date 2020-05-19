@@ -4,7 +4,7 @@
 #include <GameView.h>
 
 GameView::GameView() :
-    m_player1_position(Position(0, 0)),
+    m_player1_position(Position(2 * tile_size, 2 * tile_size)), // TODO
     m_player1(m_player1_position)
     #ifdef MULTIPLAYER
     ,
@@ -26,5 +26,9 @@ void GameView::update(int *state) {
 }
 
 void GameView::draw() const {
-    // TODO
+    m_player1.draw();
+
+    #ifdef MULTIPLAYER
+    m_player2.draw();
+    #endif
 }

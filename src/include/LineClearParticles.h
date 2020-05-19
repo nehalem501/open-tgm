@@ -12,6 +12,10 @@ class LineClearParticles {
 
         void draw() const;
 
+        #ifdef RESIZABLE
+        void resize() { m_implementation.resize(); }
+        #endif
+
         void set_emitter(const Position &parent, int line);
         bool end();
 

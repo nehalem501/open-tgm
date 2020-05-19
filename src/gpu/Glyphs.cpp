@@ -89,10 +89,7 @@ void init_glyphs(
 
 void set_color(Vertex2D *vertices, const ColorRGBA& new_color, size_t size) {
     for (unsigned int i = 0; i < size * 4; i++) {
-        vertices[i].r = new_color.r;
-        vertices[i].g = new_color.b;
-        vertices[i].b = new_color.g;
-        vertices[i].a = new_color.a;
+        vertices[i].color(new_color);
     }
 }
 

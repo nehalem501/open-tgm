@@ -3,8 +3,8 @@
 #ifndef DEATH_H
 #define DEATH_H
 
-#include <Mode.h>
+#include <RawMode.h>
 
-extern Mode mode_death;
+extern const RawMode mode_death;
 
 #endif

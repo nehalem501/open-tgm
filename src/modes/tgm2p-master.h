@@ -3,8 +3,8 @@
 #ifndef TGM2_MASTER_H
 #define TGM2_MASTER_H
 
-#include <Mode.h>
+#include <RawMode.h>
 
-extern Mode mode_tgm2p_master;
+extern const RawMode mode_tgm2p_master;
 
 #endif

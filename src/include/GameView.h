@@ -11,6 +11,10 @@ class GameView {
 
         void draw() const;
 
+        #ifdef RESIZABLE
+        void resize() { m_player1.resize(); }
+        #endif
+
         void update(int *state);
 
     private:

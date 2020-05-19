@@ -9,16 +9,14 @@
 #include <Player.h>
 #include <Stack.h>
 
-static Position default_position(5, 5);
-
-Stack::Stack() :
+Stack::Stack(Position &parent) :
         m_height(22),
         m_width(10),
-        m_parent(default_position),
+        m_parent(parent),
         m_implementation(*this) {
 }
 
-void Stack::init(Position& parent, int width, int height) {
+void Stack::init(Position& parent, const int width, const int height) {
     // Stack size
     m_width = width;
     m_height = height;
@@ -43,9 +41,9 @@ void Stack::init(Position& parent, int width, int height) {
     }
 }
 
-void Stack::start_game(Mode *mode) {
+void Stack::start_game(const Mode& mode) {
     // TODO
-    init(m_parent, mode->width(), mode->height());
+    init(m_parent, mode.width(), mode.height());
 }
 
 int Stack::get_ghost_y(Piece *piece) {
@@ -53,9 +51,9 @@ int Stack::get_ghost_y(Piece *piece) {
     int pos_y = piece->position_y();
     while(can_go_down) {
         pos_y = pos_y + 1;
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (PIECES[piece->type()][piece->orientation()][j][i] > 0) {
+        for (int i = 0; i < PIECE_SIZE; i++) {
+            for (int j = 0; j < PIECE_SIZE; j++) {
+                if (PIECES[piece->type()][piece->orientation()][i + j * PIECE_SIZE] > 0) {
                     int x = piece->position_x() - 2 + i;
                     int y = pos_y - 1 + j;
                     if (x < 0 || x >= m_width || y >= m_height) {
@@ -81,9 +79,9 @@ bool Stack::check_player_move(
     int pos_x = piece->position_x() + new_x;
     int pos_y = piece->position_y() + new_y;
     int rotation = modulo(piece->orientation() + new_rotation, 4);
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            if (PIECES[piece->type()][rotation][j][i] > 0) {
+    for (int i = 0; i < PIECE_SIZE; i++) {
+        for (int j = 0; j < PIECE_SIZE; j++) {
+            if (PIECES[piece->type()][rotation][i + j * PIECE_SIZE] > 0) {
                 int x = pos_x - 2 + i;
                 int y = pos_y - 1 + j;
                 if (x < 0 || x >= m_width || y >= m_height) {
@@ -112,6 +110,9 @@ void Stack::shift_line(unsigned int line) {
     // Update outline after shifting line
     update_outline(line);
     update_outline(line + 1);
+
+    m_implementation.update_outline();
+    m_implementation.update_field();
 }
 
 void Stack::shift_lines() {
@@ -174,6 +175,9 @@ bool Stack::check_lines(Player& player) {
     }
     //std::cout << std::endl;
 
+    m_implementation.update_field();
+    m_implementation.update_outline();
+
     if (lines_to_clear > 0) {
         // TODO we need to compute the 'real' next level value
         // for update score, so before using change_level
@@ -187,6 +191,7 @@ bool Stack::check_lines(Player& player) {
     player.set_combo(1);
     //std::cout << "nothing\n";
     //player->startARE();
+
     return false;
 }
 
@@ -197,6 +202,8 @@ void Stack::remove_line(unsigned int line) {
         update_outline(line);
         update_outline(line + 1);
 
+        m_implementation.update_outline();
+        m_implementation.update_field();
     }
 }
 
@@ -230,8 +237,8 @@ void Stack::remove_grey_blocks(const Piece& piece) {
     // TODO change coordinates if lines were cleared
     int pos_x = piece.position_x() - 2;
     int pos_y = piece.position_y() - 1;
-    int limit_x = pos_x + SIZE;
-    int limit_y = pos_y + SIZE;
+    int limit_x = pos_x + PIECE_SIZE;
+    int limit_y = pos_y + PIECE_SIZE;
 
     if (pos_x < 0)
         pos_x = 0;
@@ -248,7 +255,6 @@ void Stack::remove_grey_blocks(const Piece& piece) {
         }
     }
 }
-
 
 void Stack::draw() const {
     m_implementation.render();

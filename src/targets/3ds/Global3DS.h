@@ -16,21 +16,4 @@ extern C3D_Tex text_tex;
 //extern C3D_Tex grades_tex;
 //extern C3D_Tex timer_tex;
 
-struct tex_coord {
-    float x1, y1, x2, y2;
-};
-
-extern struct tex_coord tileset_coord[];
-extern struct tex_coord outline_coord[];
-
-struct vertex {
-    float x, y;
-    float u, v;
-    float r, g, b, a;
-};
-
-struct quad {
-    vertex verts[4];
-};
-
 #endif // GLOBAL_3DS_H

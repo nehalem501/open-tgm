@@ -1,9 +1,11 @@
 /* tgm2p-master.cpp */
 
-#include <Mode.h>
 #ifdef DEBUG
 #include <Global.h>
 #endif
+
+#include <RawMode.h>
+#include <Frame.h>
 #include "tgm2p-master.h"
 
 uint32_t tgm2p_master_score(uint32_t level, uint32_t lines, uint32_t soft,
@@ -33,7 +35,7 @@ uint32_t tgm2p_master_score(uint32_t level, uint32_t lines, uint32_t soft,
 void tgm2p_master_grade(uint32_t /*score*/, unsigned int /*level*/, Grade* /*grade*/) {
 }
 
-static struct Timing TGM2P_MASTER_GRAVITY[30] = {
+static const struct Timing TGM2P_MASTER_GRAVITY[30] = {
     {0, 4},
     {30, 6},
     {35, 8},
@@ -71,31 +73,31 @@ static struct Timing TGM2P_MASTER_GRAVITY[30] = {
     {500, 5120}
 };
 
-static struct Timing TGM2P_MASTER_ARE[3] = {
+static const struct Timing TGM2P_MASTER_ARE[3] = {
     {0, 25},
     {701, 16},
     {801, 12}
 };
 
-static struct Timing TGM2P_MASTER_LINE_ARE[4] = {
+static const struct Timing TGM2P_MASTER_LINE_ARE[4] = {
     {0, 25},
     {601, 16},
     {701, 12},
     {801, 6}
 };
 
-static struct Timing TGM2P_MASTER_DAS[3] = {
+static const struct Timing TGM2P_MASTER_DAS[3] = {
     {0, 14},
     {500, 8},
     {900, 6}
 };
 
-static struct Timing TGM2P_MASTER_LOCK[2] = {
+static const struct Timing TGM2P_MASTER_LOCK[2] = {
     {0, 30},
     {901, 17}
 };
 
-static struct Timing TGM2P_MASTER_CLEAR[5] = {
+static const struct Timing TGM2P_MASTER_CLEAR[5] = {
     {0, 40},
     {500, 25},
     {601, 16},
@@ -103,32 +105,33 @@ static struct Timing TGM2P_MASTER_CLEAR[5] = {
     {801, 6}
 };
 
-static char TGM2P_MASTER_NEXT_STR[] = "NEXT";
-static char TGM2P_MASTER_TIME_STR[] = "TIME";
-static char TGM2P_MASTER_LEVEL_STR[] = "LEVEL";
-static char TGM2P_MASTER_SCORE_STR[] = "SCORE";
+static const char TGM2P_MASTER_NEXT_STR[] = "NEXT";
+static const char TGM2P_MASTER_TIME_STR[] = "TIME";
+static const char TGM2P_MASTER_LEVEL_STR[] = "LEVEL";
+static const char TGM2P_MASTER_SCORE_STR[] = "SCORE";
 
-static struct Label TGM2P_MASTER_LABELS[4] = {
+static const struct Label TGM2P_MASTER_LABELS[4] = {
     {TGM2P_MASTER_NEXT_STR, -1, 0},
     {TGM2P_MASTER_TIME_STR, 12, 20},
     {TGM2P_MASTER_LEVEL_STR, 12, 15},
     {TGM2P_MASTER_SCORE_STR, 12, 11}
 };
 
-struct DigitsPosition TGM2P_MASTER_SCORE_POS = {12, 12};
-struct DigitsPosition TGM2P_MASTER_LVL_POS = {12, 16};
-struct DigitsPosition TGM2P_MASTER_LVL_TGT_POS = {12, 18};
+static const struct DigitsPosition TGM2P_MASTER_SCORE_POS = {12, 12};
+static const struct DigitsPosition TGM2P_MASTER_LVL_POS = {12, 16};
+static const struct DigitsPosition TGM2P_MASTER_LVL_TGT_POS = {12, 18};
 
-Mode mode_tgm2p_master(
+const RawMode mode_tgm2p_master = {
 /*          name */ "TAP MASTER",
 /*    sonic_drop */ true,
 /* display_score */ true,
 /*       section */ true,
 /*     keep_down */ true,
 /* old_lck_style */ false,
+/*   frame_color */ FrameColors::LIGHT_BLUE,
 /*   credit_roll */ CreditRoll::Required,
-/*        size_x */ 10,
-/*        size_y */ 22,
+/*   stack_width */ 10,
+/*  stack_height */ 22,
 /*     max_level */ 999,
 /* initial_grade */ Grade::_9,
 /*  random_tries */ 6,
@@ -150,4 +153,5 @@ Mode mode_tgm2p_master(
 /*     level_pos */ TGM2P_MASTER_LVL_POS,
 /*   lvl_tgt_pos */ TGM2P_MASTER_LVL_TGT_POS,
 /*    score_func */ tgm2p_master_score,
-/*    grade_func */ tgm2p_master_grade);
+/*    grade_func */ tgm2p_master_grade
+};

@@ -11,6 +11,10 @@ class TimerImpl {
         void layout(const Position &position);
         void update(const uint8_t m_digits[6]);
         void render() const;
+
+        #ifdef RESIZABLE
+        void resize() { }
+        #endif
 };
 
 #endif

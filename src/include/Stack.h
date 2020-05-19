@@ -19,13 +19,23 @@ class Player;
 
 class Stack {
     public:
-        Stack();
+        Stack(Position &parent);
 
         void draw() const;
 
-        void init(Position &parent, int width, int height);
+        #ifdef RESIZABLE
+        void resize() {
+            for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
+                m_particles[i].resize();
+            }
+            
+            m_implementation.resize();
+        }
+        #endif
 
-        void start_game(Mode *mode);
+        void init(Position &parent, const int width, const int height);
+
+        void start_game(const Mode& mode);
 
         int get_ghost_y(Piece *piece);
 
