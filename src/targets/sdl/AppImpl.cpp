@@ -1,12 +1,9 @@
 /* AppImpl.cpp - SDL */
 
-// TODO
-#define GL_SILENCE_DEPRECATION
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL.h>
-#include <SDL_opengl.h>
+//#include <SDL_opengl.h>
 #include "../utils/timing.h"
 #include <Scene.h>
 #include <GPU.h>
@@ -136,11 +133,10 @@ void app(Scene& scene) {
             scene.update();
 
             graphics_clear();
-
             scene.draw();
 
 	        graphics_display();
-
+            SDL_GL_SwapBuffers();
         //}
 
         sleep_usecs(1000);

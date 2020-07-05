@@ -2,12 +2,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+//#include <SDL.h> // TODO: remove SDL dependency
 #include <Global.h>
 #include <Texture.h>
 #include <GPU.h>
 #include <GPUImpl.h>
 
-int max_texture_size;
+int max_texture_size = 0;
 
 void init_gpu() {
     resize(screen.width, screen.height);
@@ -32,7 +33,7 @@ void graphics_clear() {
 }
 
 void graphics_display() {
-    SDL_GL_SwapBuffers();
+    //SDL_GL_SwapBuffers(); // TODO: remove SDL dependency
 }
 
 void resize(unsigned int width, unsigned int height) {
