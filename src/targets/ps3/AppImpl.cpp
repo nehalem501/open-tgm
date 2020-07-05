@@ -1,11 +1,13 @@
 /* AppImpl.cpp - PS3 */
 
-#include <MainMenu.h>
+#include <Scene.h>
 #include <App.h>
 
-void app(MainMenu& menu) {
+Size screen = { 400, 240 }; // TODO
+
+void app(Scene& scene) {
     // For each frame {
-        menu.update();
-        menu.draw();
+        scene.update();
+        scene.draw();
     // }
 }
