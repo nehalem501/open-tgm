@@ -1,28 +1,28 @@
-/* InputImpl.cpp - PS3 */
+/* InputImpl.cpp - dummy_gpu */
 
 #include <Input.h>
 #include "InputImpl.h"
 
 void get_inputs(Input& input) {
     // Joystick
-    if (/* up */ true)
+    if (/* up */ false)
         input.pressed_up();
-    if (/* down */ true)
+    if (/* down */ false)
         input.pressed_down();
-    if (/* left */ true)
+    if (/* left */ false)
         input.pressed_left();
-    if (/* right */ true)
+    if (/* right */ false)
         input.pressed_right();
 
     // Buttons
-    if (/* a */ true)
+    if (/* a */ false)
         input.pressed_a();
-    if (/* b */ true)
+    if (/* b */ false)
         input.pressed_b();
-    if (/* c */ true)
+    if (/* c */ false)
         input.pressed_c();
-    if (/* start */ true)
+    if (/* start */ false)
         input.pressed_start();
-    if (/* settings */ true)
+    if (/* settings */ false)
         input.pressed_settings();
 }
