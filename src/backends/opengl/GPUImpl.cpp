@@ -27,6 +27,14 @@ void init_gpu() {
     }
 }
 
+void graphics_clear() {
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void graphics_display() {
+    SDL_GL_SwapBuffers();
+}
+
 void resize(unsigned int width, unsigned int height) {
     screen.width =  width;
     screen.height = height;

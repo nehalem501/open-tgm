@@ -14,4 +14,4 @@ typedef uint16_t tiles_t;
 
 extern int tile_size;
 
-#endif
+#endif // TARGET_TYPES_SDL_H

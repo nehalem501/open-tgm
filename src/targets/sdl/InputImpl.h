@@ -8,4 +8,4 @@ class Input;
 
 void get_inputs(Input& input);
 
-#endif
+#endif // INPUT_SDL_H

@@ -15,14 +15,6 @@
 Size screen = { 320, 240 };
 int tile_size = 9;
 
-void graphics_clear() {
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void graphics_display() {
-    SDL_GL_SwapBuffers();
-}
-
 void app(Scene& scene) {
     bool fullscreen = false; // TODO load config
 

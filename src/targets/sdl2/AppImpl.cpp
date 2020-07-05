@@ -21,7 +21,7 @@ GLuint compile_shader(const GLchar *source[], const GLenum type) {
     if (compile_error != GL_TRUE) {
         int max = 0;
         int length = 0;
-            
+
         printf("Could not compile shader:\n%s\n", source[0]);
 
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &max);
@@ -49,7 +49,7 @@ bool link_program(GLuint program, GLuint v_shader, GLuint f_shader) {
     if (link_status != GL_TRUE) {
         int max = 0;
         int length = 0;
-            
+
         printf("Could not link program: ");
 
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &max);
@@ -219,7 +219,7 @@ void app(Scene& scene) {
                 }
             }
             #endif
-        
+
             glClear(GL_COLOR_BUFFER_BIT);
 
             glUseProgram( program_id );

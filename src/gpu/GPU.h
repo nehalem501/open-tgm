@@ -10,4 +10,7 @@ void free_gpu();
 void resize(unsigned int width, unsigned int height);
 #endif
 
+void graphics_clear();
+void graphics_display();
+
 #endif // GPU_HEADER_H
