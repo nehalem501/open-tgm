@@ -1,6 +1,6 @@
 # dummy_gpu target Makefile
 
-CXXFLAGS += -DTARGET_DUMMY_GPU -O2 -std=c++98
+CXXFLAGS += -g -DDEBUG -DTARGET_DUMMY_GPU -std=c++98
 
 HEADERS += -I$(SRC_DIR)/gpu
 SOURCES += $(wildcard $(SRC_DIR)/gpu/*.cpp)

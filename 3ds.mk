@@ -3,7 +3,7 @@
 AS = arm-none-eabi-as
 CXX = arm-none-eabi-g++
 
-CXXFLAGS += -DTARGET_3DS -O2 -mword-relocations -fomit-frame-pointer -ffunction-sections -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -DARM11 -D_3DS -fno-rtti -fno-exceptions -std=gnu++11
+CXXFLAGS += -g -DTARGET_3DS -O2 -mword-relocations -fomit-frame-pointer -ffunction-sections -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -DARM11 -D_3DS -fno-rtti -fno-exceptions -std=gnu++11
 LDFLAGS = -specs=3dsx.specs -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -Wl,-Map,$(BUILD_DIR)/$(NAME).map
 
 HEADERS += -I$(SRC_DIR)/gpu

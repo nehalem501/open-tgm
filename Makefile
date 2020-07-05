@@ -22,7 +22,7 @@ ARGS := $(MAKECMDGOALS)
 # Files and Directories
 SRC_DIR := src
 HEADERS_CORE := -I$(SRC_DIR)/include
-SOURCES_CORE := $(wildcard $(SRC_DIR)/core/*.cpp) $(wildcard $(SRC_DIR)/modes/*.cpp)
+SOURCES_CORE := $(wildcard $(SRC_DIR)/modes/*.cpp) $(wildcard $(SRC_DIR)/core/*.cpp)
 
 # Export variables for makefile of each target
 unexport TARGETS_MK TARGETS ARGS

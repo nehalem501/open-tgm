@@ -4,41 +4,16 @@
 #define GL_SILENCE_DEPRECATION
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include "../utils/timing.h"
-#include <Global.h>
-#include <Background.h>
 #include <Scene.h>
+#include <GPU.h>
 #include <App.h>
 
 Size screen = { 320, 240 };
-int tile_size = 8;
-
-void init_graphics_context(int width, int height) {
-    // Init OpenGL
-    glViewport(0, 0, width, height);
-
-    tile_size = height / 27;
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, width, height, 0, -1, 1);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
-
-    GLenum error = glGetError();
-    if (error != GL_NO_ERROR) {
-        printf("Could not initialize OpenGL: %s\n", gluErrorString(error));
-        exit(1);
-    }
-}
+int tile_size = 9;
 
 void graphics_clear() {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -66,8 +41,6 @@ void app(Scene& scene) {
 
     SDL_EnableUNICODE(SDL_TRUE);
 
-    init_graphics_context(screen.width, screen.height);
-
     SDL_WM_SetCaption("Open TGM", NULL);
 
     // Disable keyboard repeat
@@ -75,6 +48,9 @@ void app(Scene& scene) {
         printf("Could not disable keyboard repeat: %s\n", SDL_GetError());
         exit(1);
     }
+
+    init_gpu();
+	load_textures();
 
     #ifdef DEBUG
     bool frame_by_frame = false;
@@ -96,7 +72,7 @@ void app(Scene& scene) {
                         case SDLK_ESCAPE:
                             quit = true;
                             break;
-                            
+
                         #ifdef DEBUG
                         case SDLK_p:
                             frame_by_frame = !frame_by_frame;
@@ -106,7 +82,7 @@ void app(Scene& scene) {
                             do_frame = true;
                             break;
                         #endif
-                        
+
                         case SDLK_F10: // TODO
                             if (fullscreen) {
                                 if (SDL_SetVideoMode(screen.width, screen.height,
@@ -115,7 +91,7 @@ void app(Scene& scene) {
                                             SDL_GetError());
                                     exit(1);
                                 }
-                                init_graphics_context(screen.width, screen.height);
+                                resize(screen.width, screen.height); // TODO
                                 scene.resize();
                                 fullscreen = false;
                             } else {
@@ -129,8 +105,7 @@ void app(Scene& scene) {
                                     exit(1);
                                 }
                                 const SDL_VideoInfo* info = SDL_GetVideoInfo();
-                                printf("%dx%d\n", info->current_w, info->current_h);
-                                init_graphics_context(info->current_w, info->current_h);
+                                resize(info->current_w, info->current_h);
                                 scene.resize();
                                 fullscreen = true;
                             }
@@ -142,16 +117,13 @@ void app(Scene& scene) {
                     }
                 }
                 if (event.type == SDL_VIDEORESIZE) {
-                    // TODO resize
-                    screen.width = event.resize.w;
-                    screen.height = event.resize.h;
-                    if (SDL_SetVideoMode(screen.width, screen.height,
-                                            0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
+                    if (SDL_SetVideoMode(event.resize.w, event.resize.h,
+                                         0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
                         printf("Could not create window: %s\n",
                                 SDL_GetError());
                         exit(1);
                     }
-                    init_graphics_context(event.resize.w, event.resize.h);
+                    resize(event.resize.w, event.resize.h);
                     scene.resize();
                     break;
                 }
@@ -168,24 +140,13 @@ void app(Scene& scene) {
                 }
             }
             #endif
-            
+
             scene.update();
-            
+
             graphics_clear();
 
             scene.draw();
 
-            /*glBegin(GL_QUADS);
-            glColor3f(1, 0, 0);
-            glVertex2f(10, 10);
-            glColor3f(0, 1, 0);
-            glVertex2f(100, 10);
-            glColor3f(0, 0, 1);
-            glVertex2f(100,  100);
-            glColor3f(1, 0, 1);
-            glVertex2f(10, 100);
-            glEnd();*/
-            
 	        graphics_display();
 
         //}

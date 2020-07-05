@@ -21,4 +21,7 @@ namespace TexturesID {
     };
 }
 
+void load_textures();
+texture_t& get_texture(TextureID id);
+
 #endif // TEXTURE_H

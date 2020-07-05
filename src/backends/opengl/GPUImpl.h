@@ -22,16 +22,7 @@ class VertexArray2DImpl {
         };
 
         void render() const {
-            /*glBegin(GL_QUADS);
-            glColor3f(1, 0, 0);
-            glVertex2f(10, 10);
-            glColor3f(0, 1, 0);
-            glVertex2f(100, 10);
-            glColor3f(0, 0, 1);
-            glVertex2f(100,  100);
-            glColor3f(1, 0, 1);
-            glVertex2f(10, 100);
-            glEnd();*/
+            glBindTexture(GL_TEXTURE_2D, get_texture(m_texture));
 
             glBegin(GL_QUADS);
 
@@ -42,6 +33,7 @@ class VertexArray2DImpl {
                     m_vertices[i].b,
                     m_vertices[i].a);
 
+                glTexCoord2f(m_vertices[i].u, m_vertices[i].v);
                 glVertex2f(m_vertices[i].x, m_vertices[i].y);
             }
 

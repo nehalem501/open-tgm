@@ -11,8 +11,6 @@
 
 #define INDICES_LEN (N + N / 2)
 
-C3D_Tex* get_texture(TextureID id);
-
 template <size_t N>
 class VertexArray2DImpl {
     private:
@@ -42,7 +40,7 @@ class VertexArray2DImpl {
         };
 
         void render() const {
-            C3D_TexBind(0, get_texture(m_texture));
+            C3D_TexBind(0, &get_texture(m_texture));
 
             /*C3D_BufInfo *info = C3D_GetBufInfo();
             BufInfo_Init(info);

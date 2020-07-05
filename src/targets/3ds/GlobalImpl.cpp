@@ -4,6 +4,3 @@
 
 void init_random() {
 }
-
-void init_textures() {
-}

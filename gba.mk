@@ -7,8 +7,8 @@ OBJCOPY = arm-none-eabi-objcopy
 SOURCES_C = $(wildcard $(SRC_DIR)/targets/gba/resources/*.c)
 OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o)) $(addprefix $(BUILD_DIR)/, $(SOURCES_C:src/%.c=%.o))
 
-CFLAGS += -DTARGET_GBA -O3 -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -mthumb -mthumb-interwork
-CXXFLAGS += -DTARGET_GBA -O3 -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -mthumb -mthumb-interwork -fno-rtti -fno-exceptions
+CFLAGS += -g -DTARGET_GBA -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -mthumb -mthumb-interwork
+CXXFLAGS += -g -DTARGET_GBA -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -mthumb -mthumb-interwork -fno-rtti -fno-exceptions
 LDFLAGS = -mthumb -mthumb-interwork -Wl,-Map,$(BUILD_DIR)/$(NAME).map
 
 ifeq ($(strip $(DEVKITPRO)),)

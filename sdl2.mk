@@ -8,7 +8,7 @@ OBJECTS = $(addprefix $(BUILD_DIR)/, $(SOURCES:src/%.cpp=%.o)) $(addprefix $(BUI
 HEADERS += -I$(SRC_DIR)/gpu -I$(SRC_DIR)/backends/$(BACKEND)
 
 CXXFLAGS += -DTARGET_SDL2 -O2 -std=c++98 `sdl2-config --cflags`
-LIBS = `sdl2-config --libs` -lGLEW -lGL
+LIBS = `sdl2-config --libs` -lGLEW -framework OpenGL
 
 all : $(EXE_NAME)
 

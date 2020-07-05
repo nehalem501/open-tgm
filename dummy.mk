@@ -1,6 +1,6 @@
 # Dummy target Makefile
 
-CXXFLAGS += -DTARGET_DUMMY -O2 -std=c++98
+CXXFLAGS += -g -DTARGET_DUMMY -O2 -std=c++98
 
 all : $(EXE_NAME)
 
