@@ -1,4 +1,4 @@
-# Graphic Backends
+# GPU Graphic Backends
 
 * citro3d: 3DS PICA200 GPU
 * opengl: OpenGL 1.2

@@ -3,5 +3,5 @@
 * include: Headers
 * core: Game logic, platform agnostic code
 * modes: Game modes
-* targets: Targets (Various OS, libraries, game consoles, ...)
-* backends: Graphic backends for targets that support multiple graphic APIs
+* gpu: Special graphic code for GPU based platforms
+* platforms: Supported platforms (Various OS, libraries, game consoles, ...)

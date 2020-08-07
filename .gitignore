@@ -12,13 +12,3 @@
 # Build
 bin/
 build/
-src/build-gba
-src/build-3ds
-src/.map
-src/open-tgm.elf
-src/open-tgm.gba
-src/open-tgm.sav
-src/open-tgm.3dsx
-src/open-tgm.smdh
-src/EBOOT.PBP
-src/PARAM.SFO
