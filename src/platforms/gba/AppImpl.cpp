@@ -18,7 +18,7 @@ static Scene *main_scene;
 void VblankInterrupt() {
     // Clear screen
     memset((u16*) MAP_BASE_ADR(24), 0, sizeof(u16) * 32 * 20);
-    
+
     // Draw frame
     main_scene->draw();
 }

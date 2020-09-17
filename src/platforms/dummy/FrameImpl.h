@@ -9,7 +9,7 @@ class Frame;
 class FrameImpl {
     public:
         FrameImpl(const Frame& /*frame*/) /*: m_frame(frame)*/ { }; // TODO
-        void update();
+        void color(int color);
         void render() const;
 
     private:

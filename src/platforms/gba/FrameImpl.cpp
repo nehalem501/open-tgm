@@ -4,7 +4,8 @@
 #include <Frame.h>
 #include "FrameImpl.h"
 
-void FrameImpl::update() {
+void FrameImpl::color(int /*color*/) {
+
 }
 
 void FrameImpl::render() const {

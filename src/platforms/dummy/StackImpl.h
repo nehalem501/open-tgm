@@ -9,7 +9,10 @@ class Stack;
 class StackImpl {
     public:
         StackImpl(const Stack& stack) : m_stack(stack) { };
-        void update();
+
+        void update_field();
+        void update_outline();
+
         void render() const;
 
     private:

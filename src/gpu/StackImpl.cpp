@@ -39,5 +39,5 @@ void StackImpl::update_field() {
 
 void StackImpl::update_outline() {
     // TODO update within needed bounds
-    m_outline_tilemap.update(m_stack.outline());            
+    m_outline_tilemap.update(m_stack.outline());
 }

@@ -6,8 +6,9 @@
 *.[Oo]bj
 *.o
 
-# Temp files
+# Temp & editor files
 *.swp
+.vscode/
 
 # Build
 bin/

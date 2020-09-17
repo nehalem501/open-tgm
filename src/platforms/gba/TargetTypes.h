@@ -12,4 +12,6 @@
 
 typedef uint16_t tiles_t;
 
+#define tile_size 1 // TODO
+
 #endif
