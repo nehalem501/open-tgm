@@ -1,4 +1,4 @@
-# Dummy GPU
+# dummy_gpu
 
 CFLAGS := -g -O2 -DTARGET_DUMMY_GPU
 CXXFLAGS := -std=c++98
