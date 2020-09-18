@@ -21,8 +21,8 @@ CORE_CXXFLAGS :=
 SRC_DIR := src
 HEADERS_CORE := $(SRC_DIR)/include
 SOURCES_CORE_CPP := $(wildcard $(SRC_DIR)/modes/*.cpp) $(wildcard $(SRC_DIR)/core/*.cpp)
-HEADERS_GPU := $(SRC_DIR)/gpu
-SOURCES_GPU_CPP := $(wildcard $(SRC_DIR)/gpu/*.cpp)
+HEADERS_GPU := $(SRC_DIR)/gpu/src
+SOURCES_GPU_CPP := $(wildcard $(SRC_DIR)/gpu/src/*.cpp)
 
 # Get platforms
 PLATFORM_DIRS := $(dir $(wildcard $(SRC_DIR)/platforms/*/.))
@@ -84,7 +84,7 @@ endef
 #	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/$@ $(BUILD_DIR)/modes
 #	$(MAKE) -f $< $(filter-out $(TARGETS) all-targets,$(ARGS))
 
-TOTO := dummy_gpu
+TOTO := sdl
 
 PLATFORM_PATH := $(SRC_DIR)/platforms/$(TOTO)
 BIN_DIR := bin/$(TOTO)
