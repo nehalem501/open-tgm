@@ -17,17 +17,13 @@ TARGET_LOWERCASE=`echo "$TARGET" | tr '[:upper:]' '[:lower:]'`
 TARGET_UPPERCASE=`echo "$TARGET" | tr '[:lower:]' '[:upper:]'`
 
 # Get files
-FILES=(`ls src/targets/dummy`)
+FILES=(`ls src/gpu/backends/dummy`)
 
 # Create source directory for new target
-mkdir -p "src/targets/$TARGET_LOWERCASE"
+mkdir -p "src/gpu/backends/$TARGET_LOWERCASE"
 
 # Copy files with new target name
 for F in "${FILES[@]}"
 do
-    sed "s/DUMMY/$TARGET_UPPERCASE/;s/Dummy/$FULL_NAME/" "src/targets/dummy/$F"> "src/targets/$TARGET_LOWERCASE/$F"
+    sed "s/DUMMY_GPU/$TARGET_UPPERCASE/;s/dummy_gpu/$FULL_NAME/" "src/gpu/backends/dummy/$F"> "src/gpu/backends/$TARGET_LOWERCASE/$F"
 done
-
-# Copy Makefile with new target name
-sed "s/DUMMY/$TARGET_UPPERCASE/;s/Dummy/$FULL_NAME/" "dummy.mk"> "$TARGET_LOWERCASE.mk"
-
