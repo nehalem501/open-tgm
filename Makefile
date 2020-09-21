@@ -29,6 +29,8 @@ PLATFORM_DIRS := $(dir $(wildcard $(SRC_DIR)/platforms/*/.))
 PLATFORMS := $(notdir $(abspath $(PLATFORM_DIRS)))
 TARGETS := $(PLATFORMS)
 
+LINK := $(CXX)
+
 define DEFINE_TARGET
 	ASFLAGS :=
 	CFLAGS :=
@@ -84,13 +86,13 @@ endef
 #	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/$@ $(BUILD_DIR)/modes
 #	$(MAKE) -f $< $(filter-out $(TARGETS) all-targets,$(ARGS))
 
-TOTO := sdl
+TOTO := psp
 
 PLATFORM_PATH := $(SRC_DIR)/platforms/$(TOTO)
 BIN_DIR := bin/$(TOTO)
 BUILD_DIR := build/$(TOTO)
 PROG_BASENAME := bin/$(TOTO)/$(NAME)
-PROG_NAME := bin/$(TOTO)/$(NAME)
+PROG_NAME := $(PROG_BASENAME)
 
 include $(SRC_DIR)/platforms/$(TOTO)/build.mk
 
@@ -135,7 +137,7 @@ $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 $(PROG_NAME): create_dirs $(OBJECTS)
 	@echo Linking $(PROG_NAME)
 	@mkdir -p $(dir $(PROG_NAME)) || { echo Failed: mkdir -p $(dir $(PROG_NAME)); exit 1; }
-	@$(CXX) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS) || { echo Failed: $(CXX) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS); exit 1; }
+	@$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS) || { echo Failed: $(LINK) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS); exit 1; }
 
 all: $(TOTO)
 #all: $(DEFAULT)

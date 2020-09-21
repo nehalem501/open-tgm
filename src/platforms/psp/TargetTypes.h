@@ -5,6 +5,8 @@
 
 #include <stdint.h>
 
+void empty_func(const char*, ...);
+
 #ifdef DEBUG
 #include <pspdebug.h>
 #define print pspDebugScreenPrintf
@@ -12,15 +14,6 @@
 
 typedef unsigned int tiles_t;
 
-struct vertex {
-    float x, y;
-    uint32_t color;
-};
+#define tile_size 10
 
-struct quad {
-    vertex verts[4];
-    int tex_x, tex_y;
-    int tex_w, tex_h;
-};
-
-#endif
+#endif // TARGET_TYPES_PSP_H
