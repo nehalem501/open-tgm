@@ -86,7 +86,7 @@ endef
 #	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/$@ $(BUILD_DIR)/modes
 #	$(MAKE) -f $< $(filter-out $(TARGETS) all-targets,$(ARGS))
 
-TOTO := psp
+TOTO := dummy_gpu
 
 PLATFORM_PATH := $(SRC_DIR)/platforms/$(TOTO)
 BIN_DIR := bin/$(TOTO)
