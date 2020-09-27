@@ -16,6 +16,8 @@ NAME := open-tgm
 CORE_ASFLAGS :=
 CORE_CFLAGS := -Wall -Wextra -pedantic-errors -Werror -DOPENTGM_VERSION=\"$(VERSION)\"
 CORE_CXXFLAGS :=
+HOST_CC := $(CC)
+HOST_CXX := $(CXX)
 
 # Files and Directories
 SRC_DIR := src
@@ -28,8 +30,6 @@ SOURCES_GPU_CPP := $(wildcard $(SRC_DIR)/gpu/src/*.cpp)
 PLATFORM_DIRS := $(dir $(wildcard $(SRC_DIR)/platforms/*/.))
 PLATFORMS := $(notdir $(abspath $(PLATFORM_DIRS)))
 TARGETS := $(PLATFORMS)
-
-LINK := $(CXX)
 
 define DEFINE_TARGET
 	ASFLAGS :=
@@ -86,7 +86,7 @@ endef
 #	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/$@ $(BUILD_DIR)/modes
 #	$(MAKE) -f $< $(filter-out $(TARGETS) all-targets,$(ARGS))
 
-TOTO := dummy_gpu
+TOTO := 3ds
 
 PLATFORM_PATH := $(SRC_DIR)/platforms/$(TOTO)
 BIN_DIR := bin/$(TOTO)
@@ -108,6 +108,7 @@ HEADERS := $(HEADERS_CORE) $(PLATFORM_PATH) $(BUILD_DIR) $(HEADERS)
 ASFLAGS := $(CORE_ASFLAGS) $(ASFLAGS)
 CFLAGS := $(CORE_CFLAGS) $(CFLAGS) $(foreach dir,$(HEADERS),-I$(dir))
 CXXFLAGS := $(CFLAGS) $(CORE_CXXFLAGS) $(CXXFLAGS)
+LINK ?= $(CXX)
 #LIBRARIES :=
 #LIBRARY_DIRS :=
 LDFLAGS := $(LDFLAGS) $(CORE_LDFLAGS)
@@ -137,7 +138,7 @@ $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 $(PROG_NAME): create_dirs $(OBJECTS)
 	@echo Linking $(PROG_NAME)
 	@mkdir -p $(dir $(PROG_NAME)) || { echo Failed: mkdir -p $(dir $(PROG_NAME)); exit 1; }
-	@$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS) || { echo Failed: $(LINK) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS); exit 1; }
+	$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS) || { echo Failed: $(LINK) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS); exit 1; }
 
 all: $(TOTO)
 #all: $(DEFAULT)
