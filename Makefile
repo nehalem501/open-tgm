@@ -6,11 +6,7 @@ VERSION := 0.3.0
 NAME := open-tgm
 
 # Default target
-#DEFAULT := sfml
-
-# Get target list
-#TARGETS_MK := $(wildcard *.mk)
-#TARGETS := $(TARGETS_MK:.mk=)
+DEFAULT := sdl2
 
 # Common variables for all targets
 CORE_ASFLAGS :=
@@ -30,6 +26,11 @@ SOURCES_GPU_CPP := $(wildcard $(SRC_DIR)/gpu/src/*.cpp)
 PLATFORM_DIRS := $(dir $(wildcard $(SRC_DIR)/platforms/*/.))
 PLATFORMS := $(notdir $(abspath $(PLATFORM_DIRS)))
 TARGETS := $(PLATFORMS)
+
+TARGET := $(filter $(TARGETS), $(MAKECMDGOALS))
+ifeq ($(TARGET),)
+TARGET := $(DEFAULT)
+endif
 
 define DEFINE_TARGET
 	ASFLAGS :=
@@ -86,15 +87,13 @@ endef
 #	@mkdir -p $(BUILD_DIR)/core $(BUILD_DIR)/targets/$@ $(BUILD_DIR)/modes
 #	$(MAKE) -f $< $(filter-out $(TARGETS) all-targets,$(ARGS))
 
-TOTO := 3ds
-
-PLATFORM_PATH := $(SRC_DIR)/platforms/$(TOTO)
-BIN_DIR := bin/$(TOTO)
-BUILD_DIR := build/$(TOTO)
-PROG_BASENAME := bin/$(TOTO)/$(NAME)
+PLATFORM_PATH := $(SRC_DIR)/platforms/$(TARGET)
+BIN_DIR := bin/$(TARGET)
+BUILD_DIR := build/$(TARGET)
+PROG_BASENAME := bin/$(TARGET)/$(NAME)
 PROG_NAME := $(PROG_BASENAME)
 
-include $(SRC_DIR)/platforms/$(TOTO)/build.mk
+include $(SRC_DIR)/platforms/$(TARGET)/build.mk
 
 ifdef GPU_BACKEND
 GPU_BACKEND_PATH := $(SRC_DIR)/gpu/backends/$(GPU_BACKEND)
@@ -104,7 +103,7 @@ SOURCES_CORE_CPP:= $(SOURCES_CORE_CPP) $(SOURCES_GPU_CPP)
 endif
 
 HEADERS := $(HEADERS_CORE) $(PLATFORM_PATH) $(BUILD_DIR) $(HEADERS)
-#PROG_NAME := bin/$(TOTO)/$(NAME)
+#PROG_NAME := bin/$(TARGET)/$(NAME)
 ASFLAGS := $(CORE_ASFLAGS) $(ASFLAGS)
 CFLAGS := $(CORE_CFLAGS) $(CFLAGS) $(foreach dir,$(HEADERS),-I$(dir))
 CXXFLAGS := $(CFLAGS) $(CORE_CXXFLAGS) $(CXXFLAGS)
@@ -127,28 +126,24 @@ PLATFORM_RULES := $(PROG_NAME) $(PLATFORM_RULES)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo $(CXX) $<
-	@mkdir -p $(dir $@) || { echo Failed: mkdir -p $(dir $@); exit 1; }
+	@mkdir -p $(@D) || { echo Failed: mkdir -p $(@D); exit 1; }
 	@$(CXX) $(CXXFLAGS) -o $@ -c $< || { echo Failed: $(CXX) $(CXXFLAGS) -o $@ -c $<; exit 1; }
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 	@echo $(CC) $<
-	@mkdir -p $(dir $@) || { echo Failed: mkdir -p $(dir $@); exit 1; }
+	@mkdir -p $(@D) || { echo Failed: mkdir -p $(@D); exit 1; }
 	@$(CC) $(CFLAGS) -o $@ -c $< || { echo Failed: $(CC) $(CFLAGS) -o $@ -c $<; exit 1; }
 
-$(PROG_NAME): create_dirs $(OBJECTS)
+$(PROG_NAME): $(OBJECTS)
 	@echo Linking $(PROG_NAME)
-	@mkdir -p $(dir $(PROG_NAME)) || { echo Failed: mkdir -p $(dir $(PROG_NAME)); exit 1; }
-	$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS) || { echo Failed: $(LINK) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o $(PROG_NAME) $(LIBS); exit 1; }
+	@mkdir -p $(@D) || { echo Failed: mkdir -p $(@D); exit 1; }
+	@$(LINK) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBS) || { echo Failed: $(LINK) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBS); exit 1; }
 
-all: $(TOTO)
-#all: $(DEFAULT)
+all: $(DEFAULT)
 #all-targets: $(TARGETS)
-#all: $(TARGETS)
+#all: bin/sdl2/open-tgm
 
-$(TOTO): $(PLATFORM_RULES)
-
-create_dirs:
-	@mkdir -p $(BUILD_DIR)
+$(TARGET): $(PLATFORM_RULES)
 
 print_info:
 	@echo assembler: $(AS)
@@ -169,13 +164,13 @@ print_info:
 	@#OBJECTS $(OBJECTS)
 
 clean:
+	@echo clean $(TARGET)
 	@rm -rf $(CLEAN);
 
 mrproper: clean
 	@rm -rf $(MRPROPER);
 
-#.PHONY: all clean print_info $(TARGETS)
-.PHONY: all clean print_info create_dirs $(TOTO)
+.PHONY: all clean print_info $(TARGETS) #$(PLATFORM_RULES)
 
 #$(eval $(call DEFINE_TARGET,$(TARGETS)))
 #$(foreach 1,$(TARGETS),$(eval $(ONERULE)))
