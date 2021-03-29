@@ -3,10 +3,7 @@
 #ifndef GPU_TYPES_OPENGL_H
 #define GPU_TYPES_OPENGL_H
 
-// TODO
-#define GL_SILENCE_DEPRECATION
-
-#include <SDL_opengl.h>
+#include <OpenGL1Dispatch.h>
 
 typedef GLfloat gpu_float_t;
 typedef GLuint gpu_indices_t;

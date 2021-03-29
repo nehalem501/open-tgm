@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include <SDL.h> // TODO: remove SDL dependency
 #include <Global.h>
 #include <Texture.h>
 #include <GPU.h>
@@ -19,7 +18,7 @@ void init_gpu() {
     glEnable(GL_BLEND);
     glEnable(GL_TEXTURE_2D);
 
-    glGetIntegerv( GL_MAX_TEXTURE_SIZE, &max_texture_size);
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
@@ -37,15 +36,15 @@ void graphics_display() {
 }
 
 void resize(unsigned int width, unsigned int height) {
-    screen.width =  width;
+    screen.width = width;
     screen.height = height;
 
     glViewport(0, 0, width, height);
 
     int new_tile_size = height / 27;
-    if (height < 243 && height >= 240) {
+    /*if (height < 243 && height >= 240) {
         new_tile_size = 9; // TODO
-    }
+    }*/
 
     if (new_tile_size != tile_size) {
         tile_size = new_tile_size;
@@ -53,11 +52,16 @@ void resize(unsigned int width, unsigned int height) {
         ;
     }
 
-    printf(
+    // TODO
+    //tile_size = 9;
+
+    #ifdef DEBUG
+    print(
         "width: %d, height: %d, tile: %d\n",
-        (int) width,
-        (int) height,
+        (int) screen.width,
+        (int) screen.height,
         (int) tile_size);
+    #endif
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

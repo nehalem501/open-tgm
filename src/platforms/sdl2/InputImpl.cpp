@@ -1,31 +1,32 @@
-/* InputImpl.cpp - SDL */
+/* InputImpl.cpp - SDL2 */
 
 #include <SDL_keyboard.h>
 #include <Input.h>
 #include "InputImpl.h"
 
 void get_inputs(Input& input) {
-    const Uint8 *keys = SDL_GetKeyState(NULL);
+    const Uint8 *keys = SDL_GetKeyboardState(NULL);
 
     // Joystick
-    if (keys[SDLK_w])
+    if (keys[SDL_SCANCODE_W])
         input.pressed_up();
-    if (keys[SDLK_s])
+    if (keys[SDL_SCANCODE_S])
         input.pressed_down();
-    if (keys[SDLK_a])
+    if (keys[SDL_SCANCODE_A])
         input.pressed_left();
-    if (keys[SDLK_d])
+    if (keys[SDL_SCANCODE_D])
         input.pressed_right();
 
     // Buttons
-    if (keys[SDLK_j])
+    if (keys[SDL_SCANCODE_J])
         input.pressed_a();
-    if (keys[SDLK_i])
+    if (keys[SDL_SCANCODE_I])
         input.pressed_b();
-    if (keys[SDLK_o])
+    if (keys[SDL_SCANCODE_O])
         input.pressed_c();
-    if (keys[SDLK_RETURN])
+    if (keys[SDL_SCANCODE_RETURN])
         input.pressed_start();
-    if (keys[SDLK_SPACE])
+    if (keys[SDL_SCANCODE_SPACE])
         input.pressed_settings();
 }
+

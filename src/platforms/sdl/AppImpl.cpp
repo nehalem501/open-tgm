@@ -12,30 +12,32 @@
 Size screen = { 320, 240 };
 int tile_size = 9;
 
+void error(const char *error_message) {
+    printf("%s: %s\n", error_message, SDL_GetError());
+    exit(1);
+}
+
 void app(Scene& scene) {
     bool fullscreen = false; // TODO load config
 
     // Init SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        printf("Could not initialize SDL: %s\n", SDL_GetError());
-        exit(1);
+        error("Could not initialize SDL");
     }
 
     // Create app window
     if (SDL_SetVideoMode(screen.width, screen.height, 0,
                          SDL_OPENGL | SDL_RESIZABLE) == NULL) {
-        printf("Could not create window: %s\n", SDL_GetError());
-        exit(1);
+        // TODO remove SDL_OPENGL for future D3D backend
+        error("Could not create window");
     }
 
     SDL_EnableUNICODE(SDL_TRUE);
-
     SDL_WM_SetCaption("Open TGM", NULL);
 
     // Disable keyboard repeat
     if (SDL_EnableKeyRepeat(0, 0)) {
-        printf("Could not disable keyboard repeat: %s\n", SDL_GetError());
-        exit(1);
+        error("Could not disable keyboard repeat");
     }
 
     init_gpu();
@@ -49,8 +51,11 @@ void app(Scene& scene) {
     bool quit = false;
     SDL_Event event;
 
-    while(!quit) {
+    while (!quit) {
         //while() { TODO timing code
+        //61.681773 Hz
+        //0.016 212 244 74 secs
+        // 16212 usecs
             while (SDL_PollEvent(&event) != 0) {
                 if (event.type == SDL_QUIT) {
                     quit = true;
@@ -76,9 +81,7 @@ void app(Scene& scene) {
                             if (fullscreen) {
                                 if (SDL_SetVideoMode(screen.width, screen.height,
                                                      0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
-                                    printf("Could not create window: %s\n",
-                                            SDL_GetError());
-                                    exit(1);
+                                    error("Could not create window");
                                 }
                                 resize(screen.width, screen.height); // TODO
                                 scene.resize();
@@ -89,9 +92,7 @@ void app(Scene& scene) {
                                 if (SDL_SetVideoMode(1366, 768, 0, SDL_OPENGL |
                                                      SDL_RESIZABLE |
                                                      SDL_FULLSCREEN) == NULL) {
-                                    printf("Could not create window: %s\n",
-                                           SDL_GetError());
-                                    exit(1);
+                                    error("Could not create window");
                                 }
                                 const SDL_VideoInfo* info = SDL_GetVideoInfo();
                                 resize(info->current_w, info->current_h);
@@ -108,9 +109,7 @@ void app(Scene& scene) {
                 if (event.type == SDL_VIDEORESIZE) {
                     if (SDL_SetVideoMode(event.resize.w, event.resize.h,
                                          0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
-                        printf("Could not create window: %s\n",
-                                SDL_GetError());
-                        exit(1);
+                        error("Could not create window");
                     }
                     resize(event.resize.w, event.resize.h);
                     scene.resize();
@@ -123,6 +122,7 @@ void app(Scene& scene) {
             #ifdef DEBUG
             if (frame_by_frame) {
                 if (!do_frame) {
+                    sleep_usecs(1000);
                     continue;
                 } else {
                     do_frame = false;
@@ -137,10 +137,10 @@ void app(Scene& scene) {
 
 	        graphics_display();
             SDL_GL_SwapBuffers();
-        //}
+        }
 
         sleep_usecs(1000);
-    }
+    //}
 
     SDL_Quit();
 }
