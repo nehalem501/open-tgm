@@ -1,7 +1,7 @@
 # SDL
 
 CFLAGS := -g -O2 -DRESIZABLE -DTARGET_SDL `sdl-config --cflags`
-CXXFLAGS := -std=c++98
+CXXFLAGS := -std=c++11
 
 LIBRARIES := `sdl-config --libs`
 

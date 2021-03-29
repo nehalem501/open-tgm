@@ -4,8 +4,8 @@ ifeq ($(strip $(PSPDEV)),)
   $(error "Please set PSPDEV in your environment. export PSPDEV=<path to>pspdev")
 endif
 
-PATH := $(PSPDEV)/bin:$(PATH)
-SHELL := env PATH=$(PATH) /bin/sh
+export PATH := $(PSPDEV)/bin:$(PATH)
+#SHELL := env PATH=$(PATH) /bin/sh
 
 PSPSDK := $(shell psp-config --pspsdk-path)
 
@@ -26,7 +26,7 @@ LINK := $(CC)
 PSP_FW_VERSION := 150
 
 CFLAGS := -O2 -G0 -DTARGET_PSP -D_PSP_FW_VERSION=$(PSP_FW_VERSION)
-CXXFLAGS := -std=c++98 -fno-exceptions -fno-rtti
+CXXFLAGS := -std=c++11 -fno-exceptions -fno-rtti
 
 PSPSDK_LIBC_LIB := -lc
 PSPSDK_LIBS := -lpspdebug -lpspdisplay -lpspge -lpspctrl -lpspsdk

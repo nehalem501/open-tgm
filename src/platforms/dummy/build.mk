@@ -2,7 +2,7 @@
 
 # ASFLAGS :=
 CFLAGS := -g -O2 -DTARGET_DUMMY
-CXXFLAGS := -std=c++98
+CXXFLAGS := -std=c++11
 # LDFLAGS :=
 
 # SOURCES_AS :=

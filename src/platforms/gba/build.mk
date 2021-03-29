@@ -15,7 +15,7 @@ CXX := arm-none-eabi-g++
 OBJCOPY = arm-none-eabi-objcopy
 
 CFLAGS := -g -O2 -DTARGET_GBA -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -mthumb -mthumb-interwork
-CXXFLAGS := -fno-rtti -fno-exceptions
+CXXFLAGS := -std=c++11 -fno-rtti -fno-exceptions
 LDFLAGS := -mthumb -mthumb-interwork -Wl,-Map,$(BUILD_DIR)/$(NAME).map -specs=gba.specs
 
 HEADERS := $(DEVKITPRO)/libgba/include
