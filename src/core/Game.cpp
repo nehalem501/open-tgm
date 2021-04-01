@@ -12,8 +12,8 @@ Game::Game(Position &position) :
         m_choose_mode(position),
         m_player(position),
         m_stack(position),
-        m_frame(m_position),
-        m_string(Coordinates(5, 10, Layouts::CENTERED), m_position),
+        m_frame(position),
+        m_string(position, Coordinates(5, 10), Layouts::CENTERED), // TODO
         m_labels(),
         m_state(GameState::CHOOSE_MODE) {
     #ifdef DEBUG
@@ -156,7 +156,7 @@ void Game::draw() const {
         case GameState::CHOOSE_MODE:
             m_choose_mode.draw();
             break;
-        
+
         case GameState::READY_GO:
             m_player.draw();
             m_string.draw();

@@ -27,7 +27,7 @@ class Mode {
 
         inline unsigned int max_level() { return m_mode->max_level; };
         inline unsigned int initial_grade() { return m_mode->initial_grade; };
-        inline unsigned int random_tries() { return m_mode->randotries; };
+        inline unsigned int random_tries() { return m_mode->randomtries; };
 
         inline unsigned int labels_nb() { return m_mode->labels_nb; };
         inline const Label* labels() { return m_mode->labels; };

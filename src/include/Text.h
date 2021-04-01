@@ -26,11 +26,16 @@ class Text {
     public:
         Text();
 
-        Text(const Coordinates& coordinates, const Position& parent);
+        Text(
+            const Position& parent,
+            const Coordinates& coordinates,
+            Layout layout = Layouts::NONE
+        );
 
         Text(
             const Position& parent,
             const Coordinates& coordinates,
+            Layout layout,
             int color,
             const char *str);
 
@@ -44,11 +49,16 @@ class Text {
         #endif
 
         void position(const Coordinates& coordinates, const Position& parent);
+        void position(
+            const Coordinates& coordinates,
+            const Position& parent,
+            Layout layout);
 
         void text(const char *new_str);
         void color(int color);
 
         inline const Position& position() const { return m_position; };
+        inline Layout layout() const { return m_layout; };
         inline unsigned int length() const { return m_length; };
         inline const char* text() const { return m_str; };
         inline int color() const { return m_color; };
@@ -56,6 +66,8 @@ class Text {
     private:
         Coordinates m_coordinates;
         Position m_position;
+
+        Layout m_layout;
 
         int m_color;
         unsigned int m_length;

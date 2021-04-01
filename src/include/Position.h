@@ -16,13 +16,11 @@ namespace Layouts {
 
 struct Position {
     int x, y;
-    Layout layout;
 
-    Position(int x, int y) : x(x), y(y), layout(Layouts::NONE) { }
-    Position(int x, int y, Layout layout) : x(x), y(y), layout(layout) { }
+    Position(int x, int y) : x(x), y(y) { }
 
     inline Position operator+(const Position& position) {
-        return Position(position.x + x, position.y + y, layout);
+        return Position(position.x + x, position.y + y);
     }
 };
 

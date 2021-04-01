@@ -4,12 +4,12 @@
 #include <GameView.h>
 
 GameView::GameView() :
-    m_player1_position(Position(2 * tile_size, 2 * tile_size)), // TODO
-    m_player1(m_player1_position)
+    m_player1_position(PLAYER1_POSITION), // TODO
+    m_player1_game(m_player1_position)
     #ifdef MULTIPLAYER
     ,
-    m_player2_position(Position(15, 0)),
-    m_player2(m_player2_position)
+    m_player2_position(PLAYER2_POSITION), // TODO
+    m_player2_game(m_player2_position)
     #endif
 {
     #ifdef DEBUG
@@ -18,17 +18,17 @@ GameView::GameView() :
 }
 
 void GameView::update(int *state) {
-    m_player1.update(state);
+    m_player1_game.update(state);
 
     #ifdef MULTIPLAYER
-    m_player2.update(state);
+    m_player2_game.update(state);
     #endif
 }
 
 void GameView::draw() const {
-    m_player1.draw();
+    m_player1_game.draw();
 
     #ifdef MULTIPLAYER
-    m_player2.draw();
+    m_player2_game.draw();
     #endif
 }

@@ -9,18 +9,24 @@
 Text::Text() :
         m_coordinates(0, 0),
         m_position(0, 0),
+        m_layout(Layouts::NONE),
         m_color(0),
         m_length(0),
         m_str(NULL),
-        m_implementation(*this) {
+        m_implementation(*this)
+{
     #ifdef DEBUG
     print("Text constructor: <NULL>\n");
     #endif
 }
 
-Text::Text(const Coordinates& coordinates, const Position& parent) :
+Text::Text(
+    const Position& parent,
+    const Coordinates& coordinates,
+    Layout layout) :
         m_coordinates(coordinates),
         m_position(coordinates.to_position() + parent),
+        m_layout(layout),
         m_color(0),
         m_length(0),
         m_str(NULL),
@@ -33,10 +39,12 @@ Text::Text(const Coordinates& coordinates, const Position& parent) :
 Text::Text(
     const Position& parent,
     const Coordinates& coordinates,
+    Layout layout,
     int color,
     const char *str) :
         m_coordinates(coordinates.x, coordinates.y),
         m_position(coordinates.to_position() + parent),
+        m_layout(layout),
         m_color(color),
         m_length(strlen(str)),
         m_str(str),
@@ -47,12 +55,17 @@ Text::Text(
 }
 
 void Text::position(const Coordinates& coordinates, const Position& parent) {
+    position(coordinates, parent, m_layout);
+}
+
+void Text::position(const Coordinates& coordinates, const Position& parent, Layout layout) {
     const Position position = coordinates.to_position() + parent;
 
     if (m_position.x != position.x ||
         m_position.y != position.y ||
         m_coordinates.x != coordinates.x ||
-        m_coordinates.y != coordinates.y) {
+        m_coordinates.y != coordinates.y ||
+        m_layout != layout) {
 
         #ifdef DEBUG
         print(
@@ -65,6 +78,7 @@ void Text::position(const Coordinates& coordinates, const Position& parent) {
 
         m_coordinates = coordinates;
         m_position = position;
+        m_layout = layout;
         m_implementation.update_position();
     }
 }

@@ -17,8 +17,6 @@ namespace SceneState {
     };
 }
 
-#define PRESS_START_POSITION Position(screen.width / 2, 2 * (screen.height / 3))
-
 class Scene {
     public:
         Scene();
@@ -27,7 +25,7 @@ class Scene {
 
         #ifdef RESIZABLE
         void resize() {
-            m_home.resize(PRESS_START_POSITION);
+            m_home.resize();
             m_game_view.resize();
             m_settings.resize();
             m_background.resize();

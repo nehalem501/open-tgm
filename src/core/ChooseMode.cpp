@@ -16,8 +16,9 @@ ChooseMode::ChooseMode(const Position& parent) : m_selected(false), m_mode(0) {
 
     for (int i = 0; i < NB_MODES; i++) {
         m_modes_strings[i].position(
-            Coordinates(m_coordinates.x, (7 + i * 2), Layouts::CENTERED),
-            parent);
+            Coordinates(m_coordinates.x, (7 + i * 2)),
+            parent,
+            Layouts::CENTERED);
         m_modes_strings[i].text(raw_modes[i]->name);
     }
 

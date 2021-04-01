@@ -3,7 +3,7 @@
 #include <Text.h>
 #include <VertexArray.h>
 #include <Glyph.h>
-#include "ui-font-9px.h" // TODO
+#include "data/ui-font-9px.h" // TODO
 #include <Glyphs.h>
 
 extern const Glyph ui_font_9px[NB_GLYPHS]; // TODO
@@ -47,7 +47,7 @@ TextureID font_to_texture(Font font) {
 
         case Fonts::LABEL_FONT:
             return TexturesID::LABELS;
-    
+
         default:
             return TexturesID::NONE;
     }
@@ -82,6 +82,7 @@ void init_glyphs(
         vertices,
         glyphs,
         text.position(),
+        text.layout(),
         (unsigned char*) text.text(),
         (size_t) text.length(),
         size);
@@ -105,42 +106,49 @@ void set_position(Vertex2D *vertices, const Position& position, size_t size) {
 
 void position_glyphs_from_string(
     Vertex2D *vertices,
-    const Glyph *glyphs,
+    const Glyph * /*glyphs*/,
     const Position &position,
-    const unsigned char* str,
+    Layout layout,
+    const unsigned char* /*str*/,
     size_t length,
     size_t size) {
 
     gpu_float_t offset = 0;
-    gpu_float_t texture_size = 64.0f;
+    gpu_float_t texture_width = 64.0f;
+    gpu_float_t texture_height = 64.0f;
+
+    //print("%s x: %d, y: %d, layout: %d\n", str, position.x, position.y, (int)layout);
 
     for (size_t i = 0; i < (size * 4) && i < (length * 4); i += 4) { // TODO
-        const Glyph& glyph = glyphs[str[i / 4]];
+        //const Glyph& glyph = glyphs[str[i / 4]];
+
+        //Glyph glyph = { 0, 0, (gpu_float_t) tile_size, (gpu_float_t) tile_size, (gpu_float_t) tile_size + 1};
+        Glyph glyph(0, 0, tile_size, tile_size, tile_size + 1);
 
         vertices[i].x = position.x + offset;
         vertices[i].y = position.y;
-        vertices[i].u = glyph.x / texture_size;
-        vertices[i].v = glyph.y / texture_size;
+        vertices[i].u = glyph.x / texture_width;
+        vertices[i].v = glyph.y / texture_height;
 
         vertices[i + 1].x = position.x + offset;
         vertices[i + 1].y = position.y + glyph.height;
-        vertices[i + 1].u = glyph.x / texture_size;
-        vertices[i + 1].v = (glyph.y + glyph.height) / texture_size;
+        vertices[i + 1].u = glyph.x / texture_width;
+        vertices[i + 1].v = (glyph.y + glyph.height) / texture_height;
 
         vertices[i + 2].x = position.x + offset + glyph.width;
         vertices[i + 2].y = position.y + glyph.height;
-        vertices[i + 2].u = (glyph.x + glyph.width) / texture_size;
-        vertices[i + 2].v = (glyph.y + glyph.height) / texture_size;
+        vertices[i + 2].u = (glyph.x + glyph.width) / texture_width;
+        vertices[i + 2].v = (glyph.y + glyph.height) / texture_height;
 
         vertices[i + 3].x = position.x + offset + glyph.width;
         vertices[i + 3].y = position.y;
-        vertices[i + 3].u = (glyph.x + glyph.width) / texture_size;
-        vertices[i + 3].v = glyph.y / texture_size;
+        vertices[i + 3].u = (glyph.x + glyph.width) / texture_width;
+        vertices[i + 3].v = glyph.y / texture_height;
 
         offset += glyph.offset;
     }
 
-    if (position.layout == Layouts::CENTERED) {
+    if (layout == Layouts::CENTERED) {
         gpu_float_t x = ((int) offset) / 2;
         for (size_t i = 0; i < (size * 4) && i < (length * 4); i++) {
             vertices[i].x -= x;

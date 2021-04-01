@@ -19,6 +19,7 @@ void TextImpl::update_position() {
 void TextImpl::update_text() {
     m_glyphs.position_glyphs(
         m_text.position(),
+        m_text.layout(),
         (unsigned char*) m_text.text(),
         m_text.length());
 }

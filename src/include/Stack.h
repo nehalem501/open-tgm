@@ -28,8 +28,8 @@ class Stack {
             for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
                 m_particles[i].resize();
             }
-            
-            m_implementation.resize();
+
+            m_implementation.resize(m_parent);
         }
         #endif
 
@@ -77,7 +77,7 @@ class Stack {
 
     private:
         int m_height, m_width;
-        Position &m_parent;
+        Position& m_parent;
 
         tiles_t m_field[MAX_WIDTH * MAX_HEIGHT];
         tiles_t m_outline[MAX_WIDTH * MAX_HEIGHT];

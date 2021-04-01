@@ -23,9 +23,9 @@ class StackImpl {
         }
 
         #ifdef RESIZABLE
-        void resize() {
-            m_field_tilemap.resize();
-            m_outline_tilemap.resize();
+        void resize(const Position& position) {
+            m_field_tilemap.resize(position);
+            m_outline_tilemap.resize(position);
         }
         #endif
 

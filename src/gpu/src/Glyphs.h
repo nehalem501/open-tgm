@@ -37,6 +37,7 @@ void position_glyphs_from_string(
     Vertex2D *vertices,
     const Glyph *glyphs,
     const Position &position,
+    Layout layout,
     const unsigned char* str,
     size_t length,
     size_t size);
@@ -64,6 +65,7 @@ class Glyphs {
 
         void position_glyphs(
             const Position &position,
+            Layout layout,
             const unsigned char* str,
             unsigned int length) {
 
@@ -71,6 +73,7 @@ class Glyphs {
                 m_vertex_array.vertices,
                 m_glyphs,
                 position,
+                layout,
                 str,
                 (size_t) length,
                 N);

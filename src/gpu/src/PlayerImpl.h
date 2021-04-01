@@ -29,9 +29,9 @@ class PlayerImpl {
 
         #ifdef RESIZABLE
         void resize() {
-            m_piece.resize();
-            m_ghost.resize();
-            m_next.resize();
+            m_piece.resize(m_position);
+            m_ghost.resize(m_position);
+            m_next.resize(m_position);
         }
         #endif
 

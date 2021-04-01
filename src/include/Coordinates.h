@@ -8,25 +8,25 @@
 
 struct Coordinates {
     int x, y;
-    Layout layout;
 
-    Coordinates(int x, int y) : x(x), y(y), layout(Layouts::NONE) { }
-    Coordinates(int x, int y, Layout layout) : x(x), y(y), layout(layout) { }
+    Coordinates(int x, int y) : x(x), y(y) { }
     Coordinates(const Coordinates& coordinates) :
         x(coordinates.x),
-        y(coordinates.y),
-        layout(coordinates.layout) { }
+        y(coordinates.y) { }
 
     inline int to_position_x() const { return x * tile_size; }
     inline int to_position_y() const { return y * tile_size; }
     inline Position to_position() const {
-        return Position(to_position_x(), to_position_y(), layout);
+        return Position(to_position_x(), to_position_y());
+    }
+
+    inline Coordinates operator+(const Coordinates& coordinates) {
+        return Coordinates(coordinates.x + x, coordinates.y + y);
     }
 
     inline Coordinates& operator=(const Coordinates& coordinates) {
         x = coordinates.x;
         y = coordinates.y;
-        layout = coordinates.layout;
         return *this;
     }
 };

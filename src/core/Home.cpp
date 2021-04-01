@@ -7,10 +7,11 @@
 #include <Scene.h>
 #include <Home.h>
 
-Home::Home(const Position& parent) :
+Home::Home() :
         m_start(
-            parent,
-            Coordinates(0, 0, Layouts::CENTERED),
+            PRESS_START_POSITION,
+            Coordinates(0, 0),
+            Layouts::CENTERED,
             TextColor::WHITE,
             "PRESS START"),
         m_start_timer(0) {

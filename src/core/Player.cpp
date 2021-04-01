@@ -219,7 +219,7 @@ void Player::update(Stack *stack, int *game_state) {
 
                 goto ingame;
             }
-            
+
             break;
         }
 

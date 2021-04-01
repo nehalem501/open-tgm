@@ -39,7 +39,7 @@ struct RawMode {
     const unsigned int width, height;
     const unsigned int max_level;
     const unsigned int initial_grade;
-    const unsigned int randotries;
+    const unsigned int randomtries;
 
     const struct Timing* gravity;
     const unsigned int gravity_nb;
