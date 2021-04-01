@@ -1,6 +1,7 @@
 /* timing.cpp - SDL */
 
 #include <stdint.h>
+#include <TargetTypes.h>
 #include "timing.h"
 
 #ifdef _WIN32
@@ -88,7 +89,11 @@ void sleep_usecs(uint64_t usecs) {
     ti.tv_nsec = (usecs % 1000000) * 1000;
     ti.tv_sec = usecs / 1000000;
 
-    while ((nanosleep(&ti, &ti) == -1) && (errno == EINTR)) { }
+    while ((nanosleep(&ti, &ti) == -1) && (errno == EINTR)) {
+        #ifdef DEBUG
+        print("nanosleep() == EINTR");
+        #endif
+    }
 }
 
 #endif /* defined(__unix__) || defined(__unix) || defined(__APPLE__) */
