@@ -17,13 +17,13 @@
 #define GPU_BOTTOM_RIGHT TexCoord(1.0, 1.0)
 
 struct Point2D {
-    Point2D(gpu_float_t x, gpu_float_t y) : x(x), y(y) { };
+    constexpr  Point2D(gpu_float_t x, gpu_float_t y) : x(x), y(y) { };
 
     gpu_float_t x, y;
 };
 
 struct Size2D {
-    Size2D(
+    constexpr Size2D(
         gpu_float_t width,
         gpu_float_t height) : width(width), height(height) { };
 
@@ -31,13 +31,13 @@ struct Size2D {
 };
 
 struct ColorRGB {
-    ColorRGB(gpu_float_t r, gpu_float_t g, gpu_float_t b) : r(r), g(g), b(b) { };
+    constexpr ColorRGB(gpu_float_t r, gpu_float_t g, gpu_float_t b) : r(r), g(g), b(b) { };
 
     gpu_float_t r, g, b;
 };
 
 struct ColorRGBA {
-    ColorRGBA(
+    constexpr ColorRGBA(
         gpu_float_t r,
         gpu_float_t g,
         gpu_float_t b,
@@ -47,7 +47,9 @@ struct ColorRGBA {
 };
 
 struct TexCoord {
-    TexCoord(gpu_float_t u, gpu_float_t v) : u(u), v(v) { };
+    constexpr TexCoord(
+        gpu_float_t u,
+        gpu_float_t v) : u(u), v(v) { };
 
     gpu_float_t u, v;
 };
@@ -57,12 +59,12 @@ struct Vertex2D {
     gpu_float_t u, v;
     gpu_float_t r, g, b, a;
 
-    Vertex2D() : // TODO
+    constexpr Vertex2D() : // TODO
             x(0), y(0),
             u(0), v(0),
             r(0), g(0), b(0), a(0) { };
 
-    Vertex2D(
+    constexpr Vertex2D(
         gpu_float_t x, gpu_float_t y,
         gpu_float_t u, gpu_float_t v,
         gpu_float_t r, gpu_float_t g, gpu_float_t b, gpu_float_t a) :
@@ -70,7 +72,7 @@ struct Vertex2D {
             u(u), v(v),
             r(r), g(g), b(b), a(a) { };
 
-    Vertex2D(
+    constexpr Vertex2D(
         const Point2D& xy,
         const TexCoord& uv,
         const ColorRGB& rgb) :
@@ -78,7 +80,7 @@ struct Vertex2D {
             u(uv.u), v(uv.v),
             r(rgb.r), g(rgb.g), b(rgb.b), a(1.0) { };
 
-    Vertex2D(
+    constexpr Vertex2D(
         const Point2D& xy,
         const TexCoord& uv,
         const ColorRGBA& rgba) :
