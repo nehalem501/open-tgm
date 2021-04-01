@@ -4,11 +4,11 @@
 #define WRAP_3DS_HEADERS_H
 
 // We need this hack because ISO C++ prohibits anonymous structs
-#include "../../utils/disable_warnings_start.h"
+#include "../../../utils/disable_warnings_start.h"
 
 #include <3ds.h>
 #include <citro3d.h>
 
-#include "../../utils/disable_warnings_end.h"
+#include "../../../utils/disable_warnings_end.h"
 
 #endif // WRAP_3DS_HEADERS_H

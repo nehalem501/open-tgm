@@ -85,7 +85,7 @@ void free_gpu() {
     // TODO: 3D
     //shaderProgramFree(&program_3d);
     //DVLB_Free(shader3d_dvlb);
-    
+
     shaderProgramFree(&program_2d);
     DVLB_Free(shader2d_dvlb);
 }
