@@ -10,7 +10,7 @@
 #include <App.h>
 
 Size screen = { 320, 240 };
-int tile_size = 9;
+int tile_size = 8; // TODO
 
 void error(const char *error_message) {
     printf("%s: %s\n", error_message, SDL_GetError());

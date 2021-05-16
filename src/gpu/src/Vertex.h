@@ -4,6 +4,7 @@
 #define VERTEX_H
 
 #include <GPUTypes.h>
+#include <TargetTypes.h>
 
 #define GPU_BLACK ColorRGBA(0.0, 0.0, 0.0, 1.0)
 #define GPU_WHITE ColorRGBA(1.0, 1.0, 1.0, 1.0)
@@ -17,9 +18,15 @@
 #define GPU_BOTTOM_RIGHT TexCoord(1.0, 1.0)
 
 struct Point2D {
-    constexpr  Point2D(gpu_float_t x, gpu_float_t y) : x(x), y(y) { };
+    constexpr Point2D(gpu_float_t x, gpu_float_t y) : x(x), y(y) { };
 
     gpu_float_t x, y;
+
+    #ifdef DEBUG
+    void print(const char *name) {
+        ::print("%s: X: %f, Y: %f,\n", name, x, y);
+    }
+    #endif
 };
 
 struct Size2D {
@@ -44,6 +51,12 @@ struct ColorRGBA {
         gpu_float_t a) : r(r), g(g), b(b), a(a) { };
 
     gpu_float_t r, g, b, a;
+
+    #ifdef DEBUG
+    void print(const char *name) {
+        ::print("%s: R: %d, G: %d, B: %d, A: %d\n", name, (int)(r * 256.f), (int)(g * 256.f), (int)(b * 256.f), (int)(a * 256.f));
+    }
+    #endif
 };
 
 struct TexCoord {
@@ -51,7 +64,17 @@ struct TexCoord {
         gpu_float_t u,
         gpu_float_t v) : u(u), v(v) { };
 
+    inline TexCoord operator+(const TexCoord& t) const {
+        return TexCoord(t.u + u, t.v + v);
+    }
+
     gpu_float_t u, v;
+
+    #ifdef DEBUG
+    void print(const char *name) {
+        ::print("%s: U: %f, V: %f\n", name, u, v);
+    }
+    #endif
 };
 
 struct Vertex2D {
@@ -88,9 +111,17 @@ struct Vertex2D {
             u(uv.u), v(uv.v),
             r(rgba.r), g(rgba.g), b(rgba.b), a(rgba.a) { };
 
+    inline Point2D position() {
+        return Point2D(x, y);
+    };
+
     inline void position(gpu_float_t x, gpu_float_t y) {
         this->x = x;
         this->y = y;
+    };
+
+    inline TexCoord tex_coords() {
+        return TexCoord(u, v);
     };
 
     inline void tex_coords(const TexCoord& uv) {

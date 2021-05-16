@@ -17,7 +17,7 @@ namespace TexturesID {
         TEXT,
         FRAME,
         LABELS,
-        TIMER,
+        DIGITS,
         NB_TEXTURES
     };
 }

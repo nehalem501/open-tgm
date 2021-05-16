@@ -3,8 +3,10 @@
 #include <Text.h>
 #include <VertexArray.h>
 #include <Glyph.h>
-#include "data/ui-font-9px.h" // TODO
 #include <Glyphs.h>
+
+#include <data/ui_font_8px.h> // TODO
+#include <data/digits_font_8px.h> // TODO
 
 extern const Glyph ui_font_9px[NB_GLYPHS]; // TODO
 
@@ -48,22 +50,49 @@ TextureID font_to_texture(Font font) {
         case Fonts::LABEL_FONT:
             return TexturesID::LABELS;
 
+        case Fonts::DIGITS_FONT:
+            return TexturesID::DIGITS;
+
         default:
             return TexturesID::NONE;
     }
 }
 
-const Glyph* get_glyph_array(Font /*font*/) {
-    return ui_font_9px; // TODO
+const Glyph* get_glyph_array(Font font) {
+    switch (font) {
+        case Fonts::UI_FONT:
+            return ui_font_8px; // TODO
+
+        case Fonts::LABEL_FONT:
+            break; // TODO
+
+        case Fonts::DIGITS_FONT:
+            return digits_font_8px; // TODO
+    }
+
+    return NULL;//ui_font_9px; // TODO
+}
+
+void init_glyphs_text(
+    Vertex2D *vertices,
+    const Text& text,
+    const Glyph *glyphs,
+    size_t size)
+{
+    init_glyphs(vertices, text.text(), glyphs, text.position(), text.layout(), text.color(), text.length(), size);
 }
 
 void init_glyphs(
     Vertex2D *vertices,
-    const Text& text,
+    const char *text,
     const Glyph *glyphs,
+    const Position &position,
+    Layout layout,
+    int text_color,
+    unsigned int length,
     size_t size) {
 
-    ColorRGBA color = text_color_to_gpu_color(text.color());
+    ColorRGBA color = text_color_to_gpu_color(text_color);
 
     for (unsigned int i = 0; i < size * 4; i++) {
         vertices[i].u = 0;
@@ -81,10 +110,10 @@ void init_glyphs(
     position_glyphs_from_string(
         vertices,
         glyphs,
-        text.position(),
-        text.layout(),
-        (unsigned char*) text.text(),
-        (size_t) text.length(),
+        position,
+        layout,
+        (unsigned char*) text,
+        (size_t) length,
         size);
 }
 
@@ -106,10 +135,10 @@ void set_position(Vertex2D *vertices, const Position& position, size_t size) {
 
 void position_glyphs_from_string(
     Vertex2D *vertices,
-    const Glyph * /*glyphs*/,
+    const Glyph *glyphs,
     const Position &position,
     Layout layout,
-    const unsigned char* /*str*/,
+    const unsigned char* str,
     size_t length,
     size_t size) {
 
@@ -120,10 +149,10 @@ void position_glyphs_from_string(
     //print("%s x: %d, y: %d, layout: %d\n", str, position.x, position.y, (int)layout);
 
     for (size_t i = 0; i < (size * 4) && i < (length * 4); i += 4) { // TODO
-        //const Glyph& glyph = glyphs[str[i / 4]];
+        const Glyph& glyph = glyphs[str[i / 4]];
 
         //Glyph glyph = { 0, 0, (gpu_float_t) tile_size, (gpu_float_t) tile_size, (gpu_float_t) tile_size + 1};
-        Glyph glyph(0, 0, tile_size, tile_size, tile_size + 1);
+        //Glyph glyph(0, 0, tile_size, tile_size, tile_size + 1);
 
         vertices[i].x = position.x + offset;
         vertices[i].y = position.y;

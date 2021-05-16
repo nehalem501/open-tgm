@@ -18,7 +18,8 @@ typedef unsigned int Font;
 namespace Fonts {
     enum {
         UI_FONT = 0,
-        LABEL_FONT
+        LABEL_FONT,
+        DIGITS_FONT
     };
 }
 
@@ -26,11 +27,21 @@ ColorRGBA text_color_to_gpu_color(int color);
 TextureID font_to_texture(Font font);
 const Glyph* get_glyph_array(Font font);
 
-void init_glyphs(
+void init_glyphs_text(
     Vertex2D *vertices,
     const Text& text,
     const Glyph *glyphs,
     size_t size);
+void init_glyphs(
+    Vertex2D *vertices,
+    const char *text,
+    const Glyph *glyphs,
+    const Position &position,
+    Layout layout,
+    int text_color,
+    unsigned int length,
+    size_t size);
+
 void set_color(Vertex2D *vertices, const ColorRGBA& new_color, size_t size);
 void set_position(Vertex2D *vertices, const Position& position, size_t size);
 void position_glyphs_from_string(
@@ -45,14 +56,24 @@ void position_glyphs_from_string(
 template <size_t N>
 class Glyphs {
     public:
-        Glyphs(const Text& text, Font font) :
-                m_glyphs(get_glyph_array(font)),
-                m_vertex_array(/*TexturesID::NONE*/ font_to_texture(font)) {
+        Glyphs(const Text &text, Font font) :
+                m_glyphs(get_glyph_array(font)), // TODO
+                m_vertex_array(font_to_texture(font)) {
             #ifdef DEBUG
             print("Typeface<%d> constructor\n", (int) N);
             #endif
 
-            init_glyphs(m_vertex_array.vertices, text, m_glyphs, N);
+            init_glyphs_text(m_vertex_array.vertices, text, m_glyphs, N);
+        }
+
+        Glyphs(const char *text, Position position, Layout layout, int text_color, unsigned int length, Font font) :
+                m_glyphs(get_glyph_array(font)), // TODO
+                m_vertex_array(font_to_texture(font)) {
+            #ifdef DEBUG
+            print("Typeface<%d> constructor\n", (int) N);
+            #endif
+
+            init_glyphs(m_vertex_array.vertices, text, m_glyphs, position, layout, text_color, length, N);
         }
 
         void color(const ColorRGBA& new_color) {

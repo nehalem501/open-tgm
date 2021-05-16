@@ -8,23 +8,30 @@
 
 Digits::Digits() :
         m_value(0),
-        m_position(Position(0, 0)) {
+        m_position(Position(0, 0)),
+        m_str{'\0'},
+        m_implementation(*this) {
     #ifdef DEBUG
     print("Digits constructor\n");
     #endif
+    m_str[0] = '0';
 }
 
 Digits::Digits(Position position) :
         m_value(0),
-        m_position(position) {
+        m_position(position),
+        m_str{'\0'},
+        m_implementation(*this) {
     #ifdef DEBUG
     print("Digits constructor\n");
     #endif
+    m_str[0] = '0';
 }
 
 void Digits::set(const uint32_t value) {
     if (value != m_value) {
-        m_implementation.update(value);
+        m_str[0] = '0'; // TODO
+        m_implementation.update();
     }
 }
 

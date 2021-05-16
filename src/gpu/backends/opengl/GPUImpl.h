@@ -34,7 +34,7 @@ class VertexArray2DImpl {
                     m_vertices[i].a);
 
                 glTexCoord2f(m_vertices[i].u, m_vertices[i].v);
-                glVertex2f(m_vertices[i].x + 0.5f, m_vertices[i].y + 0.5f);
+                glVertex2f(m_vertices[i].x, m_vertices[i].y);
             }
 
             glEnd();

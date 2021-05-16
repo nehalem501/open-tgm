@@ -17,7 +17,7 @@ namespace Layouts {
 struct Position {
     int x, y;
 
-    Position(int x, int y) : x(x), y(y) { }
+    constexpr Position(int x, int y) : x(x), y(y) { }
 
     inline Position operator+(const Position& position) {
         return Position(position.x + x, position.y + y);

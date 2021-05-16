@@ -13,8 +13,6 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             GPU_WHITE, // TODO lock anim
             PIECE_SIZE,
             PIECE_SIZE,
-            64, 64,
-            7,
             TexturesID::BLOCKS
         ),
         m_ghost(
@@ -23,18 +21,14 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             ColorRGBA(0.32f, 0.32f, 0.32f, 1.0f),
             PIECE_SIZE,
             PIECE_SIZE,
-            64, 64,
-            7,
             TexturesID::BLOCKS
         ),
         m_next(
-            Position(position.x + 3 * tile_size, ((gpu_float_t) position.y) - (tile_size) * 2.5f),
+            Position(position.x + 3 * tile_size, ((gpu_float_t) position.y) - (tile_size) * 2.5f), // TODO
             PIECES[player.get_next_piece()][0],
             GPU_WHITE,
             PIECE_SIZE,
             PIECE_SIZE,
-            64, 64,
-            7,
             TexturesID::BLOCKS
         ) {
 

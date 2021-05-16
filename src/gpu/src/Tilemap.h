@@ -17,18 +17,10 @@ class Tilemap {
             const ColorRGBA& c,
             unsigned int width,
             unsigned int height,
-            gpu_float_t texture_width, // TODO
-            gpu_float_t texture_height,
-            //gpu_float_t tile_size,
-            tiles_t row_size,
             TextureID texture) :
                 m_width(width),
                 m_height(height),
-                m_vertex_array(texture),
-                m_texture_width(texture_width),
-                m_texture_height(texture_height),
-                //m_tile_size(tile_size),
-                m_row_size(row_size) {
+                m_vertex_array(texture) {
             #ifdef DEBUG
             print("Tilemap<%d> constructor\n", (int) N);
             #endif
@@ -86,24 +78,27 @@ class Tilemap {
 
             const gpu_float_t tile_size_gpu = tile_size;
 
-            const gpu_float_t tex_x = tile % m_row_size;
-            const gpu_float_t tex_y = tile / m_row_size;
+            const gpu_float_t tex_x = tile ; //% m_row_size; // TODO
+            const gpu_float_t tex_y = tile ; /// m_row_size; // TODO
             const gpu_float_t u = tex_x * tile_size_gpu;
             const gpu_float_t v = tex_y * tile_size_gpu;
 
+            const gpu_float_t texture_width = 0; // TODO
+            const gpu_float_t texture_height = 0; // TODO
+
             const unsigned int index = (tile_x + tile_y * m_width) * 4;
 
-            m_vertex_array.vertices[index].u = u / m_texture_width; // TODO
-            m_vertex_array.vertices[index].v = v / m_texture_height; // TODO
+            m_vertex_array.vertices[index].u = u / texture_width; // TODO
+            m_vertex_array.vertices[index].v = v / texture_height; // TODO
 
-            m_vertex_array.vertices[index + 1].u = u / m_texture_width; // TODO
-            m_vertex_array.vertices[index + 1].v = (v + tile_size_gpu) / m_texture_height; // TODO
+            m_vertex_array.vertices[index + 1].u = u / texture_width; // TODO
+            m_vertex_array.vertices[index + 1].v = (v + tile_size_gpu) / texture_height; // TODO
 
-            m_vertex_array.vertices[index + 2].u = (u + tile_size_gpu) / m_texture_width; // TODO
-            m_vertex_array.vertices[index + 2].v = (v + tile_size_gpu) / m_texture_height; // TODO
+            m_vertex_array.vertices[index + 2].u = (u + tile_size_gpu) / texture_width; // TODO
+            m_vertex_array.vertices[index + 2].v = (v + tile_size_gpu) / texture_height; // TODO
 
-            m_vertex_array.vertices[index + 3].u = (u + tile_size_gpu) / m_texture_width; // TODO
-            m_vertex_array.vertices[index + 3].v = v / m_texture_height; // TODO
+            m_vertex_array.vertices[index + 3].u = (u + tile_size_gpu) / texture_width; // TODO
+            m_vertex_array.vertices[index + 3].v = v / texture_height; // TODO
         }
 
         inline void tile_position(unsigned int tile_x, unsigned int tile_y) {
@@ -146,10 +141,8 @@ class Tilemap {
         unsigned int m_width, m_height;
         VertexArray2D<N * 4> m_vertex_array;
 
-        gpu_float_t m_texture_width; // TODO
-        gpu_float_t m_texture_height;
         //gpu_float_t m_tile_size;
-        tiles_t m_row_size;
+        //tiles_t m_row_size;
 };
 
 #endif // TILEMAP_H

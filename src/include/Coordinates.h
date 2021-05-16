@@ -9,8 +9,8 @@
 struct Coordinates {
     int x, y;
 
-    Coordinates(int x, int y) : x(x), y(y) { }
-    Coordinates(const Coordinates& coordinates) :
+    constexpr Coordinates(int x, int y) : x(x), y(y) { }
+    constexpr Coordinates(const Coordinates& coordinates) :
         x(coordinates.x),
         y(coordinates.y) { }
 

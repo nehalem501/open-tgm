@@ -27,7 +27,7 @@ texture_t& get_texture(TextureID id) {
     switch(id) {
         case TexturesID::BACKGROUND:
             return background_tex;
-        
+
         case TexturesID::BLOCKS:
             return tileset_tex;
 

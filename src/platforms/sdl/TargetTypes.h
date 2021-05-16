@@ -10,6 +10,8 @@
 #define print printf
 #endif
 
+#define MAX_DIGITS_LEN 10
+
 typedef uint16_t tiles_t;
 
 extern int tile_size;

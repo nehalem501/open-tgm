@@ -17,10 +17,10 @@ HOST_CXX := $(CXX)
 
 # Files and Directories
 SRC_DIR := src
+DATA_DIR := data
+RESOURCES_DIR := $(DATA_DIR)/resources
 HEADERS_CORE := $(SRC_DIR)/include
 SOURCES_CORE_CPP := $(wildcard $(SRC_DIR)/modes/*.cpp) $(wildcard $(SRC_DIR)/core/*.cpp)
-HEADERS_GPU := $(SRC_DIR)/gpu/src
-SOURCES_GPU_CPP := $(wildcard $(SRC_DIR)/gpu/src/*.cpp)
 
 # Get platforms
 PLATFORM_DIRS := $(dir $(wildcard $(SRC_DIR)/platforms/*/.))
@@ -92,11 +92,15 @@ BIN_DIR := bin/$(TARGET)
 BUILD_DIR := build/$(TARGET)
 PROG_BASENAME := bin/$(TARGET)/$(NAME)
 PROG_NAME := $(PROG_BASENAME)
+PRE_BUILD :=
+GPU_TILE_SIZES_ALL := $(notdir $(abspath $(dir $(wildcard $(RESOURCES_DIR)/*/.))))
 
 include $(SRC_DIR)/platforms/$(TARGET)/build.mk
 
 ifdef GPU_BACKEND
+include $(SRC_DIR)/gpu/src/build.mk
 GPU_BACKEND_PATH := $(SRC_DIR)/gpu/backends/$(GPU_BACKEND)
+PRE_BUILD :=  $(DATA_FILES_BUILD) $(PRE_BUILD)
 include $(SRC_DIR)/gpu/backends/$(GPU_BACKEND)/build.mk
 HEADERS := $(HEADERS) $(HEADERS_GPU) $(SRC_DIR)/gpu/backends/$(GPU_BACKEND)
 SOURCES_CORE_CPP:= $(SOURCES_CORE_CPP) $(SOURCES_GPU_CPP)
@@ -143,7 +147,7 @@ all: $(DEFAULT)
 #all-targets: $(TARGETS)
 #all: bin/sdl2/open-tgm
 
-$(TARGET): $(PLATFORM_RULES)
+$(TARGET): $(PRE_BUILD) $(PLATFORM_RULES)
 
 print_info:
 	@echo assembler: $(AS)

@@ -17,6 +17,7 @@ class FrameImpl {
         void resize();
 
     private:
+        void texcoords(const TextureData& data);
         const Frame& m_frame;
         VertexArray2D<16> m_vertex_array;
 };

@@ -12,13 +12,13 @@ int max_texture_size = 0;
 void init_gpu() {
     resize(screen.width, screen.height);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     glEnable(GL_TEXTURE_2D);
 
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size); // TODO use
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {

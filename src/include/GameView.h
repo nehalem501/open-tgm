@@ -18,7 +18,7 @@ class GameView {
         void resize() {
             // TODO layout code
             m_player1_position = PLAYER1_POSITION;
-            print("GameView x: %d, y:%d\n", m_player1_position.x, m_player1_position.y);
+            //print("GameView x: %d, y:%d\n", m_player1_position.x, m_player1_position.y);
             m_player1_game.resize();
 
             #ifdef MULTIPLAYER
