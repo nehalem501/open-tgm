@@ -6,11 +6,19 @@
 #include <TargetTypes.h>
 #include <Position.h>
 
+/* Forward declarations to avoid dependency hell */
+class Digits;
+
 class DigitsImpl {
     public:
+        DigitsImpl(Digits &digits);
+
         void layout(const Position &position);
-        void update(const uint32_t value);
+        void update();
         void render() const;
+
+    private:
+        Digits &m_digits;
 };
 
 #endif

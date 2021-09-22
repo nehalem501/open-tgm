@@ -66,10 +66,8 @@ void FrameImpl::texcoords(const TextureData& data) {
 }
 
 void FrameImpl::resize() {
-    //const TextureData& data = get_texture_data(TexturesID::FRAME);
-    //const gpu_float_t texture_width = 16.0f; // TODO
-    //const TextureData data(16.0f, 0, 0, 0, 0, 0);
-    const TextureData data(16, 64, 0, 0, 8, 64);
+    const TextureData& data = get_texture_data(TexturesID::FRAME);
+    //const TextureData data(16, 64, 0, 0, 8, 64);
     texcoords(data);
 
     const gpu_float_t x = m_frame.position().x; // TODO

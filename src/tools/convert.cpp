@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include "common.h"
 #include "glyphs.h"
 #include "INIReader.h"
 
@@ -36,71 +37,44 @@ std::vector<std::string> split(std::string str, std::string delims) {
     return tokens;
 }
 
-void exit_error(std::string error_msg) {
-    std::cout << error_msg << std::endl;
-    exit(1);
-}
-
 std::string get_texture_nb(unsigned int n) {
     std::stringstream str;
     str << "texture_" << n;
     return str.str();
 }
 
-int string_to_int(std::string str) {
-    int value = -1;
-    std::istringstream input(str);
-    input >> value;
-    if (input.fail()) {
+std::string get_texture_nb_id(unsigned int n) {
+    std::stringstream str;
+    str << "texture_" << n << "_id";
+    return str.str();
+}
+
+std::string to_upper(std::string input) {
+    std::string output(input);
+    for (unsigned int i = 0; i < output.size(); i++) {
+        output[i] = toupper(output[i]);
+    }
+    return output;
+}
+
+std::string keep_digits(std::string input) {
+    std::string digits;
+    for (unsigned int i = 0; i < input.size(); i++) {
+        if (isdigit(input[i])) {
+            digits.push_back(input[i]);
+        }
+    }
+    return digits;
+}
+
+int get_tilesize(std::string input) {
+    std::size_t found = input.find_last_of("_");
+    if (found == std::string::npos) {
+        // TODO
         return -1;
     }
-    return value;
-}
-
-std::vector<int> split(std::string str) {
-    std::string delimiter = ",";
-
-    size_t start = 0;
-    size_t end;
-    size_t delim_len = delimiter.length();
-    std::string token;
-
-    std::vector<int> numbers;
-
-    while ((end = str.find(delimiter, start)) != std::string::npos) {
-        token = str.substr(start, end - start);
-        start = end + delim_len;
-        numbers.push_back(string_to_int(token));
-    }
-
-    numbers.push_back(string_to_int(str.substr(start)));
-
-    return numbers;
-}
-
-std::string get_filename(std::string path) {
-    #ifdef _WIN32
-    std::string delimiter = "\\";
-    #else
-    std::string delimiter = "/";
-    #endif
-
-    size_t start = 0;
-    size_t end;
-    size_t delim_len = delimiter.length();
-
-    while ((end = path.find(delimiter, start)) != std::string::npos) {
-        start = end + delim_len;
-    }
-
-    std::string filename = path.substr(start);
-    size_t position = filename.rfind(".");
-    if (position == std::string::npos) {
-        return filename;
-    } else {
-        filename.erase(position, std::string::npos);
-        return filename;
-    }
+    std::string tile_size_str = keep_digits(input.substr(found + 1));
+    return string_to_int(tile_size_str);
 }
 
 struct TextureData {
@@ -114,15 +88,27 @@ class Textures {
     private:
         unsigned int width, height;
         std::vector<TextureData> textures;
+        std::vector<TextureID> textures_id;
 
     public:
         Textures(unsigned int width, unsigned int height) : width(width), height(height) { }
-        void add(TextureData data) { textures.push_back(data); }
+
+        void add(TextureData data, TextureID id) {
+            textures.push_back(data);
+            textures_id.push_back(id);
+        }
 
         std::string to_file_data(std::string name) {
             std::stringstream out;
             out << "/* " << name << ".h */" << std::endl;
             out << std::endl;
+            out << "#ifndef " << to_upper(name) << "_H" << std::endl;
+            out << "#define " << to_upper(name) << "_H" << std::endl;
+            out << std::endl;
+
+            out << "// @" << encode(get_tilesize(name)) << std::endl;
+            out << std::endl;
+
             out << "#include <Texture.h>" << std::endl;
             out << std::endl;
 
@@ -137,6 +123,23 @@ class Textures {
                 out << ");" << std::endl;
             }
 
+            out << std::endl;
+            out << "#endif // " << to_upper(name) << "_H" << std::endl;
+
+            return out.str();
+        }
+
+        std::string encode(int tilesize) {
+            std::stringstream out;
+            out << AssetType::Texture << ",";
+            out << tilesize << ","; // TODO tile size -1
+            out << textures.size() << ",";
+            for (unsigned int i = 0; i < textures_id.size(); i++) {
+                out << textures_id[i];
+                if (i < textures_id.size() - 1) {
+                    out << ",";
+                }
+            }
             return out.str();
         }
 };
@@ -144,18 +147,27 @@ class Textures {
 class Tilemap {
     private:
         unsigned int width, height;
-        unsigned int nb_tiles;
+        //unsigned int nb_tiles;
+        TextureID id;
 
     public:
         Tilemap(
             unsigned int width,
             unsigned int height,
-            unsigned int nb_tiles) : width(width), height(height), nb_tiles(nb_tiles) { }
+            //unsigned int nb_tiles,
+            TextureID id) : width(width), height(height), /*nb_tiles(nb_tiles),*/ id(id) { }
 
         std::string to_file_data(std::string name) {
             std::stringstream out;
             out << "/* " << name << ".h */" << std::endl;
             out << std::endl;
+            out << "#ifndef " << to_upper(name) << "_H" << std::endl;
+            out << "#define " << to_upper(name) << "_H" << std::endl;
+            out << std::endl;
+
+            out << "// @" << encode(get_tilesize(name)) << std::endl;
+            out << std::endl;
+
             out << "#include <TilemapData.h>" << std::endl;
             out << std::endl;
 
@@ -163,7 +175,17 @@ class Tilemap {
             out << width << ", ";
             out << height;
             out << " };" << std::endl;
+            out << std::endl;
+            out << "#endif // " << to_upper(name) << "_H" << std::endl;
 
+            return out.str();
+        }
+
+        std::string encode(int tilesize) {
+            std::stringstream out;
+            out << AssetType::Tilemap << ",";
+            out << tilesize << ","; // TODO tile size -1
+            out << id;
             return out.str();
         }
 };
@@ -186,8 +208,11 @@ struct Glyph {
 class Glyphs {
     private:
         Glyph glyphs[256];
+        TextureID id;
 
     public:
+        Glyphs(TextureID id) : id(id) { }
+
         void add(unsigned int position, Glyph g) {
             glyphs[position] = g;
         }
@@ -196,11 +221,15 @@ class Glyphs {
             std::stringstream out;
             out << "/* " << name << ".h */" << std::endl;
             out << std::endl;
-            out << "#include <Glyph.h>" << std::endl;
+            out << "#ifndef " << to_upper(name) << "_H" << std::endl;
+            out << "#define " << to_upper(name) << "_H" << std::endl;
             out << std::endl;
 
-            //const Glyph ui_font_9px[NB_GLYPHS] = {
-            // /* 0x00 - NUL */ { 0, 0, 0, 0, 0 },
+            out << "// @" << encode(get_tilesize(name)) << std::endl;
+            out << std::endl;
+
+            out << "#include <Glyph.h>" << std::endl;
+            out << std::endl;
             out << "const Glyph " << name << "[NB_GLYPHS] = {" << std::endl;
 
             for (unsigned int i = 0; i < 256; i++) {
@@ -221,7 +250,17 @@ class Glyphs {
             }
 
             out << "};" << std::endl;
+            out << std::endl;
+            out << "#endif // " << to_upper(name) << "_H" << std::endl;
 
+            return out.str();
+        }
+
+        std::string encode(int tilesize) {
+            std::stringstream out;
+            out << AssetType::Glyphs << ",";
+            out << tilesize << ","; // TODO tile size -1
+            out << id;
             return out.str();
         }
 };
@@ -281,6 +320,12 @@ int main(int argc, char *argv[]) {
             if (texture_data.empty()) {
                 exit_error(cmd_args.input_path() + " (type: texture): missing texture data for " + get_texture_nb(i));
             }
+
+            std::string texture_id = reader.Get("", get_texture_nb_id(i), "");
+            if (texture_id.empty()) {
+                exit_error(cmd_args.input_path() + " (type: texture): missing texture id for " + get_texture_nb_id(i));
+            }
+
             std::vector<int> fields = split(texture_data);
             bool error = false;
             for (unsigned int j = 0; j < fields.size(); j++) {
@@ -289,7 +334,7 @@ int main(int argc, char *argv[]) {
             if (error || fields.size() != 4) {
                 exit_error(cmd_args.input_path() + " (type: texture): wrong data for " + get_texture_nb(i));
             }
-            textures.add(TextureData(fields[0], fields[1], fields[2], fields[3]));
+            textures.add(TextureData(fields[0], fields[1], fields[2], fields[3]), string_to_texture_id(texture_id));
         }
 
         std::ofstream output_file(cmd_args.output_path());
@@ -301,17 +346,22 @@ int main(int argc, char *argv[]) {
             exit_error(cmd_args.output_path() + ": could not create file");
         }
     } else if (type == "tilemap") {
-        unsigned int tile_nb = reader.GetInteger("", "tile_nb", 0);
+        std::string texture_id = reader.Get("", "id", "");
+        if (texture_id.empty()) {
+            exit_error(cmd_args.input_path() + " (type: tilemap): missing id");
+        }
+
+        /*unsigned int tile_nb = reader.GetInteger("", "tile_nb", 0);
         if (tile_nb == 0) {
             exit_error(cmd_args.input_path() + " (type: tilemap): missing tile_nb value");
-        }
+        }*/
 
         unsigned int tile_size = reader.GetInteger("", "tile_size", 0);
         if (tile_size == 0) {
             exit_error(cmd_args.input_path() + " (type: tilemap): missing tile_size value");
         }
 
-        Tilemap tilemap(width, height, tile_nb);
+        Tilemap tilemap(width, height, /*tile_nb,*/ string_to_texture_id(texture_id));
 
         std::ofstream output_file(cmd_args.output_path());
         if (output_file) {
@@ -322,8 +372,13 @@ int main(int argc, char *argv[]) {
             exit_error(cmd_args.output_path() + ": could not create file");
         }
     } else if (type == "glyphs") {
+        std::string texture_id = reader.Get("", "id", "");
+        if (texture_id.empty()) {
+            exit_error(cmd_args.input_path() + " (type: glyphs): missing id");
+        }
+
         if (reader.Sections().count("glyphs")) {
-            Glyphs glyphs;
+            Glyphs glyphs(string_to_texture_id(texture_id));
             for (unsigned int i = 0; i < 256; i++) {
                 std::string glyph_data = reader.Get("glyphs", all_glyphs[i].key, "");
                 if (!glyph_data.empty()) {

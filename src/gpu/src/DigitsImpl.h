@@ -4,12 +4,14 @@
 #define DIGITS_GPU_H
 
 #include <Position.h>
-#include <Text.h>
-#include <Glyphs.h>
 #include <TargetTypes.h>
+#include <Glyphs.h>
+#include <Text.h>
 
 /* Forward declarations to avoid dependency hell */
 class Digits;
+
+#define MAX_DIGITS_LEN 10 // TODO unique header
 
 class DigitsImpl {
     public:

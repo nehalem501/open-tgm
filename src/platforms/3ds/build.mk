@@ -26,12 +26,12 @@ LIBRARY_DIRS := $(DEVKITPRO)/libctru/lib
 SOURCES_CPP := $(wildcard $(PLATFORM_PATH)/*.cpp)
 
 GPU_BACKEND := citro3d
-GPU_TILE_SIZES := 8px # TODO
+GPU_TILE_SIZES := 9px
 
 APP_TITLE = Open TGM
 APP_DESCRIPTION = Built with devkitARM & libctru
 APP_AUTHOR = Nehalem501
-APP_ICON = $(DEVKITPRO)/libctru/default_icon.png
+APP_ICON = $(DEVKITPRO)/libctru/default_icon.png # TODO
 
 CLEAN := $(BUILD_DIR)/$(NAME).map
 

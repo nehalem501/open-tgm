@@ -5,22 +5,7 @@
 
 #include <GPUTypes.h>
 #include "Vertex.h"
-
-typedef unsigned int TextureID;
-
-namespace TexturesID {
-    enum {
-        NONE = 0,
-        BACKGROUND,
-        BLOCKS,
-        OUTLINE,
-        TEXT,
-        FRAME,
-        LABELS,
-        DIGITS,
-        NB_TEXTURES
-    };
-}
+#include "TextureID.h"
 
 struct TextureData {
     constexpr TextureData(

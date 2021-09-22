@@ -5,11 +5,6 @@
 #include <Glyph.h>
 #include <Glyphs.h>
 
-#include <data/ui_font_8px.h> // TODO
-#include <data/digits_font_8px.h> // TODO
-
-extern const Glyph ui_font_9px[NB_GLYPHS]; // TODO
-
 ColorRGBA text_color_to_gpu_color(int color) {
     switch (color) {
         case TextColor::RED:
@@ -56,21 +51,6 @@ TextureID font_to_texture(Font font) {
         default:
             return TexturesID::NONE;
     }
-}
-
-const Glyph* get_glyph_array(Font font) {
-    switch (font) {
-        case Fonts::UI_FONT:
-            return ui_font_8px; // TODO
-
-        case Fonts::LABEL_FONT:
-            break; // TODO
-
-        case Fonts::DIGITS_FONT:
-            return digits_font_8px; // TODO
-    }
-
-    return NULL;//ui_font_9px; // TODO
 }
 
 void init_glyphs_text(

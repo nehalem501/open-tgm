@@ -11,9 +11,11 @@ DEFAULT := sdl2
 # Common variables for all targets
 CORE_ASFLAGS :=
 CORE_CFLAGS := -Wall -Wextra -pedantic-errors -Werror -DOPENTGM_VERSION=\"$(VERSION)\"
-CORE_CXXFLAGS :=
+CORE_CXXFLAGS := -std=c++11
 HOST_CC := $(CC)
 HOST_CXX := $(CXX)
+HOST_CFLAGS := -Wall -Wextra -pedantic-errors -Werror
+HOST_CXXFLAGS := $(HOST_CFLAGS) -std=c++11
 
 # Files and Directories
 SRC_DIR := src

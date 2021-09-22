@@ -43,6 +43,7 @@ SOURCES_C := $(wildcard $(PLATFORM_PATH)/*.c)
 SOURCES_CPP := $(wildcard $(PLATFORM_PATH)/*.cpp)
 
 GPU_BACKEND := scegu
+GPU_TILE_SIZES := 10px
 
 $(PSP_EBOOT): $(PROG_BASENAME).elf
 	psp-fixup-imports $(PROG_BASENAME).elf

@@ -7,6 +7,8 @@
 #include <Position.h>
 #include <DigitsImpl.h>
 
+#define MAX_DIGITS_LEN 10
+
 class Digits {
     public:
         Digits();

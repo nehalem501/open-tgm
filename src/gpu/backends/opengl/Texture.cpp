@@ -7,8 +7,8 @@
 
 static texture_t empty_tex;
 static texture_t background_tex;
-//static texture_t tileset_tex;
-//static texture_t outline_tex;
+static texture_t tileset_tex;
+static texture_t outline_tex;
 static texture_t frame_tex;
 static texture_t digits_tex;
 //static texture_t labels_tex;
@@ -19,13 +19,13 @@ static texture_t text_tex;
 texture_t& get_texture(TextureID id) {
     switch(id) {
         /*case TexturesID::BACKGROUND:
-            return background_tex;
+            return background_tex;*/
 
         case TexturesID::BLOCKS:
             return tileset_tex;
 
         case TexturesID::OUTLINE:
-            return outline_tex;*/
+            return outline_tex;
 
         case TexturesID::DIGITS:
             return digits_tex;
@@ -54,7 +54,7 @@ texture_t upload_texture(
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
     glTexImage2D(
         GL_TEXTURE_2D,
@@ -129,6 +129,6 @@ void load_textures() { // TODO size
     load_texture(frame_tex, "/Users/tomek/open-tgm/data/resources/8px/frame.png");
     load_texture(text_tex, "/Users/tomek/open-tgm/data/resources/8px/ui_font.png");
     load_texture(digits_tex, "/Users/tomek/open-tgm/data/resources/8px/digits_font.png");
-    //load_texture(tileset_tex, "/Users/tomek/open-tgm/data/resources/9px/tileset.png");
-    //load_texture(outline_tex, "/Users/tomek/open-tgm/data/resources/9px/outline.png");
+    load_texture(tileset_tex, "/Users/tomek/open-tgm/data/resources/9px/tilemap.png");
+    load_texture(outline_tex, "/Users/tomek/open-tgm/data/resources/9px/outline.png");
 }

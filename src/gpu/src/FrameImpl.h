@@ -22,4 +22,4 @@ class FrameImpl {
         VertexArray2D<16> m_vertex_array;
 };
 
-#endif
+#endif // FRAME_GPU_H

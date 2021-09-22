@@ -3,7 +3,10 @@
 #include <Position.h>
 #include "DigitsImpl.h"
 
-void DigitsImpl::update(const uint32_t /*value*/) {
+DigitsImpl::DigitsImpl(Digits &digits) : m_digits(digits) {
+}
+
+void DigitsImpl::update() {
     // TODO
 }
 
