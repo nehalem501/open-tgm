@@ -10,6 +10,12 @@
 *.swp
 .vscode/
 
+# Python files
+__pycache__/
+*.py[cod]
+
 # Build
 bin/
 build/
+.ninja_log
+.ninja_deps
