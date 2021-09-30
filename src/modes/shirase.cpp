@@ -19,8 +19,8 @@ uint32_t shirase_score(uint32_t level, uint32_t lines, uint32_t soft,
           "combo: %d\n"
           "bravo: %d\n"
           "lvl_aft_clear: %d\n"
-          "speed: %d\n", level, lines, soft, sonic,
-                         combo, bravo, lvl_aft_clear, speed);
+          "speed: %d\n", (int) level, (int) lines, (int) soft, (int) sonic,
+                         (int) combo, (int) bravo, (int) lvl_aft_clear, (int) speed);
     #endif
 
     uint32_t tmp = (level + lines) / 4;

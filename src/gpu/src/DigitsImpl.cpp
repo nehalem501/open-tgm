@@ -4,7 +4,7 @@
 #include <Digits.h>
 #include "DigitsImpl.h"
 
-DigitsImpl::DigitsImpl(Digits &digits) :
+DigitsImpl::DigitsImpl(Digits& digits) :
     m_digits(digits),
     m_glyphs(
         digits.str(),

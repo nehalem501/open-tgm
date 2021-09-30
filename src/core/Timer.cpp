@@ -12,7 +12,7 @@ void Timer::update() {
     uint32_t min = (m_time / (100 * 60)) % 60;
 
     #ifdef DEBUG
-    print("time: %02d:%02d:%02d\n", min, sec, centsec);
+    print("time: %02d:%02d:%02d\n", (int) min, (int) sec, (int) centsec);
     #endif
 
     m_digits[0] = min / 10;
