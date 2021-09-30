@@ -1,35 +1,25 @@
 #!/usr/bin/env python3
 
 import os
-import pipes
-
+import sys
+import subprocess
+from pathlib import Path
 from . import ninja_syntax
 
-BUILD_FILENAME = 'build.ninja'
-
 def run(target, debug, build_info):
-    n = ninja_syntax.Writer(open(BUILD_FILENAME, 'w'))
+    n = ninja_syntax.Writer(open(target.build_file, 'w'))
 
     n.comment('This file is used to build Open TGM')
     n.comment('Target: ' + target.name)
     n.newline()
 
-    n.variable('ninja_required_version', '1.3')
+    n.variable('ninja_required_version', '1.7')
     n.newline()
-
-    #env_keys = set([
-    #    'AS', 'CC', 'CXX', 'ASFLAGS', 'CFLAGS', 'CXXFLAGS', 'LDFLAGS',
-    #    'HOST_CC', 'HOST_CXX', 'HOST_CFLAGS', 'HOST_CXXFLAGS', 'HOST_LDFLAGS'])
-    #configure_env = dict((k, os.environ[k]) for k in os.environ if k in env_keys)
-    #if configure_env:
-    #    config_str = ' '.join([k + '=' + pipes.quote(configure_env[k])
-    #                        for k in configure_env])
-    #    n.variable('configure_env', config_str + '$ ')
-    #n.newline()
 
     # Compilers
     n.variable('cc', target.cc)
     n.variable('cxx', target.cxx)
+    n.variable('link', target.link)
     n.newline()
 
     # Flags
@@ -51,10 +41,22 @@ def run(target, debug, build_info):
         description='$cxx $out')
     n.newline()
 
-    n.rule('ld',
-        command='$ld $cxxflags $ldflags -o $out $in $libs',
-        description='$ld $out')
+    n.rule('link',
+        command='$link $cxxflags $ldflags -o $out $in $libs',
+        description='$link $out')
     n.newline()
+
+    if target.builtin_data:
+        script = target.scripts_dir.joinpath('bin2cpp.py')
+        bin2cpp = f'{sys.executable} {script}'
+        n.rule('bin2cpp',
+            command=f'{bin2cpp} -i $in -o $out',
+            description='generate $out')
+        n.newline()
+
+    for r in target.rules:
+        n.rule(r.name, command=r.command, description=r.description)
+        n.newline()
 
     n.comment('C sources')
     for s in target.src_c:
@@ -66,4 +68,30 @@ def run(target, debug, build_info):
         n.build(s.output, 'cxx', s.input)
     n.newline()
 
-    #n.build('output.o', 'cc', 'input.c')
+    n.build(target.binary, 'link', target.objects)
+    n.newline()
+
+    for b in target.builds:
+        n.build(b.outputs, b.rule, b.inputs)
+        n.newline()
+
+    for d in target.builtin_data:
+        input = d.input
+        cpp = d.output
+        header = str(Path(d.output).with_suffix('.h'))
+        object = str(Path(d.output).with_suffix('.o'))
+        n.build(cpp, 'bin2cpp', input, implicit_outputs=header)
+        n.newline()
+        n.build(object, 'cxx', cpp)
+        n.newline()
+
+    n.close()
+
+    my_env = os.environ.copy()
+    if target.path:
+        my_env["PATH"] = target.get_path() + my_env["PATH"]
+
+    proc = subprocess.Popen(['ninja', '-f', target.build_file], env=my_env)
+    proc.wait()
+    if proc.returncode != 0:
+        exit(proc.returncode)

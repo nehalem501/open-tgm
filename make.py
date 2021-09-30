@@ -2,9 +2,6 @@
 
 # Open TGM build
 
-import sys
-sys.dont_write_bytecode = True
-
 import argparse
 import mk.commands as cmd
 import mk.globals as globals
