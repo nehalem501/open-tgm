@@ -43,7 +43,7 @@ class Target:
 
         self.build_dir = build_info.get_target_build_dir(target)
         self.root_dir = build_info.root_dir
-        self.scripts_dir = build_info.root_dir.joinpath('mk')
+        self.scripts_dir = build_info.root_dir.joinpath('pymk')
         self.binary = str(build_info.get_target_bin_dir(target).joinpath(self.name))
         self.build_file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
 
@@ -179,7 +179,7 @@ class Target:
 
         requires = set(requires)
         for r in requires:
-            module = importlib.import_module('.deps.' + r.requires, 'mk')
+            module = importlib.import_module('.deps.' + r.requires, 'pymk')
             if hasattr(module, 'target'):
                 func = getattr(module, 'target')
                 func(self, r.entry, build_info)

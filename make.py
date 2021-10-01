@@ -3,11 +3,11 @@
 # Open TGM build
 
 import argparse
-import mk.commands as cmd
-import mk.globals as globals
+import pymk.commands as cmd
+import pymk.globals as globals
 
 from pathlib import Path
-from mk.build import BuildInfo
+from pymk.build import BuildInfo
 
 # Parse build.ini files
 globals.BUILD_INFO = BuildInfo(Path(__file__).parent)
