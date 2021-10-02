@@ -4,15 +4,21 @@ from .build import build_target
 from .clean import clean_target
 from . import globals
 
+class Options:
+    def __init__(self, debug, verbose):
+        self.debug = debug
+        self.verbose = verbose
+
 def build(args):
     debug = False if args.release else True
+    options = Options(debug, args.verbose)
     targets = args.targets
     if isinstance(targets, str):
         targets = [args.targets]
     if 'all' in targets:
         targets = globals.BUILD_INFO.platforms # TODO handle special targets such as SDL
     for t in targets:
-        build_target(t, debug, globals.BUILD_INFO)
+        build_target(t, options, globals.BUILD_INFO)
 
 def clean(args):
     targets = args.targets
@@ -25,7 +31,8 @@ def clean(args):
 
 def run(args):
     debug = False if args.release else True
-    build_target(args.target, debug, globals.BUILD_INFO)
+    options = Options(debug, args.verbose)
+    build_target(args.target, options, globals.BUILD_INFO)
     # TODO launch
     pass
 

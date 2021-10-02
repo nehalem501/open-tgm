@@ -133,11 +133,11 @@ class BuildInfo:
             if b.name == backend:
                 return b
 
-    def get_target(self, target, debug):
-        target = Target(target, debug, self)
+    def get_target(self, target, options):
+        target = Target(target, options, self)
         #target.load_requirements(self)
         return target
 
-def build_target(target, debug, build_info):
+def build_target(target, options, build_info):
     build_info.finish_init()
-    configure.run(build_info.get_target(target, debug), debug, build_info)
+    configure.run(build_info.get_target(target, options), options, build_info)

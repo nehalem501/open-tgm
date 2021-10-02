@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 from . import ninja_syntax
 
-def run(target, debug, build_info):
+def run(target, options, build_info):
     n = ninja_syntax.Writer(open(target.build_file, 'w'))
 
     n.comment('This file is used to build Open TGM')
@@ -91,7 +91,12 @@ def run(target, debug, build_info):
     if target.path:
         my_env["PATH"] = target.get_path() + my_env["PATH"]
 
-    proc = subprocess.Popen(['ninja', '-f', target.build_file], env=my_env)
+    cmd = ['ninja']
+    if options.verbose:
+        cmd += ['-v']
+    cmd += ['-f', target.build_file]
+
+    proc = subprocess.Popen(cmd, env=my_env)
     proc.wait()
     if proc.returncode != 0:
         exit(proc.returncode)

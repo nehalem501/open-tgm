@@ -38,7 +38,7 @@ class Target:
     rules = []
     builds = []
 
-    def __init__(self, target, debug, build_info):
+    def __init__(self, target, options, build_info):
         self.name = target
 
         self.build_dir = build_info.get_target_build_dir(target)
@@ -65,7 +65,7 @@ class Target:
                 self.src_cpp += expand(e.dir, e.values['src_cpp'])
 
         common_flags = []
-        if debug:
+        if options.debug:
             common_flags += [build_info.toplevel.values['debug_flags'], '-O2'] # TODO optimisation levels and types
         else:
             common_flags += ['-O2'] # TODO optimisation levels and types
