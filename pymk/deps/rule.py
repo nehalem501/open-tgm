@@ -23,12 +23,19 @@ class SrcRuleN:
         self.input = str(input)
 
 def to_src_rule(root_dir, source_dir, build_dir, source, suffix):
-    source_rel = source.relative_to(source_dir)
+    source_rel = source.relative_to(root_dir)
     build_dir_rel = build_dir.relative_to(root_dir)
     filename = root_dir.joinpath(build_dir_rel).joinpath(source_rel)
     while filename.suffix:
         filename = filename.with_suffix('')
     object = filename.with_suffix(suffix)
+    return SrcRule(object, source)
+
+def to_src_rule_keep_suffix(root_dir, source_dir, build_dir, source, suffix):
+    source_rel = source.relative_to(source_dir)
+    #build_dir_rel = build_dir.relative_to(root_dir)
+    filename = root_dir.joinpath(source_rel)
+    object = filename.with_suffix(filename.suffix + suffix)
     return SrcRule(object, source)
 
 def to_src_rule_n(root_dir, source_dir, build_dir, source, suffixes):

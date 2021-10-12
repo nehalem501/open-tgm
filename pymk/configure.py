@@ -46,6 +46,10 @@ def run(target, options, build_info):
         description='$link $out')
     n.newline()
 
+    for r in target.rules:
+        n.rule(r.name, command=r.command, description=r.description)
+        n.newline()
+
     if target.builtin_data:
         script = target.scripts_dir.joinpath('bin2cpp.py')
         bin2cpp = f'{sys.executable} {script}'
@@ -54,8 +58,17 @@ def run(target, options, build_info):
             description='generate $out')
         n.newline()
 
-    for r in target.rules:
-        n.rule(r.name, command=r.command, description=r.description)
+    dependencies = []
+    #n.comment('builtin data')
+    for d in target.builtin_data:
+        input = d.input
+        cpp = d.output
+        header = str(Path(d.output).with_suffix('.h'))
+        object = str(Path(d.output).with_suffix('.o'))
+        dependencies += [header]
+        n.build(cpp, 'bin2cpp', input, implicit_outputs=header)
+        n.newline()
+        n.build(object, 'cxx', cpp)
         n.newline()
 
     n.comment('C sources')
@@ -65,7 +78,7 @@ def run(target, options, build_info):
 
     n.comment('CPP sources')
     for s in target.src_cpp:
-        n.build(s.output, 'cxx', s.input)
+        n.build(s.output, 'cxx', s.input, implicit=dependencies)
     n.newline()
 
     n.build(target.binary, 'link', target.objects)
@@ -73,16 +86,6 @@ def run(target, options, build_info):
 
     for b in target.builds:
         n.build(b.outputs, b.rule, b.inputs)
-        n.newline()
-
-    for d in target.builtin_data:
-        input = d.input
-        cpp = d.output
-        header = str(Path(d.output).with_suffix('.h'))
-        object = str(Path(d.output).with_suffix('.o'))
-        n.build(cpp, 'bin2cpp', input, implicit_outputs=header)
-        n.newline()
-        n.build(object, 'cxx', cpp)
         n.newline()
 
     n.close()

@@ -5,23 +5,9 @@ from itertools import chain
 from pathlib import Path
 
 from . import configure
+from .globals import BUILD_INI, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, BIN_DIR, BUILD_DIR
 from .target import Target
 from .deps.requirement import Requirement
-
-BUILD_INI = 'build.ini'
-
-SRC_DIR = 'src'
-
-CORE_DIR = 'core'
-CORE_HEADERS_DIR = 'include'
-MODES_DIR = 'modes'
-PLATFORMS_DIR = 'platforms'
-GPU_DIR = 'gpu'
-GPU_SRC_DIR = 'src'
-GPU_BACKENDS_DIR = 'backends'
-
-BIN_DIR = 'bin'
-BUILD_DIR = 'build'
 
 def find_all(a_str, sub):
     start = 0

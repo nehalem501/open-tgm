@@ -40,7 +40,7 @@ class VertexArray2DImpl {
         };
 
         void render() const {
-            C3D_TexBind(0, &get_texture(m_texture));
+            C3D_TexBind(0, &get_texture(m_texture).handle);
 
             /*C3D_BufInfo *info = C3D_GetBufInfo();
             BufInfo_Init(info);

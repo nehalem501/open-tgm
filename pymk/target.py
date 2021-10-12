@@ -4,8 +4,11 @@ import importlib
 import os
 import subprocess
 import sys
+
+from pathlib import Path
+from .globals import GPU_DIR, GPU_BACKENDS_DIR
 from .deps.expand import expand
-from .deps.rule import Rule, Build, to_src_rule
+from .deps.rule import Rule, Build, to_src_rule, to_src_rule_keep_suffix
 
 def headers_to_flags(headers):
     return ['-I' + str(h) for h in headers]
@@ -30,6 +33,8 @@ class Target:
     src_cpp = []
 
     builtin_data = []
+    shaders = []
+    textures = []
 
     objects = []
     binary = 'a.out'
@@ -92,13 +97,25 @@ class Target:
         if self.link is None:
             self.link = self.cxx
 
+        #if self.builtin_data:
+        #    self.builtin_data = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, s, '.cpp') for s in self.builtin_data]
+
+        if self.shaders:
+            self.shaders = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, s, '.cpp') for s in self.shaders]
+
+        if self.textures:
+            self.textures = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, t, '.cpp') for t in self.textures]
+
+        self.builtin_data += self.shaders + self.textures
+
+        for r in self.builtin_data:
+            self.src_cpp += [Path(r.output)]
+
         self.src_c = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.o') for s in self.src_c]
         self.src_cpp = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.o') for s in self.src_cpp]
 
         self.objects += [r.output for r in self.src_c] + [r.output for r in self.src_cpp]
 
-        if self.builtin_data:
-            self.builtin_data = [to_src_rule(build_info.root_dir, build_info.root_dir, self.build_dir, s, '.cpp') for s in self.builtin_data]
 
         # TODO environment override for common variables
         #env_keys = set([
@@ -171,6 +188,9 @@ class Target:
             self.load_entry(self.gpu_backend_entry)
             self.headers += [build_info.gpu_src_dir]
             self.headers += [self.gpu_backend_entry.dir]
+            self.headers += [self.build_dir]
+            # TODO backend path
+            self.headers += [self.build_dir.joinpath(GPU_DIR).joinpath(GPU_BACKENDS_DIR).joinpath(self.gpu_backend_entry.name)]
 
             #if self.gpu_backend_entry.gpu_assets_builtin:
             #    pass

@@ -5,7 +5,15 @@
 
 #include <GPUTypes.h>
 #include "Vertex.h"
-#include "TextureID.h"
+#include "TextureEnums.h"
+
+struct Texture {
+    constexpr Texture(texture_t handle, unsigned int format) : handle(handle), format(format) { }
+
+    texture_t handle;
+    unsigned int format;
+};
+
 
 struct TextureData {
     constexpr TextureData(
@@ -29,7 +37,7 @@ struct TextureData {
 
 void load_textures();
 
-texture_t& get_texture(TextureID id);
+Texture& get_texture(TextureID id);
 const TextureData& get_texture_data(TextureID id);
 
 #ifdef RESIZABLE

@@ -10,4 +10,4 @@ def target(self, entry, build_info):
     shaders_bin = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.shbin') for s in shaders]
     for s in shaders_bin:
         self.builds += [Build(s.output, 'picasso', s.input)]
-        self.builtin_data += [Path(s.output)]
+        self.shaders += [Path(s.output)]
