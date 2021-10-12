@@ -48,8 +48,8 @@ namespace TexturesFormat {
 namespace TextureFileHeader {
     enum {
         BYTE_0 = 0x54u,
-        BYTE_1 = 0x47u,
-        BYTE_2 = 0x4Du,
+        BYTE_1 = 0x58u,
+        BYTE_2 = 0x46u,
         BYTE_3 = 0x89u,
         BYTE_4 = 0x0Du,
         BYTE_5 = 0x0Au,
