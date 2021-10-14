@@ -1,4 +1,4 @@
-/* package.cpp - Tool for generating textures files and associated headers */
+/* img2tx.cpp - Tool for generating textures files and associated headers */
 
 #include <stdio.h>
 #include <stdint.h>

@@ -101,10 +101,19 @@ class Target:
         #    self.builtin_data = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, s, '.cpp') for s in self.builtin_data]
 
         if self.shaders:
+            # shaders are always builtin
             self.shaders = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, s, '.cpp') for s in self.shaders]
+            pass
 
         if self.textures:
-            self.textures = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, t, '.cpp') for t in self.textures]
+            if self.target_entry.gpu_assets_builtin:
+                # assets objects should be built in build_dir/data/_px
+                # we need also to take care of data_info and other headers generation
+                pass
+            else:
+                # create copy target, asset detection and loading should happen at runtime
+                pass
+            #self.textures = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, t, '.cpp') for t in self.textures]
 
         self.builtin_data += self.shaders + self.textures
 
@@ -192,8 +201,9 @@ class Target:
             # TODO backend path
             self.headers += [self.build_dir.joinpath(GPU_DIR).joinpath(GPU_BACKENDS_DIR).joinpath(self.gpu_backend_entry.name)]
 
-            #if self.gpu_backend_entry.gpu_assets_builtin:
-            #    pass
+            if self.target_entry.gpu_assets_builtin:
+                #print('toto')
+                pass
 
             self.rules += []
 
