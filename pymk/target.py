@@ -6,12 +6,18 @@ import subprocess
 import sys
 
 from pathlib import Path
-from .globals import GPU_DIR, GPU_BACKENDS_DIR
+from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR
 from .deps.expand import expand
-from .deps.rule import Rule, Build, to_src_rule, to_src_rule_keep_suffix
+from .deps.rule import Rule, Build, to_src_rule, to_data_rule
 
 def headers_to_flags(headers):
     return ['-I' + str(h) for h in headers]
+
+def libs_to_flags(libs):
+    return ['-l' + str(l) for l in libs]
+
+def lib_dirs_to_flags(lib_dirs):
+    return ['-L' + str(l) for l in lib_dirs]
 
 class Target:
     cc = 'cc'
@@ -28,6 +34,7 @@ class Target:
 
     headers = []
     libs = []
+    lib_dirs = []
 
     src_c = []
     src_cpp = []
@@ -94,6 +101,9 @@ class Target:
         self.cflags += ['-std=' + self.c_std]
         self.cxxflags += ['-std=' + self.cxx_std]
 
+        self.libs = libs_to_flags(self.libs)
+        self.ldflags += lib_dirs_to_flags(self.lib_dirs)
+
         if self.link is None:
             self.link = self.cxx
 
@@ -102,29 +112,42 @@ class Target:
 
         if self.shaders:
             # shaders are always builtin
-            self.shaders = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, s, '.cpp') for s in self.shaders]
+            self.shaders = [to_data_rule(self.root_dir, self.build_dir, s) for s in self.shaders]
             pass
 
-        if self.textures:
+        self.builtin_data += self.shaders
+
+        #if self.textures:
+        if self.target_entry.gpu:
+            resources_dir = self.root_dir.joinpath(DATA_DIR).joinpath(RESOURCES_DIR)
+            ini_files = []
+            for size in self.target_entry.gpu_tile_sizes:
+                dir = resources_dir.joinpath(size)
+                ini_files += expand(dir, '*.ini')
+
+            png_files = [f.with_suffix('.png') for f in ini_files]
+
+            #self.textures = [to_data_rule(self.root_dir, self.build_dir, f) for f in png_files]
+
             if self.target_entry.gpu_assets_builtin:
                 # assets objects should be built in build_dir/data/_px
                 # we need also to take care of data_info and other headers generation
-                pass
+                self.builtin_data += [to_data_rule(self.root_dir, self.build_dir, f) for f in png_files]
             else:
                 # create copy target, asset detection and loading should happen at runtime
                 pass
-            #self.textures = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, t, '.cpp') for t in self.textures]
+                #self.textures = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, t, '.cpp') for t in self.textures]
 
-        self.builtin_data += self.shaders + self.textures
 
-        for r in self.builtin_data:
-            self.src_cpp += [Path(r.output)]
+        #for r in self.builtin_data:
+        #    self.src_cpp += [Path(r.output_cpp)]
 
         self.src_c = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.o') for s in self.src_c]
         self.src_cpp = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.o') for s in self.src_cpp]
 
         self.objects += [r.output for r in self.src_c] + [r.output for r in self.src_cpp]
-
+        for r in self.builtin_data:
+            self.objects += [r.output_object]
 
         # TODO environment override for common variables
         #env_keys = set([
@@ -176,6 +199,9 @@ class Target:
             self.cxxflags += [values['cxxflags']]
         if 'ldflags' in values:
             self.ldflags += [values['ldflags']]
+
+        if 'libs' in values:
+            self.libs += values['libs'].split()
 
         if 'c_std' in values:
             self.c_std = values['c_std']

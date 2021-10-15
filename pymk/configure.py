@@ -25,6 +25,9 @@ def run(target, options, build_info):
     # Flags
     n.variable('cflags', target.cflags)
     n.variable('cxxflags', target.cxxflags)
+    n.variable('ldflags', target.ldflags)
+    n.newline()
+    n.variable('libs', target.libs)
     n.newline()
 
     n.rule('cc',
@@ -61,14 +64,10 @@ def run(target, options, build_info):
     dependencies = []
     #n.comment('builtin data')
     for d in target.builtin_data:
-        input = d.input
-        cpp = d.output
-        header = str(Path(d.output).with_suffix('.h'))
-        object = str(Path(d.output).with_suffix('.o'))
-        dependencies += [header]
-        n.build(cpp, 'bin2cpp', input, implicit_outputs=header)
+        dependencies += [d.output_header]
+        n.build(d.output_cpp, 'bin2cpp', d.input, implicit_outputs=d.output_header)
         n.newline()
-        n.build(object, 'cxx', cpp)
+        n.build(d.output_object, 'cxx', d.output_cpp)
         n.newline()
 
     n.comment('C sources')

@@ -1,10 +1,11 @@
 /* data.cpp - GPU */
 
-#include <data/data_info.h>
+//#include <data/data_info.h>
+// TODO
 #include <data.h>
 
 #ifndef DATA_ASSET_INFO_GPU_H
-extern AssetData asset_data(NULL);
+static AssetData asset_data(NULL);
 #endif
 
 const TextureData& get_texture_data(TextureID id) {

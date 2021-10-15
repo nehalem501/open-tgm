@@ -8,12 +8,9 @@
 #include "TextureEnums.h"
 
 struct Texture {
-    constexpr Texture(texture_t handle, unsigned int format) : handle(handle), format(format) { }
-
     texture_t handle;
-    unsigned int format;
+    unsigned int format, width, height;
 };
-
 
 struct TextureData {
     constexpr TextureData(
@@ -36,12 +33,13 @@ struct TextureData {
 };
 
 void load_textures();
+void load_texture(Texture& texture, const uint8_t* img_data, const size_t img_data_size);
 
 Texture& get_texture(TextureID id);
 const TextureData& get_texture_data(TextureID id);
 
 #ifdef RESIZABLE
-void reload_textures();
+void reload_textures(); // TODO
 #endif
 
 #endif // TEXTURE_H

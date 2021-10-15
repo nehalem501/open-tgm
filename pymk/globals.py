@@ -14,5 +14,8 @@ GPU_DIR = 'gpu'
 GPU_SRC_DIR = 'src'
 GPU_BACKENDS_DIR = 'backends'
 
+DATA_DIR = 'data'
+RESOURCES_DIR = 'resources'
+
 BIN_DIR = 'bin'
 BUILD_DIR = 'build'

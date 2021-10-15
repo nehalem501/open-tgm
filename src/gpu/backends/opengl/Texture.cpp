@@ -126,9 +126,9 @@ void load_textures() { // TODO size
     //load_texture(background_tex, "/Users/tomek/open-tgm/data/resources/9px/background.png");
     background_tex = empty_tex;
 
-    load_texture(frame_tex, "/Users/tomek/open-tgm/data/resources/8px/frame.png");
-    load_texture(text_tex, "/Users/tomek/open-tgm/data/resources/8px/ui_font.png");
-    load_texture(digits_tex, "/Users/tomek/open-tgm/data/resources/8px/digits_font.png");
-    load_texture(tileset_tex, "/Users/tomek/open-tgm/data/resources/9px/tilemap.png");
-    load_texture(outline_tex, "/Users/tomek/open-tgm/data/resources/9px/outline.png");
+    //load_texture(frame_tex, "/Users/tomek/open-tgm/data/resources/8px/frame.png");
+    //load_texture(text_tex, "/Users/tomek/open-tgm/data/resources/8px/ui_font.png");
+    //load_texture(digits_tex, "/Users/tomek/open-tgm/data/resources/8px/digits_font.png");
+    //load_texture(tileset_tex, "/Users/tomek/open-tgm/data/resources/9px/tilemap.png");
+    //load_texture(outline_tex, "/Users/tomek/open-tgm/data/resources/9px/outline.png");
 }
