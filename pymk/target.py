@@ -6,9 +6,11 @@ import subprocess
 import sys
 
 from pathlib import Path
-from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR
+
+from .entry import BuildEntry
+from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR, LIBS_DIR
 from .deps.expand import expand
-from .deps.rule import Rule, Build, to_src_rule, to_data_rule
+from .deps.rule import Rule, Build, SrcRule, to_src_rule, to_data_rule
 
 def headers_to_flags(headers):
     return ['-I' + str(h) for h in headers]
@@ -34,6 +36,7 @@ class Target:
 
     headers = []
     libs = []
+    static_libs = []
     lib_dirs = []
 
     src_c = []
@@ -49,6 +52,7 @@ class Target:
     path = []
     rules = []
     builds = []
+    variables = []
 
     def __init__(self, target, options, build_info):
         self.name = target
@@ -56,11 +60,11 @@ class Target:
         self.build_dir = build_info.get_target_build_dir(target)
         self.root_dir = build_info.root_dir
         self.scripts_dir = build_info.root_dir.joinpath('pymk')
-        self.binary = str(build_info.get_target_bin_dir(target).joinpath(self.name))
+        self.binary = build_info.get_target_bin_dir(target).joinpath(build_info.toplevel.name)
         self.build_file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
 
-        if 'name' in build_info.toplevel.values:
-            self.name = build_info.toplevel.values['name']
+        #if 'name' in build_info.toplevel.values:
+        #    self.binary = build_info.toplevel.values['name']
 
         if 'c_std' in build_info.toplevel.values: #TODO target override
             self.c_std = build_info.toplevel.values['c_std']
@@ -95,6 +99,14 @@ class Target:
         self.load_entry(self.target_entry)
         self.load_requirements(build_info)
 
+        if self.static_libs:
+            libs_dir = build_info.src_dir.joinpath(LIBS_DIR)
+            static_libs_entries = []
+            for l in self.static_libs:
+                entry = BuildEntry(libs_dir.joinpath(l))
+                self.load_entry(entry)
+                pass
+
         self.cflags += headers_to_flags(self.headers)
         self.cxxflags += headers_to_flags(self.headers)
 
@@ -117,7 +129,6 @@ class Target:
 
         self.builtin_data += self.shaders
 
-        #if self.textures:
         if self.target_entry.gpu:
             resources_dir = self.root_dir.joinpath(DATA_DIR).joinpath(RESOURCES_DIR)
             ini_files = []
@@ -141,6 +152,8 @@ class Target:
 
         #for r in self.builtin_data:
         #    self.src_cpp += [Path(r.output_cpp)]
+
+        self.binary = str(self.binary)
 
         self.src_c = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.o') for s in self.src_c]
         self.src_cpp = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.o') for s in self.src_cpp]
@@ -183,6 +196,9 @@ class Target:
     def load_entry(self, entry):
         values = entry.values
 
+        if 'name' in values:
+            self.binary = self.binary.with_name(values['name'])
+
         if 'cc' in values:
             self.cc = values['cc']
         if 'cxx' in values:
@@ -201,7 +217,10 @@ class Target:
             self.ldflags += [values['ldflags']]
 
         if 'libs' in values:
-            self.libs += values['libs'].split()
+            self.libs = values['libs'].split() + self.libs
+
+        if 'static_libs' in values:
+            self.static_libs = values['static_libs'].split() + self.static_libs
 
         if 'c_std' in values:
             self.c_std = values['c_std']

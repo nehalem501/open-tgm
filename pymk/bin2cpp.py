@@ -29,7 +29,7 @@ with open(args.output, 'w') as output:
         #include <stddef.h>
         #include <stdint.h>
 
-        alignas(size_t) const uint8_t {name}[] {{
+        alignas(size_t) extern const uint8_t {name}[] = {{
         """))
 
     with open(args.input, 'rb') as input:
@@ -44,7 +44,7 @@ with open(args.output, 'w') as output:
     output.write(textwrap.dedent(f"""\
         }};
 
-        const size_t {name}_size = sizeof({name}) / sizeof({name}[0]);
+        extern const size_t {name}_size = sizeof({name}) / sizeof({name}[0]);
         """))
 
 with open(header, 'w') as output:

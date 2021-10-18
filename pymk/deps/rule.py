@@ -7,10 +7,16 @@ class Rule:
         self.description = description
 
 class Build:
-    def __init__(self, outputs, rule, inputs):
+    def __init__(self, outputs, rule, inputs, dependencies=None):
         self.outputs = outputs
         self.rule = rule
         self.inputs = inputs
+        self.dependencies = dependencies
+
+class Variable:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
 
 class SrcRule:
     def __init__(self, output, input):

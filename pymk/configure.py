@@ -30,6 +30,10 @@ def run(target, options, build_info):
     n.variable('libs', target.libs)
     n.newline()
 
+    for v in target.variables:
+        n.variable(v.name, v.value)
+        n.newline()
+
     n.rule('cc',
         command='$cc -MMD -MT $out -MF $out.d $cflags -c $in -o $out',
         depfile='$out.d',
@@ -84,7 +88,7 @@ def run(target, options, build_info):
     n.newline()
 
     for b in target.builds:
-        n.build(b.outputs, b.rule, b.inputs)
+        n.build(b.outputs, b.rule, b.inputs, implicit=b.dependencies)
         n.newline()
 
     n.close()

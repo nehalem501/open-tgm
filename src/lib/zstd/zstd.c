@@ -40,7 +40,7 @@
 #define XXH_INLINE_ALL
 #define ZSTD_LEGACY_SUPPORT 0
 #ifndef __EMSCRIPTEN__
-#define ZSTD_MULTITHREAD
+// #define ZSTD_MULTITHREAD
 #endif
 #define ZSTD_TRACE 0
 

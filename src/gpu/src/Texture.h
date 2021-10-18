@@ -12,6 +12,17 @@ struct Texture {
     unsigned int format, width, height;
 };
 
+class TextureFile {
+    public:
+        TextureFile(const uint8_t* compressed_data, const size_t compressed_data_size);
+        ~TextureFile();
+
+    private:
+        uint8_t* m_raw_data;
+        size_t m_size;
+        unsigned int m_format, m_width, m_height;
+};
+
 struct TextureData {
     constexpr TextureData(
         gpu_float_t width,
