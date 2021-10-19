@@ -11,11 +11,12 @@ from pymk.build import BuildInfo
 
 # Parse build.ini files
 globals.BUILD_INFO = BuildInfo(Path(__file__).parent)
+BUILD_INFO = globals.BUILD_INFO
 
 # Common variables
-default_target = globals.BUILD_INFO.default_target
-build_targets = ['', 'all'] + globals.BUILD_INFO.platforms
-run_targets = [''] + globals.BUILD_INFO.platforms
+default_target = BUILD_INFO.default_target
+build_targets = ['', 'all'] + BUILD_INFO.platforms
+run_targets = [''] + BUILD_INFO.platforms
 
 parser = argparse.ArgumentParser(description='Open TGM build')
 parser.add_argument('-v', '--verbose', action='store_true', help='show all command lines while building')

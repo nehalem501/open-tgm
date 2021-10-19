@@ -15,7 +15,7 @@ def target(self, entry, build_info):
     self.variables += [Variable('app_description', entry.values['app_description'])]
     self.variables += [Variable('app_author', entry.values['app_author'])]
 
-    app_icon = self.root_dir.joinpath(Path(entry.values['app_icon']))
+    app_icon = build_info.root_dir.joinpath(Path(entry.values['app_icon']))
 
     rom = self.binary.with_suffix('.3ds')
     self.binary = self.build_dir.joinpath(self.binary.name)

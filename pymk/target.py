@@ -4,10 +4,12 @@ import importlib
 import os
 import subprocess
 
+from . import globals
 from .entry import BuildEntry
 from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR, LIBS_DIR
 from .deps.expand import expand
-from .deps.rule import Rule, Build, SrcRule, to_src_rule, to_data_rule
+from .deps.requirement import Requirement
+from .deps.rule import to_src_rule, to_data_rule
 
 def headers_to_flags(headers):
     return ['-I' + str(h) for h in headers]
@@ -17,6 +19,16 @@ def libs_to_flags(libs):
 
 def lib_dirs_to_flags(lib_dirs):
     return ['-L' + str(l) for l in lib_dirs]
+
+class TargetData:
+    def __init__(self, entry, additional_entries, options, build_dir, binary, common_flags, headers):
+        self.entry = entry
+        self.additional_entries = additional_entries
+        self.options = options
+        self.build_dir = build_dir
+        self.binary = binary
+        self.common_flags = common_flags
+        self.headers = headers
 
 class Target:
     cc = 'cc'
@@ -31,7 +43,6 @@ class Target:
     cxxflags = []
     ldflags = []
 
-    headers = []
     libs = []
     static_libs = []
     lib_dirs = []
@@ -52,50 +63,24 @@ class Target:
     builds = []
     variables = []
 
-    def __init__(self, target, options, build_info):
-        self.name = target
+    requires = []
 
-        self.build_dir = build_info.get_target_build_dir(target)
-        self.root_dir = build_info.root_dir
-        self.scripts_dir = build_info.root_dir.joinpath('pymk')
-        self.binary = build_info.get_target_bin_dir(target).joinpath(build_info.toplevel.name)
-        self.build_file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
+    def __init__(self, data):
+        BUILD_INFO = globals.BUILD_INFO
+        self.build_dir = data.build_dir
+        self.binary = data.binary
+        #self.build_file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
 
-        #if 'name' in build_info.toplevel.values:
-        #    self.binary = build_info.toplevel.values['name']
+        self.cflags += data.common_flags
+        self.cxxflags += data.common_flags
 
-        if 'c_std' in build_info.toplevel.values: #TODO target override
-            self.c_std = build_info.toplevel.values['c_std']
+        self.headers = data.headers
 
-        if 'cxx_std' in build_info.toplevel.values: #TODO target override
-            self.cxx_std = build_info.toplevel.values['cxx_std']
+        self.load_entry(data.entry)
+        for e in data.additional_entries:
+            self.load_entry(e)
 
-        self.headers += [build_info.core_headers_dir]
-
-        for e in build_info.core_entries:
-            if 'src_c' in e.values:
-                self.src_c += expand(e.dir, e.values['src_c'])
-            if 'src_cpp' in e.values:
-                self.src_cpp += expand(e.dir, e.values['src_cpp'])
-
-        common_flags = []
-        if options.debug:
-            common_flags += [build_info.toplevel.values['debug_flags'], '-O2'] # TODO optimisation levels and types
-        else:
-            common_flags += ['-O2'] # TODO optimisation levels and types
-
-        common_flags += [build_info.toplevel.values['common_flags']]
-        common_flags += ['-DTARGET_' + target.upper()]
-
-        self.cflags += common_flags
-        self.cxxflags += common_flags
-
-        self.target_entry = build_info.get_platform_entry(target)
-
-        self.headers += [self.target_entry.dir]
-
-        self.load_entry(self.target_entry)
-        self.load_requirements(build_info)
+        self.load_requirements(BUILD_INFO)
 
         self.cflags += headers_to_flags(self.headers)
         self.cxxflags += headers_to_flags(self.headers)
@@ -114,15 +99,16 @@ class Target:
 
         if self.shaders:
             # shaders are always builtin
-            self.shaders = [to_data_rule(self.root_dir, self.build_dir, s) for s in self.shaders]
+            self.shaders = [to_data_rule(BUILD_INFO.root_dir, self.build_dir, s) for s in self.shaders]
             pass
 
         self.builtin_data += self.shaders
 
-        if self.target_entry.gpu:
-            resources_dir = self.root_dir.joinpath(DATA_DIR).joinpath(RESOURCES_DIR)
+        if hasattr(data.entry, 'gpu') and data.entry.gpu:
+            platform_entry = data.entry
+            resources_dir = BUILD_INFO.root_dir.joinpath(DATA_DIR).joinpath(RESOURCES_DIR)
             ini_files = []
-            for size in self.target_entry.gpu_tile_sizes:
+            for size in platform_entry.gpu_tile_sizes:
                 dir = resources_dir.joinpath(size)
                 ini_files += expand(dir, '*.ini')
 
@@ -130,10 +116,10 @@ class Target:
 
             #self.textures = [to_data_rule(self.root_dir, self.build_dir, f) for f in png_files]
 
-            if self.target_entry.gpu_assets_builtin:
+            if platform_entry.gpu_assets_builtin:
                 # assets objects should be built in build_dir/data/_px
                 # we need also to take care of data_info and other headers generation
-                self.builtin_data += [to_data_rule(self.root_dir, self.build_dir, f) for f in png_files]
+                self.builtin_data += [to_data_rule(BUILD_INFO.root_dir, self.build_dir, f) for f in png_files]
             else:
                 # create copy target, asset detection and loading should happen at runtime
                 pass
@@ -145,8 +131,8 @@ class Target:
 
         self.binary = str(self.binary)
 
-        self.src_c = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.o') for s in self.src_c]
-        self.src_cpp = [to_src_rule(build_info.root_dir, build_info.src_dir, self.build_dir, s, '.o') for s in self.src_cpp]
+        self.src_c = [to_src_rule(BUILD_INFO.root_dir, BUILD_INFO.src_dir, self.build_dir, s, '.o') for s in self.src_c]
+        self.src_cpp = [to_src_rule(BUILD_INFO.root_dir, BUILD_INFO.src_dir, self.build_dir, s, '.o') for s in self.src_cpp]
 
         self.objects += [r.output for r in self.src_c] + [r.output for r in self.src_cpp]
         for r in self.builtin_data:
@@ -225,27 +211,30 @@ class Target:
         if 'src_cpp' in values:
             self.src_cpp += expand(entry.dir, values['src_cpp'])
 
+        if 'requires' in values:
+            self.requires += [Requirement(entry, r) for r in values['requires'].split()]
+
+    def load_requirement(self, requirement, entry):
+            module = importlib.import_module('.deps.' + requirement, 'pymk')
+            if hasattr(module, 'target'):
+                func = getattr(module, 'target')
+                func(self, entry, globals.BUILD_INFO)
+
     def load_requirements(self, build_info):
-        requires = self.target_entry.requires
-
-        if self.target_entry.gpu:
-            self.load_entry(build_info.gpu_entry)
-            if 'zstd' in build_info.gpu_entry.values:
-                build_info.zstd = (build_info.gpu_entry.values['zstd'] == 'compress')
-            self.gpu_backend_entry = build_info.get_gpu_backend_entry(self.target_entry.gpu_backend)
-            requires += self.gpu_backend_entry.requires
-            self.load_entry(self.gpu_backend_entry)
-            self.headers += [build_info.gpu_src_dir]
-            self.headers += [self.gpu_backend_entry.dir]
-            self.headers += [self.build_dir]
-            # TODO backend path
-            self.headers += [self.build_dir.joinpath(GPU_DIR).joinpath(GPU_BACKENDS_DIR).joinpath(self.gpu_backend_entry.name)]
-
-            if self.target_entry.gpu_assets_builtin:
-                #print('toto')
-                pass
-
-            self.rules += []
+        requires = set(self.requires)
+        for r in requires:
+            if hasattr(r.entry, 'gpu') and r.entry.gpu:
+                entry = r.entry
+                self.load_entry(build_info.gpu_entry)
+                if 'zstd' in build_info.gpu_entry.values:
+                    build_info.zstd = (build_info.gpu_entry.values['zstd'] == 'compress')
+                self.gpu_backend_entry = build_info.get_gpu_backend_entry(entry.gpu_backend)
+                self.load_entry(self.gpu_backend_entry)
+                self.headers += [build_info.gpu_src_dir]
+                self.headers += [self.gpu_backend_entry.dir]
+                self.headers += [self.build_dir]
+                # TODO backend path
+                self.headers += [self.build_dir.joinpath(GPU_DIR).joinpath(GPU_BACKENDS_DIR).joinpath(self.gpu_backend_entry.name)]
 
         if self.static_libs:
             libs_dir = build_info.src_dir.joinpath(LIBS_DIR)
@@ -254,12 +243,7 @@ class Target:
                 entry = BuildEntry(libs_dir.joinpath(l))
                 self.load_entry(entry)
                 self.headers += [entry.dir]
-                requires += entry.requires
 
-        requires = set(requires)
+        requires = set(self.requires)
         for r in requires:
-            module = importlib.import_module('.deps.' + r.requires, 'pymk')
-            if hasattr(module, 'target'):
-                func = getattr(module, 'target')
-                func(self, r.entry, build_info)
-
+            self.load_requirement(r.requires, r.entry)

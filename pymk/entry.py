@@ -12,7 +12,7 @@ class BuildEntry:
         self.name = dir.name
         self.file = dir.joinpath(BUILD_INI)
         self.values = dict()
-        self.requires = []
+        #self.requires = []
         parser = ConfigParser()
         with open(self.file) as lines:
             default_section = 'build'
@@ -20,9 +20,9 @@ class BuildEntry:
             parser.read_file(lines)
             fields = parser.options(default_section)
             for field in fields:
-                if field == 'requires':
-                    self.requires += [Requirement(self, r) for r in parser[default_section][field].split()]
-                    continue
+                #if field == 'requires':
+                #    self.requires += [Requirement(self, r) for r in parser[default_section][field].split()]
+                #    continue
                 self.values[field] = parser[default_section][field]
 
     def __repr__ (self):

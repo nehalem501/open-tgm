@@ -3,7 +3,8 @@
 from . import configure
 from .entry import BuildEntry, PlatformEntry
 from .globals import BUILD_INI, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, BIN_DIR, BUILD_DIR
-from .target import Target
+from .target import Target, TargetData
+from pymk import entry
 
 def find_all(a_str, sub):
     start = 0
@@ -45,6 +46,7 @@ class BuildInfo:
         self.build_dir = root_dir.joinpath(BUILD_DIR)
         self.platforms_dir = self.src_dir.joinpath(PLATFORMS_DIR)
         self.core_headers_dir = self.src_dir.joinpath(CORE_HEADERS_DIR)
+        self.scripts_dir = self.root_dir.joinpath('pymk')
 
     def finish_init(self):
         self.core_entries = [BuildEntry(e) for e in scan_subdirs(self.src_dir, [CORE_DIR, MODES_DIR])]
@@ -71,10 +73,33 @@ class BuildInfo:
                 return b
 
     def get_target(self, target, options):
-        target = Target(target, options, self)
-        #target.load_requirements(self)
+        core_entry = self.toplevel
+        target_entry = self.get_platform_entry(target)
+
+        binary = self.get_target_bin_dir(target).joinpath(self.toplevel.name)
+
+        common_flags = ['-DTARGET_' + target.upper()]
+        if options.debug:
+            common_flags += [core_entry.values['debug_flags'], '-O2'] # TODO optimisation levels and types
+        else:
+            common_flags += ['-O2'] # TODO optimisation levels and types
+
+        additional_entries = self.core_entries + [target_entry]
+
+        data = TargetData(
+            entry=core_entry,
+            additional_entries=additional_entries,
+            options=options,
+            build_dir=self.get_target_build_dir(target),
+            binary=binary,
+            common_flags=common_flags,
+            headers=[self.core_headers_dir, target_entry.dir]
+        )
+        target = Target(data)
         return target
 
 def build_target(target, options, build_info):
     build_info.finish_init()
-    configure.run(build_info.get_target(target, options), options, build_info)
+    # TODO ninja file path
+    file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
+    configure.run(build_info.get_target(target, options), options, file)

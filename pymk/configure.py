@@ -4,12 +4,15 @@ import os
 import sys
 import subprocess
 from . import ninja_syntax
+from . import globals
 
-def run(target, options, build_info):
-    n = ninja_syntax.Writer(open(target.build_file, 'w'))
+def run(target, options, build_file):
+    BUILD_INFO = globals.BUILD_INFO
+
+    n = ninja_syntax.Writer(open(build_file, 'w'))
 
     n.comment('This file is used to build Open TGM')
-    n.comment('Target: ' + target.name)
+    #n.comment('Target: ' + target.name)
     n.newline()
 
     n.variable('ninja_required_version', '1.7')
@@ -57,7 +60,7 @@ def run(target, options, build_info):
         n.newline()
 
     if target.builtin_data:
-        script = target.scripts_dir.joinpath('bin2cpp.py')
+        script = BUILD_INFO.scripts_dir.joinpath('bin2cpp.py')
         bin2cpp = f'{sys.executable} {script}'
         n.rule('bin2cpp',
             command=f'{bin2cpp} -i $in -o $out',
@@ -101,7 +104,7 @@ def run(target, options, build_info):
         cmd += ['-v']
     if options.jobs:
         cmd += ['-j', str(options.jobs)]
-    cmd += ['-f', target.build_file]
+    cmd += ['-f', build_file]
 
     proc = subprocess.Popen(cmd, env=my_env)
     proc.wait()
