@@ -3,9 +3,6 @@
 import importlib
 import os
 import subprocess
-import sys
-
-from pathlib import Path
 
 from .entry import BuildEntry
 from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR, LIBS_DIR
@@ -38,6 +35,7 @@ class Target:
     libs = []
     static_libs = []
     lib_dirs = []
+    tools = []
 
     src_c = []
     src_cpp = []
@@ -98,14 +96,6 @@ class Target:
 
         self.load_entry(self.target_entry)
         self.load_requirements(build_info)
-
-        if self.static_libs:
-            libs_dir = build_info.src_dir.joinpath(LIBS_DIR)
-            static_libs_entries = []
-            for l in self.static_libs:
-                entry = BuildEntry(libs_dir.joinpath(l))
-                self.load_entry(entry)
-                pass
 
         self.cflags += headers_to_flags(self.headers)
         self.cxxflags += headers_to_flags(self.headers)
@@ -222,6 +212,9 @@ class Target:
         if 'static_libs' in values:
             self.static_libs = values['static_libs'].split() + self.static_libs
 
+        if 'tools' in values:
+            self.tools += values['tools'].split()
+
         if 'c_std' in values:
             self.c_std = values['c_std']
         if 'cxx_std' in values:
@@ -237,6 +230,8 @@ class Target:
 
         if self.target_entry.gpu:
             self.load_entry(build_info.gpu_entry)
+            if 'zstd' in build_info.gpu_entry.values:
+                build_info.zstd = (build_info.gpu_entry.values['zstd'] == 'compress')
             self.gpu_backend_entry = build_info.get_gpu_backend_entry(self.target_entry.gpu_backend)
             requires += self.gpu_backend_entry.requires
             self.load_entry(self.gpu_backend_entry)
@@ -252,9 +247,19 @@ class Target:
 
             self.rules += []
 
+        if self.static_libs:
+            libs_dir = build_info.src_dir.joinpath(LIBS_DIR)
+            #static_libs_entries = []
+            for l in self.static_libs:
+                entry = BuildEntry(libs_dir.joinpath(l))
+                self.load_entry(entry)
+                self.headers += [entry.dir]
+                requires += entry.requires
+
         requires = set(requires)
         for r in requires:
             module = importlib.import_module('.deps.' + r.requires, 'pymk')
             if hasattr(module, 'target'):
                 func = getattr(module, 'target')
                 func(self, r.entry, build_info)
+

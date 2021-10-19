@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
 import textwrap
 from configparser import ConfigParser
 from itertools import chain

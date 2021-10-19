@@ -2,7 +2,6 @@
 
 from configparser import ConfigParser
 from itertools import chain
-from pathlib import Path
 
 from .globals import BUILD_INI
 from .deps.requirement import Requirement

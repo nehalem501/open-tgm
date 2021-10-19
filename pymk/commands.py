@@ -5,13 +5,14 @@ from .clean import clean_target
 from . import globals
 
 class Options:
-    def __init__(self, debug, verbose):
+    def __init__(self, debug, verbose, jobs):
         self.debug = debug
         self.verbose = verbose
+        self.jobs = jobs
 
 def build(args):
     debug = False if args.release else True
-    options = Options(debug, args.verbose)
+    options = Options(debug, args.verbose, args.jobs)
     targets = args.targets
     if isinstance(targets, str):
         targets = [args.targets]
@@ -31,7 +32,7 @@ def clean(args):
 
 def run(args):
     debug = False if args.release else True
-    options = Options(debug, args.verbose)
+    options = Options(debug, args.verbose, args.jobs)
     build_target(args.target, options, globals.BUILD_INFO)
     # TODO launch
     pass

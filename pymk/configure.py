@@ -3,7 +3,6 @@
 import os
 import sys
 import subprocess
-from pathlib import Path
 from . import ninja_syntax
 
 def run(target, options, build_info):
@@ -100,6 +99,8 @@ def run(target, options, build_info):
     cmd = ['ninja']
     if options.verbose:
         cmd += ['-v']
+    if options.jobs:
+        cmd += ['-j', str(options.jobs)]
     cmd += ['-f', target.build_file]
 
     proc = subprocess.Popen(cmd, env=my_env)
