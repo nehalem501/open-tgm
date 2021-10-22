@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from . import configure
+from . import ninja
 from .entry import BuildEntry, PlatformEntry
 from .globals import BUILD_INI, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, BIN_DIR, BUILD_DIR
 from .target import Target, TargetData
@@ -102,4 +103,5 @@ def build_target(target, options, build_info):
     build_info.finish_init()
     # TODO ninja file path
     file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
-    configure.run(build_info.get_target(target, options), options, file)
+    config = configure.run(build_info.get_target(target, options), file)
+    ninja.run(config, options)

@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 
 class Rule:
-    def __init__(self, name, command, description):
+    def __init__(self, name, command, description, depfile=None, deps=None):
         self.name = name
         self.command = command
         self.description = description
+        self.depfile = depfile
+        self.deps = deps
 
 class Build:
-    def __init__(self, outputs, rule, inputs, dependencies=None):
+    def __init__(self, outputs, rule, inputs, dependencies=None, implicit_outputs=None):
         self.outputs = outputs
         self.rule = rule
         self.inputs = inputs
         self.dependencies = dependencies
+        self.implicit_outputs = implicit_outputs
 
 class Variable:
     def __init__(self, name, value):
@@ -49,7 +52,7 @@ def to_src_rule(root_dir, source_dir, build_dir, source, suffix):
 
 def to_data_rule(root_dir, build_dir, file):
     file_rel = file.relative_to(root_dir)
-    filename = root_dir.joinpath(file_rel) if file.is_relative_to(build_dir) else build_dir.joinpath(file_rel)
+    filename = root_dir.joinpath(file_rel) if is_relative_to(file, build_dir) else build_dir.joinpath(file_rel)
     header = filename.with_suffix(filename.suffix + '.h')
     cpp = filename.with_suffix(filename.suffix + '.cpp')
     object = filename.with_suffix(filename.suffix + '.o')
@@ -65,3 +68,12 @@ def to_src_rule_n(root_dir, source_dir, build_dir, source, suffixes):
     outputs = [filename.with_suffix(s) for s in suffixes]
     return SrcRuleN(outputs, source)
 """
+
+def is_relative_to(path, *other):
+    """Return True if the path is relative to another path or False.
+    """
+    try:
+        path.relative_to(*other)
+        return True
+    except ValueError:
+        return False
