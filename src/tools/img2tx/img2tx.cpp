@@ -10,7 +10,7 @@
 #include <iomanip>
 #include <iostream>
 #include <unordered_map>
-#include "../gpu/src/TextureEnums.h"
+#include "../../gpu/src/TextureEnums.h"
 
 #include <zstd.h>
 
