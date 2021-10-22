@@ -7,7 +7,7 @@ from .deps.rule import Variable, Rule, Build
 from .ninja import NinjaBuild
 from . import globals
 
-def run(target, file):
+def run(target, prefix, file):
     BUILD_INFO = globals.BUILD_INFO
 
     variables = [

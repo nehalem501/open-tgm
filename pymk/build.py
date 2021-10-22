@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
+import copy
+
 from . import configure
 from . import ninja
 from .entry import BuildEntry, PlatformEntry
-from .globals import BUILD_INI, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, BIN_DIR, BUILD_DIR
+from .globals import BUILD_INI, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, BIN_DIR, BUILD_DIR, TOOLS_DIR
 from .target import Target, TargetData
 from pymk import entry
 
@@ -103,5 +105,29 @@ def build_target(target, options, build_info):
     build_info.finish_init()
     # TODO ninja file path
     file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
-    config = configure.run(build_info.get_target(target, options), file)
+    build = build_info.get_target(target, options)
+    config = configure.run(build, '', file)
+    add_host_tools(config, options, build.tools, build_info)
     ninja.run(config, options)
+
+def add_host_tools(config, options, tools, build_info):
+    new_options = copy.deepcopy(options)
+    new_options.debug = False
+    tools_dir = build_info.src_dir.joinpath(TOOLS_DIR)
+    tool_entries = [BuildEntry(e) for e in scan_subdirs(tools_dir, tools)]
+    for entry in tool_entries:
+        build_dir = build_info.build_dir.joinpath(TOOLS_DIR).joinpath(entry.name)
+        binary = build_dir.joinpath(entry.name)
+        data = TargetData(
+            entry=entry,
+            additional_entries=[],
+            options=options,
+            build_dir=build_dir,
+            binary=binary,
+            common_flags=[],
+            headers=[entry.dir]
+        )
+        build = Target(data)
+        # TODO add to single ninja file instead of running separately
+        config = configure.run(build, '', entry.name + '.ninja')
+        ninja.run(config, options)

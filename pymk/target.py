@@ -31,42 +31,44 @@ class TargetData:
         self.headers = headers
 
 class Target:
-    cc = 'cc'
-    cxx = 'c++'
-    link = None
-
-    c_std = 'c99'
-    cxx_std = 'c++11'
-
-    asflags = []
-    cflags = []
-    cxxflags = []
-    ldflags = []
-
-    libs = []
-    static_libs = []
-    lib_dirs = []
-    tools = []
-
-    src_c = []
-    src_cpp = []
-
-    builtin_data = []
-    shaders = []
-    textures = []
-
-    objects = []
-    binary = 'a.out'
-
-    path = []
-    rules = []
-    builds = []
-    variables = []
-
-    requires = []
-
     def __init__(self, data):
         BUILD_INFO = globals.BUILD_INFO
+
+        self.cc = 'cc'
+        self.cxx = 'c++'
+        self.link = None
+
+        self.c_std = 'c99'
+        self.cxx_std = 'c++11'
+
+        self.asflags = []
+        self.cflags = []
+        self.cxxflags = []
+        self.ldflags = []
+
+        self.libs = []
+        self.static_libs = []
+        self.lib_dirs = []
+        self.tools = []
+
+        self.src_c = []
+        self.src_cpp = []
+
+        self.builtin_data = []
+        self.shaders = []
+        self.textures = []
+
+        self.objects = []
+        self.binary = 'a.out'
+
+        self.path = []
+        self.rules = []
+        self.builds = []
+        self.variables = []
+
+        self.requirement_options = dict()
+        self.requires = []
+
         self.build_dir = data.build_dir
         self.binary = data.binary
         #self.build_file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
@@ -192,6 +194,9 @@ class Target:
         if 'ldflags' in values:
             self.ldflags += [values['ldflags']]
 
+        if 'headers' in values:
+            self.headers += values['headers'].split()
+
         if 'libs' in values:
             self.libs = values['libs'].split() + self.libs
 
@@ -214,11 +219,15 @@ class Target:
         if 'requires' in values:
             self.requires += [Requirement(entry, r) for r in values['requires'].split()]
 
-    def load_requirement(self, requirement, entry):
+        # TODO handle options in a generic way
+        if 'zstd' in values:
+            self.requirement_options['zstd'] = (values['zstd'] == 'compress')
+
+    def load_requirement(self, requirement, entry, options):
             module = importlib.import_module('.deps.' + requirement, 'pymk')
             if hasattr(module, 'target'):
                 func = getattr(module, 'target')
-                func(self, entry, globals.BUILD_INFO)
+                func(self, entry, options, globals.BUILD_INFO)
 
     def load_requirements(self, build_info):
         requires = set(self.requires)
@@ -226,8 +235,6 @@ class Target:
             if hasattr(r.entry, 'gpu') and r.entry.gpu:
                 entry = r.entry
                 self.load_entry(build_info.gpu_entry)
-                if 'zstd' in build_info.gpu_entry.values:
-                    build_info.zstd = (build_info.gpu_entry.values['zstd'] == 'compress')
                 self.gpu_backend_entry = build_info.get_gpu_backend_entry(entry.gpu_backend)
                 self.load_entry(self.gpu_backend_entry)
                 self.headers += [build_info.gpu_src_dir]
@@ -246,4 +253,4 @@ class Target:
 
         requires = set(self.requires)
         for r in requires:
-            self.load_requirement(r.requires, r.entry)
+            self.load_requirement(r.requires, r.entry, self.requirement_options)

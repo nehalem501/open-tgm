@@ -6,7 +6,7 @@ from .rule import Rule, Build, Variable
 
 PATH = devkitarm.PATH
 
-def target(self, entry, build_info):
+def target(self, entry, options, build_info):
     self.path += PATH
     self.headers += [Path(devkitpro.DEVKITPRO).joinpath('libctru').joinpath('include')]
     self.lib_dirs += [Path(devkitpro.DEVKITPRO).joinpath('libctru').joinpath('lib')] # TODO
