@@ -29,7 +29,7 @@ Texture& get_texture(TextureID id) {
 }
 
 void load_textures() {
-
+    
 }
 
 TextureFile::TextureFile(const uint8_t* compressed_data, const size_t compressed_data_size) : m_raw_data(NULL) {

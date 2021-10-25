@@ -56,6 +56,15 @@ def run(target, prefix, file):
                 description='convert $out')
         ]
 
+    if target.data_headers:
+        script = BUILD_INFO.scripts_dir.joinpath('convert.py')
+        convert = f'{sys.executable} {script}'
+        rules += [
+            Rule('convert',
+                command=f'{convert} -i $in -o $out', # TODO name
+                description='convert $out')
+        ]
+
     builds = []
 
     dependencies = []

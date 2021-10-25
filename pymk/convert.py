@@ -4,6 +4,7 @@ import argparse
 import textwrap
 from configparser import ConfigParser
 from itertools import chain
+from pathlib import Path
 from glyphs import ALL_GLYPHS
 
 class TextureData:
@@ -127,6 +128,7 @@ def glyphs(output, name, parser, default_section, width, height):
     glyphs.to_file(output, name)
 
 def run(input, output):
+    name = Path(output).stem
     parser = ConfigParser()
     with open(input) as lines:
         default_section = 'top'
@@ -136,14 +138,16 @@ def run(input, output):
         height = parser[default_section]['height']
         type = parser[default_section]['type']
         if type == 'texture':
-            texture(output, parser, default_section, width, height)
+            texture(output, name, parser, default_section, width, height)
         elif type == 'tilemap':
-            tilemap(output, parser, default_section, width, height)
+            tilemap(output, name, parser, default_section, width, height)
         elif type == 'glyphs':
-            glyphs(output, parser, default_section, width, height)
+            glyphs(output, name, parser, default_section, width, height)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', required=True)
 parser.add_argument('-o', '--output', required=True)
-parser.add_argument('-n', '--name', required=True)
+#parser.add_argument('-n', '--name', required=True)
 args = parser.parse_args()
+
+run(args.input, args.output)

@@ -58,6 +58,7 @@ class Target:
         self.builtin_data = []
         self.shaders = []
         self.textures = []
+        self.data_headers = []
 
         self.objects = []
         self.binary = 'a.out'
@@ -230,6 +231,7 @@ class Target:
                     ini_files += expand(dir, '*.ini')
 
                 png_files = [f.with_suffix('.png') for f in ini_files]
+                self.data_headers = [to_src_rule(build_info.root_dir, build_info.data_dir, self.build_dir, i, '.h') for i in ini_files]
 
                 #self.textures = [to_data_rule(self.root_dir, self.build_dir, f) for f in png_files]
 
