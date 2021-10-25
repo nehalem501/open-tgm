@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
-import os
 import sys
-import subprocess
 from .deps.rule import Variable, Rule, Build
 from .ninja import NinjaBuild
+from .globals import TOOLS_DIR
 from . import globals
 
 def run(target, prefix, file):
@@ -49,6 +48,14 @@ def run(target, prefix, file):
                 description='generate $out')
         ]
 
+    if target.textures:
+        img2tx = BUILD_INFO.build_dir.joinpath(TOOLS_DIR).joinpath('img2tx').joinpath('img2tx')
+        rules += [
+            Rule('img2tx',
+                command=f'{img2tx} $in $out',
+                description='convert $out')
+        ]
+
     builds = []
 
     dependencies = []
@@ -57,6 +64,11 @@ def run(target, prefix, file):
         builds += [
             Build(d.output_cpp, 'bin2cpp', d.input, implicit_outputs=d.output_header),
             Build(d.output_object, 'cxx', d.output_cpp)
+        ]
+
+    for t in target.textures:
+        builds += [
+            Build(t.output, 'img2tx', t.input),
         ]
 
     builds += [Build(s.output, 'cc', s.input) for s in target.src_c]

@@ -40,25 +40,6 @@ class Textures:
 
             file.write(f"#endif // {name.upper()}_H")
 
-    def encode(self, tile_size):
-        #return json.dumps
-        pass
-
-    # TODO
-    """std::string encode(int tilesize) {
-        std::stringstream out;
-        out << AssetType::Texture << ",";
-        out << tilesize << ","; // TODO tile size -1
-        out << textures.size() << ",";
-        for (unsigned int i = 0; i < textures_id.size(); i++) {
-            out << textures_id[i];
-            if (i < textures_id.size() - 1) {
-                out << ",";
-            }
-        }
-        return out.str();
-    }"""
-
 class Tilemap:
     def __init__(self, width, height):
         self.width = int(width)
@@ -78,19 +59,6 @@ class Tilemap:
 
                 #endif // {name.upper()}_H
                 """))
-
-            # TODO
-            #out << "// @" << encode(get_tilesize(name)) << std::endl;
-            #out << std::endl;
-
-    # TODO
-    """std::string encode(int tilesize) {
-        std::stringstream out;
-        out << AssetType::Tilemap << ",";
-        out << tilesize << ","; // TODO tile size -1
-        out << id;
-        return out.str();
-    }"""
 
 class Glyph:
     def __init__(self, x, y, width, height, offset):
@@ -119,10 +87,6 @@ class Glyphs:
                 const Glyph {name}[NB_GLYPHS] = {{
                 """))
 
-            # TODO
-            #out << "// @" << encode(get_tilesize(name)) << std::endl;
-            #out << std::endl;
-
             for i, g in enumerate(self.glyphs):
                 if i % 8 == 0 and i != 0:
                     file.write("\n")
@@ -133,15 +97,6 @@ class Glyphs:
                 }};
 
                 #endif // {name.upper()}_H"""))
-
-    # TODO
-    """std::string encode(int tilesize) {
-        std::stringstream out;
-        out << AssetType::Glyphs << ",";
-        out << tilesize << ","; // TODO tile size -1
-        out << id;
-        return out.str();
-    }"""
 
 def texture(output, name, parser, default_section, width, height):
     texture_nb = parser[default_section]['texture_nb']

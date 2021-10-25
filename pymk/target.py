@@ -4,6 +4,7 @@ import importlib
 import os
 import subprocess
 
+from pathlib import Path
 from . import globals
 from .entry import BuildEntry
 from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR, LIBS_DIR
@@ -105,27 +106,6 @@ class Target:
             pass
 
         self.builtin_data += self.shaders
-
-        if hasattr(data.entry, 'gpu') and data.entry.gpu:
-            platform_entry = data.entry
-            resources_dir = BUILD_INFO.root_dir.joinpath(DATA_DIR).joinpath(RESOURCES_DIR)
-            ini_files = []
-            for size in platform_entry.gpu_tile_sizes:
-                dir = resources_dir.joinpath(size)
-                ini_files += expand(dir, '*.ini')
-
-            png_files = [f.with_suffix('.png') for f in ini_files]
-
-            #self.textures = [to_data_rule(self.root_dir, self.build_dir, f) for f in png_files]
-
-            if platform_entry.gpu_assets_builtin:
-                # assets objects should be built in build_dir/data/_px
-                # we need also to take care of data_info and other headers generation
-                self.builtin_data += [to_data_rule(BUILD_INFO.root_dir, self.build_dir, f) for f in png_files]
-            else:
-                # create copy target, asset detection and loading should happen at runtime
-                pass
-                #self.textures = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, t, '.cpp') for t in self.textures]
 
 
         #for r in self.builtin_data:
@@ -242,6 +222,27 @@ class Target:
                 self.headers += [self.build_dir]
                 # TODO backend path
                 self.headers += [self.build_dir.joinpath(GPU_DIR).joinpath(GPU_BACKENDS_DIR).joinpath(self.gpu_backend_entry.name)]
+
+                resources_dir = build_info.root_dir.joinpath(DATA_DIR).joinpath(RESOURCES_DIR)
+                ini_files = []
+                for size in entry.gpu_tile_sizes:
+                    dir = resources_dir.joinpath(size)
+                    ini_files += expand(dir, '*.ini')
+
+                png_files = [f.with_suffix('.png') for f in ini_files]
+
+                #self.textures = [to_data_rule(self.root_dir, self.build_dir, f) for f in png_files]
+
+                if entry.gpu_assets_builtin:
+                    # we need also to take care of data_info and other headers generation
+                    self.textures = [to_src_rule(build_info.root_dir, build_info.data_dir, self.build_dir, f, '.txf') for f in png_files]
+                    self.builtin_data += [to_data_rule(build_info.root_dir, self.build_dir, Path(t.output)) for t in self.textures]
+                else:
+                    # create copy target, asset detection and loading should happen at runtime
+                    pass
+                    #self.textures = [to_src_rule_keep_suffix(build_info.root_dir, build_info.root_dir, self.build_dir, t, '.cpp') for t in self.textures]
+
+
 
         if self.static_libs:
             libs_dir = build_info.src_dir.joinpath(LIBS_DIR)

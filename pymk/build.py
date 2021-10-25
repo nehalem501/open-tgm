@@ -5,7 +5,7 @@ import copy
 from . import configure
 from . import ninja
 from .entry import BuildEntry, PlatformEntry
-from .globals import BUILD_INI, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, BIN_DIR, BUILD_DIR, TOOLS_DIR
+from .globals import BUILD_INI, DATA_DIR, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, BIN_DIR, BUILD_DIR, RESOURCES_DIR, TOOLS_DIR
 from .target import Target, TargetData
 from pymk import entry
 
@@ -40,6 +40,8 @@ class BuildInfo:
     def __init__(self, root_dir):
         self.root_dir = root_dir
         self.src_dir = root_dir.joinpath(SRC_DIR)
+        self.data_dir = root_dir.joinpath(DATA_DIR)
+        self.resources_dir = self.data_dir.joinpath(RESOURCES_DIR)
         self.platform_entries = [PlatformEntry(e) for e in scan_subdirs(self.src_dir, [PLATFORMS_DIR])]
         self.platforms = [p.name for p in self.platform_entries]
         self.gpu_root_dir = self.src_dir.joinpath(GPU_DIR)
