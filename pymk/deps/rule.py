@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+from os import name
+
+
 class Rule:
     def __init__(self, name, command, description, depfile=None, deps=None):
         self.name = name
@@ -9,12 +12,13 @@ class Rule:
         self.deps = deps
 
 class Build:
-    def __init__(self, outputs, rule, inputs, dependencies=None, implicit_outputs=None):
+    def __init__(self, outputs, rule, inputs, dependencies=None, implicit_outputs=None, variables=None):
         self.outputs = outputs
         self.rule = rule
         self.inputs = inputs
         self.dependencies = dependencies
         self.implicit_outputs = implicit_outputs
+        self.variables = variables
 
 class Variable:
     def __init__(self, name, value):
@@ -25,6 +29,12 @@ class SrcRule:
     def __init__(self, output, input):
         self.output = str(output)
         self.input = str(input)
+
+class DataHeaderRule:
+    def __init__(self, output, input, name):
+        self.output = str(output)
+        self.input = str(input)
+        self.name = str(name)
 
 class DataRule:
     def __init__(self, output_header, output_cpp, output_object, input):
@@ -49,6 +59,16 @@ def to_src_rule(root_dir, source_dir, build_dir, source, suffix):
         filename = filename.with_suffix('')
     object = filename.with_suffix(suffix)
     return SrcRule(object, source)
+
+def to_data_header_rule(root_dir, source_dir, build_dir, input, suffix):
+    input_dir_rel = source_dir.relative_to(root_dir)
+    input_rel = input.relative_to(root_dir).relative_to(input_dir_rel)
+    build_dir_rel = build_dir.relative_to(root_dir)
+    filename = root_dir.joinpath(build_dir_rel).joinpath(input_rel)
+    while filename.suffix:
+        filename = filename.with_suffix('')
+    output = filename.with_suffix(suffix)
+    return DataHeaderRule(output, input, str(filename.name) + '_' + str(filename.parent.name))
 
 def to_data_rule(root_dir, build_dir, file):
     file_rel = file.relative_to(root_dir)

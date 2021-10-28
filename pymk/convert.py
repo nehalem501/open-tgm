@@ -15,11 +15,12 @@ class TextureData:
         self.y2 = int(y2)
 
 class Textures:
-    textures = []
-
     def __init__(self, width, height):
         self.width = int(width)
         self.height = int(height)
+        self.textures = []
+        self.textures_id = []
+
 
     def add(self, data, id):
         self.textures += [data]
@@ -34,12 +35,17 @@ class Textures:
                 #define {name.upper()}_H
 
                 #include <Texture.h>
+
                 """))
 
             for i, t in enumerate(self.textures):
                 file.write(f"const TextureData {name}_{i}({self.width}, {self.height}, {t.x1}, {t.y1}, {t.x2}, {t.y2});")
 
-            file.write(f"#endif // {name.upper()}_H")
+            file.write(textwrap.dedent(f"""\
+
+
+                #endif // {name.upper()}_H
+                """))
 
 class Tilemap:
     def __init__(self, width, height):
@@ -70,7 +76,8 @@ class Glyph:
         self.offset = offset
 
 class Glyphs:
-    glyphs = [Glyph(0, 0, 0, 0, 0)] * 256
+    def __init__(self):
+        self.glyphs = [Glyph(0, 0, 0, 0, 0)] * 256
 
     def add(self, position, g):
         self.glyphs[int(position)] = g
@@ -92,23 +99,25 @@ class Glyphs:
                 if i % 8 == 0 and i != 0:
                     file.write("\n")
 
-                file.write(f"/* {i:#0{2}x} - {ALL_GLYPHS[i].name} */ {{{g.x}, {g.y}, {g.width}, {g.height}, {g.offset}}},")
+                file.write(f"/* {i:#0{4}x} - {ALL_GLYPHS[i].name} */ {{{g.x}, {g.y}, {g.width}, {g.height}, {g.offset}}},\n")
 
             file.write(textwrap.dedent(f"""\
                 }};
 
-                #endif // {name.upper()}_H"""))
+                #endif // {name.upper()}_H
+                """))
 
 def texture(output, name, parser, default_section, width, height):
-    texture_nb = parser[default_section]['texture_nb']
+    texture_nb = int(parser[default_section]['texture_nb'])
     textures = Textures(width, height)
 
     for i in range(texture_nb):
-        texture_data = parser[default_section][f'texture_{i}'].split(',')
-        if len(texture_data) != 4:
+        data = parser[default_section][f'texture_{i}'].split(',')
+        id = parser[default_section][f'texture_{i}_id']
+        if len(data) != 4:
             raise Exception('error') # TODO
 
-        textures += TextureData(*texture_data)
+        textures.add(TextureData(*data), id)
 
     textures.to_file(output, name)
 
@@ -122,12 +131,12 @@ def glyphs(output, name, parser, default_section, width, height):
     for i in range(256):
         g = parser['glyphs'].get(ALL_GLYPHS[i].key)
         if g is not None:
-            entry = g.split()
-            glyphs.add(i, Glyphs(*entry))
+            entry = g.split(',')
+            glyphs.add(i, Glyph(*entry))
 
     glyphs.to_file(output, name)
 
-def run(input, output):
+def run(input, output, name):
     name = Path(output).stem
     parser = ConfigParser()
     with open(input) as lines:
@@ -147,7 +156,7 @@ def run(input, output):
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', required=True)
 parser.add_argument('-o', '--output', required=True)
-#parser.add_argument('-n', '--name', required=True)
+parser.add_argument('-n', '--name', required=True)
 args = parser.parse_args()
 
-run(args.input, args.output)
+run(args.input, args.output, args.name)

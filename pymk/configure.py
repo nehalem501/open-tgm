@@ -61,7 +61,7 @@ def run(target, prefix, file):
         convert = f'{sys.executable} {script}'
         rules += [
             Rule('convert',
-                command=f'{convert} -i $in -o $out', # TODO name
+                command=f'{convert} -i $in -o $out -n $name',
                 description='convert $out')
         ]
 
@@ -78,6 +78,12 @@ def run(target, prefix, file):
     for t in target.textures:
         builds += [
             Build(t.output, 'img2tx', t.input),
+        ]
+
+    for d in target.data_headers:
+        dependencies += [d.output]
+        builds += [
+            Build(d.output, 'convert', d.input, variables={'name': d.name}),
         ]
 
     builds += [Build(s.output, 'cc', s.input) for s in target.src_c]

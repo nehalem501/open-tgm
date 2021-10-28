@@ -100,7 +100,7 @@ def run(build, options):
     #n.newline()
 
     for b in build.builds:
-        n.build(b.outputs, b.rule, b.inputs, implicit=b.dependencies, implicit_outputs=b.implicit_outputs)
+        n.build(b.outputs, b.rule, b.inputs, implicit=b.dependencies, implicit_outputs=b.implicit_outputs, variables=b.variables)
         n.newline()
 
     n.close()

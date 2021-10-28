@@ -10,7 +10,7 @@ from .entry import BuildEntry
 from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR, LIBS_DIR
 from .deps.expand import expand
 from .deps.requirement import Requirement
-from .deps.rule import to_src_rule, to_data_rule
+from .deps.rule import to_src_rule, to_data_rule, to_data_header_rule
 
 def headers_to_flags(headers):
     return ['-I' + str(h) for h in headers]
@@ -231,7 +231,7 @@ class Target:
                     ini_files += expand(dir, '*.ini')
 
                 png_files = [f.with_suffix('.png') for f in ini_files]
-                self.data_headers = [to_src_rule(build_info.root_dir, build_info.data_dir, self.build_dir, i, '.h') for i in ini_files]
+                self.data_headers = [to_data_header_rule(build_info.root_dir, build_info.root_dir, self.build_dir, i, '.h') for i in ini_files]
 
                 #self.textures = [to_data_rule(self.root_dir, self.build_dir, f) for f in png_files]
 
