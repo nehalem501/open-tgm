@@ -3,12 +3,11 @@
 #include <TargetTypes.h>
 #include <Global.h>
 #include <Grade.h>
+#include <Debug.h>
 #include <Mode.h>
 
 Mode::Mode(const RawMode *raw_mode) : m_mode(raw_mode) {
-    #ifdef DEBUG
-    print("Mode constructor: %s\n", raw_mode->name);
-    #endif
+    printd("Mode constructor: " << raw_mode->name);
 }
 
 unsigned int Mode::are(unsigned int level) {

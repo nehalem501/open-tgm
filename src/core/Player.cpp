@@ -9,6 +9,7 @@
 #include <Utils.h>
 #include <Stack.h>
 #include <Game.h>
+#include <Debug.h>
 #include <Player.h>
 
 #define OLD_LOCK_COLOR_DELAY 3
@@ -131,22 +132,18 @@ void Player::update(Stack *stack, int *game_state) {
 
     switch (m_state) {
         case PlayerState::WAITING:
-            #ifdef DEBUG
-            print("WAITING\n");
-            #endif
+            printd("WAITING");
 
             break;
 
         case PlayerState::ARE: {
             m_are++;
 
-            #ifdef DEBUG
             if (m_line_are) {
-                print("LINE ARE: %d\n", (int) m_are);
+                printd("LINE ARE: " << m_are);
             } else {
-                print("ARE: %d\n", (int) m_are);
+                printd("ARE: " << m_are);
             }
-            #endif
 
             bool are_finished = m_line_are ?
                                 (m_are >= m_current_mode.line_are(m_level) + 2):
@@ -230,9 +227,7 @@ void Player::update(Stack *stack, int *game_state) {
 
         case PlayerState::INGAME: {
         ingame:
-            #ifdef DEBUG
-            print("INGAME\n");
-            #endif
+            printd("INGAME");
 
             m_piece_old_y = m_piece.position_y();
             m_active_time++;
@@ -263,9 +258,7 @@ void Player::update(Stack *stack, int *game_state) {
             // Compute gravity
             unsigned int number_down = gravity(can_go_down);
 
-            #ifdef DEBUG
-            print("Can go down: %s\n", can_go_down ? "true" : "false");
-            #endif
+            printd("Can go down: " << can_go_down);
 
             // Down
             if (input.down()) {
@@ -273,9 +266,7 @@ void Player::update(Stack *stack, int *game_state) {
                     //m_previous_down = true;
                     m_soft++;
 
-                    #ifdef DEBUG
-                    print("soft: %d\n", (int) m_soft);
-                    #endif
+                    printd("soft: " << m_soft);
 
                     if (number_down == 0) {
                         m_piece.move_down(m_ghost_y, 1);
@@ -347,9 +338,7 @@ void Player::update(Stack *stack, int *game_state) {
 
                 // Not restart counting if already doing it
                 if (!m_start_lock) {
-                    #ifdef DEBUG
-                    print("start lock delay\n");
-                    #endif
+                    printd("start lock delay");
 
                     start_lock();
                 }
@@ -374,10 +363,8 @@ void Player::update(Stack *stack, int *game_state) {
         piece_locked:
             m_draw_ghost = false;
 
-            #ifdef DEBUG
-            print("state: LOCK\n");
-            print("piece_pos_y: %d\n", (int) m_piece.position_y());
-            #endif
+            printd("state: LOCK");
+            printd("piece_pos_y: " << m_piece.position_y());
 
             // Copy piece to stack/field
             m_piece.locked(stack);
@@ -400,9 +387,7 @@ void Player::update(Stack *stack, int *game_state) {
 
                 m_state = PlayerState::LOCKED_ANIM_NEW;
 
-                #ifdef DEBUG
-                print("state: LOCKED_ANIM_NEW\n");
-                #endif
+                printd("state: LOCKED_ANIM_NEW");
 
                 goto locked_animation_new;
             }
@@ -412,9 +397,7 @@ void Player::update(Stack *stack, int *game_state) {
 
         case PlayerState::LOCKED_ANIM_NEW:
         locked_animation_new:
-            #ifdef DEBUG
-            print("color_delay: %d\n", (int) m_lock_color_delay);
-            #endif
+            printd("color_delay: " << m_lock_color_delay);
 
             if (stack->check_lines(*this)) {
                 m_state = PlayerState::CLEAR;
@@ -435,9 +418,7 @@ void Player::update(Stack *stack, int *game_state) {
 
         case PlayerState::LOCKED_ANIM_OLD:
         locked_animation_old:
-            #ifdef DEBUG
-            print("color_delay: %d\n", (int) m_lock_color_delay);
-            #endif
+            printd("color_delay: " << m_lock_color_delay);
 
             if (m_lock_color_delay > 0) {
                 if (m_lock_color_delay == 1) {
@@ -473,15 +454,10 @@ void Player::update(Stack *stack, int *game_state) {
 
         case PlayerState::CLEAR: {
             m_clear++;
-
-            #ifdef DEBUG
-            print("clear: %d\n", (int) m_clear);
-            #endif
+            printd("clear: " << m_clear);
 
             if (m_lock_color_delay > 0) {
-                #ifdef DEBUG
-                print("color_delay: %d\n", (int) m_lock_color_delay);
-                #endif
+                printd("color_delay: " << m_lock_color_delay);
 
                 m_lock_color_delay--;
             } else if (m_lock_color_delay <= 0) {
@@ -580,17 +556,15 @@ void Player::update_score(unsigned int nb_lines, bool bravo) {
 
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
 
-    #ifdef DEBUG
-    print("level: %d\n", (int) m_level);
-    print("nblines: %d\n", (int) nb_lines);
-    print("soft: %d\n", (int) m_soft);
-    print("combo: %d\n", (int) m_combo);
-    print("bravo: %d\n", (int) bravo_val);
-    print("sonic: %d\n", (int) m_sonic);
-    print("active_time: %d\n", (int) m_active_time);
-    print("lvl_aft_clear: %d\n", (int) lvl_aft_clear);
-    print("speed: %d\n", (int) speed);
-    #endif
+    printd("level: " << m_level);
+    printd("nblines: " << nb_lines);
+    printd("soft: " << m_soft);
+    printd("combo: " << m_combo);
+    printd("bravo: " << bravo_val);
+    printd("sonic: " << m_sonic);
+    printd("active_time: " << m_active_time);
+    printd("lvl_aft_clear: " << lvl_aft_clear);
+    printd("speed: " << speed);
 
     m_score += m_current_mode.score(
         m_level,
@@ -602,9 +576,7 @@ void Player::update_score(unsigned int nb_lines, bool bravo) {
         lvl_aft_clear,
         speed);
 
-    #ifdef DEBUG
-    print("score: %d\n", (int) m_score);
-    #endif
+    printd("score: " << m_score);
 
     m_current_mode.grade(m_score, 0 /* TODO */, &m_grade);
 
@@ -616,26 +588,20 @@ unsigned int Player::gravity(bool can_go_down) {
     if (!can_go_down) {
         m_gravity_counter = 0;
 
-        #ifdef DEBUG
-        print("gravity: %d\n", (int) m_gravity);
-        print("gravity_counter: %d\n", (int) m_gravity_counter);
-        #endif
+        printd("gravity: " << m_gravity);
+        printd("gravity_counter: " << m_gravity_counter);
 
         return 0;
     }
 
     m_gravity_counter += m_gravity;
 
-    #ifdef DEBUG
-    print("gravity_counter: %d\n", (int) m_gravity_counter);
-    #endif
+    printd("gravity_counter: " << m_gravity_counter);
 
     if (m_gravity_counter > 256) {
         unsigned int number_down = m_gravity_counter / 256;
 
-        #ifdef DEBUG
-        print("number_down: %d\n", (int) number_down);
-        #endif
+        printd("number_down: " << number_down);
 
         if (number_down == 0)
             return 1;
@@ -653,9 +619,7 @@ bool Player::check_lock() {
         // TODO test
         m_lock++;
 
-        #ifdef DEBUG
-        print("lock: %d\n", (int) m_lock);
-        #endif
+        printd("lock: " << m_lock);
 
         m_implementation.update_piece_lock_animation(
             m_lock,
@@ -673,9 +637,7 @@ bool Player::check_das_left() {
     if (m_start_das_left) {
         m_das_left++;
 
-        #ifdef DEBUG
-        print("left DAS: %d\n", (int) m_das_left);
-        #endif
+        printd("left DAS: " << m_das_left);
 
         if (m_das_left > m_current_mode.das(m_level)) {
             m_das_left = m_current_mode.das(m_level);
@@ -690,9 +652,7 @@ bool Player::check_das_right() {
     if (m_start_das_right) {
         m_das_right++;
 
-        #ifdef DEBUG
-        print("right DAS: %d\n", (int) m_das_right);
-        #endif
+        printd("right DAS: " << m_das_right);
 
         if (m_das_right > m_current_mode.das(m_level)) {
             m_das_right = m_current_mode.das(m_level);
@@ -704,7 +664,7 @@ bool Player::check_das_right() {
 
 void Player::draw() const {
     m_implementation.render();
-    
+
     m_score_display.draw();
     m_level_display.draw();
     m_section_display.draw();

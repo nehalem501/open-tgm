@@ -5,6 +5,7 @@
 #include <Input.h>
 #include <Text.h>
 #include <Scene.h>
+#include <Debug.h>
 #include <Home.h>
 
 Home::Home() :
@@ -15,9 +16,7 @@ Home::Home() :
             TextColor::WHITE,
             "PRESS START"),
         m_start_timer(0) {
-    #ifdef DEBUG
-    print("Home screen constructor\n");
-    #endif
+    printd("Home screen constructor");
 }
 
 void Home::update(int *state) {

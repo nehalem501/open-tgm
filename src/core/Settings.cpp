@@ -7,6 +7,7 @@
 #include <Text.h>
 #include <Background.h>
 #include <Utils.h>
+#include <Debug.h>
 #include <Settings.h>
 
 const char INPUT_TEST_STR[] = "INPUT TEST";
@@ -60,9 +61,7 @@ const char *INPUTS_STR[NB_INPUTS] = {
 #endif //DEBUG
 
 Settings::Settings() : m_state(-1), m_selected(0), m_das_up(0), m_das_down(0) {
-    #ifdef DEBUG
-    print("Settings screen constructor\n");
-    #endif
+    printd("Settings screen constructor");
 
     //edit_text(&m_input_msg, 9, 23, TextColor::WHITE, "EXIT: RIGHT AND START");
 

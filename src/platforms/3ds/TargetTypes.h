@@ -5,11 +5,6 @@
 
 #include <stdint.h>
 
-#ifdef DEBUG
-#include <stdio.h>
-#define print printf
-#endif
-
 typedef uint32_t tiles_t;
 
 #define tile_size 9

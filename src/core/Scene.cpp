@@ -6,12 +6,11 @@
 #include <Input.h>
 #include <GameView.h>
 #include <Background.h>
+#include <Debug.h>
 #include <Scene.h>
 
 Scene::Scene() : m_state(SceneState::HOME) {
-    #ifdef DEBUG
-    print("Scene constructor\n");
-    #endif
+    printd("Scene constructor");
 }
 
 void Scene::update() {

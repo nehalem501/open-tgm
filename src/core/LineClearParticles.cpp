@@ -2,12 +2,11 @@
 
 #include <Global.h>
 #include <Position.h>
+#include <Debug.h>
 #include <LineClearParticles.h>
 
 LineClearParticles::LineClearParticles() : m_line(0), m_active(false) {
-    #ifdef DEBUG
-    print("LineClearParticles constructor\n");
-    #endif
+    printd("LineClearParticles constructor");
 }
 
 void LineClearParticles::set_emitter(const Position & /*parent*/, int line) {

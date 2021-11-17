@@ -5,6 +5,7 @@
 #include <Player.h>
 #include <Stack.h>
 #include <Scene.h>
+#include <Debug.h>
 #include <Game.h>
 
 Game::Game(Position &position) :
@@ -16,9 +17,7 @@ Game::Game(Position &position) :
         m_string(position, Coordinates(5, 10), Layouts::CENTERED), // TODO
         m_labels(),
         m_state(GameState::CHOOSE_MODE) {
-    #ifdef DEBUG
-    print("Game constructor\n");
-    #endif
+    printd("Game constructor");
 }
 
 void Game::start(int mode) {
@@ -67,9 +66,7 @@ void Game::update(int *scene_state) {
             // TODO
             m_counter++;
 
-            #ifdef DEBUG
-            print("player_counter (ready & go): %d\n", (int) m_counter);
-            #endif
+            printd("player_counter (ready & go): " << m_counter);
 
             // Display 'GO'
             if (m_counter > 60) {

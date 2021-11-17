@@ -2,12 +2,11 @@
 
 #include <stddef.h>
 #include <TargetTypes.h>
+#include <Debug.h>
 #include <CreditRoll.h>
 
 CreditRoll::CreditRoll() : m_mode(NULL), m_counter(0) {
-    #ifdef DEBUG
-    print("CreditRoll constructor\n");
-    #endif
+    printd("CreditRoll constructor");
 }
 
 void CreditRoll::draw() const {

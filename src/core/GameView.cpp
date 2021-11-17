@@ -1,6 +1,7 @@
 /* GameView.cpp */
 
 #include <Position.h>
+#include <Debug.h>
 #include <GameView.h>
 
 GameView::GameView() :
@@ -12,9 +13,7 @@ GameView::GameView() :
     m_player2_game(m_player2_position)
     #endif
 {
-    #ifdef DEBUG
-    print("GameView constructor\n");
-    #endif
+    printd("GameView constructor");
 }
 
 void GameView::update(int *state) {

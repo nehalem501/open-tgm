@@ -4,6 +4,7 @@
 #include <TargetTypes.h>
 #include <Global.h>
 #include <Position.h>
+#include <Debug.h>
 #include <Digits.h>
 
 Digits::Digits() :
@@ -11,9 +12,7 @@ Digits::Digits() :
         m_position(Position(0, 0)),
         m_str{'\0'},
         m_implementation(*this) {
-    #ifdef DEBUG
-    print("Digits constructor\n");
-    #endif
+    printd("Digits constructor");
     m_str[0] = '0';
 }
 
@@ -22,9 +21,7 @@ Digits::Digits(Position position) :
         m_position(position),
         m_str{'\0'},
         m_implementation(*this) {
-    #ifdef DEBUG
-    print("Digits constructor\n");
-    #endif
+    printd("Digits constructor");
     m_str[0] = '0';
 }
 

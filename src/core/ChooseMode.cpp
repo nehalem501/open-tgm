@@ -4,15 +4,14 @@
 #include <Global.h>
 #include <Input.h>
 #include <Text.h>
+#include <Debug.h>
 #include <../modes/modes.h>
 #include <Game.h>
 
 const Coordinates ChooseMode::m_coordinates = Coordinates(5, 0);
 
 ChooseMode::ChooseMode(const Position& parent) : m_selected(false), m_mode(0) {
-    #ifdef DEBUG
-    print("Choose mode screen constructor\n");
-    #endif
+    printd("Choose mode screen constructor");
 
     for (int i = 0; i < NB_MODES; i++) {
         m_modes_strings[i].position(

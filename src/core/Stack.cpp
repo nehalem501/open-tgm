@@ -7,6 +7,7 @@
 #include <Utils.h>
 #include <Mode.h>
 #include <Player.h>
+#include <Debug.h>
 #include <Stack.h>
 
 Stack::Stack(Position &parent) :
@@ -21,9 +22,7 @@ void Stack::init(Position& parent, const int width, const int height) {
     m_width = width;
     m_height = height;
 
-    #ifdef DEBUG
-    print("width: %d  height: %d\n", m_width, m_height);
-    #endif
+    printd("width: " << m_width << ", height: " << m_height);
 
     // Parent position in tiles
     m_parent = parent;

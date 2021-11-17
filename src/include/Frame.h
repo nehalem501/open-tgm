@@ -4,6 +4,7 @@
 #define FRAME_H
 
 #include <Position.h>
+#include <Debug.h>
 #include <FrameImpl.h>
 
 namespace FrameColors {
@@ -20,16 +21,12 @@ class Frame {
                 m_parent(parent),
                 m_color(FrameColors::NORMAL),
                 m_implementation(*this) {
-            #ifdef DEBUG
-            print("Frame constructor\n");
-            #endif
+            printd("Frame constructor");
         }
 
         inline void color(int color) {
             if (color != m_color) {
-                #ifdef DEBUG
-                print("Frame::update_color: %d replaced by %d\n", m_color, color);
-                #endif
+                printd("Frame::update_color: " << m_color << " replaced by " << color);
 
                 m_color = color;
                 m_implementation.color(color);

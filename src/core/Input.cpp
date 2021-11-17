@@ -1,6 +1,7 @@
 /* Input.cpp */
 
 #include <TargetTypes.h>
+#include <Debug.h>
 #include <InputImpl.h>
 #include <Input.h>
 
@@ -31,9 +32,7 @@ Input::Input() :
         m_prev_buttons(0x00),
         m_autorepeat_up(0),
         m_autorepeat_down(0) {
-    #ifdef DEBUG
-    print("Input constructor\n");
-    #endif
+    printd("Input constructor");
 }
 
 void Input::poll_inputs() {

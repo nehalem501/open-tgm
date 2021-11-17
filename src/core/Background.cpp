@@ -1,12 +1,11 @@
 /* Background.cpp */
 
 #include <TargetTypes.h>
+#include <Debug.h>
 #include <Background.h>
 
 Background::Background() : m_options(false) {
-    #ifdef DEBUG
-    print("Background constructor\n");
-    #endif
+    printd("Background constructor");
 }
 
 void Background::draw() const {

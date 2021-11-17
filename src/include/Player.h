@@ -10,6 +10,7 @@
 #include <Digits.h>
 #include <Grade.h>
 #include <Mode.h>
+#include <Debug.h>
 #include <PlayerImpl.h>
 
 /* Forward declarations to avoid dependency hell */
@@ -76,9 +77,7 @@ class Player {
         bool check_lock();
 
         inline void reset_lock() {
-            #ifdef DEBUG
-            print("reset lock\n");
-            #endif
+            printd("reset lock");
 
             m_start_lock = false;
             m_lock = 1; // 1 instead of 0 because of 20G special case

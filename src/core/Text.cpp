@@ -4,6 +4,7 @@
 #include <string.h>
 #include <Position.h>
 #include <Stack.h>
+#include <Debug.h>
 #include <Text.h>
 
 Text::Text() :
@@ -15,9 +16,7 @@ Text::Text() :
         m_str(NULL),
         m_implementation(*this)
 {
-    #ifdef DEBUG
-    print("Text constructor: <NULL>\n");
-    #endif
+    printd("Text constructor: <NULL>");
 }
 
 Text::Text(
@@ -31,9 +30,7 @@ Text::Text(
         m_length(0),
         m_str(NULL),
         m_implementation(*this) {
-    #ifdef DEBUG
-    print("Text constructor: <NULL>\n");
-    #endif
+    printd("Text constructor: <NULL>");
 }
 
 Text::Text(
@@ -49,9 +46,7 @@ Text::Text(
         m_length(strlen(str)),
         m_str(str),
         m_implementation(*this) {
-    #ifdef DEBUG
-    print("Text constructor: '%s'\n", str);
-    #endif
+    printd("Text constructor: '" << str << "'");
 }
 
 void Text::position(const Coordinates& coordinates, const Position& parent) {
@@ -67,14 +62,16 @@ void Text::position(const Coordinates& coordinates, const Position& parent, Layo
         m_coordinates.y != coordinates.y ||
         m_layout != layout) {
 
-        #ifdef DEBUG
-        print(
-            "Text::update_position: (%d, %d) replaced by (%d, %d)\n",
-            m_position.x,
-            m_position.y,
-            position.x,
-            position.y);
-        #endif
+        printd(
+            "Text::update_position: (" <<
+            m_position.x <<
+            ", " <<
+            m_position.y <<
+            ") replaced by (" <<
+            position.x <<
+            ", " <<
+            position.y <<
+            ")");
 
         m_coordinates = coordinates;
         m_position = position;
@@ -85,9 +82,7 @@ void Text::position(const Coordinates& coordinates, const Position& parent, Layo
 
 void Text::text(const char *new_str) {
     if (m_str != new_str) {
-        #ifdef DEBUG
-        print("Text::update_text: %s replaced by %s\n", m_str, new_str);
-        #endif
+        printd("Text::update_text: " << m_str << " replaced by " << new_str);
         m_str = new_str;
         m_length = strlen(m_str);
         m_implementation.update_text();
@@ -96,9 +91,7 @@ void Text::text(const char *new_str) {
 
 void Text::color(int color) {
     if (m_color != color) {
-        #ifdef DEBUG
-        print("Text::update_color: %d replaced by %d\n", m_color, color);
-        #endif
+        printd("Text::update_color: " << m_color << " replaced by " << color);
         m_color = color;
         m_implementation.update_color();
     }

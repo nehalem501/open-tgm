@@ -1,6 +1,7 @@
 /* Timer.cpp */
 
 #include <TargetTypes.h>
+#include <Debug.h>
 #include <Timer.h>
 
 void Timer::update() {
@@ -11,9 +12,8 @@ void Timer::update() {
     uint32_t sec = (m_time / 100) % 60;
     uint32_t min = (m_time / (100 * 60)) % 60;
 
-    #ifdef DEBUG
-    print("time: %02d:%02d:%02d\n", (int) min, (int) sec, (int) centsec);
-    #endif
+    // TODO
+    //printd("time: %02d:%02d:%02d\n", (int) min, (int) sec, (int) centsec);
 
     m_digits[0] = min / 10;
     m_digits[1] = min % 10;
