@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <TargetTypes.h>
+#include <Debug.h>
 #include "timing.h"
 
 #ifdef _WIN32
@@ -90,9 +91,7 @@ void sleep_usecs(uint64_t usecs) {
     ti.tv_sec = usecs / 1000000;
 
     while ((nanosleep(&ti, &ti) == -1) && (errno == EINTR)) {
-        #ifdef DEBUG
-        print("nanosleep() == EINTR");
-        #endif
+        printd("nanosleep() == EINTR");
     }
 }
 

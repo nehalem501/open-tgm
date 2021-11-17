@@ -26,5 +26,5 @@ void DigitsImpl::layout(const Position &position) {
 }
 
 void DigitsImpl::render() const {
-    m_glyphs.render();
+    //m_glyphs.render();
 }

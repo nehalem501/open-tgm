@@ -3,7 +3,6 @@
 import sys
 from .deps.rule import Variable, Rule, Build
 from .ninja import NinjaBuild
-from .globals import TOOLS_DIR
 from . import globals
 
 def run(target, prefix, file):
@@ -32,10 +31,21 @@ def run(target, prefix, file):
             depfile='$out.d',
             deps='gcc',
             description='$cxx $out'),
-        Rule('link',
-            command='$link $cxxflags $ldflags -o $out $in $libs',
-            description='$link $out')
     ]
+
+    if target.binary is not None:
+        rules += [
+            Rule('link',
+                command='$link $cxxflags $ldflags -o $out $in $libs',
+                description='$link $out')
+        ]
+
+    if target.library is not None:
+        rules += [
+            Rule('link',
+                command='$link $cxxflags $ldflags -o $out $in $libs',
+                description='$link $out')
+        ]
 
     rules += target.rules
 
@@ -47,21 +57,23 @@ def run(target, prefix, file):
                 command=f'{bin2cpp} -i $in -o $out',
                 description='generate $out')
         ]
-
-    if target.textures:
-        img2tx = BUILD_INFO.build_dir.joinpath(TOOLS_DIR).joinpath('img2tx').joinpath('img2tx')
+        script = BUILD_INFO.scripts_dir.joinpath('list.py')
+        list = f'{sys.executable} {script}'
         rules += [
-            Rule('img2tx',
-                command=f'{img2tx} $in $out',
-                description='convert $out')
+            Rule('list',
+                command=f'{list} -o $out $in',
+                description='generate $out'),
+            Rule('list_header_only',
+                command=f'{list} --includes-only -o $out $in',
+                description='generate $out')
         ]
 
-    if target.data_headers:
-        script = BUILD_INFO.scripts_dir.joinpath('convert.py')
-        convert = f'{sys.executable} {script}'
+    if target.textures:
+        script = BUILD_INFO.scripts_dir.joinpath('img2tx.py')
+        img2tx = f'{sys.executable} {script}'
         rules += [
-            Rule('convert',
-                command=f'{convert} -i $in -o $out -n $name',
+            Rule('img2tx',
+                command=f'{img2tx} -i $in -m $ini_file -o $out',
                 description='convert $out')
         ]
 
@@ -75,21 +87,44 @@ def run(target, prefix, file):
             Build(d.output_object, 'cxx', d.output_cpp)
         ]
 
-    for t in target.textures:
+    if target.builtin_data:
+        headers = [target.textures_list_path]
+        if target.shaders:
+            headers += [target.shaders_list_path]
+        output = target.header_list_path
+        dependencies += [output]
         builds += [
-            Build(t.output, 'img2tx', t.input),
+            Build(output, 'list_header_only', headers)
         ]
 
-    for d in target.data_headers:
-        dependencies += [d.output]
+    for t in target.textures:
         builds += [
-            Build(d.output, 'convert', d.input, variables={'name': d.name}),
+            Build(t.output, 'img2tx', t.png, variables={'ini_file': t.ini}),
+        ]
+    if target.shaders:
+        headers = [s.output_header for s in target.shaders]
+        output = target.shaders_list_path
+        dependencies += [output]
+        builds += [
+            Build(output, 'list', headers)
+        ]
+
+    if target.textures:
+        headers = [t.output_header for t in target.textures]
+        output = target.textures_list_path
+        dependencies += [output]
+        builds += [
+            Build(output, 'list', headers)
         ]
 
     builds += [Build(s.output, 'cc', s.input) for s in target.src_c]
     builds += [Build(s.output, 'cxx', s.input, dependencies=dependencies) for s in target.src_cpp]
 
-    builds += [Build(target.binary, 'link', target.objects)]
+    if target.binary is not None:
+        builds += [Build(target.binary, 'link', target.objects)]
+
+    if target.library is not None:
+        builds += [Build(target.library, 'link', target.objects)]
 
     builds += target.builds
 

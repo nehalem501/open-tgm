@@ -5,11 +5,6 @@
 
 #include <stdint.h>
 
-#ifdef DEBUG
-#include <stdio.h>
-#define print printf
-#endif
-
 typedef uint16_t tiles_t;
 
 extern int tile_size;

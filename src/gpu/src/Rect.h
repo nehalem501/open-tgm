@@ -23,6 +23,11 @@ class Rect {
             const ColorRGBA bottom_right_color,
             TextureID texture);
 
+        Rect(
+            const Point2D& coords,
+            const Size2D& size,
+            const ColorRGBA& color);
+
         inline void texture(TextureID texture) {
             m_vertex_array.texture(texture);
         }

@@ -53,15 +53,6 @@ TextureID font_to_texture(Font font) {
     }
 }
 
-void init_glyphs_text(
-    Vertex2D *vertices,
-    const Text& text,
-    const Glyph *glyphs,
-    size_t size)
-{
-    init_glyphs(vertices, text.text(), glyphs, text.position(), text.layout(), text.color(), text.length(), size);
-}
-
 void init_glyphs(
     Vertex2D *vertices,
     const char *text,
@@ -120,8 +111,8 @@ void position_glyphs_from_string(
     Layout layout,
     const unsigned char* str,
     size_t length,
-    size_t size) {
-
+    size_t size)
+{
     gpu_float_t offset = 0;
     gpu_float_t texture_width = 64.0f;
     gpu_float_t texture_height = 64.0f;

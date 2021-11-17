@@ -1,5 +1,6 @@
 /* FrameImpl.cpp - GPU */
 
+#include <Debug.h>
 #include <Frame.h>
 #include "VertexArray.h"
 #include "FrameImpl.h"
@@ -22,10 +23,11 @@ static ColorRGBA to_gpu_color(int color) {
 
 FrameImpl::FrameImpl(const Frame& frame) :
         m_frame(frame),
+        m_background(Point2D(0, 0), Size2D(0, 0), ColorRGBA(0, 0, 0, 0.8f)),
         m_vertex_array(TexturesID::FRAME) {
-    #ifdef DEBUG
-    print("FrameImpl constructor\n");
-    #endif
+    printd("FrameImpl constructor");
+
+    register_reloadable(this);
 
     color(FrameColors::NORMAL);
     resize();
@@ -39,42 +41,47 @@ void FrameImpl::color(int color) {
     }
 }
 
-void FrameImpl::texcoords(const TextureData& data) {
+void FrameImpl::texcoords(const TextureData& data2) {
+    int a = data2.height;
+    a++;
+    const TextureData data(16, 64, 0, 0, 8, 64);
+
     // Right
-    m_vertex_array.vertices[0].tex_coords(data.tex_coord_top_left + TexCoord(0.f, 0.25f));
+    m_vertex_array.vertices[0].tex_coords(data.tex_coord_top_left /*+ TexCoord(0.f, 0.25f)*/);
     m_vertex_array.vertices[1].tex_coords(data.tex_coord_bottom_left);
     m_vertex_array.vertices[2].tex_coords(data.tex_coord_bottom_right);
-    m_vertex_array.vertices[3].tex_coords(data.tex_coord_top_right + TexCoord(0.f, 0.25f));
+    m_vertex_array.vertices[3].tex_coords(data.tex_coord_top_right /*+ TexCoord(0.f, 0.25f)*/);
 
     // Top
     m_vertex_array.vertices[4].tex_coords(data.tex_coord_top_right);
     m_vertex_array.vertices[5].tex_coords(data.tex_coord_top_left);
-    m_vertex_array.vertices[6].tex_coords(data.tex_coord_top_left + TexCoord(0.f, 0.25f));
-    m_vertex_array.vertices[7].tex_coords(data.tex_coord_top_right + TexCoord(0.f, 0.25f));
+    m_vertex_array.vertices[6].tex_coords(data.tex_coord_top_left /*+ TexCoord(0.f, 0.25f)*/);
+    m_vertex_array.vertices[7].tex_coords(data.tex_coord_top_right /*+ TexCoord(0.f, 0.25f)*/);
 
     // Bottom
-    m_vertex_array.vertices[8].tex_coords(data.tex_coord_bottom_right + TexCoord(0.f, -0.25f));
-    m_vertex_array.vertices[9].tex_coords(data.tex_coord_bottom_left + TexCoord(0.f, -0.25f));
+    m_vertex_array.vertices[8].tex_coords(data.tex_coord_bottom_right /*+ TexCoord(0.f, -0.25f)*/);
+    m_vertex_array.vertices[9].tex_coords(data.tex_coord_bottom_left /*+ TexCoord(0.f, -0.25f)*/);
     m_vertex_array.vertices[10].tex_coords(data.tex_coord_bottom_left);
     m_vertex_array.vertices[11].tex_coords(data.tex_coord_bottom_right);
 
     // Left
     m_vertex_array.vertices[12].tex_coords(data.tex_coord_top_left);
-    m_vertex_array.vertices[13].tex_coords(data.tex_coord_bottom_left + TexCoord(0.f, -0.25f));
-    m_vertex_array.vertices[14].tex_coords(data.tex_coord_bottom_right + TexCoord(0.f, -0.25f));
+    m_vertex_array.vertices[13].tex_coords(data.tex_coord_bottom_left /*+ TexCoord(0.f, -0.25f)*/);
+    m_vertex_array.vertices[14].tex_coords(data.tex_coord_bottom_right /*+ TexCoord(0.f, -0.25f)*/);
     m_vertex_array.vertices[15].tex_coords(data.tex_coord_top_right);
 }
 
 void FrameImpl::resize() {
-    const TextureData& data = get_texture_data(TexturesID::FRAME);
-    //const TextureData data(16, 64, 0, 0, 8, 64);
-    texcoords(data);
+    texcoords(get_texture_data(TexturesID::FRAME));
 
     const gpu_float_t x = m_frame.position().x; // TODO
     const gpu_float_t y = m_frame.position().y;
 
     const gpu_float_t width = 10; // TODO
     const gpu_float_t height = 22; // TODO
+
+    m_background.position(x, y + tile_size * 2);
+    m_background.size(width * tile_size, (height - 2) * tile_size);
 
     // Right
     m_vertex_array.vertices[0].x = x + width * tile_size;

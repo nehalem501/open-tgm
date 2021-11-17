@@ -1,5 +1,6 @@
 /* Image.cpp - GPU */
 
+#include <Debug.h>
 #include "Rect.h"
 #include "Image.h"
 
@@ -15,7 +16,5 @@ Image::Image(
             GPU_BOTTOM_LEFT, GPU_WHITE,
             GPU_BOTTOM_RIGHT, GPU_WHITE,
             texture) {
-    #ifdef DEBUG
-    print("Image constructor: %d\n", (int) texture);
-    #endif
+    printd("Image constructor: " << texture);
 }

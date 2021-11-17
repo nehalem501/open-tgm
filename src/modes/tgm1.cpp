@@ -6,6 +6,7 @@
 
 #include <RawMode.h>
 #include <Frame.h>
+#include <Debug.h>
 #include "tgm1.h"
 
 uint32_t tgm1_score(uint32_t level, uint32_t lines, uint32_t soft, uint32_t,
@@ -44,9 +45,7 @@ static const struct Condition TGM1_GRADE_CONDITIONS[19] = {
 };
 
 void tgm1_grade(uint32_t score, unsigned int, Grade *grade) {
-    #ifdef DEBUG
-    print("Previous GRADE: %s\n", grade->get_string());
-    #endif
+    printd("Previous GRADE: " << grade->get_string());
 
     for (unsigned int i = grade->get(); i < 18; i++) {
         if (score >= TGM1_GRADE_CONDITIONS[i].score) {
@@ -54,9 +53,7 @@ void tgm1_grade(uint32_t score, unsigned int, Grade *grade) {
         }
     }
 
-    #ifdef DEBUG
-    print("GRADE: %s\n", grade->get_string());
-    #endif
+    printd("GRADE: " << grade->get_string());
 }
 
 static const struct Timing TGM1_GRAVITY[30] = {

@@ -23,9 +23,9 @@ struct Point2D {
     gpu_float_t x, y;
 
     #ifdef DEBUG
-    void print(const char *name) {
+    /*void print(const char *name) {
         ::print("%s: X: %f, Y: %f,\n", name, x, y);
-    }
+    }*/
     #endif
 };
 
@@ -53,9 +53,9 @@ struct ColorRGBA {
     gpu_float_t r, g, b, a;
 
     #ifdef DEBUG
-    void print(const char *name) {
+    /*void dump(const char *name) {
         ::print("%s: R: %d, G: %d, B: %d, A: %d\n", name, (int)(r * 256.f), (int)(g * 256.f), (int)(b * 256.f), (int)(a * 256.f));
-    }
+    }*/
     #endif
 };
 
@@ -71,9 +71,9 @@ struct TexCoord {
     gpu_float_t u, v;
 
     #ifdef DEBUG
-    void print(const char *name) {
+    /*void dump(const char *name) {
         ::print("%s: U: %f, V: %f\n", name, u, v);
-    }
+    }*/
     #endif
 };
 

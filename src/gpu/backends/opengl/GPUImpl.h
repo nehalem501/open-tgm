@@ -22,7 +22,7 @@ class VertexArray2DImpl {
         };
 
         void render() const {
-            glBindTexture(GL_TEXTURE_2D, get_texture(m_texture));
+            glBindTexture(GL_TEXTURE_2D, get_texture(m_texture).handle);
 
             glBegin(GL_QUADS);
 

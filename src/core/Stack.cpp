@@ -257,6 +257,6 @@ void Stack::remove_grey_blocks(const Piece& piece) {
 
 void Stack::draw() const {
     // TODO
-    //m_implementation.render();
+    m_implementation.render();
 }
 

@@ -1,6 +1,7 @@
 /* StackImpl.cpp - GPU */
 
 #include <Global.h>
+#include <Debug.h>
 #include <Stack.h>
 #include "StackImpl.h"
 
@@ -20,12 +21,10 @@ StackImpl::StackImpl(const Stack& stack) :
             stack.width(),
             stack.height(),
             TexturesID::OUTLINE) {
-    #ifdef DEBUG
-    print("StackImpl constructor\n");
-    #endif
+    printd("StackImpl constructor");
 
-    update_field();
-    update_outline();
+    //update_field();
+    //update_outline();
 }
 
 void StackImpl::update_field() {

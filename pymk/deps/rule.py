@@ -30,6 +30,15 @@ class SrcRule:
         self.output = str(output)
         self.input = str(input)
 
+    def __repr__ (self):
+        return f"SrcRule('{self.output}' ⇐ '{self.input}')"
+
+class TextureRule:
+    def __init__(self, output, ini, png):
+        self.output = str(output)
+        self.ini = str(ini)
+        self.png = str(png)
+
 class DataHeaderRule:
     def __init__(self, output, input, name):
         self.output = str(output)
@@ -60,15 +69,16 @@ def to_src_rule(root_dir, source_dir, build_dir, source, suffix):
     object = filename.with_suffix(suffix)
     return SrcRule(object, source)
 
-def to_data_header_rule(root_dir, source_dir, build_dir, input, suffix):
-    input_dir_rel = source_dir.relative_to(root_dir)
-    input_rel = input.relative_to(root_dir).relative_to(input_dir_rel)
+def to_texture_rule(root_dir, source_dir, build_dir, ini, png):
+    suffix = '.txf'
+    source_dir_rel = source_dir.relative_to(root_dir)
+    source_rel = png.relative_to(root_dir).relative_to(source_dir_rel)
     build_dir_rel = build_dir.relative_to(root_dir)
-    filename = root_dir.joinpath(build_dir_rel).joinpath(input_rel)
+    filename = root_dir.joinpath(build_dir_rel).joinpath(source_rel)
     while filename.suffix:
         filename = filename.with_suffix('')
     output = filename.with_suffix(suffix)
-    return DataHeaderRule(output, input, str(filename.name) + '_' + str(filename.parent.name))
+    return TextureRule(output, ini, png)
 
 def to_data_rule(root_dir, build_dir, file):
     file_rel = file.relative_to(root_dir)

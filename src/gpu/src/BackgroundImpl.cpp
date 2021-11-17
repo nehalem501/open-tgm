@@ -1,6 +1,7 @@
 /* BackgroundImpl.cpp - GPU */
 
 #include <Global.h>
+#include <Debug.h>
 #include <GPUImpl.h>
 #include "Texture.h"
 #include "BackgroundImpl.h"
@@ -18,15 +19,13 @@ BackgroundImpl::BackgroundImpl() :
             Point2D(0, 0),
             Size2D(screen.width, screen.height), // TODO aspect ratio & texture size
             TexturesID::BACKGROUND) {
-    #ifdef DEBUG
-    print("BackgroundImpl constructor\n");
-    #endif
+    printd("BackgroundImpl constructor");
 }
 
 void BackgroundImpl::render(const bool options) const {
     if (options) {
         // Draw settings background
-        m_background_gradient.render();
+        //m_background_gradient.render();
     } else {
         // Draw game background
         //m_background_image.render();

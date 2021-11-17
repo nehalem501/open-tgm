@@ -12,6 +12,8 @@ struct Glyph {
     gpu_float_t width, height;
     gpu_float_t offset;
 
+    constexpr Glyph() : x(0), y(0), width(0), height(0), offset(0) { }
+
     constexpr Glyph(
         gpu_float_t x,
         gpu_float_t y,

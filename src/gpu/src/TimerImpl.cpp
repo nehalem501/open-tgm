@@ -14,5 +14,5 @@ void TimerImpl::layout(const Position & /*position*/) {
 }
 
 void TimerImpl::render() const {
-    m_glyphs.render();
+    //m_glyphs.render();
 }

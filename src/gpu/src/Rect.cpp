@@ -1,5 +1,6 @@
 /* Rect.cpp - GPU */
 
+#include <Debug.h>
 #include "Rect.h"
 
 Rect::Rect(
@@ -15,9 +16,7 @@ Rect::Rect(
     const ColorRGBA bottom_right_color,
     TextureID texture) :
         m_vertex_array(texture) {
-    #ifdef DEBUG
-    print("Rect constructor: %d\n", (int) texture);
-    #endif
+    printd("Rect constructor: " << texture);
 
     m_vertex_array.vertices[0] = Vertex2D(
         coords,
@@ -35,6 +34,32 @@ Rect::Rect(
         Point2D(coords.x + size.width, coords.y),
         top_right_tex_coords,
         top_right_color);
+}
+
+Rect::Rect(
+    const Point2D& coords,
+    const Size2D& size,
+    const ColorRGBA& color) :
+        m_vertex_array(TexturesID::NONE)
+{
+    printd("Rect constructor: No texture");
+
+    m_vertex_array.vertices[0] = Vertex2D(
+        coords,
+        TexCoord(0, 0),
+        color);
+    m_vertex_array.vertices[1] = Vertex2D(
+        Point2D(coords.x, coords.y + size.height),
+        TexCoord(0, 0),
+        color);
+    m_vertex_array.vertices[2] = Vertex2D(
+        Point2D(coords.x + size.width, coords.y + size.height),
+        TexCoord(0, 0),
+        color);
+    m_vertex_array.vertices[3] = Vertex2D(
+        Point2D(coords.x + size.width, coords.y),
+        TexCoord(0, 0),
+        color);
 }
 
 void Rect::render() const {

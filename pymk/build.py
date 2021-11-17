@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
+import os
 import copy
+import platform
 
 from . import configure
 from . import ninja
@@ -85,7 +87,7 @@ class BuildInfo:
 
         common_flags = ['-DTARGET_' + target.upper()]
         if options.debug:
-            common_flags += [core_entry.values['debug_flags'], '-O2'] # TODO optimisation levels and types
+            common_flags += [core_entry.values['debug_flags']] # TODO optimisation levels and types
         else:
             common_flags += ['-O2'] # TODO optimisation levels and types
 
@@ -97,6 +99,7 @@ class BuildInfo:
             options=options,
             build_dir=self.get_target_build_dir(target),
             binary=binary,
+            library=None,
             common_flags=common_flags,
             headers=[self.core_headers_dir, target_entry.dir]
         )
@@ -119,13 +122,27 @@ def add_host_tools(config, options, tools, build_info):
     tool_entries = [BuildEntry(e) for e in scan_subdirs(tools_dir, tools)]
     for entry in tool_entries:
         build_dir = build_info.build_dir.joinpath(TOOLS_DIR).joinpath(entry.name)
-        binary = build_dir.joinpath(entry.name)
+        name = build_dir.joinpath(entry.name)
+        binary = None
+        library = None
+        if 'binary' in entry.values:
+            binary = name
+        elif 'library' in entry.values:
+            if os.name == 'nt':
+                library = name.with_suffix('.dll')
+            else:
+                if platform.system() == 'Darwin':
+                    library = name.with_suffix('.dylib')
+                else:
+                    library = name.with_suffix('.so')
+
         data = TargetData(
             entry=entry,
             additional_entries=[],
             options=options,
             build_dir=build_dir,
             binary=binary,
+            library=library,
             common_flags=[],
             headers=[entry.dir]
         )

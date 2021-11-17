@@ -5,11 +5,14 @@
 
 #include <stddef.h>
 #include <Shapes.h>
+#include <Debug.h>
+#include "Reloadable.h"
+#include "TilemapData.h"
 #include "Texture.h"
 #include "VertexArray.h"
 
 template <size_t N>
-class Tilemap {
+class Tilemap : public Reloadable {
     public:
         Tilemap(
             Position position, // TODO
@@ -18,22 +21,23 @@ class Tilemap {
             unsigned int width,
             unsigned int height,
             TextureID texture) :
+                m_tiles(tiles),
                 m_width(width),
                 m_height(height),
                 m_vertex_array(texture) {
-            #ifdef DEBUG
-            print("Tilemap<%d> constructor\n", (int) N);
-            #endif
+            printd("Tilemap<" << N << "> constructor");
+
+            register_reloadable(this);
 
             m_vertex_array.vertices[0].x = position.x;
             m_vertex_array.vertices[0].y = position.y;
 
-            for (unsigned int i = 0; i < m_width; i++) {
+            /*for (unsigned int i = 0; i < m_width; i++) {
                 for (unsigned int j = 0; j < m_height; j++) {
                     tile(i, j, tiles[i + j * m_width] & 0xFF); // TODO
                     tile_position(i, j);
                 }
-            }
+            }*/
 
             color(c);
 
@@ -51,6 +55,17 @@ class Tilemap {
             }
         }
 
+        virtual void refresh() {
+            const TextureID id = m_vertex_array.m_implementation.m_texture;
+            const TilemapData& data = get_tilemap_data(id);
+            for (unsigned int i = 0; i < m_width; i++) {
+                for (unsigned int j = 0; j < m_height; j++) {
+                    tile_position(i, j);
+                    tile(data, i + j * m_width);
+                }
+            }
+        }
+
         inline void color(const ColorRGBA& color) {
             for (unsigned int i = 0; i < m_width * m_height * 4; i++) {
                 m_vertex_array.vertices[i].color(color);
@@ -64,41 +79,25 @@ class Tilemap {
         }
 
         void update(const tiles_t *tiles) {
+            m_tiles = tiles;
+            const TextureID id = m_vertex_array.m_implementation.m_texture;
+            const TilemapData& data = get_tilemap_data(id);
             for (unsigned int i = 0; i < m_width; i++) {
                 for (unsigned int j = 0; j < m_height; j++) {
-                    tile(i, j, tiles[i + j * m_width] & 0xFF); // TODO
+                    tile(data, i + j * m_width);
                 }
             }
         }
 
-        inline void tile(
-            unsigned int tile_x,
-            unsigned int tile_y,
-            unsigned int tile) {
+        inline void tile(const TilemapData& data, const size_t i) {
+            const TileData& tile_data = data.get(m_tiles[i] & 0xFF);
 
-            const gpu_float_t tile_size_gpu = tile_size;
+            const size_t index = i * 4;
 
-            const gpu_float_t tex_x = tile ; //% m_row_size; // TODO
-            const gpu_float_t tex_y = tile ; /// m_row_size; // TODO
-            const gpu_float_t u = tex_x * tile_size_gpu;
-            const gpu_float_t v = tex_y * tile_size_gpu;
-
-            const gpu_float_t texture_width = 0; // TODO
-            const gpu_float_t texture_height = 0; // TODO
-
-            const unsigned int index = (tile_x + tile_y * m_width) * 4;
-
-            m_vertex_array.vertices[index].u = u / texture_width; // TODO
-            m_vertex_array.vertices[index].v = v / texture_height; // TODO
-
-            m_vertex_array.vertices[index + 1].u = u / texture_width; // TODO
-            m_vertex_array.vertices[index + 1].v = (v + tile_size_gpu) / texture_height; // TODO
-
-            m_vertex_array.vertices[index + 2].u = (u + tile_size_gpu) / texture_width; // TODO
-            m_vertex_array.vertices[index + 2].v = (v + tile_size_gpu) / texture_height; // TODO
-
-            m_vertex_array.vertices[index + 3].u = (u + tile_size_gpu) / texture_width; // TODO
-            m_vertex_array.vertices[index + 3].v = v / texture_height; // TODO
+            m_vertex_array.vertices[index].tex_coords(tile_data.tex_coord_top_left);
+            m_vertex_array.vertices[index + 1].tex_coords(tile_data.tex_coord_bottom_left);
+            m_vertex_array.vertices[index + 2].tex_coords(tile_data.tex_coord_bottom_right);
+            m_vertex_array.vertices[index + 3].tex_coords(tile_data.tex_coord_top_right);
         }
 
         inline void tile_position(unsigned int tile_x, unsigned int tile_y) {
@@ -138,6 +137,7 @@ class Tilemap {
 
     private:
         //Position m_position;
+        const tiles_t* m_tiles;
         unsigned int m_width, m_height;
         VertexArray2D<N * 4> m_vertex_array;
 

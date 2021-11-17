@@ -4,26 +4,25 @@
 #define TEXTURE_H
 
 #include <GPUTypes.h>
+#include <data.h>
 #include "Vertex.h"
 #include "TextureEnums.h"
 
 struct Texture {
     texture_t handle;
-    unsigned int format, width, height;
-};
-
-class TextureFile {
-    public:
-        TextureFile(const uint8_t* compressed_data, const size_t compressed_data_size);
-        ~TextureFile();
-
-    private:
-        uint8_t* m_raw_data;
-        size_t m_size;
-        unsigned int m_format, m_width, m_height;
+    uint8_t format;
+    bool initialized = false;
+    unsigned int width, height;
 };
 
 struct TextureData {
+    constexpr TextureData() :
+        width(0), height(0),
+            tex_coord_top_left(0, 0),
+            tex_coord_bottom_left(0, 0),
+            tex_coord_bottom_right(0, 0),
+            tex_coord_top_right(0, 0) { };
+
     constexpr TextureData(
         gpu_float_t width,
         gpu_float_t height,
@@ -44,10 +43,22 @@ struct TextureData {
 };
 
 void load_textures();
+
 void load_texture(Texture& texture, const uint8_t* img_data, const size_t img_data_size);
+void free_texture(Texture& texture);
+
+void register_textures(const Assets& assets);
+void refresh_textures(Texture* textures);
+
+//void read_texture(Texture* textures, const uint8_t* data, const size_t size);
+//void read_texture_data(const TextureFileHeaderData& header, Texture* textures, const uint8_t* data, const size_t size);
+//void read_texture_header(TextureFileHeaderData& header, const uint8_t* data, const size_t size);
 
 Texture& get_texture(TextureID id);
 const TextureData& get_texture_data(TextureID id);
+void set_texture_data(TextureID id, const TextureData& data);
+
+void refresh_texture_data();
 
 #ifdef RESIZABLE
 void reload_textures(); // TODO

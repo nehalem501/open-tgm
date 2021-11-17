@@ -19,6 +19,14 @@ namespace TexturesID {
     };
 }
 
+namespace TextureType {
+    enum {
+        TEXTURE = 1,
+        TILEMAP = 2,
+        GLYPHS = 3
+    };
+}
+
 namespace TexturesFormat {
     enum {
         A4 = 0,

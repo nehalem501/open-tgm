@@ -58,14 +58,6 @@ void init_gpu() {
     // Note: we're setting top to 240 here so origin is at top left.
     Mtx_OrthoTilt(&proj_mat, 0.0, (float) screen.width, (float) screen.height, 0.0, 0.0, 1.0, true);
 
-    // Load textures
-    /*load_texture(&background_tex, background_png, background_png_size);
-    load_texture(&empty_tex, empty_png, empty_png_size);
-    load_texture(&frame_tex, frame_png, frame_png_size);
-    load_texture(&text_tex, ui_font_png, ui_font_png_size);
-    load_texture(&tileset_tex, tileset_png, tileset_png_size);
-    load_texture(&outline_tex, outline_png, outline_png_size);*/
-
     // Configure the first fragment shading substage to just pass through the texture color
     // See https://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml for more insight
     C3D_TexEnv* env = C3D_GetTexEnv(0);

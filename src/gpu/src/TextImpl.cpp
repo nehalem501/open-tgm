@@ -8,8 +8,14 @@
 
 TextImpl::TextImpl(const Text& text) :
         m_text(text),
-        m_glyphs(text, Fonts::UI_FONT) {
-
+        m_glyphs(
+            text.text(),
+            text.position(),
+            text.layout(),
+            text.color(),
+            text.length(),
+            Fonts::UI_FONT)
+{
 }
 
 void TextImpl::update_position() {
@@ -20,7 +26,7 @@ void TextImpl::update_text() {
     m_glyphs.position_glyphs(
         m_text.position(),
         m_text.layout(),
-        (unsigned char*) m_text.text(),
+        m_text.text(),
         m_text.length());
 }
 

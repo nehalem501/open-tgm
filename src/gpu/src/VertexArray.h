@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <TargetTypes.h>
+#include <Debug.h>
 #include <GPUImpl.h>
 #include "Vertex.h"
 #include "Texture.h"
@@ -22,9 +23,7 @@ class VertexArray2D {
         VertexArray2D(TextureID texture) :
                 m_implementation(texture),
                 vertices(*((Vertex2D(*)[N]) m_implementation.m_vertices)) {
-            #ifdef DEBUG
-            print("VertexArray2D<%d> constructor\n", (int) N);
-            #endif
+            printd("VertexArray2D<" << N <<"> constructor");
         };
 
         inline void move(gpu_float_t x, gpu_float_t y) {

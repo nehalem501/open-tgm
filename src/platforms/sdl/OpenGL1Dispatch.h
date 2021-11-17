@@ -8,4 +8,9 @@
 
 #include <SDL_opengl.h>
 
+struct OpenGL1Funcs {
+    /* data */
+};
+
+
 #endif // OPENGL1DISPATCH_SDL_H

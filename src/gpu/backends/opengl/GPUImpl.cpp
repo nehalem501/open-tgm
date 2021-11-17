@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <Global.h>
 #include <Texture.h>
+#include <Debug.h>
 #include <GPU.h>
 #include <GPUImpl.h>
 
@@ -55,13 +56,7 @@ void resize(unsigned int width, unsigned int height) {
     // TODO
     //tile_size = 9;
 
-    #ifdef DEBUG
-    print(
-        "width: %d, height: %d, tile: %d\n",
-        (int) screen.width,
-        (int) screen.height,
-        (int) tile_size);
-    #endif
+    printd("width: " << screen.width << ", height: " << screen.height << ", tile: " << tile_size);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

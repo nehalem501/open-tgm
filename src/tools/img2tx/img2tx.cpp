@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
+#include <string.h>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -47,6 +48,28 @@ const std::unordered_map<std::string, unsigned int> FORMATS = {
     { "etc2rgba", TexturesFormat::ETC2_RGBA },
 };
 
+const std::unordered_map<std::string, unsigned int> IDS = {
+    { "a4", TexturesFormat::A4 },
+    { "l4", TexturesFormat::L4 },
+    { "a8", TexturesFormat::A8 },
+    { "l8", TexturesFormat::L8 },
+    { "la4", TexturesFormat::LA4 },
+    { "la8", TexturesFormat::LA8 },
+    { "rgb332", TexturesFormat::RGB332 },
+    { "rgb565", TexturesFormat::RGB565 },
+    { "rgb8", TexturesFormat::RGB8 },
+    { "rgba2", TexturesFormat::RGBA2 },
+    { "rgba4", TexturesFormat::RGBA4 },
+    { "rgba5551", TexturesFormat::RGBA5551 },
+    { "rgba8", TexturesFormat::RGBA8 },
+    { "dxt1", TexturesFormat::DXT1 },
+    { "dxt3", TexturesFormat::DXT23 },
+    { "dxt5", TexturesFormat::DXT45 },
+    { "etc1", TexturesFormat::ETC1 },
+    { "etc2rgb", TexturesFormat::ETC2_RGB },
+    { "etc2rgba", TexturesFormat::ETC2_RGBA },
+};
+
 enum class DXTFormat { DXT1, DXT2, DXT3, DXT4, DXT5 };
 
 void exit_error(std::string error_msg) {
@@ -54,75 +77,37 @@ void exit_error(std::string error_msg) {
     exit(EXIT_FAILURE);
 }
 
-void display_usage(std::string prog) {
-    std::cout << "usage: " << prog << " [-h] [-f FORMAT] input output" << std::endl;
+TextureID string_to_texture_id(std::string input) {
+    if (input == "background") {
+        return TexturesID::BACKGROUND;
+    } else if (input == "blocks") {
+        return TexturesID::BLOCKS;
+    } else if (input == "outline") {
+        return TexturesID::OUTLINE;
+    } else if (input == "text") {
+        return TexturesID::TEXT;
+    } else if (input == "frame") {
+        return TexturesID::FRAME;
+    } else if (input == "labels") {
+        return TexturesID::LABELS;
+    } else if (input == "digits") {
+        return TexturesID::DIGITS;
+    }
+
+    return TexturesID::NONE;
 }
 
-void display_help(std::string prog) {
-    display_usage(prog);
-    std::cout << std::endl;
-    std::cout << "positional arguments:" << std::endl;
-    std::cout << "  input                        input image file" << std::endl;
-    std::cout << "  output                       output texture file" << std::endl;
-    std::cout << std::endl;
-    std::cout << "options:" << std::endl;
-    std::cout << "  -h, --help                   show this help message and exit" << std::endl;
-    std::cout << "  -f FORMAT, --format FORMAT   output format" << std::endl;
-    // TODO list formats
+unsigned int get_format(std::string fmt) {
+    if (!FORMATS.count(fmt)) {
+        // TODO list formats
+        exit_error("Unknown texture format requested: " + fmt);
+    }
+    return FORMATS.at(fmt);
 }
 
 bool pow_of_2(unsigned int v) {
     return v && !(v & (v - 1));
 }
-
-class CmdArgs {
-    private:
-        std::string input;
-        std::string output;
-        unsigned int format;
-
-    public:
-        CmdArgs(int argc, char *argv[]) {
-            std::vector<std::string> positional_args;
-            bool no_format = true;
-
-            for (int i = 1; i < argc; i++) {
-                if (std::string(argv[i]) == "-h" || std::string(argv[i]) == "--help") {
-                    display_help(std::string(argv[0]));
-                    exit(EXIT_SUCCESS);
-                } else if (std::string(argv[i]) == "-f" || std::string(argv[i]) == "--format") {
-                    if (i + 1 < argc) {
-                        std::string fmt = std::string(argv[i + 1]);
-                        if (!FORMATS.count(fmt)) {
-                            // TODO list formats
-                            exit_error("Unknown texture format requested: " + fmt);
-                        }
-                        format = FORMATS.at(fmt);
-                        i++;
-                        no_format = false;
-                    }
-                } else {
-                    positional_args.push_back(std::string(argv[i]));
-                }
-            }
-
-            if (positional_args.size() != 2) {
-                display_usage(std::string(argv[0]));
-                exit_error("Wrong number of parameters");
-            }
-
-            if (no_format) {
-                format = TexturesFormat::RGBA8;
-            }
-
-            input = positional_args[0];
-            output = positional_args[1];
-        }
-
-        std::string input_path() { return input; }
-        std::string output_path() { return output; }
-        unsigned int output_format() { return format; }
-};
 
 struct Pixel8888 {
     Pixel8888(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : r(r), g(g), b(b), a(a) { }
@@ -270,6 +255,12 @@ void encode_rgba5551(std::vector<uint8_t>& bytes, ImageRGBA8888 &image) {
 }
 
 void encode_rgba8(std::vector<uint8_t>& bytes, ImageRGBA8888 &image) {
+    /*for (unsigned int i = 0; i < image.length(); i++) {
+        //bytes.push_back(image[i].r);
+        //bytes.push_back(image[i].g);
+        //bytes.push_back(image[i].b);
+        //bytes.push_back(image[i].a);
+    }*/
     bytes.insert(bytes.end(), image.data(), image.data() + (image.length() * 4));
 }
 
@@ -344,64 +335,8 @@ void encode_dxt5(std::vector<uint8_t>& bytes, ImageRGBA8888 &image) {
 // TODO DXT2 & DXT4
 // TODO ETC1, ETC2, ASTC, ...
 
-uint8_t texture_size(unsigned int size) {
-    return (uint8_t) log2(size);
-}
-
-void write_uint32(uint8_t* data, uint32_t value) {
-    data[0] = (value >> 24) & 0xFF;
-    data[1] = (value >> 16) & 0xFF;
-    data[2] = (value >>  8) & 0xFF;
-    data[3] =  value        & 0xFF;
-}
-
-uint32_t read_uint32(uint8_t* data) {
-    uint32_t value =
-        ((uint32_t) data[3] << 0)  |
-        ((uint32_t) data[2] << 8)  |
-        ((uint32_t) data[1] << 16) |
-        ((uint32_t) data[0] << 24);
-    return value;
-}
-
-void write_header(std::vector<uint8_t>& bytes, uint8_t format, uint8_t width, uint8_t height) {
-    bytes.push_back(TextureFileHeader::BYTE_0);
-    bytes.push_back(TextureFileHeader::BYTE_1);
-    bytes.push_back(TextureFileHeader::BYTE_2);
-    bytes.push_back(TextureFileHeader::BYTE_3);
-    bytes.push_back(TextureFileHeader::BYTE_4);
-    bytes.push_back(TextureFileHeader::BYTE_5);
-    bytes.push_back(TextureFileHeader::BYTE_6);
-    bytes.push_back(TextureFileHeader::BYTE_7);
-
-    bytes.push_back(format);
-    bytes.push_back(width);
-    bytes.push_back(height);
-    bytes.push_back(0x00u); // Reserved
-
-    // Data size value will be updated later
-    bytes.push_back(0x00u);
-    bytes.push_back(0x00u);
-    bytes.push_back(0x00u);
-    bytes.push_back(0x00u);
-}
-
-int main(int argc, char *argv[]) {
-    CmdArgs cmd_args(argc, argv);
-
-    ImageRGBA8888 texture(cmd_args.input_path());
-
-    std::vector<uint8_t> bytes;
-
-    write_header(
-        bytes,
-        (uint8_t) cmd_args.output_format(),
-        texture_size(texture.width()),
-        texture_size(texture.height()));
-
-    size_t current_size = bytes.size();
-
-    switch (cmd_args.output_format()) {
+void encode_texture(std::vector<uint8_t>& bytes, ImageRGBA8888 &texture, unsigned int format) {
+    switch (format) {
         case TexturesFormat::A4:
             encode_a4(bytes, texture);
             break;
@@ -469,28 +404,228 @@ int main(int argc, char *argv[]) {
         default:
             exit_error("Unknown texture format requested");
     }
+}
 
-    current_size = bytes.size() - current_size;
+uint8_t texture_size(unsigned int size) {
+    return (uint8_t) log2(size);
+}
+
+struct Base {
+    virtual void dummy() { }
+};
+
+struct TextureEntry {
+    TextureID id;
+    unsigned int x1, y1, x2, y2;
+
+    TextureEntry(TextureID id, unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2) :
+        id(id), x1(x1), y1(y1), x2(x2), y2(y2) { }
+};
+
+struct TexturesData : Base {
+    std::vector<TextureEntry> textures;
+};
+
+struct TilemapData : Base {
+    TextureID id;
+    unsigned int nb_tiles;
+
+    TilemapData(TextureID id, unsigned int nb_tiles) : id(id), nb_tiles(nb_tiles) { }
+};
+
+struct GlyphEntry {
+    uint8_t id;
+    unsigned int x, y;
+    unsigned int width, height;
+    unsigned int offset;
+
+    GlyphEntry(
+        uint8_t id,
+        unsigned int x,
+        unsigned int y,
+        unsigned int width,
+        unsigned int height,
+        unsigned int offset) : id(id), x(x), y(y), width(width), height(height), offset(offset) { }
+};
+
+struct GlyphsData : Base {
+    TextureID id;
+    std::vector<GlyphEntry> glyphs;
+
+    GlyphsData(TextureID id) : id(id) { }
+};
+
+void write_uint32(uint8_t* data, uint32_t value) {
+    data[0] = (value >> 24) & 0xFF;
+    data[1] = (value >> 16) & 0xFF;
+    data[2] = (value >>  8) & 0xFF;
+    data[3] =  value        & 0xFF;
+}
+
+size_t write_uint32(std::vector<uint8_t>& bytes, uint32_t value) {
+    size_t position = bytes.size();
+    bytes.resize(position + 4);
+    write_uint32(&bytes[position], value);
+    return position;
+}
+
+uint32_t read_uint32(uint8_t* data) {
+    uint32_t value =
+        ((uint32_t) data[3] << 0)  |
+        ((uint32_t) data[2] << 8)  |
+        ((uint32_t) data[1] << 16) |
+        ((uint32_t) data[0] << 24);
+    return value;
+}
+
+void write_header(std::vector<uint8_t>& bytes, uint8_t format, uint8_t width, uint8_t height) {
+    bytes.push_back(TextureFileHeader::BYTE_0);
+    bytes.push_back(TextureFileHeader::BYTE_1);
+    bytes.push_back(TextureFileHeader::BYTE_2);
+    bytes.push_back(TextureFileHeader::BYTE_3);
+    bytes.push_back(TextureFileHeader::BYTE_4);
+    bytes.push_back(TextureFileHeader::BYTE_5);
+    bytes.push_back(TextureFileHeader::BYTE_6);
+    bytes.push_back(TextureFileHeader::BYTE_7);
+
+    bytes.push_back(format);
+    bytes.push_back(width);
+    bytes.push_back(height);
+    bytes.push_back(0x00u); // Reserved
+}
+
+void write_metadata(std::vector<uint8_t>& bytes, uint8_t tile_size, Base* data) {
+    bytes.push_back(tile_size);
+
+    if (TexturesData* texture_data = dynamic_cast<TexturesData*>(data)) {
+        bytes.push_back(TextureType::TEXTURE);
+        bytes.push_back(0x00u); // Reserved
+        bytes.push_back((uint8_t) texture_data->textures.size());
+
+        for (size_t i = 0; i < texture_data->textures.size(); i++) {
+            bytes.push_back((uint8_t) texture_data->textures[i].id);
+            bytes.push_back(0x00u); // Reserved
+            bytes.push_back(0x00u); // Reserved
+            bytes.push_back(0x00u); // Reserved
+
+            write_uint32(bytes, texture_data->textures[i].x1);
+            write_uint32(bytes, texture_data->textures[i].y1);
+            write_uint32(bytes, texture_data->textures[i].x2);
+            write_uint32(bytes, texture_data->textures[i].y2);
+        }
+    }
+
+    if (TilemapData* tilemap_data = dynamic_cast<TilemapData*>(data)) {
+        bytes.push_back(TextureType::TILEMAP);
+        bytes.push_back((uint8_t) tilemap_data->id);
+        bytes.push_back((uint8_t) tilemap_data->nb_tiles);
+    }
+
+    if (GlyphsData* glyphs_data = dynamic_cast<GlyphsData*>(data)) {
+        bytes.push_back(TextureType::GLYPHS);
+        bytes.push_back((uint8_t) glyphs_data->id);
+        bytes.push_back((uint8_t) glyphs_data->glyphs.size());
+
+        for (size_t i = 0; i < glyphs_data->glyphs.size(); i++) {
+            bytes.push_back(glyphs_data->glyphs[i].id);
+            bytes.push_back(0x00u); // Reserved
+            bytes.push_back(0x00u); // Reserved
+            bytes.push_back(0x00u); // Reserved
+
+            write_uint32(bytes, glyphs_data->glyphs[i].x);
+            write_uint32(bytes, glyphs_data->glyphs[i].y);
+            write_uint32(bytes, glyphs_data->glyphs[i].width);
+            write_uint32(bytes, glyphs_data->glyphs[i].height);
+            write_uint32(bytes, glyphs_data->glyphs[i].offset);
+        }
+    }
+}
+
+extern "C" void* new_textures_data() {
+    return new (std::nothrow) TexturesData;
+}
+
+extern "C" void textures_data_add(
+    void* data,
+    const char* id,
+    unsigned int x1,
+    unsigned int y1,
+    unsigned int x2,
+    unsigned int y2)
+{
+    TexturesData* textures_data = (TexturesData*) data;
+    textures_data->textures.push_back(TextureEntry(string_to_texture_id(std::string(id)), x1, y1, x2, y2));
+}
+
+extern "C" void* new_tilemap_data(const char* id, unsigned int nb_tiles) {
+    return new (std::nothrow) TilemapData(string_to_texture_id(std::string(id)), nb_tiles);
+}
+
+extern "C" void* new_glyphs_data(const char* id) {
+    return new (std::nothrow) GlyphsData(string_to_texture_id(std::string(id)));
+}
+
+extern "C" void glyphs_data_add(
+    void* data,
+    char id,
+    unsigned int x,
+    unsigned int y,
+    unsigned int width,
+    unsigned int height,
+    unsigned int offset)
+{
+    GlyphsData* glyphs_data = (GlyphsData*) data;
+    glyphs_data->glyphs.push_back(GlyphEntry((uint8_t) id, x, y, width, height, offset));
+}
+
+extern "C" void run(const char* input, const char* output, const char* format, void* data, unsigned int tile_size, bool compress) {
+    std::string input_path(input);
+    std::string output_path(output);
+
+    unsigned int output_format = get_format(format);
+
+    ImageRGBA8888 texture(input_path);
+
+    std::vector<uint8_t> bytes;
+
+    write_header(
+        bytes,
+        (uint8_t) output_format,
+        texture_size(texture.width()),
+        texture_size(texture.height()));
+
+    write_metadata(bytes, tile_size, (Base*) data);
+
+    size_t position = write_uint32(bytes, 0); // Data size value will be updated later
+
+    encode_texture(bytes, texture, output_format);
+
+    size_t current_size = bytes.size() - position - 4;
+    //std::cout << "position: " << position << std::endl;
+    //std::cout << "size: " << bytes.size() << std::endl;
+    //std::cout << "curr: " << current_size << std::endl;
 
     // Update data length in header
-    write_uint32(&bytes[12], (uint32_t) current_size);
+    write_uint32(&bytes[position], (uint32_t) current_size);
 
-    std::vector<uint8_t> compressed;
-    compressed.resize(ZSTD_compressBound(bytes.size()));
-    size_t const size = ZSTD_compress(compressed.data(), compressed.capacity(), bytes.data(), bytes.size(), COMPRESSION_LEVEL);
-    if (ZSTD_isError(size)) {
-        exit_error("could not compress data: " + std::string(ZSTD_getErrorName(size)));
-    }
-    compressed.resize(size);
-
-    std::ofstream output_file(cmd_args.output_path(), std::ofstream::out | std::ofstream::binary | std::ofstream::trunc);
+    std::ofstream output_file(output_path, std::ofstream::out | std::ofstream::binary | std::ofstream::trunc);
     if (!output_file) {
-        exit_error(cmd_args.output_path() + ": could not create file");
+        exit_error(output_path + ": could not create file");
     }
 
-    output_file.write((char*) compressed.data(), compressed.size());
+    if (compress) {
+        std::vector<uint8_t> compressed;
+        compressed.resize(ZSTD_compressBound(bytes.size()));
+        size_t const size = ZSTD_compress(compressed.data(), compressed.capacity(), bytes.data(), bytes.size(), COMPRESSION_LEVEL);
+        if (ZSTD_isError(size)) {
+            exit_error("could not compress data: " + std::string(ZSTD_getErrorName(size)));
+        }
+        compressed.resize(size);
+
+        output_file.write((char*) compressed.data(), compressed.size());
+    } else {
+        output_file.write((char*) bytes.data(), bytes.size());
+    }
 
     output_file.close();
-
-    return 0;
 }

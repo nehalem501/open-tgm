@@ -1,47 +1,10 @@
 /* Texture.cpp - OpenGL */
 
-#include "lodepng.h"
 #include <TargetTypes.h>
 #include "GPUTypes.h"
 #include <Texture.h>
 
-static texture_t empty_tex;
-static texture_t background_tex;
-static texture_t tileset_tex;
-static texture_t outline_tex;
-static texture_t frame_tex;
-static texture_t digits_tex;
-//static texture_t labels_tex;
-static texture_t text_tex;
-//static texture_t grades_tex;
-//static texture_t timer_tex;
-
-texture_t& get_texture(TextureID id) {
-    switch(id) {
-        /*case TexturesID::BACKGROUND:
-            return background_tex;*/
-
-        case TexturesID::BLOCKS:
-            return tileset_tex;
-
-        case TexturesID::OUTLINE:
-            return outline_tex;
-
-        case TexturesID::DIGITS:
-            return digits_tex;
-
-        case TexturesID::TEXT:
-            return text_tex;
-
-        case TexturesID::FRAME:
-            return frame_tex;
-
-        default:
-            return empty_tex;
-    }
-}
-
-texture_t upload_texture(
+/*texture_t upload_texture(
     const uint8_t* image,
     const unsigned int width,
     const unsigned int height) {
@@ -68,9 +31,9 @@ texture_t upload_texture(
         image);
 
     return id;
-}
+}*/
 
-static void load_texture(texture_t& texture, const char* path) {
+/*static void load_texture(texture_t& texture, const char* path) {
     FILE *file = fopen(path, "r");
 
     if (file == NULL) {
@@ -109,9 +72,9 @@ static void load_texture(texture_t& texture, const char* path) {
     free(image);
 
     printf("Loaded: %s\n", path);
-}
+}*/
 
-void load_textures() { // TODO size
+/*void load_textures() { // TODO size
     // Empty texture is generated;
     const unsigned int height = 16;
     const unsigned int width = 16;
@@ -131,4 +94,31 @@ void load_textures() { // TODO size
     //load_texture(digits_tex, "/Users/tomek/open-tgm/data/resources/8px/digits_font.png");
     //load_texture(tileset_tex, "/Users/tomek/open-tgm/data/resources/9px/tilemap.png");
     //load_texture(outline_tex, "/Users/tomek/open-tgm/data/resources/9px/outline.png");
+}*/
+
+void free_texture(Texture& /*texture*/) {
+    //C3D_TexDelete(&texture.handle);
+}
+
+void load_texture(Texture& texture, const uint8_t* img_data, const size_t) {
+    glGenTextures(1, &texture.handle);
+    glBindTexture(GL_TEXTURE_2D, texture.handle);
+
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    // TODO handle formats
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RGBA8,
+        texture.width,
+        texture.height,
+        0,
+        GL_RGBA,
+        GL_UNSIGNED_BYTE,
+        img_data);
 }

@@ -6,22 +6,20 @@
 
 #include <RawMode.h>
 #include <Frame.h>
+#include <Debug.h>
 #include "easy.h"
 
 uint32_t easy_score(uint32_t level, uint32_t lines, uint32_t soft,
                             uint32_t sonic, uint32_t combo, uint32_t bravo,
                             uint32_t lvl_aft_clear, uint32_t speed) {
-    #ifdef DEBUG
-    print("level: %d\n"
-          "lines: %d\n"
-          "soft: %d\n"
-          "sonic: %d\n"
-          "combo: %d\n"
-          "bravo: %d\n"
-          "lvl_aft_clear: %d\n"
-          "speed: %d\n", (int) level, (int) lines, (int) soft, (int) sonic,
-                         (int) combo, (int) bravo, (int) lvl_aft_clear, (int) speed);
-    #endif
+    printd("level: " << level);
+    printd("lines: " << lines);
+    printd("soft: " << soft);
+    printd("sonic: " << sonic);
+    printd("combo: " << combo);
+    printd("bravo: " << bravo);
+    printd("lvl_aft_clear: " << lvl_aft_clear);
+    printd("speed: " << speed);
 
     uint32_t tmp = (level + lines) / 4;
     if ((level + lines) % 4 != 0) // Round Up

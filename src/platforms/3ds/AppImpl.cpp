@@ -13,6 +13,10 @@ Size screen = { 400, 240 }; // TODO
     GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO))
 
 void app(Scene& scene) {
+    #ifdef DEBUG
+    consoleDebugInit(debugDevice_SVC);
+    #endif
+
     gfxInitDefault();
     C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
 
@@ -38,7 +42,7 @@ void app(Scene& scene) {
 
         // Draw
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
-		C3D_RenderTargetClear(target, C3D_CLEAR_ALL, 0x000000FF, 0);
+		C3D_RenderTargetClear(target, C3D_CLEAR_ALL, 0x00FF00FF, 0);
 		C3D_FrameDrawOn(target);
 
         scene.draw();
