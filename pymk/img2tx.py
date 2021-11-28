@@ -52,7 +52,7 @@ img2txlib.run.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p, cty
 data = None
 tile_size = -1
 
-parser = ConfigParser()
+parser = ConfigParser(delimiters=('='))
 with open(args.metadata) as lines:
     default_section = 'top'
     lines = chain(['[' + default_section + ']'], lines)
