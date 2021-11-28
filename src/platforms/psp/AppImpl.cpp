@@ -21,6 +21,7 @@ void app(Scene& scene) {
     sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
 
     init_gpu();
+    load_textures();
 
     while (true) {
         scene.update();

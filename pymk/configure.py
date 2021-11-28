@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+from .deps.expand import get_path
 from .deps.rule import Variable, Rule, Build
 from .ninja import NinjaBuild
 from . import globals
@@ -128,4 +129,4 @@ def run(target, prefix, file):
 
     builds += target.builds
 
-    return NinjaBuild(file, variables, rules, builds, path=target.get_path())
+    return NinjaBuild(file, variables, rules, builds, path=get_path(target.path))

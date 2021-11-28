@@ -6,3 +6,6 @@ def expand(dir, entry):
     for i in items:
         files += dir.glob(i)
     return files
+
+def get_path(path):
+    return ':'.join([str(p) for p in path]) + ':'

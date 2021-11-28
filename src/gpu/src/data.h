@@ -3,6 +3,9 @@
 #ifndef DATA_GPU_H
 #define DATA_GPU_H
 
+#include <stddef.h>
+#include <stdint.h>
+
 struct AssetEntry {
     const uint8_t* data;
     size_t size;

@@ -9,7 +9,7 @@ from pathlib import Path
 from . import globals
 from .entry import BuildEntry
 from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR, LIBS_DIR
-from .deps.expand import expand
+from .deps.expand import expand, get_path
 from .deps.requirement import Requirement
 from .deps.rule import to_src_rule, to_data_rule, to_texture_rule
 
@@ -152,7 +152,7 @@ class Target:
         try:
             my_env = os.environ.copy()
             if self.path:
-                my_env["PATH"] = self.get_path() + my_env["PATH"]
+                my_env["PATH"] = get_path(self.path) + my_env["PATH"]
 
             proc = subprocess.Popen(
                 [self.cxx, '-fdiagnostics-color', '-c', '-x', 'c++', '/dev/null',
@@ -165,9 +165,6 @@ class Target:
                 self.cxxflags += ['-fdiagnostics-color']
         except:
             pass
-
-    def get_path(self):
-        return ':'.join([str(p) for p in self.path]) + ':'
 
     def load_entry(self, entry):
         values = entry.values

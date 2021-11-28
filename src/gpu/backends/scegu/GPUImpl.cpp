@@ -32,6 +32,11 @@ static void* get_vram_offset_image(int width, int height, int format) {
     return get_vram_offset_bytes(mem_size);
 }
 
+void* get_static_vram_texture(unsigned int bytes) {
+	void* result = get_vram_offset_bytes(bytes);
+	return (void*)(((unsigned int)result) + ((unsigned int)sceGeEdramGetAddr()));
+}
+
 static unsigned int __attribute__((aligned(16))) list[262144];
 
 void init_gpu() {
@@ -59,14 +64,14 @@ void init_gpu() {
     sceGuTexFilter(GU_LINEAR, GU_LINEAR);
     sceGuShadeModel(GU_SMOOTH);
 
-    sceGuEnable(GU_DEPTH_TEST);
-    sceGuEnable(GU_ALPHA_TEST);
-    sceGuEnable(GU_SCISSOR_TEST);
-    sceGuEnable(GU_BLEND);
-
     sceGuDisable(GU_CULL_FACE);
     sceGuDisable(GU_CLIP_PLANES);
     sceGuDisable(GU_DITHER);
+
+    sceGuEnable(GU_ALPHA_TEST);
+    sceGuEnable(GU_SCISSOR_TEST);
+    sceGuEnable(GU_BLEND);
+    sceGuEnable(GU_TEXTURE_2D);
 
     sceGuScissor(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
@@ -87,15 +92,26 @@ void graphics_clear() {
     sceGuStart(GU_DIRECT, list);
 
     // Clear screen
-    sceGuClearColor(0xff0000ff);
+    sceGuClearColor(0xff00ff00);
     sceGuClearDepth(0);
-    sceGuClear(GU_COLOR_BUFFER_BIT | GU_DEPTH_BUFFER_BIT);
+    sceGuClear(GU_COLOR_BUFFER_BIT | /*GU_FAST_CLEAR_BIT |*/ GU_DEPTH_BUFFER_BIT);
+
+    // Setup matrices
+    sceGumMatrixMode(GU_PROJECTION);
+    sceGumLoadIdentity();
+    sceGumOrtho(0, SCR_WIDTH, SCR_HEIGHT, 0, -1, 1);
+
+    sceGumMatrixMode(GU_VIEW);
+    sceGumLoadIdentity();
+
+    sceGumMatrixMode(GU_MODEL);
+    sceGumLoadIdentity();
 }
 
 void graphics_display() {
     // Flush command buffer
     sceGuFinish();
-    sceGuSync(0,0);
+    sceGuSync(0, 0);
 
     // Swap buffers and wait for VSYNC
     sceDisplayWaitVblankStart();
