@@ -15,7 +15,7 @@ Home::Home() :
             Layouts::CENTERED,
             TextColor::WHITE,
             "PRESS START"),
-        m_start_timer(0) {
+        m_start_timer(90) {
     printd("Home screen constructor");
 }
 

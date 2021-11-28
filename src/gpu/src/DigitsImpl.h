@@ -19,7 +19,8 @@ class DigitsImpl {
 
         void layout(const Position &position);
         void update();
-        void render() const;
+
+        void render() const { m_glyphs.render(); }
 
         #ifdef RESIZABLE
         void resize() { }

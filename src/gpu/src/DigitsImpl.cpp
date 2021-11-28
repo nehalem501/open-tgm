@@ -24,7 +24,3 @@ void DigitsImpl::layout(const Position &position) {
     // TODO
     m_glyphs.position(position);
 }
-
-void DigitsImpl::render() const {
-    //m_glyphs.render();
-}
