@@ -4,153 +4,93 @@
 #define VERTEX_H
 
 #include <GPUTypes.h>
+#include <GPUVertex.h>
 #include <TargetTypes.h>
 
-#define GPU_BLACK ColorRGBA(0.0, 0.0, 0.0, 1.0)
-#define GPU_WHITE ColorRGBA(1.0, 1.0, 1.0, 1.0)
-#define GPU_RED ColorRGBA(1.0, 0.0, 0.0, 1.0)
-#define GPU_GREEN ColorRGBA(0.0, 1.0, 0.0, 1.0)
-#define GPU_BLUE ColorRGBA(0.0, 0.0, 1.0, 1.0)
+#define GPU_BLACK ColorRGBA(0.0f, 0.0f, 0.0f, 1.0f)
+#define GPU_WHITE ColorRGBA(1.0f, 1.0f, 1.0f, 1.0f)
+#define GPU_RED   ColorRGBA(1.0f, 0.0f, 0.0f, 1.0f)
+#define GPU_GREEN ColorRGBA(0.0f, 1.0f, 0.0f, 1.0f)
+#define GPU_BLUE  ColorRGBA(0.0f, 0.0f, 1.0f, 1.0f)
 
 #define GPU_TOP_LEFT TexCoord(0.0, 0.0)
 #define GPU_TOP_RIGHT TexCoord(1.0, 0.0)
 #define GPU_BOTTOM_LEFT TexCoord(0.0, 1.0)
 #define GPU_BOTTOM_RIGHT TexCoord(1.0, 1.0)
 
-struct Point2D {
-    constexpr Point2D(gpu_float_t x, gpu_float_t y) : x(x), y(y) { };
-
-    gpu_float_t x, y;
-
-    #ifdef DEBUG
-    /*void print(const char *name) {
-        ::print("%s: X: %f, Y: %f,\n", name, x, y);
-    }*/
-    #endif
+struct Point2D : Point2DImpl {
+    constexpr Point2D(float x, float y) : Point2DImpl(x, y) { }
+    constexpr Point2D(const Point2DImpl& point) : Point2DImpl(point.x(), point.y()) { }
 };
 
-struct Size2D {
-    constexpr Size2D(
-        gpu_float_t width,
-        gpu_float_t height) : width(width), height(height) { };
-
-    gpu_float_t width, height;
+struct Size2D : Size2DImpl {
+    constexpr Size2D(float width, float height) : Size2DImpl(width, height) { }
+    constexpr Size2D(const Size2DImpl& size) : Size2DImpl(size.width(), size.height()) { }
 };
 
-struct ColorRGB {
-    constexpr ColorRGB(gpu_float_t r, gpu_float_t g, gpu_float_t b) : r(r), g(g), b(b) { };
-
-    gpu_float_t r, g, b;
+struct ColorRGBA : ColorRGBAImpl {
+    constexpr ColorRGBA(float r, float g, float b, float a) : ColorRGBAImpl(r, g, b, a) { }
+    constexpr ColorRGBA(const ColorRGBAImpl& color) : ColorRGBAImpl(color.r(), color.g(), color.b(), color.a()) { }
 };
 
-struct ColorRGBA {
-    constexpr ColorRGBA(
-        gpu_float_t r,
-        gpu_float_t g,
-        gpu_float_t b,
-        gpu_float_t a) : r(r), g(g), b(b), a(a) { };
-
-    gpu_float_t r, g, b, a;
-
-    #ifdef DEBUG
-    /*void dump(const char *name) {
-        ::print("%s: R: %d, G: %d, B: %d, A: %d\n", name, (int)(r * 256.f), (int)(g * 256.f), (int)(b * 256.f), (int)(a * 256.f));
-    }*/
-    #endif
+struct TexCoord : TexCoordImpl {
+    constexpr TexCoord(float u, float v) : TexCoordImpl(u, v) { }
+    constexpr TexCoord(const TexCoordImpl& texcoords) : TexCoordImpl(texcoords.u(), texcoords.v()) { }
 };
 
-struct TexCoord {
-    constexpr TexCoord(
-        gpu_float_t u,
-        gpu_float_t v) : u(u), v(v) { };
+struct Vertex2D : Vertex2DImpl {
+    constexpr Vertex2D() : Vertex2DImpl(Point2D(0, 0), TexCoord(0, 0), ColorRGBA(0, 0, 0, 0)) { }
 
-    inline TexCoord operator+(const TexCoord& t) const {
-        return TexCoord(t.u + u, t.v + v);
+    constexpr Vertex2D(
+        const Point2D& xy,
+        const TexCoord& uv,
+        const ColorRGBA& rgba) : Vertex2DImpl(xy, uv, rgba) { }
+
+    constexpr Point2D position() const { return xy; }
+    constexpr void position(const Point2D& xy) { this->xy = xy; }
+
+    constexpr TexCoord tex_coords() const { return uv; }
+    constexpr void tex_coords(const TexCoord& uv) { this->uv = uv; }
+
+    constexpr ColorRGBA color() const { return rgba; }
+    constexpr void color(const ColorRGBA& rgba) { this->rgba = rgba; }
+
+    constexpr void clear() {
+        xy.x(0);
+        xy.x(0);
+        uv.u(0);
+        uv.v(0);
+        rgba.r(0);
+        rgba.g(0);
+        rgba.b(0);
+        rgba.a(0);
     }
 
-    gpu_float_t u, v;
+    constexpr float x() const { return xy.x(); }
+    constexpr void x(float x) { xy.x(x); }
+    constexpr void x_add(float value) { xy.x(x() + value); }
 
-    #ifdef DEBUG
-    /*void dump(const char *name) {
-        ::print("%s: U: %f, V: %f\n", name, u, v);
-    }*/
-    #endif
-};
+    constexpr float y() const { return xy.y(); }
+    constexpr void y(float y) { xy.y(y); }
+    constexpr void y_add(float value) { xy.y(y() + value); }
 
-struct Vertex2D {
-    gpu_float_t x, y;
-    gpu_float_t u, v;
-    gpu_float_t r, g, b, a;
+    constexpr float u() const { return uv.u(); }
+    constexpr void u(float u) { uv.u(u); }
 
-    constexpr Vertex2D() : // TODO
-            x(0), y(0),
-            u(0), v(0),
-            r(0), g(0), b(0), a(0) { };
+    constexpr float v() const { return uv.v(); }
+    constexpr void v(float v) { uv.v(v); }
 
-    constexpr Vertex2D(
-        gpu_float_t x, gpu_float_t y,
-        gpu_float_t u, gpu_float_t v,
-        gpu_float_t r, gpu_float_t g, gpu_float_t b, gpu_float_t a) :
-            x(x), y(y),
-            u(u), v(v),
-            r(r), g(g), b(b), a(a) { };
+    constexpr float r() const { return rgba.r(); }
+    constexpr void r(float r) { rgba.r(r); }
 
-    constexpr Vertex2D(
-        const Point2D& xy,
-        const TexCoord& uv,
-        const ColorRGB& rgb) :
-            x(xy.x), y(xy.y),
-            u(uv.u), v(uv.v),
-            r(rgb.r), g(rgb.g), b(rgb.b), a(1.0) { };
+    constexpr float g() const { return rgba.g(); }
+    constexpr void g(float g) { rgba.g(g); }
 
-    constexpr Vertex2D(
-        const Point2D& xy,
-        const TexCoord& uv,
-        const ColorRGBA& rgba) :
-            x(xy.x), y(xy.y),
-            u(uv.u), v(uv.v),
-            r(rgba.r), g(rgba.g), b(rgba.b), a(rgba.a) { };
+    constexpr float b() const { return rgba.b(); }
+    constexpr void b(float b) { rgba.b(b); }
 
-    inline Point2D position() {
-        return Point2D(x, y);
-    };
-
-    inline void position(gpu_float_t x, gpu_float_t y) {
-        this->x = x;
-        this->y = y;
-    };
-
-    inline TexCoord tex_coords() {
-        return TexCoord(u, v);
-    };
-
-    inline void tex_coords(const TexCoord& uv) {
-        this->u = uv.u;
-        this->v = uv.v;
-    };
-
-    inline void tex_coords(gpu_float_t u, gpu_float_t v) {
-        this->u = u;
-        this->v = v;
-    };
-
-    inline void color(const ColorRGB& c) {
-        color(c.r, c.g, c.b, 1.0);
-    };
-
-    inline void color(const ColorRGBA& c) {
-        this->r = c.r;
-        this->g = c.g;
-        this->b = c.b;
-        this->a = c.a;
-    };
-
-    inline void color(gpu_float_t r, gpu_float_t g, gpu_float_t b, gpu_float_t a) {
-        this->r = r;
-        this->g = g;
-        this->b = b;
-        this->a = a;
-    };
+    constexpr float a() const { return rgba.a(); }
+    constexpr void a(float a) { rgba.a(a); }
 };
 
 #endif // VERTEX_H

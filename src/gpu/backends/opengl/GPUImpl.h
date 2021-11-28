@@ -28,13 +28,13 @@ class VertexArray2DImpl {
 
             for (unsigned int i = 0; i < N; i++) {
                 glColor4f(
-                    m_vertices[i].r,
-                    m_vertices[i].g,
-                    m_vertices[i].b,
-                    m_vertices[i].a);
+                    m_vertices[i].r(),
+                    m_vertices[i].g(),
+                    m_vertices[i].b(),
+                    m_vertices[i].a());
 
-                glTexCoord2f(m_vertices[i].u, m_vertices[i].v);
-                glVertex2f(m_vertices[i].x, m_vertices[i].y);
+                glTexCoord2f(m_vertices[i].u(), m_vertices[i].v());
+                glVertex2f(m_vertices[i].x(), m_vertices[i].y());
             }
 
             glEnd();

@@ -26,10 +26,10 @@ class VertexArray2D {
             printd("VertexArray2D<" << N <<"> constructor");
         };
 
-        inline void move(gpu_float_t x, gpu_float_t y) {
-            for (unsigned int i = 0; i < N; i++) {
-                vertices[i].x += x;
-                vertices[i].y += y;
+        inline void move(float x, float y) {
+            for (size_t i = 0; i < N; i++) {
+                vertices[i].x_add(x);
+                vertices[i].y_add(y);
             }
         };
 

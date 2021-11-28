@@ -136,11 +136,11 @@ static void read_texture_header(HeaderData& header, const uint8_t* data, const s
                     id,
                     char_id,
                     Glyph(
-                        (gpu_float_t) read_uint32(data + position + 4),
-                        (gpu_float_t) read_uint32(data + position + 8),
-                        (gpu_float_t) read_uint32(data + position + 12),
-                        (gpu_float_t) read_uint32(data + position + 16),
-                        (gpu_float_t) read_uint32(data + position + 20)));
+                        (gpu_texcoord_t) read_uint32(data + position + 4),
+                        (gpu_texcoord_t) read_uint32(data + position + 8),
+                        (gpu_texcoord_t) read_uint32(data + position + 12),
+                        (gpu_texcoord_t) read_uint32(data + position + 16),
+                        (gpu_texcoord_t) read_uint32(data + position + 20)));
                 position += 6 * 4;
             }
             break;

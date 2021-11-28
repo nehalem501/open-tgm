@@ -39,6 +39,8 @@ void init_glyphs(
     const Position &position,
     Layout layout,
     int text_color,
+    float texture_width,
+    float texture_height,
     unsigned int length,
     size_t size);
 
@@ -50,6 +52,8 @@ void position_glyphs_from_string(
     const Position &position,
     Layout layout,
     const unsigned char* str,
+    float texture_width,
+    float texture_height,
     size_t length,
     size_t size);
 
@@ -61,13 +65,25 @@ class Glyphs : public Reloadable {
                 m_length(length),
                 m_position(position),
                 m_layout(layout),
+                m_font(font),
                 m_glyphs(get_glyph_array(font)), // TODO
                 m_vertex_array(font_to_texture(font))
         {
             printd("Typeface<" << N << "> constructor");
 
             register_reloadable(this);
-            init_glyphs(m_vertex_array.vertices, text, m_glyphs, position, layout, text_color, length, N);
+            const Texture& t = get_texture(font_to_texture(m_font));
+            init_glyphs(
+                m_vertex_array.vertices,
+                text,
+                m_glyphs,
+                position,
+                layout,
+                text_color,
+                t.width,
+                t.height,
+                length,
+                N);
         }
 
         virtual void refresh() {
@@ -97,12 +113,31 @@ class Glyphs : public Reloadable {
             m_text_str = str;
             m_length = length;
             m_layout = layout;
+            const Texture& t = get_texture(font_to_texture(m_font));
             position_glyphs_from_string(
                 m_vertex_array.vertices,
                 m_glyphs,
                 m_position,
                 m_layout,
                 (const unsigned char*) m_text_str,
+                t.width,
+                t.height,
+                (size_t) m_length,
+                N);
+        }
+
+        void update_text(const char* str, unsigned int length) {
+            m_text_str = str;
+            m_length = length;
+            const Texture& t = get_texture(font_to_texture(m_font));
+            position_glyphs_from_string(
+                m_vertex_array.vertices,
+                m_glyphs,
+                m_position,
+                m_layout,
+                (const unsigned char*) m_text_str,
+                t.width,
+                t.height,
                 (size_t) m_length,
                 N);
         }
@@ -120,6 +155,7 @@ class Glyphs : public Reloadable {
         unsigned int m_length;
         Position m_position;
         Layout m_layout;
+        Font m_font;
 
         const Glyph *m_glyphs;
         VertexArray2D<N * 4> m_vertex_array;

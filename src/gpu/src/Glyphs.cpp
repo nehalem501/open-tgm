@@ -60,23 +60,22 @@ void init_glyphs(
     const Position &position,
     Layout layout,
     int text_color,
+    float texture_width,
+    float texture_height,
     unsigned int length,
     size_t size) {
 
     ColorRGBA color = text_color_to_gpu_color(text_color);
 
     for (unsigned int i = 0; i < size * 4; i++) {
-        vertices[i].u = 0;
-        vertices[i].v = 0;
+        vertices[i].u(0);
+        vertices[i].v(0);
 
-        vertices[i].r = color.r;
-        vertices[i].g = color.b;
-        vertices[i].b = color.g;
-        vertices[i].a = color.a;
+        vertices[i].color(color);
     }
 
-    vertices[0].x = 0;
-    vertices[0].y = 0;
+    vertices[0].x(0);
+    vertices[0].y(0);
 
     position_glyphs_from_string(
         vertices,
@@ -84,6 +83,8 @@ void init_glyphs(
         position,
         layout,
         (unsigned char*) text,
+        texture_width,
+        texture_height,
         (size_t) length,
         size);
 }
@@ -95,12 +96,12 @@ void set_color(Vertex2D *vertices, const ColorRGBA& new_color, size_t size) {
 }
 
 void set_position(Vertex2D *vertices, const Position& position, size_t size) {
-    gpu_float_t x = ((gpu_float_t) position.x) - vertices[0].x;
-    gpu_float_t y = ((gpu_float_t) position.y) - vertices[0].y;
+    const float x = ((float) position.x) - vertices[0].x();
+    const float y = ((float) position.y) - vertices[0].y();
 
     for (size_t i = 0; i < size * 4; i++) {
-        vertices[i].x += x;
-        vertices[i].y += y;
+        vertices[i].x_add(x);
+        vertices[i].y_add(y);
     }
 }
 
@@ -110,58 +111,55 @@ void position_glyphs_from_string(
     const Position &position,
     Layout layout,
     const unsigned char* str,
+    float texture_width,
+    float texture_height,
     size_t length,
     size_t size)
 {
-    gpu_float_t offset = 0;
-    gpu_float_t texture_width = 64.0f;
-    gpu_float_t texture_height = 64.0f;
+    float offset = 0;
 
-    //print("%s x: %d, y: %d, layout: %d\n", str, position.x, position.y, (int)layout);
+    // Maybe pre-compute all texture coords like for tilemaps ?
 
     for (size_t i = 0; i < (size * 4) && i < (length * 4); i += 4) { // TODO
         const Glyph& glyph = glyphs[str[i / 4]];
 
-        //Glyph glyph = { 0, 0, (gpu_float_t) tile_size, (gpu_float_t) tile_size, (gpu_float_t) tile_size + 1};
-        //Glyph glyph(0, 0, tile_size, tile_size, tile_size + 1);
+        vertices[i].x(position.x + offset);
+        vertices[i].y(position.y);
+        vertices[i].u(glyph.x / texture_width);
+        vertices[i].v(glyph.y / texture_height);
 
-        vertices[i].x = position.x + offset;
-        vertices[i].y = position.y;
-        vertices[i].u = glyph.x / texture_width;
-        vertices[i].v = glyph.y / texture_height;
+        vertices[i + 1].x(position.x + offset);
+        vertices[i + 1].y(position.y + glyph.height);
+        vertices[i + 1].u(glyph.x / texture_width);
+        vertices[i + 1].v((glyph.y + glyph.height) / texture_height);
 
-        vertices[i + 1].x = position.x + offset;
-        vertices[i + 1].y = position.y + glyph.height;
-        vertices[i + 1].u = glyph.x / texture_width;
-        vertices[i + 1].v = (glyph.y + glyph.height) / texture_height;
+        vertices[i + 2].x(position.x + offset + glyph.width);
+        vertices[i + 2].y(position.y + glyph.height);
+        vertices[i + 2].u((glyph.x + glyph.width) / texture_width);
+        vertices[i + 2].v((glyph.y + glyph.height) / texture_height);
 
-        vertices[i + 2].x = position.x + offset + glyph.width;
-        vertices[i + 2].y = position.y + glyph.height;
-        vertices[i + 2].u = (glyph.x + glyph.width) / texture_width;
-        vertices[i + 2].v = (glyph.y + glyph.height) / texture_height;
-
-        vertices[i + 3].x = position.x + offset + glyph.width;
-        vertices[i + 3].y = position.y;
-        vertices[i + 3].u = (glyph.x + glyph.width) / texture_width;
-        vertices[i + 3].v = glyph.y / texture_height;
+        vertices[i + 3].x(position.x + offset + glyph.width);
+        vertices[i + 3].y(position.y);
+        vertices[i + 3].u((glyph.x + glyph.width) / texture_width);
+        vertices[i + 3].v(glyph.y / texture_height);
 
         offset += glyph.offset;
     }
 
     if (layout == Layouts::CENTERED) {
-        gpu_float_t x = ((int) offset) / 2;
+        float x = ((int) offset) / 2;
         for (size_t i = 0; i < (size * 4) && i < (length * 4); i++) {
-            vertices[i].x -= x;
+            vertices[i].x_add(-x);
         }
     }
 
     if (length < size) {
         for (unsigned int i = length * 4; i < size * 4; i++) {
-            vertices[i].x = 0;
-            vertices[i].y = 0;
+            vertices[i].x(0);
+            vertices[i].y(0);
 
-            vertices[i].u = 0;
-            vertices[i].v = 0;
+            vertices[i].u(0);
+            vertices[i].v(0);
         }
     }
 }

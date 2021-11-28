@@ -29,8 +29,8 @@ class Tilemap : public Reloadable {
 
             register_reloadable(this);
 
-            m_vertex_array.vertices[0].x = position.x;
-            m_vertex_array.vertices[0].y = position.y;
+            m_vertex_array.vertices[0].x(position.x);
+            m_vertex_array.vertices[0].y(position.y);
 
             /*for (unsigned int i = 0; i < m_width; i++) {
                 for (unsigned int j = 0; j < m_height; j++) {
@@ -42,16 +42,7 @@ class Tilemap : public Reloadable {
             color(c);
 
             for (unsigned int i = width * height * 4; i < N * 4; i++) {
-                m_vertex_array.vertices[i].x = 0.0f;
-                m_vertex_array.vertices[i].y = 0.0f;
-
-                m_vertex_array.vertices[i].u = 0.0f;
-                m_vertex_array.vertices[i].v = 0.0f;
-
-                m_vertex_array.vertices[i].r = 0.0f;
-                m_vertex_array.vertices[i].g = 0.0f;
-                m_vertex_array.vertices[i].b = 0.0f;
-                m_vertex_array.vertices[i].a = 0.0f;
+                m_vertex_array.vertices[i].clear();
             }
         }
 
@@ -74,8 +65,8 @@ class Tilemap : public Reloadable {
 
         inline void position(const Position& position) {
             m_vertex_array.move(
-                ((gpu_float_t) position.x) - m_vertex_array.vertices[0].x,
-                ((gpu_float_t) position.y) - m_vertex_array.vertices[0].y);
+                ((float) position.x) - m_vertex_array.vertices[0].x(),
+                ((float) position.y) - m_vertex_array.vertices[0].y());
         }
 
         void update(const tiles_t *tiles) {
@@ -101,31 +92,31 @@ class Tilemap : public Reloadable {
         }
 
         inline void tile_position(unsigned int tile_x, unsigned int tile_y) {
-            const gpu_float_t tile_size_gpu = tile_size;
-            const unsigned int index = (tile_x + tile_y * m_width) * 4;
+            const float tile_size_gpu = tile_size;
+            const size_t index = (tile_x + tile_y * m_width) * 4;
 
-            const gpu_float_t x = m_vertex_array.vertices[0].x;
-            const gpu_float_t y = m_vertex_array.vertices[0].y;
+            const float x = m_vertex_array.vertices[0].x();
+            const float y = m_vertex_array.vertices[0].y();
 
-            m_vertex_array.vertices[index].x = x + tile_x * tile_size_gpu;
-            m_vertex_array.vertices[index].y = y + tile_y * tile_size_gpu;
+            m_vertex_array.vertices[index].x(x + tile_x * tile_size_gpu);
+            m_vertex_array.vertices[index].y(y + tile_y * tile_size_gpu);
 
-            m_vertex_array.vertices[index + 1].x = x + tile_x * tile_size_gpu;
-            m_vertex_array.vertices[index + 1].y = y + (tile_y + 1.0f) * tile_size_gpu;
+            m_vertex_array.vertices[index + 1].x(x + tile_x * tile_size_gpu);
+            m_vertex_array.vertices[index + 1].y(y + (tile_y + 1.0f) * tile_size_gpu);
 
-            m_vertex_array.vertices[index + 2].x = x + (tile_x + 1.0f) * tile_size_gpu;
-            m_vertex_array.vertices[index + 2].y = y + (tile_y + 1.0f) * tile_size_gpu;
+            m_vertex_array.vertices[index + 2].x(x + (tile_x + 1.0f) * tile_size_gpu);
+            m_vertex_array.vertices[index + 2].y(y + (tile_y + 1.0f) * tile_size_gpu);
 
-            m_vertex_array.vertices[index + 3].x = x + (tile_x + 1.0f) * tile_size_gpu;
-            m_vertex_array.vertices[index + 3].y = y + tile_y * tile_size_gpu;
+            m_vertex_array.vertices[index + 3].x(x + (tile_x + 1.0f) * tile_size_gpu);
+            m_vertex_array.vertices[index + 3].y(y + tile_y * tile_size_gpu);
         }
 
         void render() const { m_vertex_array.render(); }
 
         #ifdef RESIZABLE
         void resize(const Position& position) {
-            m_vertex_array.vertices[0].x = position.x;
-            m_vertex_array.vertices[0].y = position.y;
+            m_vertex_array.vertices[0].x(position.x);
+            m_vertex_array.vertices[0].y(position.y);
 
             for (unsigned int i = 0; i < m_width; i++) {
                 for (unsigned int j = 0; j < m_height; j++) {

@@ -24,17 +24,17 @@ struct TextureData {
             tex_coord_top_right(0, 0) { };
 
     constexpr TextureData(
-        gpu_float_t width,
-        gpu_float_t height,
-        gpu_float_t x1, gpu_float_t y1,
-        gpu_float_t x2, gpu_float_t y2) :
+        gpu_texcoord_t width,
+        gpu_texcoord_t height,
+        gpu_texcoord_t x1, gpu_texcoord_t y1,
+        gpu_texcoord_t x2, gpu_texcoord_t y2) :
             width(width), height(height),
             tex_coord_top_left(x1 / width, y1 / height),
             tex_coord_bottom_left(x1 / width, y2 / height),
             tex_coord_bottom_right(x2 / width, y2 / height),
             tex_coord_top_right(x2 / width, y1 / height) { };
 
-    gpu_float_t width, height;
+    gpu_texcoord_t width, height;
 
     TexCoord tex_coord_top_left; // 0
     TexCoord tex_coord_bottom_left; // 1

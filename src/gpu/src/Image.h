@@ -17,13 +17,13 @@ class Image {
 
         inline void texture(TextureID texture) { m_rect.texture(texture); };
 
-        inline void move(gpu_float_t x, gpu_float_t y) { m_rect.move(x, y); };
+        inline void move(float x, float y) { m_rect.move(x, y); };
 
-        inline void position(gpu_float_t x, gpu_float_t y) {
+        inline void position(float x, float y) {
             m_rect.position(x, y);
         };
 
-        inline void size(gpu_float_t width, gpu_float_t height) {
+        inline void size(float width, float height) {
             m_rect.size(width, height);
         };
 

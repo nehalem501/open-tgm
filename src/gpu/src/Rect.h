@@ -32,19 +32,19 @@ class Rect {
             m_vertex_array.texture(texture);
         }
 
-        inline void move(gpu_float_t x, gpu_float_t y) {
+        inline void move(float x, float y) {
             m_vertex_array.move(x, y);
         }
 
-        inline void position(gpu_float_t x, gpu_float_t y) {
-            move(x - top_left().x, y - top_left().y);
+        inline void position(float x, float y) {
+            move(x - top_left().x(), y - top_left().y());
         }
 
-        inline void size(gpu_float_t width, gpu_float_t height) {
-            top_right().x = top_left().x + width;
-            bottom_left().y = top_right().y + height;
-            bottom_right().x = top_left().x + width;
-            bottom_right().y = top_left().y + height;
+        inline void size(float width, float height) {
+            top_right().x(top_left().x() + width);
+            bottom_left().y(top_right().y() + height);
+            bottom_right().x(top_left().x() + width);
+            bottom_right().y(top_left().y() + height);
         }
 
         inline Vertex2D& top_left() { return m_vertex_array.vertices[0]; }
@@ -52,7 +52,7 @@ class Rect {
         inline Vertex2D& bottom_left() { return m_vertex_array.vertices[1]; }
         inline Vertex2D& bottom_right() { return m_vertex_array.vertices[2]; }
 
-        void render() const;
+        void render() const { m_vertex_array.render(); }
 
     private:
         VertexArray2D<4> m_vertex_array;

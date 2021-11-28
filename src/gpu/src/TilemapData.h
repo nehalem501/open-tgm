@@ -10,10 +10,10 @@
 
 struct TileData {
     constexpr TileData(
-        gpu_float_t width,
-        gpu_float_t height,
-        gpu_float_t x1, gpu_float_t y1,
-        gpu_float_t x2, gpu_float_t y2) :
+        float width,
+        float height,
+        float x1, float y1,
+        float x2, float y2) :
             tex_coord_top_left(x1 / width, y1 / height),
             tex_coord_bottom_left(x1 / width, y2 / height),
             tex_coord_bottom_right(x2 / width, y2 / height),

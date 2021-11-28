@@ -23,15 +23,15 @@ Rect::Rect(
         top_left_tex_coords,
         top_left_color);
     m_vertex_array.vertices[1] = Vertex2D(
-        Point2D(coords.x, coords.y + size.height),
+        Point2D(coords.x(), coords.y() + size.height()),
         bottom_left_tex_coords,
         bottom_left_color);
     m_vertex_array.vertices[2] = Vertex2D(
-        Point2D(coords.x + size.width, coords.y + size.height),
+        Point2D(coords.x() + size.width(), coords.y() + size.height()),
         bottom_right_tex_coords,
         bottom_right_color);
     m_vertex_array.vertices[3] = Vertex2D(
-        Point2D(coords.x + size.width, coords.y),
+        Point2D(coords.x() + size.width(), coords.y()),
         top_right_tex_coords,
         top_right_color);
 }
@@ -49,19 +49,15 @@ Rect::Rect(
         TexCoord(0, 0),
         color);
     m_vertex_array.vertices[1] = Vertex2D(
-        Point2D(coords.x, coords.y + size.height),
+        Point2D(coords.x(), coords.y() + size.height()),
         TexCoord(0, 0),
         color);
     m_vertex_array.vertices[2] = Vertex2D(
-        Point2D(coords.x + size.width, coords.y + size.height),
+        Point2D(coords.x() + size.width(), coords.y() + size.height()),
         TexCoord(0, 0),
         color);
     m_vertex_array.vertices[3] = Vertex2D(
-        Point2D(coords.x + size.width, coords.y),
+        Point2D(coords.x() + size.width(), coords.y()),
         TexCoord(0, 0),
         color);
-}
-
-void Rect::render() const {
-    m_vertex_array.render();
 }

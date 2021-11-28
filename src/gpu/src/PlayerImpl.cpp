@@ -24,7 +24,7 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             TexturesID::BLOCKS
         ),
         m_next(
-            Position(position.x + 3 * tile_size, ((gpu_float_t) position.y) - (tile_size) * 2.5f), // TODO
+            Position(position.x + 3 * tile_size, ((float) position.y) - (tile_size) * 2.5f), // TODO
             PIECES[player.get_next_piece()][0],
             GPU_WHITE,
             PIECE_SIZE,
@@ -49,9 +49,9 @@ void PlayerImpl::update_piece_lock_animation(
     unsigned int lock,
     unsigned int max) {
     if (lock > 0) {
-        const gpu_float_t l = lock;
-        const gpu_float_t m = max;
-        gpu_float_t v = 1.0f;
+        const float l = lock;
+        const float m = max;
+        float v = 1.0f;
 
         if (l >= 2.0f * m / 5.0f)
             v = 0.82f;

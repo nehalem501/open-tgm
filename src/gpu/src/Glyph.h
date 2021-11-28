@@ -8,18 +8,18 @@
 #define NB_GLYPHS 256
 
 struct Glyph {
-    gpu_float_t x, y;
-    gpu_float_t width, height;
-    gpu_float_t offset;
+    gpu_coord_t x, y;
+    gpu_coord_t width, height;
+    gpu_coord_t offset;
 
     constexpr Glyph() : x(0), y(0), width(0), height(0), offset(0) { }
 
     constexpr Glyph(
-        gpu_float_t x,
-        gpu_float_t y,
-        gpu_float_t width,
-        gpu_float_t height,
-        gpu_float_t offset) :
+        gpu_coord_t x,
+        gpu_coord_t y,
+        gpu_coord_t width,
+        gpu_coord_t height,
+        gpu_coord_t offset) :
             x(x), y(y), width(width), height(height), offset(offset) { }
 };
 

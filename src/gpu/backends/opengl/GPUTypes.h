@@ -5,7 +5,9 @@
 
 #include <OpenGL1Dispatch.h>
 
-typedef GLfloat gpu_float_t;
+typedef GLfloat gpu_coord_t;
+typedef GLfloat gpu_texcoord_t;
+typedef GLfloat gpu_color_t;
 typedef GLuint gpu_indices_t;
 typedef GLuint texture_t;
 
