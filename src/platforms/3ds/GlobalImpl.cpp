@@ -16,8 +16,23 @@ base_dout& base_dout::operator << (const bool value) {
     return *this;
 }
 
+base_dout& base_dout::operator << (const short value) {
+    operator<<((int) value);
+    return *this;
+}
+
 base_dout& base_dout::operator << (const int value) {
     fprintf(stderr, "%d", value);
+    return *this;
+}
+
+base_dout& base_dout::operator << (const long value) {
+    operator<<((int) value);
+    return *this;
+}
+
+base_dout& base_dout::operator << (const unsigned short value) {
+    operator<<((int) value);
     return *this;
 }
 
@@ -26,8 +41,8 @@ base_dout& base_dout::operator << (const unsigned int value) {
     return *this;
 }
 
-base_dout& base_dout::operator << (const uint32_t value) {
-    operator<<((int)  value);
+base_dout& base_dout::operator << (const unsigned long value) {
+    operator<<((int) value);
     return *this;
 }
 #endif
