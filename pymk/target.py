@@ -124,8 +124,12 @@ class Target:
             else:
                 if platform.system() == 'Darwin':
                     self.ldflags += ['-dynamiclib', '-fPIC']
+                    self.cflags += ['-fPIC']
+                    self.cxxflags += ['-fPIC']
                 else:
                     self.ldflags += ['-shared', '-fPIC']
+                    self.cflags += ['-fPIC']
+                    self.cxxflags += ['-fPIC']
 
         self.src_c = [to_src_rule(BUILD_INFO.root_dir, BUILD_INFO.src_dir, self.build_dir, s, '.o') for s in self.src_c]
         self.src_cpp = [to_src_rule(BUILD_INFO.root_dir, BUILD_INFO.src_dir, self.build_dir, s, '.o') for s in self.src_cpp]
