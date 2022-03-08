@@ -45,6 +45,14 @@ parser_run.set_defaults(func=cmd.run)
 parser_test = subparsers.add_parser('test', aliases=['t'], help='run unit tests')
 parser_test.set_defaults(func=cmd.test)
 
+parser_init = subparsers.add_parser('init', aliases=['i'], help='create and init port to new platform')
+init_mode = parser_init.add_mutually_exclusive_group(required=True)
+init_mode.add_argument('--platform', action='store_true')
+init_mode.add_argument('--gpu-backend', action='store_true')
+init_mode.add_argument('--gpu-platform', action='store_true')
+parser_init.add_argument('name')
+parser_init.set_defaults(func=cmd.init)
+
 parser.set_defaults(func=lambda args: parser.print_help())
 
 args = parser.parse_args()

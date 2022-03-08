@@ -37,5 +37,8 @@ def run(args):
     # TODO launch
     pass
 
-def test():
+def test(args):
+    pass
+
+def init(args):
     pass
