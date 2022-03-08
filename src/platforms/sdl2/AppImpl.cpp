@@ -8,7 +8,8 @@
 #include <GPU.h>
 #include <App.h>
 
-Size screen = { 320, 240 };
+//Size screen = { 320, 240 };
+Size screen = { 160, 120 };
 int tile_size = 9;
 
 void error(const char *error_message) {
