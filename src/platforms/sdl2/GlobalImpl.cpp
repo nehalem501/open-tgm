@@ -22,7 +22,8 @@ base_dout& base_dout::operator << (const short value) {
 }
 
 base_dout& base_dout::operator << (const int value) {
-    printf("%d", value);
+    // TODO check if UNIX
+    printf("\033[1;93m%d\033[0m", value);
     return *this;
 }
 
