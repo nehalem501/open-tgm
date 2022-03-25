@@ -7,7 +7,7 @@ void init_gpu();
 void free_gpu();
 
 #ifdef RESIZABLE
-void resize(unsigned int width, unsigned int height);
+bool resize(unsigned int width, unsigned int height);
 #endif
 
 void graphics_clear();

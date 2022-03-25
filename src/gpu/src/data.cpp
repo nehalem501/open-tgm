@@ -117,6 +117,7 @@ void set_glyph_data(TextureID id, uint8_t c, const Glyph& data) {
 }
 
 Vector<Reloadable*> reloadable_items;
+bool loaded = false;
 
 void register_reloadable(Reloadable* item) {
     reloadable_items.push(item);
@@ -137,4 +138,21 @@ void load_textures() {
     for (size_t i = 0; i < reloadable_items.size(); i++) {
         reloadable_items[i]->refresh();
     }
+
+    loaded = true;
 }
+
+#ifdef RESIZABLE
+void reload_textures() {
+    if (!loaded) {
+        return;
+    }
+
+    refresh_textures(textures);
+
+    // TODO refresh glyphs etc...
+    for (size_t i = 0; i < reloadable_items.size(); i++) {
+        reloadable_items[i]->refresh();
+    }
+}
+#endif

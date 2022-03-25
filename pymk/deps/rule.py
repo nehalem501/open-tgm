@@ -77,7 +77,8 @@ def to_texture_rule(root_dir, source_dir, build_dir, ini, png):
     filename = root_dir.joinpath(build_dir_rel).joinpath(source_rel)
     while filename.suffix:
         filename = filename.with_suffix('')
-    output = filename.with_suffix(suffix)
+    size = filename.parent.name
+    output = filename.with_suffix('.' + size + suffix)
     return TextureRule(output, ini, png)
 
 def to_data_rule(root_dir, build_dir, file):

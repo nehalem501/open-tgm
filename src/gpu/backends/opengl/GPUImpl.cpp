@@ -36,7 +36,7 @@ void graphics_display() {
     //SDL_GL_SwapBuffers(); // TODO: remove SDL dependency
 }
 
-void resize(unsigned int width, unsigned int height) {
+bool resize(unsigned int width, unsigned int height) {
     screen.width = width;
     screen.height = height;
 
@@ -47,10 +47,12 @@ void resize(unsigned int width, unsigned int height) {
         new_tile_size = 9; // TODO
     }*/
 
+    bool resized = false;
+
     if (new_tile_size != tile_size) {
         tile_size = new_tile_size;
-        // TODO reload textures for new size
-        ;
+        reload_textures();
+        resized = true;
     }
 
     // TODO
@@ -64,4 +66,6 @@ void resize(unsigned int width, unsigned int height) {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+    return resized;
 }
