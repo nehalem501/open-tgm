@@ -1,7 +1,7 @@
-/* TextureID.h - GPU */
+/* TextureEnums.h - GPU */
 
-#ifndef TEXTURE_ID_H
-#define TEXTURE_ID_H
+#ifndef TEXTURE_ENUMS_H
+#define TEXTURE_ENUMS_H
 
 typedef unsigned int TextureID;
 
@@ -66,4 +66,4 @@ namespace TextureFileHeader {
     };
 }
 
-#endif // TEXTURE_ID_H
+#endif // TEXTURE_ENUMS_H

@@ -7,6 +7,7 @@
 #include "Glyphs.h"
 #include "TilemapData.h"
 #include "Vector.h"
+#include "Debug.h"
 #include "Texture.h"
 
 enum class HeaderStatus {
@@ -100,7 +101,7 @@ static void read_texture_header(HeaderData& header, const uint8_t* data, const s
                 uint32_t y1 = read_uint32(data + position + 8);
                 uint32_t x2 = read_uint32(data + position + 12);
                 uint32_t y2 = read_uint32(data + position + 16);
-                printd("New texture data loaded: id=" << id <<
+                printd("New texture data loaded: id=" << texture_to_str(id) <<
                     ", x1=" << x1 <<
                     ", y1=" << y1 <<
                     ", x2=" << x2 <<
@@ -117,7 +118,7 @@ static void read_texture_header(HeaderData& header, const uint8_t* data, const s
                 // TODO: error
                 return;
             }
-            printd("New tilemap data loaded: id=" << id << ", nb_tiles=" << nb_tiles);
+            printd("New tilemap data loaded: id=" << texture_to_str(id) << ", nb_tiles=" << nb_tiles);
             set_tilemap_data(id, TilemapDataEntry(texture_tilesize, width, height, nb_tiles));
             break;
         }
@@ -129,7 +130,7 @@ static void read_texture_header(HeaderData& header, const uint8_t* data, const s
                 return;
             }
             clear_glyph_data(id);
-            printd("New glyphs data loaded: id=" << id << ", nb_glyphs=" << nb_glyphs);
+            printd("New glyphs data loaded: id=" << texture_to_str(id) << ", nb_glyphs=" << nb_glyphs);
             for (unsigned int i = 0; i < nb_glyphs; i++) {
                 uint8_t char_id = data[position];
                 set_glyph_data(
@@ -308,7 +309,7 @@ void register_textures(const Assets& assets) {
             read_texture_metadata(header, assets.entries[i]);
             // TODO check for errors
             textures_manager.add(header.id, header.texture_tile_size, assets.entries[i]);
-            printd("New texture registered: id=" << header.id << ", tile_size=" << header.texture_tile_size);
+            printd("New texture registered: id=" << texture_to_str(header.id) << ", tile_size=" << header.texture_tile_size);
         }
     }
 }
