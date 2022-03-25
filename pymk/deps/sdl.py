@@ -2,10 +2,14 @@
 
 import subprocess
 
+from pymk.deps.libs import decode_libs
+
 def target(self, entry, options, build_info):
     result = subprocess.run(['sdl-config', '--cflags'], stdout=subprocess.PIPE)
     self.cflags += [result.stdout.decode('utf-8').strip()]
     self.cxxflags += [result.stdout.decode('utf-8').strip()]
 
     result = subprocess.run(['sdl-config', '--libs'], stdout=subprocess.PIPE)
-    self.ldflags += [result.stdout.decode('utf-8').strip()]
+    tuple = decode_libs(result.stdout.decode('utf-8'))
+    self.libs += tuple.libs
+    self.ldflags += tuple.ldflags
