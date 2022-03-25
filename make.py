@@ -10,7 +10,7 @@ from pathlib import Path
 from pymk.build import BuildInfo
 
 # Parse build.ini files
-globals.BUILD_INFO = BuildInfo(Path(__file__).parent)
+globals.BUILD_INFO = BuildInfo(Path(__file__).parent.absolute())
 BUILD_INFO = globals.BUILD_INFO
 
 # Common variables
