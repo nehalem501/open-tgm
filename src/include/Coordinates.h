@@ -3,7 +3,6 @@
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
-#include <Global.h>
 #include <Position.h>
 
 struct Coordinates {
