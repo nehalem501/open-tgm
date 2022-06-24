@@ -4,15 +4,18 @@
 #define GPU_VECTOR_H
 
 #include <stdlib.h>
+#include <string.h>
+#include <Debug.h>
 
 template<class T>
 class Vector {
     public:
-        constexpr Vector() : m_data(NULL), m_capacity(0), m_size(0) { }
-        Vector(size_t n) : m_data(malloc(sizeof(T) * n)), m_capacity(n), m_size(0) { }
+        //constexpr Vector() : m_data(NULL), m_capacity(0), m_size(0) { }
+        Vector(size_t n) : m_data((T*) malloc(sizeof(T) * n)), m_capacity(n), m_size(0) { }
 
         ~Vector() {
             if (m_data != NULL) {
+                printd("FRREEEE");
                 free(m_data);
             }
         }
@@ -20,7 +23,13 @@ class Vector {
         void reserve(size_t new_size) {
             if (new_size > m_capacity) {
                 // TODO optimize
-                m_data = (T*) realloc(m_data, sizeof(T) * new_size);
+                T* old_data = m_data;
+                T* new_data = (T*) malloc(sizeof(T) * new_size);
+                memcpy(m_data, old_data, sizeof(T) * m_size);
+                printd("realloc: old capacity: " << m_capacity << ", new capacity: " << new_size);
+                printd("realloc: old pointer: " << (void*) old_data << ", new pointer: " << (void*) new_data);
+                free(old_data);
+                m_data = new_data;
                 m_capacity = new_size;
             }
         }
@@ -37,6 +46,10 @@ class Vector {
         }
 
         T& operator[](size_t index) const {
+            if (index >= m_size) {
+                printd("ERROR: Vector get: index: " << index << ", size: " << m_size);
+            }
+
             return m_data[index];
         }
 
@@ -44,7 +57,7 @@ class Vector {
             if (position >= m_size) {
                 push(elem);
             } else {
-                reserve(m_size + 1);
+                resize(m_size + 1);
                 memmove(&m_data[position + 1], &m_data[position], sizeof(T) * (m_size - position));
                 m_data[position] = elem;
             }
