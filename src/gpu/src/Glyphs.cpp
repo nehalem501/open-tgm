@@ -40,16 +40,16 @@ ColorRGBA text_color_to_gpu_color(int color) {
 TextureID font_to_texture(Font font) {
     switch (font) {
         case Fonts::UI_FONT:
-            return TexturesID::TEXT;
+            return TextureID::TEXT;
 
         case Fonts::LABEL_FONT:
-            return TexturesID::LABELS;
+            return TextureID::LABELS;
 
         case Fonts::DIGITS_FONT:
-            return TexturesID::DIGITS;
+            return TextureID::DIGITS;
 
         default:
-            return TexturesID::NONE;
+            return TextureID::NONE;
     }
 }
 
@@ -119,6 +119,7 @@ void position_glyphs_from_string(
     float offset = 0;
 
     // Maybe pre-compute all texture coords like for tilemaps ?
+    // TODO scaling
 
     for (size_t i = 0; i < (size * 4) && i < (length * 4); i += 4) { // TODO
         const Glyph& glyph = glyphs[str[i / 4]];

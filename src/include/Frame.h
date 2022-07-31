@@ -21,12 +21,12 @@ class Frame {
                 m_parent(parent),
                 m_color(FrameColors::NORMAL),
                 m_implementation(*this) {
-            printd("Frame constructor");
+            printd(DebugCategory::FRAME, "Frame constructor");
         }
 
         inline void color(int color) {
             if (color != m_color) {
-                printd("Frame::update_color: " << m_color << " replaced by " << color);
+                printd(DebugCategory::FRAME, "Frame::update_color: old=", m_color, " new=", color);
 
                 m_color = color;
                 m_implementation.color(color);

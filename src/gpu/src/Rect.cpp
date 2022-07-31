@@ -16,7 +16,7 @@ Rect::Rect(
     const ColorRGBA bottom_right_color,
     TextureID texture) :
         m_vertex_array(texture) {
-    printd("Rect constructor: " << texture);
+    printd(DebugCategory::GPU_RECT, "Rect constructor: ", texture);
 
     m_vertex_array.vertices[0] = Vertex2D(
         coords,
@@ -40,9 +40,9 @@ Rect::Rect(
     const Point2D& coords,
     const Size2D& size,
     const ColorRGBA& color) :
-        m_vertex_array(TexturesID::NONE)
+        m_vertex_array(TextureID::NONE)
 {
-    printd("Rect constructor: No texture");
+    printd(DebugCategory::GPU_RECT, "Rect constructor: No texture");
 
     m_vertex_array.vertices[0] = Vertex2D(
         coords,

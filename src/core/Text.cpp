@@ -16,7 +16,7 @@ Text::Text() :
         m_str(NULL),
         m_implementation(*this)
 {
-    printd("Text constructor: <NULL>");
+    printd(DebugCategory::TEXT, "Text constructor: <NULL>");
 }
 
 Text::Text(
@@ -30,7 +30,7 @@ Text::Text(
         m_length(0),
         m_str(NULL),
         m_implementation(*this) {
-    printd("Text constructor: <NULL>");
+    printd(DebugCategory::TEXT, "Text constructor: <NULL>");
 }
 
 Text::Text(
@@ -46,7 +46,7 @@ Text::Text(
         m_length(strlen(str)),
         m_str(str),
         m_implementation(*this) {
-    printd("Text constructor: '" << str << "'");
+    printd(DebugCategory::TEXT, "Text constructor: '", str, "'");
 }
 
 void Text::position(const Coordinates& coordinates, const Position& parent) {
@@ -62,15 +62,15 @@ void Text::position(const Coordinates& coordinates, const Position& parent, Layo
         m_coordinates.y != coordinates.y ||
         m_layout != layout) {
 
-        printd(
-            "Text::update_position: (" <<
-            m_position.x <<
-            ", " <<
-            m_position.y <<
-            ") replaced by (" <<
-            position.x <<
-            ", " <<
-            position.y <<
+        printd(DebugCategory::TEXT,
+            "Text::update_position: (",
+            m_position.x,
+            ", ",
+            m_position.y,
+            ") replaced by (",
+            position.x,
+            ", ",
+            position.y,
             ")");
 
         m_coordinates = coordinates;
@@ -82,7 +82,7 @@ void Text::position(const Coordinates& coordinates, const Position& parent, Layo
 
 void Text::text(const char *new_str) {
     if (m_str != new_str) {
-        printd("Text::update_text: " << m_str << " replaced by " << new_str);
+        printd(DebugCategory::TEXT, "Text::update_text: ", m_str, " replaced by ", new_str);
         m_str = new_str;
         m_length = strlen(m_str);
         m_implementation.update_text();
@@ -91,7 +91,7 @@ void Text::text(const char *new_str) {
 
 void Text::color(int color) {
     if (m_color != color) {
-        printd("Text::update_color: " << m_color << " replaced by " << color);
+        printd(DebugCategory::TEXT, "Text::update_color: ", m_color, " replaced by ", color);
         m_color = color;
         m_implementation.update_color();
     }

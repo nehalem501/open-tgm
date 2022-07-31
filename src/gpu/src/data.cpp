@@ -20,7 +20,7 @@ struct GlyphsArray {
     }
 };
 
-static Texture textures[TexturesID::NB_TEXTURES];
+static Texture textures[(unsigned int) TextureID::NB_TEXTURES];
 
 static TextureData empty_texture_data;
 static TextureData frame_texture_data;
@@ -41,45 +41,53 @@ uint32_t read_uint32(const uint8_t* data) {
 }
 
 Texture& get_texture(TextureID id) {
-    return textures[id];
+    return textures[(unsigned int) id];
 }
 
 const TextureData& get_texture_data(TextureID id) {
     switch (id) {
-        case TexturesID::FRAME:
+        case TextureID::FRAME:
             return frame_texture_data;
+        default:
+            return empty_texture_data;
     }
-
-    return empty_texture_data;
 }
 
 void set_texture_data(TextureID id, const TextureData& data) {
     switch (id) {
-        case TexturesID::FRAME:
+        case TextureID::FRAME:
             frame_texture_data = data;
-            break;
+            return;
+        default:
+            // TODO error
+            return;
     }
 }
 
 void set_tilemap_data(TextureID id, const TilemapDataEntry& entry) {
     switch (id) {
-        case TexturesID::BLOCKS:
+        case TextureID::BLOCKS:
             blocks_tilemap_data.update(entry);
-            break;
-        case TexturesID::OUTLINE:
+            return;
+        case TextureID::OUTLINE:
             outline_tilemap_data.update(entry);
-            break;
+            return;
+        default:
+            // TODO error
+            return;
     }
 }
 
 const TilemapData& get_tilemap_data(TextureID id) {
     switch (id) {
-        case TexturesID::BLOCKS:
+        case TextureID::BLOCKS:
             return blocks_tilemap_data;
-        case TexturesID::OUTLINE:
+        case TextureID::OUTLINE:
             return outline_tilemap_data;
+        default:
+            // TODO error?
+            return empty_tilemap_data;
     }
-    return empty_tilemap_data;
 }
 
 const Glyph* get_glyph_array(Font font) {
@@ -88,32 +96,36 @@ const Glyph* get_glyph_array(Font font) {
 
 void clear_glyph_data(TextureID id) {
     switch (id) {
-        case TexturesID::TEXT:
+        case TextureID::TEXT:
             glyphs_data[Fonts::UI_FONT].clear();
             return;
-        case TexturesID::DIGITS:
+        case TextureID::DIGITS:
             glyphs_data[Fonts::DIGITS_FONT].clear();
             return;
-        case TexturesID::LABELS:
+        case TextureID::LABELS:
             glyphs_data[Fonts::LABEL_FONT].clear();
             return;
+        default:
+            printd(DebugCategory::GPU_GLYPHS, "clear_glyph_data: unknown Glyphs TextureID: ", id);
+            return;
     }
-    printd("clear_glyph_data: unknown Glyphs TextureID: " << id);
 }
 
 void set_glyph_data(TextureID id, uint8_t c, const Glyph& data) {
     switch (id) {
-        case TexturesID::TEXT:
+        case TextureID::TEXT:
             glyphs_data[Fonts::UI_FONT].glyphs[c] = data;
             return;
-        case TexturesID::DIGITS:
+        case TextureID::DIGITS:
             glyphs_data[Fonts::DIGITS_FONT].glyphs[c] = data;
             return;
-        case TexturesID::LABELS:
+        case TextureID::LABELS:
             glyphs_data[Fonts::LABEL_FONT].glyphs[c] = data;
             return;
+        default:
+            printd(DebugCategory::GPU_GLYPHS, "set_glyph_data: unknown Glyphs TextureID: ", id);
+            return;
     }
-    printd("set_glyph_data: unknown Glyphs TextureID: " << id);
 }
 
 Vector<Reloadable*> reloadable_items;

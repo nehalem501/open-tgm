@@ -5,7 +5,7 @@
 #include <Background.h>
 
 Background::Background() : m_options(false) {
-    printd("Background constructor");
+    printd(DebugCategory::BACKGROUND, "Background constructor");
 }
 
 void Background::draw() const {

@@ -45,7 +45,7 @@ static const struct Condition TGM1_GRADE_CONDITIONS[19] = {
 };
 
 void tgm1_grade(uint32_t score, unsigned int, Grade *grade) {
-    printd("Previous GRADE: " << grade->get_string());
+    printd(DebugCategory::SCORE, "Previous GRADE: ", grade->get_string());
 
     for (unsigned int i = grade->get(); i < 18; i++) {
         if (score >= TGM1_GRADE_CONDITIONS[i].score) {
@@ -53,7 +53,7 @@ void tgm1_grade(uint32_t score, unsigned int, Grade *grade) {
         }
     }
 
-    printd("GRADE: " << grade->get_string());
+    printd(DebugCategory::SCORE, "GRADE: ", grade->get_string());
 }
 
 static const struct Timing TGM1_GRAVITY[30] = {

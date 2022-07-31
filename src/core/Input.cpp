@@ -32,7 +32,7 @@ Input::Input() :
         m_prev_buttons(0x00),
         m_autorepeat_up(0),
         m_autorepeat_down(0) {
-    printd("Input constructor");
+    printd(DebugCategory::INPUT, "Input constructor");
 }
 
 void Input::poll_inputs() {

@@ -14,12 +14,12 @@ BackgroundImpl::BackgroundImpl() :
             GPU_TOP_RIGHT, GPU_BLUE,
             GPU_BOTTOM_LEFT, GPU_BLACK,
             GPU_BOTTOM_RIGHT, GPU_BLACK,
-            TexturesID::NONE),
+            TextureID::NONE),
         m_background_image(
             Point2D(0, 0),
             Size2D(screen.width, screen.height), // TODO aspect ratio & texture size
-            TexturesID::BACKGROUND) {
-    printd("BackgroundImpl constructor");
+            TextureID::BACKGROUND) {
+    printd(DebugCategory::BACKGROUND, "BackgroundImpl constructor");
 }
 
 void BackgroundImpl::render(const bool options) const {

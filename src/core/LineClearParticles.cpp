@@ -6,7 +6,7 @@
 #include <LineClearParticles.h>
 
 LineClearParticles::LineClearParticles() : m_line(0), m_active(false) {
-    printd("LineClearParticles constructor");
+    printd(DebugCategory::CLEAR, "LineClearParticles constructor");
 }
 
 void LineClearParticles::set_emitter(const Position & /*parent*/, int line) {

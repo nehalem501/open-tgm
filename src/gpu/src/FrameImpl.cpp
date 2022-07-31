@@ -24,8 +24,8 @@ static ColorRGBA to_gpu_color(int color) {
 FrameImpl::FrameImpl(const Frame& frame) :
         m_frame(frame),
         m_background(Point2D(0, 0), Size2D(0, 0), ColorRGBA(0, 0, 0, 0.8f)),
-        m_vertex_array(TexturesID::FRAME) {
-    printd("FrameImpl constructor");
+        m_vertex_array(TextureID::FRAME) {
+    printd(DebugCategory::FRAME, "FrameImpl constructor");
 
     register_reloadable(this);
 
@@ -72,7 +72,7 @@ void FrameImpl::texcoords(const TextureData& data) {
 }
 
 void FrameImpl::resize() {
-    texcoords(get_texture_data(TexturesID::FRAME));
+    texcoords(get_texture_data(TextureID::FRAME));
 
     const float x = m_frame.position().x; // TODO
     const float y = m_frame.position().y;

@@ -3,21 +3,17 @@
 #ifndef TEXTURE_ENUMS_H
 #define TEXTURE_ENUMS_H
 
-typedef unsigned int TextureID;
-
-namespace TexturesID {
-    enum {
-        NONE = 0,
-        BACKGROUND,
-        BLOCKS,
-        OUTLINE,
-        TEXT,
-        FRAME,
-        LABELS,
-        DIGITS,
-        NB_TEXTURES
-    };
-}
+enum struct TextureID: unsigned int {
+    NONE = 0,
+    BACKGROUND,
+    BLOCKS,
+    OUTLINE,
+    TEXT,
+    FRAME,
+    LABELS,
+    DIGITS,
+    NB_TEXTURES
+};
 
 namespace TextureType {
     enum {
@@ -65,5 +61,9 @@ namespace TextureFileHeader {
         BYTE_7 = 0x0Au,
     };
 }
+
+#ifdef DEBUG
+void printd_internal(TextureID id);
+#endif
 
 #endif // TEXTURE_ENUMS_H

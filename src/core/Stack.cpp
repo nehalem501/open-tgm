@@ -22,7 +22,7 @@ void Stack::init(Position& parent, const int width, const int height) {
     m_width = width;
     m_height = height;
 
-    printd("width: " << m_width << ", height: " << m_height);
+    printd(DebugCategory::STACK, "width: ", m_width, ", height: ", m_height);
 
     // Parent position in tiles
     m_parent = parent;

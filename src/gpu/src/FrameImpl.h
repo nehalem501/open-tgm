@@ -16,7 +16,7 @@ class FrameImpl : public Reloadable {
 
         void color(int color);
         void resize();
-        virtual void refresh() { texcoords(get_texture_data(TexturesID::FRAME)); }
+        virtual void refresh() { texcoords(get_texture_data(TextureID::FRAME)); }
 
         inline void render() const {
             m_background.render();

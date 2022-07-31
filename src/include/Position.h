@@ -24,4 +24,8 @@ struct Position {
     }
 };
 
+#ifdef DEBUG
+void printd_internal(const Position& position);
+#endif
+
 #endif // POSITION_H

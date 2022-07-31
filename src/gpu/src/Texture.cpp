@@ -38,6 +38,8 @@ struct HeaderData {
             width(width),
             height(height),
             texture_tile_size(texture_tile_size) { }
+
+    inline unsigned int raw_id() const { return (unsigned int) id; }
 };
 
 static HeaderStatus check_header(const AssetEntry& entry) {
@@ -86,7 +88,7 @@ static void read_texture_header(HeaderData& header, const uint8_t* data, const s
     uint8_t texture_tilesize = data[12];
     uint8_t type = data[13];
 
-    TextureID id = 0;
+    TextureID id = TextureID::NONE;
 
     switch (type) {
         case TextureType::TEXTURE: {
@@ -96,41 +98,41 @@ static void read_texture_header(HeaderData& header, const uint8_t* data, const s
                 return;
             }
             for (unsigned int i = 0; i < nb_textures; i++) {
-                id = data[position]; // TODO multiple textures
+                id = (TextureID) data[position]; // TODO multiple textures
                 uint32_t x1 = read_uint32(data + position + 4);
                 uint32_t y1 = read_uint32(data + position + 8);
                 uint32_t x2 = read_uint32(data + position + 12);
                 uint32_t y2 = read_uint32(data + position + 16);
-                printd("New texture data loaded: id=" << texture_to_str(id) <<
-                    ", x1=" << x1 <<
-                    ", y1=" << y1 <<
-                    ", x2=" << x2 <<
-                    ", y2=" << y2);
+                printd(DebugCategory::GPU_TEXTURE, "New texture data loaded: id=", id,
+                    ", x1=", x1,
+                    ", y1=", y1,
+                    ", x2=", x2,
+                    ", y2=", y2);
                 set_texture_data(id, TextureData(width, height, x1, y1, x2, y2));
                 position += 5 * 4;
             }
             break;
         }
         case TextureType::TILEMAP: {
-            id = data[14];
+            id = (TextureID) data[14];
             unsigned int nb_tiles = data[15];
             if (size < position + 4) {
                 // TODO: error
                 return;
             }
-            printd("New tilemap data loaded: id=" << texture_to_str(id) << ", nb_tiles=" << nb_tiles);
+            printd(DebugCategory::GPU_TEXTURE, "New tilemap data loaded: id=", id, ", nb_tiles=", nb_tiles);
             set_tilemap_data(id, TilemapDataEntry(texture_tilesize, width, height, nb_tiles));
             break;
         }
         case TextureType::GLYPHS: {
-            id = data[14];
+            id = (TextureID) data[14];
             unsigned int nb_glyphs = data[15];
             if (size < position + 4 + nb_glyphs * 6 * 4) {
                 // TODO: error
                 return;
             }
             clear_glyph_data(id);
-            printd("New glyphs data loaded: id=" << texture_to_str(id) << ", nb_glyphs=" << nb_glyphs);
+            printd(DebugCategory::GPU_TEXTURE, "New glyphs data loaded: id=", id, ", nb_glyphs=", nb_glyphs);
             for (unsigned int i = 0; i < nb_glyphs; i++) {
                 uint8_t char_id = data[position];
                 set_glyph_data(
@@ -154,27 +156,27 @@ static void read_texture_header(HeaderData& header, const uint8_t* data, const s
 static void read_texture_data(const HeaderData& header, Texture* textures, const uint8_t* data, const size_t size) {
     size_t img_data_size = read_uint32(data + header.data_position);
     if (size != header.data_position + 4 + img_data_size) {
-        // TODO: error
+        printd(DebugCategory::GPU_TEXTURE, "read_texture_data: error");
         return;
     }
 
-    if (textures[header.id].initialized) {
-        free_texture(textures[header.id]);
+    if (textures[header.raw_id()].initialized) {
+        free_texture(textures[header.raw_id()]);
     }
     Texture texture;
     texture.width = header.width;
     texture.height = header.height;
     texture.format = header.format;
 
-    printd("New texture loaded: id=" << header.id <<
-        ", format=" << header.format <<
-        ", width=" << header.width <<
-        ", height=" << header.height);
+    printd(DebugCategory::GPU_TEXTURE, "New texture loaded: id=", header.id,
+        ", format=", header.format,
+        ", width=", header.width,
+        ", height=", header.height);
 
     load_texture(texture, data + header.data_position + 4, img_data_size);
     texture.initialized = true;
 
-    textures[header.id] = texture;
+    textures[header.raw_id()] = texture;
 }
 
 static void read_texture(Texture* textures, const AssetEntry& entry) {
@@ -244,33 +246,35 @@ struct TextureEntry {
 class TexturesManager {
     public:
         TexturesManager() {
-            for (TextureID i = 0; i < TexturesID::NB_TEXTURES; i++) {
+            for (unsigned int i = 0; i < (unsigned int) TextureID::NB_TEXTURES; i++) {
                 m_keys.push(Key());
             }
         }
 
         void add(TextureID id, unsigned int texture_tile_size, const AssetEntry& texture) {
             size_t position = m_data.size();
-            Key& key = m_keys[id];
+            Key& key = m_keys[(unsigned int) id];
             // TODO sorted
             m_values.insert(key.position + key.length, Value(texture_tile_size, position));
             key.length++;
-            for (TextureID i = 1; i < TexturesID::NB_TEXTURES; i++) {
-                if (i != id && m_keys[i].position >= key.position) {
+            for (unsigned int i = 1; i < (unsigned int) TextureID::NB_TEXTURES; i++) {
+                if (i != (unsigned int) id && m_keys[i].position >= key.position) {
                     m_keys[i].position++;
                 }
             }
             m_data.push(texture);
+            printd(DebugCategory::GPU_TEXTURE, "Add texture entry: id=", id, ", tile_size=", texture_tile_size);
         }
 
         TextureEntry* get(unsigned int texture_tile_size, TextureID id) {
             // TODO missing
-            Key& key = m_keys[id];
+            Key& key = m_keys[(unsigned int) id];
             for (size_t i = 0; i < key.length; i++) {
                 if (m_values[i + key.position].size == texture_tile_size) {
                     return &m_data[m_values[i + key.position].position];
                 }
             }
+            printd(DebugCategory::GPU_TEXTURE, "Missing texture entry: id=", id, ", tile_size=", texture_tile_size);
             return NULL;
         }
 
@@ -309,16 +313,52 @@ void register_textures(const Assets& assets) {
             read_texture_metadata(header, assets.entries[i]);
             // TODO check for errors
             textures_manager.add(header.id, header.texture_tile_size, assets.entries[i]);
-            printd("New texture registered: id=" << texture_to_str(header.id) << ", tile_size=" << header.texture_tile_size);
+            printd(DebugCategory::GPU_TEXTURE, "New texture registered: id=", header.id, ", tile_size=", header.texture_tile_size);
         }
     }
 }
 
 void refresh_textures(Texture* textures) {
-    for (TextureID i = 1; i < TexturesID::NB_TEXTURES; i++) {
-        TextureEntry* entry = textures_manager.get(tile_size, i);
+    for (unsigned int i = 1; i < (unsigned int) TextureID::NB_TEXTURES; i++) {
+        TextureEntry* entry = textures_manager.get(tile_size, (TextureID) i);
         if (entry != NULL) {
+            printd(DebugCategory::GPU_TEXTURE, "Refresh: id=", i);
             read_texture(textures, entry->data);
         }
     }
 }
+
+#ifdef DEBUG
+void printd_internal(TextureID id) {
+    switch (id) {
+        case TextureID::NONE:
+            printd_internal("None");
+            break;
+        case TextureID::BACKGROUND:
+            printd_internal("Background");
+            break;
+        case TextureID::BLOCKS:
+            printd_internal("Blocks");
+            break;
+        case TextureID::OUTLINE:
+            printd_internal("Outline");
+            break;
+        case TextureID::TEXT:
+            printd_internal("Text");
+            break;
+        case TextureID::FRAME:
+            printd_internal("Frame");
+            break;
+        case TextureID::LABELS:
+            printd_internal("Labels");
+            break;
+        case TextureID::DIGITS:
+            printd_internal("Digits");
+            break;
+        default:
+            printd_internal("<unknown texture>");
+            break;
+    }
+    printd_internal("(id=", (unsigned int) id, ")");
+}
+#endif

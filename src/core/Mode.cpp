@@ -7,7 +7,7 @@
 #include <Mode.h>
 
 Mode::Mode(const RawMode *raw_mode) : m_mode(raw_mode) {
-    printd("Mode constructor: " << raw_mode->name);
+    printd(DebugCategory::MODES, "Mode constructor: ", raw_mode->name);
 }
 
 unsigned int Mode::are(unsigned int level) {

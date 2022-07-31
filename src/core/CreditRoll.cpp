@@ -6,7 +6,7 @@
 #include <CreditRoll.h>
 
 CreditRoll::CreditRoll() : m_mode(NULL), m_counter(0) {
-    printd("CreditRoll constructor");
+    printd(DebugCategory::CREDIT_ROLL, "CreditRoll constructor");
 }
 
 void CreditRoll::draw() const {

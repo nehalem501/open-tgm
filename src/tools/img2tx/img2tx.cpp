@@ -79,22 +79,22 @@ void exit_error(std::string error_msg) {
 
 TextureID string_to_texture_id(std::string input) {
     if (input == "background") {
-        return TexturesID::BACKGROUND;
+        return TextureID::BACKGROUND;
     } else if (input == "blocks") {
-        return TexturesID::BLOCKS;
+        return TextureID::BLOCKS;
     } else if (input == "outline") {
-        return TexturesID::OUTLINE;
+        return TextureID::OUTLINE;
     } else if (input == "text") {
-        return TexturesID::TEXT;
+        return TextureID::TEXT;
     } else if (input == "frame") {
-        return TexturesID::FRAME;
+        return TextureID::FRAME;
     } else if (input == "labels") {
-        return TexturesID::LABELS;
+        return TextureID::LABELS;
     } else if (input == "digits") {
-        return TexturesID::DIGITS;
+        return TextureID::DIGITS;
     }
 
-    return TexturesID::NONE;
+    return TextureID::NONE;
 }
 
 unsigned int get_format(std::string fmt) {

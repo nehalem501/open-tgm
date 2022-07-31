@@ -13,7 +13,7 @@ GameView::GameView() :
     m_player2_game(m_player2_position)
     #endif
 {
-    printd("GameView constructor");
+    printd(DebugCategory::SCENE, "GameView constructor");
 }
 
 void GameView::update(int *state) {

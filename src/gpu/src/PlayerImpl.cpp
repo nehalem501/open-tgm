@@ -13,7 +13,7 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             GPU_WHITE, // TODO lock anim
             PIECE_SIZE,
             PIECE_SIZE,
-            TexturesID::BLOCKS
+            TextureID::BLOCKS
         ),
         m_ghost(
             position, // TODO
@@ -21,17 +21,18 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             ColorRGBA(0.32f, 0.32f, 0.32f, 1.0f),
             PIECE_SIZE,
             PIECE_SIZE,
-            TexturesID::BLOCKS
+            TextureID::BLOCKS
         ),
         m_next(
-            Position(position.x + 3 * tile_size, ((float) position.y) - (tile_size) * 2.5f), // TODO
+            //Position(position.x + 5 * tile_size, ((float) position.y) - (tile_size) * 3.5f), // TODO
+            Position(0, 0), // TODO
             PIECES[player.get_next_piece()][0],
             GPU_WHITE,
             PIECE_SIZE,
             PIECE_SIZE,
-            TexturesID::BLOCKS
+            TextureID::BLOCKS
         ) {
-
+    // TODO m_next position initialization doesn't work
 }
 
 void PlayerImpl::update_piece_type() {
@@ -43,6 +44,11 @@ void PlayerImpl::update_piece_position() {
         Position(
             m_position.x + (m_player.piece().position_x() - 2) * tile_size,
             m_position.y + (m_player.piece().position_y() - 1) * tile_size));
+
+    m_next.position(
+        Position(
+            m_position.x + 3 * tile_size,
+            m_position.y + 3 * tile_size));
 }
 
 void PlayerImpl::update_piece_lock_animation(

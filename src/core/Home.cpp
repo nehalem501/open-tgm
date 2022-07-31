@@ -16,7 +16,7 @@ Home::Home() :
             TextColor::WHITE,
             "PRESS START"),
         m_start_timer(90) {
-    printd("Home screen constructor");
+    printd(DebugCategory::SCENE, "Home screen constructor");
 }
 
 void Home::update(int *state) {

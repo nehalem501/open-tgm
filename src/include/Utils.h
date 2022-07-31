@@ -12,5 +12,6 @@ inline int8_t modulo(int a, int n) { return (a % n + n) % n; }
 uint32_t tgm_random(uint32_t *state);
 //void edit_text(Text *text, int pos_x, int pos_y, int color, const char *str);
 //void set_button_state(bool state, Text *text);
+void parse_args(int argc, char** argv);
 
 #endif

@@ -17,7 +17,7 @@ Game::Game(Position &position) :
         m_string(position, Coordinates(5, 10), Layouts::CENTERED), // TODO
         m_labels(),
         m_state(GameState::CHOOSE_MODE) {
-    printd("Game constructor");
+    printd(DebugCategory::SCENE, "Game constructor");
 }
 
 void Game::start(int mode) {
@@ -68,7 +68,7 @@ void Game::update(int *scene_state) {
             // TODO
             m_counter++;
 
-            printd("player_counter (ready & go): " << m_counter);
+            printd(DebugCategory::PLAYER, "player_counter (ready & go): ", m_counter);
 
             // Display 'GO'
             if (m_counter > 60) {

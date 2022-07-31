@@ -16,5 +16,5 @@ Image::Image(
             GPU_BOTTOM_LEFT, GPU_WHITE,
             GPU_BOTTOM_RIGHT, GPU_WHITE,
             texture) {
-    printd("Image constructor: " << texture);
+    printd(DebugCategory::GPU_IMAGE, "Image constructor: ", texture);
 }

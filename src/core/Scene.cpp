@@ -10,7 +10,7 @@
 #include <Scene.h>
 
 Scene::Scene() : m_state(SceneState::HOME) {
-    printd("Scene constructor");
+    printd(DebugCategory::SCENE, "Scene constructor");
 }
 
 void Scene::update() {

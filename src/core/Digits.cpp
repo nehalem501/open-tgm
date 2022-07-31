@@ -12,7 +12,7 @@ Digits::Digits() :
         m_position(Position(0, 0)),
         m_str{'\0'},
         m_implementation(*this) {
-    printd("Digits constructor");
+    printd(DebugCategory::DIGITS, "Digits constructor");
     m_str[0] = '0';
 }
 
@@ -21,7 +21,7 @@ Digits::Digits(Position position) :
         m_position(position),
         m_str{'\0'},
         m_implementation(*this) {
-    printd("Digits constructor");
+    printd(DebugCategory::DIGITS, "Digits constructor");
     m_str[0] = '0';
 }
 

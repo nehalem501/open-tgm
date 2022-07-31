@@ -91,7 +91,7 @@ void sleep_usecs(uint64_t usecs) {
     ti.tv_sec = usecs / 1000000;
 
     while ((nanosleep(&ti, &ti) == -1) && (errno == EINTR)) {
-        printd("nanosleep() == EINTR");
+        printd(DebugCategory::SYSTEM, "nanosleep() == EINTR");
     }
 }
 

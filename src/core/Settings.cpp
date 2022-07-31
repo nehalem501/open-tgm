@@ -61,7 +61,7 @@ const char *INPUTS_STR[NB_INPUTS] = {
 #endif //DEBUG
 
 Settings::Settings() : m_state(-1), m_selected(0), m_das_up(0), m_das_down(0) {
-    printd("Settings screen constructor");
+    printd(DebugCategory::SETTINGS, "Settings screen constructor");
 
     //edit_text(&m_input_msg, 9, 23, TextColor::WHITE, "EXIT: RIGHT AND START");
 

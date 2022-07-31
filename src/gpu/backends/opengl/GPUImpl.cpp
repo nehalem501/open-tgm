@@ -23,6 +23,7 @@ void init_gpu() {
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
+        // TODO use printd
         printf("Could not initialize OpenGL: %s\n", gluErrorString(error));
         exit(1);
     }
@@ -58,7 +59,7 @@ bool resize(unsigned int width, unsigned int height) {
     // TODO
     //tile_size = 9;
 
-    printd("width: " << screen.width << ", height: " << screen.height << ", tile: " << tile_size);
+    printd(DebugCategory::GPU, "width: ", screen.width, ", height: ", screen.height, ", tile: ", tile_size);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

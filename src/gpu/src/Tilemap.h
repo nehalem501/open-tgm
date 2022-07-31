@@ -25,7 +25,7 @@ class Tilemap : public Reloadable {
                 m_width(width),
                 m_height(height),
                 m_vertex_array(texture) {
-            printd("Tilemap<" << N << "> constructor");
+            printd(DebugCategory::GPU_TILEMAP, "Tilemap<", N, "> constructor");
 
             register_reloadable(this);
 
@@ -64,6 +64,8 @@ class Tilemap : public Reloadable {
         }
 
         inline void position(const Position& position) {
+            printd(DebugCategory::GPU_TILEMAP, "Tilemap<", N, ">position=", position);
+
             m_vertex_array.move(
                 ((float) position.x) - m_vertex_array.vertices[0].x(),
                 ((float) position.y) - m_vertex_array.vertices[0].y());

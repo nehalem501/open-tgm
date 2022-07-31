@@ -4,6 +4,7 @@
 #define COORDINATES_H
 
 #include <Position.h>
+#include <TargetTypes.h>
 
 struct Coordinates {
     int x, y;

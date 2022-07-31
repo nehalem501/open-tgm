@@ -1,5 +1,6 @@
 /* Utils.cpp */
 
+#include <string.h>
 #include <TargetTypes.h>
 //#include <Text.h>
 #include <Utils.h>
@@ -58,3 +59,13 @@ uint32_t tgm_random(uint32_t *state) {
         text->update_color(TextColor::TRANSPARENT);
     }
 }*/
+
+void parse_args(int argc, char** argv) {
+#ifdef DEBUG
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--debug") == 0) {
+            // TODO
+        }
+    }
+#endif //DEBUG
+}

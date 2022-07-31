@@ -6,7 +6,7 @@
 #include "TimerImpl.h"
 
 void TimerImpl::update(const uint8_t m_digits[6]) {
-    printd("Timer update");
+    printd(DebugCategory::TIMER, "Timer update");
     m_str[0] = m_digits[0] + 48;
     m_str[1] = m_digits[1] + 48;
     m_str[3] = m_digits[2] + 48;
@@ -18,6 +18,6 @@ void TimerImpl::update(const uint8_t m_digits[6]) {
 }
 
 void TimerImpl::layout(const Position& position) {
-    printd("Timer position:" << position);
+    printd(DebugCategory::TIMER, "Timer position:", position);
     m_glyphs.position(position);
 }

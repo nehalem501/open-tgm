@@ -69,7 +69,7 @@ class Glyphs : public Reloadable {
                 m_glyphs(get_glyph_array(font)), // TODO
                 m_vertex_array(font_to_texture(font))
         {
-            printd("Typeface<" << N << "> constructor");
+            printd(DebugCategory::GPU_GLYPHS, "Typeface<", N, "> constructor");
 
             register_reloadable(this);
             const Texture& t = get_texture(font_to_texture(m_font));

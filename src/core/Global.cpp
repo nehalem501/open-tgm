@@ -9,5 +9,3 @@ uint32_t rand_seed;
 unsigned int stack_position;
 
 Input input;
-
-base_dout dout;

@@ -12,14 +12,14 @@
 uint32_t shirase_score(uint32_t level, uint32_t lines, uint32_t soft,
                        uint32_t sonic, uint32_t combo, uint32_t bravo,
                        uint32_t lvl_aft_clear, uint32_t speed) {
-    printd("level: " << level);
-    printd("lines: " << lines);
-    printd("soft: " << soft);
-    printd("sonic: " << sonic);
-    printd("combo: " << combo);
-    printd("bravo: " << bravo);
-    printd("lvl_aft_clear: " << lvl_aft_clear);
-    printd("speed: " << speed);
+    printd(DebugCategory::SCORE, "level: ", level);
+    printd(DebugCategory::SCORE, "lines: ", lines);
+    printd(DebugCategory::SCORE, "soft: ", soft);
+    printd(DebugCategory::SCORE, "sonic: ", sonic);
+    printd(DebugCategory::SCORE, "combo: ", combo);
+    printd(DebugCategory::SCORE, "bravo: ", bravo);
+    printd(DebugCategory::SCORE, "lvl_aft_clear: ", lvl_aft_clear);
+    printd(DebugCategory::SCORE, "speed: ", speed);
 
     uint32_t tmp = (level + lines) / 4;
     if ((level + lines) % 4 != 0) // Round Up

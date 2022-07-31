@@ -13,15 +13,15 @@ StackImpl::StackImpl(const Stack& stack) :
             ColorRGBA(0.8f, 0.8f, 0.8f, 1.0f),
             stack.width(),
             stack.height(),
-            TexturesID::BLOCKS),
+            TextureID::BLOCKS),
         m_outline_tilemap(
             stack.position(),
             stack.outline(),
             ColorRGBA(1.0f, 1.0f, 1.0f, 0.6f),
             stack.width(),
             stack.height(),
-            TexturesID::OUTLINE) {
-    printd("StackImpl constructor");
+            TextureID::OUTLINE) {
+    printd(DebugCategory::STACK, "StackImpl constructor");
 
     //update_field();
     //update_outline();

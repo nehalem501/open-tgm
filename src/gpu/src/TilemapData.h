@@ -9,6 +9,12 @@
 #include "Vertex.h"
 
 struct TileData {
+    TileData() :
+            tex_coord_top_left(0, 0),
+            tex_coord_bottom_left(0, 0),
+            tex_coord_bottom_right(0, 0),
+            tex_coord_top_right(0, 0) { };
+
     constexpr TileData(
         float width,
         float height,

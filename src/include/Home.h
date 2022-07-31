@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 #include <TargetTypes.h>
+#include <Global.h>
 #include <Position.h>
 #include <Text.h>
 #include <HomeImpl.h>

@@ -77,7 +77,7 @@ class Player {
         bool check_lock();
 
         inline void reset_lock() {
-            printd("reset lock");
+            printd(DebugCategory::LOCK, "reset lock");
 
             m_start_lock = false;
             m_lock = 1; // 1 instead of 0 because of 20G special case
