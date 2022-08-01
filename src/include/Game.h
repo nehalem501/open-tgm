@@ -42,7 +42,8 @@ class Game {
             m_stack.resize();
             m_frame.resize();
             m_string.resize(m_position);
-            m_timer.resize();
+            // TODO: duplicate in Game::start()
+            m_timer.resize(m_position + Coordinates(11, 21).to_position());
             m_labels.resize();
         }
         #endif

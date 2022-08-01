@@ -45,10 +45,11 @@ void PlayerImpl::update_piece_position() {
             m_position.x + (m_player.piece().position_x() - 2) * tile_size,
             m_position.y + (m_player.piece().position_y() - 1) * tile_size));
 
+    // TODO: should not be necessary, ugly temporary fix
     m_next.position(
         Position(
             m_position.x + 3 * tile_size,
-            m_position.y + 3 * tile_size));
+            m_position.y - (2 * tile_size + (tile_size / 2))));
 }
 
 void PlayerImpl::update_piece_lock_animation(

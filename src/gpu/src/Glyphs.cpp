@@ -62,6 +62,7 @@ void init_glyphs(
     int text_color,
     float texture_width,
     float texture_height,
+    int texture_tile_size,
     unsigned int length,
     size_t size) {
 
@@ -85,6 +86,7 @@ void init_glyphs(
         (unsigned char*) text,
         texture_width,
         texture_height,
+        texture_tile_size,
         (size_t) length,
         size);
 }
@@ -113,6 +115,7 @@ void position_glyphs_from_string(
     const unsigned char* str,
     float texture_width,
     float texture_height,
+    int texture_tile_size,
     size_t length,
     size_t size)
 {
@@ -120,6 +123,21 @@ void position_glyphs_from_string(
 
     // Maybe pre-compute all texture coords like for tilemaps ?
     // TODO scaling
+    float factor = 1.0f;
+
+    #ifdef RESIZABLE
+    if (texture_tile_size > 0) {
+        int tts = texture_tile_size;
+        int ts = tile_size;
+        while (ts > tts) {
+            if (ts % tts == 0) {
+                factor = ts / tts;
+                break;
+            }
+            ts--;
+        }
+    }
+    #endif
 
     for (size_t i = 0; i < (size * 4) && i < (length * 4); i += 4) { // TODO
         const Glyph& glyph = glyphs[str[i / 4]];
@@ -130,21 +148,21 @@ void position_glyphs_from_string(
         vertices[i].v(glyph.y / texture_height);
 
         vertices[i + 1].x(position.x + offset);
-        vertices[i + 1].y(position.y + glyph.height);
+        vertices[i + 1].y(position.y + (glyph.height * factor));
         vertices[i + 1].u(glyph.x / texture_width);
         vertices[i + 1].v((glyph.y + glyph.height) / texture_height);
 
-        vertices[i + 2].x(position.x + offset + glyph.width);
-        vertices[i + 2].y(position.y + glyph.height);
+        vertices[i + 2].x(position.x + offset + (glyph.width * factor));
+        vertices[i + 2].y(position.y + (glyph.height * factor));
         vertices[i + 2].u((glyph.x + glyph.width) / texture_width);
         vertices[i + 2].v((glyph.y + glyph.height) / texture_height);
 
-        vertices[i + 3].x(position.x + offset + glyph.width);
+        vertices[i + 3].x(position.x + offset + (glyph.width * factor));
         vertices[i + 3].y(position.y);
         vertices[i + 3].u((glyph.x + glyph.width) / texture_width);
         vertices[i + 3].v(glyph.y / texture_height);
 
-        offset += glyph.offset;
+        offset += glyph.offset * factor;
     }
 
     if (layout == Layouts::CENTERED) {
@@ -155,7 +173,7 @@ void position_glyphs_from_string(
     }
 
     if (length < size) {
-        for (unsigned int i = length * 4; i < size * 4; i++) {
+        for (size_t i = length * 4; i < size * 4; i++) {
             vertices[i].x(0);
             vertices[i].y(0);
 

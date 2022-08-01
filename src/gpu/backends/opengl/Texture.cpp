@@ -101,8 +101,8 @@ void free_texture(Texture& /*texture*/) {
 }
 
 void load_texture(Texture& texture, const uint8_t* img_data, const size_t) {
-    glGenTextures(1, &texture.handle);
-    glBindTexture(GL_TEXTURE_2D, texture.handle);
+    glGenTextures(1, texture.handle_ptr());
+    glBindTexture(GL_TEXTURE_2D, texture.handle());
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -115,8 +115,8 @@ void load_texture(Texture& texture, const uint8_t* img_data, const size_t) {
         GL_TEXTURE_2D,
         0,
         GL_RGBA8,
-        texture.width,
-        texture.height,
+        texture.width(),
+        texture.height(),
         0,
         GL_RGBA,
         GL_UNSIGNED_BYTE,

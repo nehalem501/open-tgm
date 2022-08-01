@@ -136,12 +136,11 @@ void register_reloadable(Reloadable* item) {
 }
 
 void load_textures() {
-    textures[0].format = TexturesFormat::RGBA8;
-    textures[0].width = 8;
-    textures[0].height = 8;
+    Texture empty_texture(TexturesFormat::RGBA8, 8, 8, 8);
     uint8_t data[8 * 8 * 4];
     memset(data, 0xFFu, 8 * 8 * 4);
-    load_texture(textures[0], data, 8 * 8 * 4);
+    load_texture(empty_texture, data, 8 * 8 * 4);
+    textures[0] = empty_texture;
 
     register_textures(textures_assets);
     refresh_textures(textures);

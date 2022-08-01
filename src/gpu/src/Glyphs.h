@@ -41,6 +41,7 @@ void init_glyphs(
     int text_color,
     float texture_width,
     float texture_height,
+    int texture_tile_size,
     unsigned int length,
     size_t size);
 
@@ -54,6 +55,7 @@ void position_glyphs_from_string(
     const unsigned char* str,
     float texture_width,
     float texture_height,
+    int texture_tile_size,
     size_t length,
     size_t size);
 
@@ -80,8 +82,9 @@ class Glyphs : public Reloadable {
                 position,
                 layout,
                 text_color,
-                t.width,
-                t.height,
+                t.width(),
+                t.height(),
+                t.texture_tile_size(),
                 length,
                 N);
         }
@@ -120,8 +123,9 @@ class Glyphs : public Reloadable {
                 m_position,
                 m_layout,
                 (const unsigned char*) m_text_str,
-                t.width,
-                t.height,
+                t.width(),
+                t.height(),
+                t.texture_tile_size(),
                 (size_t) m_length,
                 N);
         }
@@ -136,8 +140,9 @@ class Glyphs : public Reloadable {
                 m_position,
                 m_layout,
                 (const unsigned char*) m_text_str,
-                t.width,
-                t.height,
+                t.width(),
+                t.height(),
+                t.texture_tile_size(),
                 (size_t) m_length,
                 N);
         }
@@ -145,10 +150,17 @@ class Glyphs : public Reloadable {
         inline void render() const { m_vertex_array.render(); };
 
         #ifdef RESIZABLE
-        void resize() {
+        void resize(const Position &position, Layout layout) {
             // TODO
+            printd(DebugCategory::GPU_GLYPHS, "Glyphs: Resize: position: (old=", m_position, ", new=", position, ")");
+
+            position_glyphs(
+                position,
+                layout,
+                m_text_str,
+                m_length);
         }
-        #endif
+        #endif // RESIZABLE
 
     private:
         const char *m_text_str;

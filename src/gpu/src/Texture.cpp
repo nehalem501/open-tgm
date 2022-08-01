@@ -160,13 +160,10 @@ static void read_texture_data(const HeaderData& header, Texture* textures, const
         return;
     }
 
-    if (textures[header.raw_id()].initialized) {
+    if (textures[header.raw_id()].initialized()) {
         free_texture(textures[header.raw_id()]);
     }
-    Texture texture;
-    texture.width = header.width;
-    texture.height = header.height;
-    texture.format = header.format;
+    Texture texture(header.format, header.texture_tile_size, header.width, header.height);
 
     printd(DebugCategory::GPU_TEXTURE, "New texture loaded: id=", header.id,
         ", format=", header.format,
@@ -174,7 +171,7 @@ static void read_texture_data(const HeaderData& header, Texture* textures, const
         ", height=", header.height);
 
     load_texture(texture, data + header.data_position + 4, img_data_size);
-    texture.initialized = true;
+    texture.set_initialized(true);
 
     textures[header.raw_id()] = texture;
 }
@@ -270,10 +267,18 @@ class TexturesManager {
             // TODO missing
             Key& key = m_keys[(unsigned int) id];
             for (size_t i = 0; i < key.length; i++) {
-                if (m_values[i + key.position].size == texture_tile_size) {
+                unsigned int size = m_values[i + key.position].size;
+                if (size == texture_tile_size) {
                     return &m_data[m_values[i + key.position].position];
                 }
+                if (size > texture_tile_size && i > 0) {
+                    return &m_data[m_values[(i - 1) + key.position].position];
+                }
             }
+            if (key.length > 0) {
+                return &m_data[m_values[(key.length - 1) + key.position].position];
+            }
+
             printd(DebugCategory::GPU_TEXTURE, "Missing texture entry: id=", id, ", tile_size=", texture_tile_size);
             return NULL;
         }

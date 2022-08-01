@@ -23,10 +23,7 @@ class TextImpl {
         void render() const;
 
         #ifdef RESIZABLE
-        void resize() {
-            // TODO
-            update_text();
-        }
+        void resize();
         #endif
 
     private:

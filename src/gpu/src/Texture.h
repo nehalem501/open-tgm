@@ -8,11 +8,45 @@
 #include "Vertex.h"
 #include "TextureEnums.h"
 
-struct Texture {
-    texture_t handle;
-    uint8_t format;
-    bool initialized = false;
-    unsigned int width, height;
+class Texture {
+    public:
+        constexpr Texture() :
+            m_handle(),
+            m_format(0),
+            m_initialized(false),
+            m_tile_size(0),
+            m_width(0),
+            m_height(0) { }
+
+        Texture(
+            //texture_t handle,
+            uint8_t format,
+            unsigned int texture_tile_size,
+            unsigned int width,
+            unsigned int height) :
+                //m_handle(handle),
+                m_format(format),
+                m_initialized(false),
+                m_tile_size(texture_tile_size),
+                m_width(width),
+                m_height(height) { }
+
+        const texture_t& handle() const { return m_handle; }
+        uint8_t format() const { return m_format; }
+        bool initialized() const { return m_initialized; }
+        unsigned int texture_tile_size() const { return m_tile_size; }
+        unsigned int width() const { return m_width; }
+        unsigned int height() const { return m_height; }
+
+        void set_initialized(bool value) { m_initialized = value; }
+        texture_t* handle_ptr() { return &m_handle; }
+
+    private:
+        texture_t m_handle;
+        uint8_t m_format;
+        bool m_initialized;
+        unsigned int m_tile_size;
+        unsigned int m_width, m_height;
 };
 
 struct TextureData {

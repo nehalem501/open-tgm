@@ -26,7 +26,9 @@ class TimerImpl {
         void render() const { m_glyphs.render(); }
 
         #ifdef RESIZABLE
-        void resize() { }
+        void resize(const Position &position) {
+            m_glyphs.resize(position, Layouts::NONE);
+        }
         #endif
 
     private:

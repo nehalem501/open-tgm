@@ -37,3 +37,10 @@ void TextImpl::update_color() {
 void TextImpl::render() const {
     m_glyphs.render();
 }
+
+#ifdef RESIZABLE
+void TextImpl::resize() {
+    // TODO
+    m_glyphs.resize(m_text.position(), m_text.layout());
+}
+#endif
