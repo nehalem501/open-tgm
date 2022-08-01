@@ -69,10 +69,12 @@ struct Vertex2D : Vertex2DImpl {
     constexpr float x() const { return xy.x(); }
     constexpr void x(float x) { xy.x(x); }
     constexpr void x_add(float value) { xy.x(x() + value); }
+    constexpr void x_mul(float value) { xy.x(x() * value); }
 
     constexpr float y() const { return xy.y(); }
     constexpr void y(float y) { xy.y(y); }
     constexpr void y_add(float value) { xy.y(y() + value); }
+    constexpr void y_mul(float value) { xy.y(y() * value); }
 
     constexpr float u() const { return uv.u(); }
     constexpr void u(float u) { uv.u(u); }
