@@ -33,9 +33,13 @@ def clean(args):
 def run(args):
     debug = False if args.release else True
     options = Options(debug, args.verbose, args.jobs)
-    build_target(args.target, options, globals.BUILD_INFO)
-    # TODO launch
-    pass
+    binary = build_target(args.target, options, globals.BUILD_INFO)
+
+    import subprocess
+    proc = subprocess.Popen([binary])
+    proc.wait()
+    if proc.returncode != 0:
+        exit(proc.returncode)
 
 def test(args):
     pass

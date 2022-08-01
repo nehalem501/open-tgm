@@ -114,6 +114,7 @@ def build_target(target, options, build_info):
     config = configure.run(build, '', file)
     add_host_tools(config, options, build.tools, build_info)
     ninja.run(config, options)
+    return build.binary
 
 def add_host_tools(config, options, tools, build_info):
     new_options = copy.deepcopy(options)
