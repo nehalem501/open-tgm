@@ -7,7 +7,7 @@
 void TilemapData::update(const TilemapDataEntry& entry) {
     m_data.resize(entry.nb_tiles);
 
-    const unsigned int tiles_per_line = entry.width / tile_size;
+    const unsigned int tiles_per_line = entry.width / entry.texture_tile_size;
 
     for (size_t i = 0; i < m_data.size(); i++) {
         const unsigned int tile_x = i % tiles_per_line;
