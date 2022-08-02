@@ -41,23 +41,7 @@ void printd_internal(const void* pointer) {
     printd_num((size_t) pointer, 16);
 }
 
-void printd_internal(int8_t value) {
-    if (value < 0) {
-        value = -value;
-        printd_str("-");
-    }
-
-    printd_num((size_t) value, 10);}
-
-void printd_internal(int16_t value) {
-    if (value < 0) {
-        value = -value;
-        printd_str("-");
-    }
-
-    printd_num((size_t) value, 10);}
-
-void printd_internal(int32_t value) {
+void printd_internal(char value) {
     if (value < 0) {
         value = -value;
         printd_str("-");
@@ -66,7 +50,7 @@ void printd_internal(int32_t value) {
     printd_num((size_t) value, 10);
 }
 
-void printd_internal(int64_t value) {
+void printd_internal(short value) {
     if (value < 0) {
         value = -value;
         printd_str("-");
@@ -75,25 +59,55 @@ void printd_internal(int64_t value) {
     printd_num((size_t) value, 10);
 }
 
-void printd_internal(uint8_t value) {
+void printd_internal(int value) {
+    if (value < 0) {
+        value = -value;
+        printd_str("-");
+    }
+
     printd_num((size_t) value, 10);
 }
 
-void printd_internal(uint16_t value) {
+void printd_internal(long value) {
+    if (value < 0) {
+        value = -value;
+        printd_str("-");
+    }
+
     printd_num((size_t) value, 10);
 }
 
-void printd_internal(uint32_t value) {
+void printd_internal(long long value) {
+    if (value < 0) {
+        value = -value;
+        printd_str("-");
+    }
+
     printd_num((size_t) value, 10);
 }
 
-void printd_internal(uint64_t value) {
+void printd_internal(unsigned char value) {
     printd_num((size_t) value, 10);
 }
 
-void printd_internal(size_t value) {
-    printd_num(value, 10);
+void printd_internal(unsigned short value) {
+    printd_num((size_t) value, 10);
 }
+
+void printd_internal(unsigned int value) {
+    printd_num((size_t) value, 10);
+}
+
+void printd_internal(unsigned long value) {
+    printd_num((size_t) value, 10);
+}
+
+void printd_internal(unsigned long long value) {
+    printd_num((size_t) value, 10);
+}
+
+//void printd_internal(int8_t value);
+//void printd_internal(uint8_t value);
 
 void printd_internal(const Position& position) {
     printd_internal("Position(x=", position.x, ", y=", position.y, ")");

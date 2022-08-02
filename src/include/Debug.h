@@ -19,15 +19,17 @@ void printd_internal(const bool value);
 void printd_internal(void* pointer);
 void printd_internal(const void* pointer);
 
-void printd_internal(int8_t value);
-void printd_internal(int16_t value);
-void printd_internal(int32_t value);
-void printd_internal(int64_t value);
+void printd_internal(char value);
+void printd_internal(short value);
+void printd_internal(int value);
+void printd_internal(long value);
+void printd_internal(long long value);
 
-void printd_internal(uint8_t value);
-void printd_internal(uint16_t value);
-void printd_internal(uint32_t value);
-void printd_internal(uint64_t value);
+void printd_internal(unsigned char value);
+void printd_internal(unsigned short value);
+void printd_internal(unsigned int value);
+void printd_internal(unsigned long value);
+void printd_internal(unsigned long long value);
 
 void printd_internal(size_t value);
 
