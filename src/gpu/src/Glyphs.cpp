@@ -137,6 +137,8 @@ void position_glyphs_from_string(
             ts--;
         }
     }
+    #else
+    (void)(texture_tile_size);
     #endif
 
     for (size_t i = 0; i < (size * 4) && i < (length * 4); i += 4) { // TODO
