@@ -3,6 +3,7 @@
 #ifndef GPU_VECTOR_H
 #define GPU_VECTOR_H
 
+#include <stddef.h>
 #include <vector>
 
 template<class T>
