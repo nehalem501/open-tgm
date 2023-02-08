@@ -86,13 +86,14 @@ uint64_t get_time_usecs() {
 #include <time.h>
 
 void sleep_usecs(uint64_t usecs) {
-    timespec ti;
-    ti.tv_nsec = (usecs % 1000000) * 1000;
-    ti.tv_sec = usecs / 1000000;
+    timespec ts;
+    ts.tv_sec = (time_t) usecs / 1000000L;
+    ts.tv_nsec = ((long) usecs % 1000000L) * 1000L;
 
-    while ((nanosleep(&ti, &ti) == -1) && (errno == EINTR)) {
-        printd(DebugCategory::SYSTEM, "nanosleep() == EINTR");
-    }
+    int res;
+    do {
+        res = nanosleep(&ts, &ts);
+    } while (res && errno == EINTR);
 }
 
 #endif /* defined(__unix__) || defined(__unix) || defined(__APPLE__) */
