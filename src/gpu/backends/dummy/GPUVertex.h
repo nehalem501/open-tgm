@@ -1,7 +1,7 @@
-/* GPUVertex.h - dummy */
+/* GPUVertex.h - dummy_gpu */
 
-#ifndef GPU_VERTEX_DUMMY_H
-#define GPU_VERTEX_DUMMY_H
+#ifndef GPU_VERTEX_DUMMY_GPU_H
+#define GPU_VERTEX_DUMMY_GPU_H
 
 #include "GPUTypes.h"
 
@@ -84,4 +84,4 @@ struct Vertex2DImpl {
         const ColorRGBAImpl& rgba) : xy(xy), uv(uv), rgba(rgba) { }
 };
 
-#endif // GPU_VERTEX_DUMMY_H
+#endif // GPU_VERTEX_DUMMY_GPU_H
