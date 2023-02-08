@@ -9,12 +9,78 @@
 #include <App.h>
 
 //Size screen = { 320, 240 };
-Size screen = { 160, 120 };
+Size screen = { 160, 108 };
 int tile_size = 9;
+
+struct AppState {
+    bool frame_by_frame;
+    bool do_frame;
+    bool quit;
+};
 
 void error(const char *error_message) {
     printf("%s: %s\n", error_message, SDL_GetError());
     exit(1);
+}
+
+static void run_game_frame(Scene& scene, SDL_Window* window) {
+    scene.update();
+
+    graphics_clear();
+    scene.draw();
+
+    graphics_display();
+
+    SDL_GL_SwapWindow(window);
+}
+
+static void process_sdl_events(Scene& scene, AppState& state, SDL_Window* window) {
+    SDL_Event event;
+
+    while (SDL_PollEvent(&event) != 0) {
+        if (event.type == SDL_QUIT) {
+            state.quit = true;
+        }
+
+        if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
+            switch (event.key.keysym.scancode) {
+                case SDL_SCANCODE_ESCAPE:
+                    state.quit = true;
+                    printd(DebugCategory::INPUT, "Pressed ESCAPE");
+                    break;
+
+                #ifdef DEBUG
+                case SDL_SCANCODE_P:
+                    state.frame_by_frame = !state.frame_by_frame;
+                    printd(DebugCategory::INPUT, "Pressed P");
+                    printd(DebugCategory::INPUT, "state.frame_by_frame: ", state.frame_by_frame);
+                    break;
+
+                case SDL_SCANCODE_N:
+                    state.do_frame = true;
+                    printd(DebugCategory::INPUT, "Pressed N");
+                    break;
+                #endif
+
+                case SDL_SCANCODE_F11:
+                    // TODO fullscreen
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if (event.type == SDL_WINDOWEVENT) {
+            switch (event.window.event) {
+                case SDL_WINDOWEVENT_RESIZED:
+                    SDL_GL_GetDrawableSize(window, &screen.width, &screen.height);
+                    resize(screen.width, screen.height);
+                    scene.resize();
+                    break;
+            }
+        }
+    }
 }
 
 void app(Scene& scene) {
@@ -36,8 +102,7 @@ void app(Scene& scene) {
     // Create app window and associated OpenGL context
     window = SDL_CreateWindow("Open TGM", SDL_WINDOWPOS_UNDEFINED,
                               SDL_WINDOWPOS_UNDEFINED, screen.width, screen.height,
-                              SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI |
-                              SDL_RENDERER_PRESENTVSYNC); // TODO
+                              SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI); // TODO
     if (window == NULL) {
         error("Could not create window");
     }
@@ -53,80 +118,44 @@ void app(Scene& scene) {
 	load_textures();
     scene.resize();
 
-    #ifdef DEBUG
-    bool frame_by_frame = false;
-    bool do_frame = false;
-    #endif
+    AppState state {
+        .frame_by_frame = false,
+        .do_frame = false,
+        .quit = false
+    };
 
-    bool quit = false;
-    SDL_Event event;
+    // TODO: timing code
+    // 61.681773 Hz
+    // 0.016 212 244 74 secs
+    // 16212 usecs
 
-    while(!quit) {
-        //while() { TODO timing code
-        //61.681773 Hz
-        //0.016 212 244 74 secs
-        // 16212 usecs
-            while (SDL_PollEvent(&event) != 0) {
-                if (event.type == SDL_QUIT) {
-                    quit = true;
-                }
+    //printd(DebugCategory::REFRESH_RATE, "start_time initial: ", start_time);
 
-                if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
-                    switch (event.key.keysym.sym) {
-                        case SDL_SCANCODE_ESCAPE:
-                            quit = true;
-                            break;
+    const uint64_t time_per_frame = 16667; // TODO
+    uint64_t adjusted_frame_time = time_per_frame;
+    uint64_t previous_frame_time = get_time_usecs();
 
-                        #ifdef DEBUG
-                        case SDL_SCANCODE_P:
-                            frame_by_frame = !frame_by_frame;
-                            break;
+    while (!state.quit) {
+        process_sdl_events(scene, state, window);
 
-                        case SDL_SCANCODE_N:
-                            do_frame = true;
-                            break;
-                        #endif
-
-                        case SDL_SCANCODE_F11:
-                            // TODO fullscreen
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-
-                if (event.type == SDL_WINDOWEVENT) {
-                    switch (event.window.event) {
-                        case SDL_WINDOWEVENT_RESIZED:
-                            SDL_GL_GetDrawableSize(window, &screen.width, &screen.height);
-                            resize(screen.width, screen.height);
-                            scene.resize();
-                            break;
-                    }
-                }
+        if (state.frame_by_frame) {
+            if (state.do_frame) {
+                state.do_frame = false;
+                run_game_frame(scene, window);
             }
+        } else {
+            uint64_t now = get_time_usecs();
+            uint64_t time_since_last_update = now - previous_frame_time;
+            printd(DebugCategory::REFRESH_RATE, "time: ", time_since_last_update);
 
-            #ifdef DEBUG
-            if (frame_by_frame) {
-                if (!do_frame) {
-                    continue;
-                } else {
-                    do_frame = false;
-                }
+            if (time_since_last_update >= adjusted_frame_time) {
+                //adjusted_frame_time = time_per_frame - (time_since_last_update - time_per_frame); // TODO
+                previous_frame_time = now;
+                printd(DebugCategory::REFRESH_RATE, "frame duration: ", time_since_last_update);
+
+                run_game_frame(scene, window);
             }
-            #endif
-
-            // TODO
-            scene.update();
-
-            graphics_clear();
-            scene.draw();
-
-	        graphics_display();
-
-            SDL_GL_SwapWindow(window);
-        //}
+        }
 
         sleep_usecs(1000); // Sleep for 1 msec
     }
