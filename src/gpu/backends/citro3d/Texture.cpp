@@ -93,7 +93,7 @@ static inline GPU_TEXCOLOR to_3ds_texture_format(uint8_t format) {
 }
 
 void free_texture(Texture& texture) {
-    C3D_TexDelete(&texture.handle);
+    C3D_TexDelete(texture.handle_ptr());
 }
 
 static void convert_endianess(u8 *destination, const u8 *source, unsigned int length) {
@@ -122,28 +122,28 @@ void load_texture(Texture& texture, const uint8_t* img_data, const size_t) {
     //lodepng_decode32(&image, &texture.width, &texture.height, ui_font, ui_font_size);
 
     //u8 *gpusrc = (u8 *) linearAlloc(texture.width * texture.height * 4);
-    u8 *gpusrc = (u8 *) linearAlloc(texture.width * texture.height * 4);
+    u8 *gpusrc = (u8 *) linearAlloc(texture.width() * texture.height() * 4);
 
     // lodepng outputs big endian rgba so we need to convert
     // TODO img2tx tool should do this
-    convert_endianess(gpusrc, /*image*/img_data, texture.width * texture.height);
+    convert_endianess(gpusrc, /*image*/img_data, texture.width() * texture.height());
     //memcpy(gpusrc, /*image*/img_data, texture.width * texture.height * 4);
 
     // ensure data is in physical ram
-    GSPGPU_FlushDataCache(gpusrc, texture.width * texture.height * 4);
+    GSPGPU_FlushDataCache(gpusrc, texture.width() * texture.height() * 4);
 
     // Load the texture and bind it to the first texture unit
-    C3D_TexInit(&texture.handle, texture.width, texture.height, GPU_RGBA8);
+    C3D_TexInit(texture.handle_ptr(), texture.width(), texture.height(), GPU_RGBA8);
 
     // Convert image to 3DS tiled texture format
     C3D_SyncDisplayTransfer(
         (u32*) gpusrc,
-        GX_BUFFER_DIM(texture.width, texture.height),
-        (u32*) texture.handle.data,
-        GX_BUFFER_DIM(texture.width, texture.height),
+        GX_BUFFER_DIM(texture.width(), texture.height()),
+        (u32*) texture.handle_ptr()->data,
+        GX_BUFFER_DIM(texture.width(), texture.height()),
         TEXTURE_TRANSFER_FLAGS);
 
-    C3D_TexSetFilter(&texture.handle, GPU_LINEAR, GPU_NEAREST);
+    C3D_TexSetFilter(texture.handle_ptr(), GPU_LINEAR, GPU_NEAREST);
 
     linearFree(gpusrc);
 }
