@@ -42,10 +42,12 @@ void printd_internal(const void* pointer) {
 }
 
 void printd_internal(char value) {
+    #if CHAR_MIN < 0
     if (value < 0) {
         value = -value;
         printd_str("-");
     }
+    #endif
 
     printd_num((size_t) value, 10);
 }

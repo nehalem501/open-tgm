@@ -60,6 +60,7 @@ enum class DebugCategory: unsigned int {
     DIGITS,
     TEXT,
     TIMER,
+    REFRESH_RATE,
     GPU,
     GPU_TILEMAP,
     GPU_TEXTURE,

@@ -5,6 +5,10 @@
 //#include <Text.h>
 #include <Utils.h>
 
+#ifdef DEBUG
+#include <Debug.h>
+#endif //DEBUG
+
 /*
 // TODO more efficient
 void sort(uint8_t array[], unsigned int length) {
@@ -67,5 +71,10 @@ void parse_args(int argc, char** argv) {
             // TODO
         }
     }
+
+    //printd_set_category_state(DebugCategory::GPU_GLYPHS, true);
+    //printd_set_category_state(DebugCategory::GPU_TEXTURE, true);
+    //printd_set_category_state(DebugCategory::GPU_TILEMAP, true);
+    printd_set_category_state(DebugCategory::INPUT, true);
 #endif //DEBUG
 }

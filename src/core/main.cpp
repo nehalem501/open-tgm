@@ -1,5 +1,6 @@
 /* main.cpp */
 
+#include <Utils.h>
 #include <Scene.h>
 #include <App.h>
 
@@ -9,12 +10,15 @@
 
 static Scene scene;
 
-int main(int, char **) {
+int main(int argc, char** argv) {
     // Init game stuff
     //init();
+    parse_args(argc, argv);
 
     // Run game
     app(scene);
 
     return 0;
 }
+
+
