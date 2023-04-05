@@ -12,13 +12,18 @@ class Rule:
         self.deps = deps
 
 class Build:
-    def __init__(self, outputs, rule, inputs, dependencies=None, implicit_outputs=None, variables=None):
+    def __init__(self, outputs, rule, inputs, dependencies=None, implicit_outputs=None, variables=None, cflags_override=[]):
         self.outputs = outputs
         self.rule = rule
         self.inputs = inputs
         self.dependencies = dependencies
         self.implicit_outputs = implicit_outputs
         self.variables = variables
+        if cflags_override:
+            if self.variables:
+                self.variables['cflags_override'] = cflags_override
+            else:
+                self.variables = {'cflags_override': cflags_override}
 
 class Variable:
     def __init__(self, name, value):
@@ -26,9 +31,10 @@ class Variable:
         self.value = value
 
 class SrcRule:
-    def __init__(self, output, input):
+    def __init__(self, output, input, flags):
         self.output = str(output)
         self.input = str(input)
+        self.flags = flags
 
     def __repr__ (self):
         return f"SrcRule('{self.output}' ⇐ '{self.input}')"
@@ -59,7 +65,8 @@ class SrcRuleN:
         self.input = str(input)
 """
 
-def to_src_rule(root_dir, source_dir, build_dir, source, suffix):
+def to_src_rule(root_dir, source_dir, build_dir, source_and_flags, suffix):
+    source = source_and_flags.source
     source_dir_rel = source_dir.relative_to(root_dir)
     source_rel = source.relative_to(root_dir).relative_to(source_dir_rel)
     build_dir_rel = build_dir.relative_to(root_dir)
@@ -67,7 +74,7 @@ def to_src_rule(root_dir, source_dir, build_dir, source, suffix):
     while filename.suffix:
         filename = filename.with_suffix('')
     object = filename.with_suffix(suffix)
-    return SrcRule(object, source)
+    return SrcRule(object, source, source_and_flags.flags)
 
 def to_texture_rule(root_dir, source_dir, build_dir, ini, png):
     suffix = '.txf'

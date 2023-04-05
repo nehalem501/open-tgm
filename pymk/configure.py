@@ -23,7 +23,7 @@ def run(target, prefix, file):
 
     rules = [
         Rule('cc',
-            command='$cc -MMD -MT $out -MF $out.d $cflags -c $in -o $out',
+            command='$cc -MMD -MT $out -MF $out.d $cflags $cflags_override -c $in -o $out',
             depfile='$out.d',
             deps='gcc',
             description='$cc $out'),
@@ -118,7 +118,7 @@ def run(target, prefix, file):
             Build(output, 'list', headers)
         ]
 
-    builds += [Build(s.output, 'cc', s.input) for s in target.src_c]
+    builds += [Build(s.output, 'cc', s.input, cflags_override=s.flags) for s in target.src_c]
     builds += [Build(s.output, 'cxx', s.input, dependencies=dependencies) for s in target.src_cpp]
 
     if target.binary is not None:

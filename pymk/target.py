@@ -9,7 +9,7 @@ from pathlib import Path
 from . import globals
 from .entry import BuildEntry
 from .globals import GPU_DIR, GPU_BACKENDS_DIR, DATA_DIR, RESOURCES_DIR, LIBS_DIR
-from .deps.expand import expand, get_path
+from .deps.expand import expand, get_path, to_sources
 from .deps.requirement import Requirement
 from .deps.rule import to_src_rule, to_data_rule, to_texture_rule
 
@@ -201,7 +201,7 @@ class Target:
             self.ldflags += [values['ldflags']]
 
         if 'headers' in values:
-            self.headers += values['headers'].split()
+            self.headers += expand(entry.dir, values['headers'])
 
         if 'libs' in values:
             self.libs = values['libs'].split() + self.libs
@@ -218,9 +218,12 @@ class Target:
             self.cxx_std = values['cxx_std']
 
         if 'src_c' in values:
-            self.src_c += expand(entry.dir, values['src_c'])
+            if 'lib_cflags' in values:
+                self.src_c += to_sources(expand(entry.dir, values['src_c']), [values['lib_cflags']])
+            else:
+                self.src_c += to_sources(expand(entry.dir, values['src_c']))
         if 'src_cpp' in values:
-            self.src_cpp += expand(entry.dir, values['src_cpp'])
+            self.src_cpp += to_sources(expand(entry.dir, values['src_cpp']))
 
         if 'requires' in values:
             self.requires += [Requirement(entry, r) for r in values['requires'].split()]

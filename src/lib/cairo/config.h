@@ -1,0 +1,164 @@
+/* config.h - Cairo config */
+
+#ifndef CAIRO_CUSTOM_CONFIG_H
+#define CAIRO_CUSTOM_CONFIG_H
+
+#include <TargetTypes.h>
+
+#define CAIRO_FEATURES_H
+
+#define CAIRO_HAS_FT_FONT 1
+
+#define CAIRO_NO_MUTEX 1
+
+#define CAIRO_CAN_TEST_SVG_SURFACE 0
+
+#define CAIRO_HAS_DLSYM 0
+
+#define CAIRO_HAS_INTERPRETER 0
+
+#define CAIRO_HAS_PTHREAD 0
+
+#define CAIRO_HAS_REAL_PTHREAD 0
+
+#define CAIRO_HAS_TRACE 0
+
+#define HAS_PIXMAN_GLYPHS 1
+
+#define HAVE_ALARM 0
+
+#define HAVE_CLOCK_GETTIME 0
+
+// #define HAVE_CTIME_R
+
+#define HAVE_CXX11_ATOMIC_PRIMITIVES 0
+
+#define HAVE_DRAND48 0
+
+#define HAVE_FCFINI 0
+
+#define HAVE_FCINIT 0
+
+#define HAVE_FCNTL_H 0
+
+#define HAVE_FECLEAREXCEPT 0
+
+#define HAVE_FENV_H 0
+
+#define HAVE_FLOCKFILE 0
+
+#define HAVE_FORK 0
+
+#define HAVE_FT_DONE_MM_VAR 1
+
+#define HAVE_FT_GET_VAR_DESIGN_COORDINATES 1
+
+#define HAVE_FT_GET_X11_FONT_FORMAT 0
+
+#define HAVE_FT_GLYPHSLOT_EMBOLDEN 1
+
+#define HAVE_FT_GLYPHSLOT_OBLIQUE 1
+
+#define HAVE_FT_LIBRARY_SETLCDFILTER 1
+
+#define HAVE_FT_LOAD_SFNT_TABLE 1
+
+#define HAVE_FT_PALETTE_SELECT 1
+
+#define HAVE_FT_SVG_DOCUMENT 0
+
+#define HAVE_FUNLOCKFILE 0
+
+#define HAVE_GETLINE 0
+
+// #define HAVE_GMTIME_R
+
+#define HAVE_INTTYPES_H 0
+
+#define HAVE_LIBGEN_H 0
+
+#define HAVE_LINK 0
+
+#define HAVE_LOCALTIME_R 0
+
+#define HAVE_LZO 0
+
+#define HAVE_MKDIR 0
+
+#define HAVE_MMAP 0
+
+// #define HAVE_NEWLOCALE
+
+#define HAVE_POLL_H 0
+
+#define HAVE_RAISE 0
+
+#define HAVE_SCHED_H 0
+
+#define HAVE_SETJMP_H 0
+
+#define HAVE_SIGNAL_H 0
+
+#define HAVE_STDINT_H 1
+
+// #define HAVE_STRNDUP
+
+// #define HAVE_STRTOD_L
+
+#define HAVE_SYS_IOCTL_H 0
+
+#define HAVE_SYS_MMAN_H 0
+
+#define HAVE_SYS_POLL_H 0
+
+#define HAVE_SYS_SOCKET_H 0
+
+#define HAVE_SYS_STAT_H 0
+
+#define HAVE_SYS_UN_H 0
+
+#define HAVE_SYS_WAIT_H 0
+
+#define HAVE_TIME_H 0
+
+#define HAVE_UINT64_T 1
+
+#define HAVE_UNISTD_H 0
+
+#define HAVE_WAITPID 0
+
+// #define HAVE_X11_EXTENSIONS_SHMPROTO_H
+
+// #define HAVE_X11_EXTENSIONS_SHMSTR_H
+
+// #define HAVE_X11_EXTENSIONS_XSHM_H
+
+// #define HAVE_XLOCALE_H
+
+#define HAVE_XRENDERCREATECONICALGRADIENT 0
+
+#define HAVE_XRENDERCREATELINEARGRADIENT 0
+
+#define HAVE_XRENDERCREATERADIALGRADIENT 0
+
+#define HAVE_XRENDERCREATESOLIDFILL 0
+
+#define HAVE_ZLIB 0
+
+#define HAVE___UINT128_T 0
+
+#define IPC_RMID_DEFERRED_RELEASE 0
+
+/*
+#define SIZEOF_INT sizeof(int)
+
+#define SIZEOF_LONG sizeof(long)
+
+#define SIZEOF_LONG_LONG sizeof(long long)
+
+#define SIZEOF_SIZE_T sizeof(size_t)
+
+#define SIZEOF_VOID_P sizeof(void*)
+*/
+
+#endif // CAIRO_CUSTOM_CONFIG_H
