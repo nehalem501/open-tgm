@@ -45,8 +45,8 @@ class VertexArray2DImpl {
         void render() const {
             const Texture& texture = get_texture(m_texture);
 
-            sceGuTexMode(texture.handle.format, 0, 0, texture.handle.swizzled);
-            sceGuTexImage(0, texture.width, texture.height, texture.width, texture.handle.data);
+            sceGuTexMode(texture.handle().format, 0, 0, texture.handle().swizzled);
+            sceGuTexImage(0, texture.width(), texture.height(), texture.width(), texture.handle().data);
 
             sceGumDrawArray(
                 GU_TRIANGLES,

@@ -55,15 +55,15 @@ void free_texture(Texture& /*texture*/) {
 }*/
 
 void load_texture(Texture& texture, const uint8_t* img_data, const size_t length) {
-    texture.handle.data = (uint8_t*) malloc(length);
-    texture.handle.format = GU_PSM_8888; // TODO other formats
+    texture.handle_ptr()->data = (uint8_t*) malloc(length);
+    texture.handle_ptr()->format = GU_PSM_8888; // TODO other formats
 
     //if (texture.width >= 16 || texture.height >= 16) {
     //    swizzle(texture.handle.data, img_data, texture.width, texture.height);
     //    texture.handle.swizzled = true;
     //} else {
-        memcpy(texture.handle.data, img_data, length);
-        texture.handle.swizzled = false;
+        memcpy(texture.handle().data, img_data, length);
+        texture.handle_ptr()->swizzled = false;
     //}
     //printd("copied texture " << (int) texture.handle.data << " len " << length);
 
