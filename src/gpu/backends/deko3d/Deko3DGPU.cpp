@@ -3,6 +3,7 @@
 #include <deko3d.hpp>
 #include <Texture.h>
 #include <GPUImpl.h>
+#include <Deko3DGPU.h>
 
 // TODO
 #define FB_NUM    2
@@ -14,13 +15,8 @@
 // Define the size of the memory block that will hold command lists
 #define CMDMEMSIZE (16*1024)
 
-static dk::UniqueDevice device;
-static dk::UniqueQueue queue;
 
-static dk::MemBlock fb_mem_block;
-static dk::MemBlock fb_mem_block;
-
-void init_gpu() {
+Deko3DGPU::Deko3DGPU() {
     device = dk::DeviceMaker{}.create();
     queue = dk::QueueMaker{device}.setFlags(DkQueueFlags_Graphics).create();
 
@@ -29,14 +25,14 @@ void init_gpu() {
         .create();
 }
 
-void free_gpu() {
+Deko3DGPU::~Deko3DGPU() {
     device.destroy();
 }
 
-void graphics_clear() {
+void Deko3DGPU::clear() {
     // TODO
 }
 
-void graphics_display() {
+void Deko3DGPU::display() {
     // TODO
 }

@@ -3,14 +3,16 @@
 #ifndef GPU_HEADER_H
 #define GPU_HEADER_H
 
-void init_gpu();
-void free_gpu();
+class GPU {
+    public:
+        virtual ~GPU() = 0;
 
-#ifdef RESIZABLE
-bool resize(unsigned int width, unsigned int height);
-#endif
+        virtual void clear() = 0;
+        virtual void display() = 0;
 
-void graphics_clear();
-void graphics_display();
+        #ifdef RESIZABLE
+        virtual bool resize(unsigned int width, unsigned int height) = 0;
+        #endif
+};
 
 #endif // GPU_HEADER_H

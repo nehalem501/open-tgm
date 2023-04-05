@@ -7,6 +7,7 @@
 #include "../utils/timing.h"
 #include <Scene.h>
 #include <GPU.h>
+#include <OpenGLGPU.h>
 #include <App.h>
 
 Size screen = { 320, 240 };
@@ -40,7 +41,10 @@ void app(Scene& scene) {
         error("Could not disable keyboard repeat");
     }
 
-    init_gpu();
+    OpenGLGPU opengl_gpu;
+    GPU* gpu = &opengl_gpu;
+
+    // TODO: Add to GPU interface
 	load_textures();
 
     #ifdef DEBUG
@@ -83,7 +87,7 @@ void app(Scene& scene) {
                                                      0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
                                     error("Could not create window");
                                 }
-                                resize(screen.width, screen.height); // TODO
+                                gpu->resize(screen.width, screen.height); // TODO
                                 scene.resize();
                                 fullscreen = false;
                             } else {
@@ -95,7 +99,7 @@ void app(Scene& scene) {
                                     error("Could not create window");
                                 }
                                 const SDL_VideoInfo* info = SDL_GetVideoInfo();
-                                resize(info->current_w, info->current_h);
+                                gpu->resize(info->current_w, info->current_h);
                                 scene.resize();
                                 fullscreen = true;
                             }
@@ -111,7 +115,7 @@ void app(Scene& scene) {
                                          0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
                         error("Could not create window");
                     }
-                    resize(event.resize.w, event.resize.h);
+                    gpu->resize(event.resize.w, event.resize.h);
                     scene.resize();
                     break;
                 }
@@ -132,10 +136,11 @@ void app(Scene& scene) {
 
             scene.update();
 
-            graphics_clear();
+            gpu->clear();
             scene.draw();
 
-	        graphics_display();
+	        gpu->display();
+            // TODO: other backends than OpenGL
             SDL_GL_SwapBuffers();
         }
 

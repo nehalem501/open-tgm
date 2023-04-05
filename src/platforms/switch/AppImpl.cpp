@@ -4,26 +4,27 @@
 #include <Scene.h>
 #include <App.h>
 #include <GPU.h>
+#include <Deko3DGPU.h>
 
 Size screen;
 int tile_size = 9; // TODO
 
 void app(Scene& scene) {
-    // TODO detect screen size
+    // TODO detect screen size (can be different when docked)
     screen.width = 1280;
     screen.height = 720;
 
     padConfigureInput(1, HidNpadStyleSet_NpadStandard);
 
-    init_gpu();
+    Deko3DGPU gpu;
+
+    // TODO: Add to GPU interface
     load_textures();
 
     while (appletMainLoop()) {
         scene.update();
-        graphics_clear();
+        gpu.clear();
         scene.draw();
-        graphics_display();
+        gpu.display();
     }
-
-    free_gpu();
 }

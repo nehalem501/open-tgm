@@ -1,8 +1,9 @@
-/* GPUImpl.h - SCEGU */
+/* SceGuGPU.h - SCEGU */
 
 #include <Texture.h>
 #include <GPUImpl.h>
 #include <pspsdk.h>
+#include <SceGuGPU.h>
 
 #define BUF_WIDTH 512
 #define SCR_WIDTH 480
@@ -33,19 +34,19 @@ static void* get_vram_offset_image(int width, int height, int format) {
 }
 
 void* get_static_vram_texture(unsigned int bytes) {
-	void* result = get_vram_offset_bytes(bytes);
-	return (void*)(((unsigned int)result) + ((unsigned int)sceGeEdramGetAddr()));
+    void* result = get_vram_offset_bytes(bytes);
+    return (void*)(((unsigned int)result) + ((unsigned int)sceGeEdramGetAddr()));
 }
 
 static unsigned int __attribute__((aligned(16))) list[262144];
 
-void init_gpu() {
+SceGuGPU::SceGuGPU() {
     void* fbp0 = get_vram_offset_image(BUF_WIDTH, SCR_HEIGHT, GU_PSM_8888);
     void* fbp1 = get_vram_offset_image(BUF_WIDTH, SCR_HEIGHT, GU_PSM_8888);
     void* zbp = get_vram_offset_image(BUF_WIDTH, SCR_HEIGHT, GU_PSM_4444);
 
     sceGuInit();
-	sceGuStart(GU_DIRECT, list);
+    sceGuStart(GU_DIRECT, list);
 
     sceGuDrawBuffer(GU_PSM_8888, fbp0, BUF_WIDTH);
     sceGuDispBuffer(SCR_WIDTH, SCR_HEIGHT, fbp1, BUF_WIDTH);
@@ -82,12 +83,12 @@ void init_gpu() {
     sceGuDisplay(GU_TRUE);
 }
 
-void free_gpu() {
+SceGuGPU::~SceGuGPU() {
     sceGuDisplay(GU_FALSE);
     sceGuTerm();
 }
 
-void graphics_clear() {
+void SceGuGPU::clear() {
     // Start recording graphic commands for this frame
     sceGuStart(GU_DIRECT, list);
 
@@ -108,7 +109,7 @@ void graphics_clear() {
     sceGumLoadIdentity();
 }
 
-void graphics_display() {
+void SceGuGPU::display() {
     // Flush command buffer
     sceGuFinish();
     sceGuSync(0, 0);

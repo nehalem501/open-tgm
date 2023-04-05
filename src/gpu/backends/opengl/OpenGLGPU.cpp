@@ -1,4 +1,4 @@
-/* GPUImpl.h - OpenGL */
+/* OpenGLGPU.cpp - OpenGL */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,11 +6,9 @@
 #include <Texture.h>
 #include <Debug.h>
 #include <GPU.h>
-#include <GPUImpl.h>
+#include <OpenGLGPU.h>
 
-int max_texture_size = 0;
-
-void init_gpu() {
+OpenGLGPU::OpenGLGPU() : max_texture_size(0) {
     resize(screen.width, screen.height);
 
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
@@ -29,15 +27,19 @@ void init_gpu() {
     }
 }
 
-void graphics_clear() {
+OpenGLGPU::~OpenGLGPU() {
+
+}
+
+void OpenGLGPU::clear() {
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void graphics_display() {
+void OpenGLGPU::display() {
     //SDL_GL_SwapBuffers(); // TODO: remove SDL dependency
 }
 
-bool resize(unsigned int width, unsigned int height) {
+bool OpenGLGPU::resize(unsigned int width, unsigned int height) {
     screen.width = width;
     screen.height = height;
 

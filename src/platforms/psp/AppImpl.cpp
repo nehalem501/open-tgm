@@ -3,6 +3,7 @@
 #include <Scene.h>
 #include <App.h>
 #include <GPU.h>
+#include <SceGuGPU.h>
 #include "callbacks.h"
 #include "pspsdk.h"
 
@@ -20,15 +21,15 @@ void app(Scene& scene) {
     sceCtrlSetSamplingCycle(0);
     sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
 
-    init_gpu();
+    SceGuGPU gpu;
+
+    // TODO: Add to GPU interface
     load_textures();
 
     while (true) {
         scene.update();
-        graphics_clear();
+        gpu.clear();
         scene.draw();
-        graphics_display();
+        gpu.display();
     }
-
-    free_gpu();
 }
