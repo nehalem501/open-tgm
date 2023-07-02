@@ -2,6 +2,7 @@
 
 #include <Position.h>
 #include <Debug.h>
+#include <Scene.h>
 #include <GameView.h>
 
 GameView::GameView() :
@@ -16,7 +17,7 @@ GameView::GameView() :
     printd(DebugCategory::SCENE, "GameView constructor");
 }
 
-void GameView::update(int *state) {
+void GameView::update(SceneState& state) {
     m_player1_game.update(state);
 
     #ifdef MULTIPLAYER

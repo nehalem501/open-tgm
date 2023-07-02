@@ -5,6 +5,7 @@
 
 #include <TargetTypes.h>
 #include <Background.h>
+#include <Enums.h>
 #include <Text.h>
 
 namespace SettingsState {
@@ -34,7 +35,7 @@ class Settings {
         }
         #endif
 
-        void update(int *menustate, Background *background);
+        void update(SceneState& state, Background *background);
 
     private:
         int m_state, m_selected;

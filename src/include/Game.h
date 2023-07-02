@@ -10,6 +10,7 @@
 #include <Labels.h>
 #include <Text.h>
 #include <Stack.h>
+#include <Enums.h>
 #include <Player.h>
 #include <Frame.h>
 
@@ -48,7 +49,7 @@ class Game {
         }
         #endif
 
-        void update(int *state);
+        void update(SceneState& scene_state);
         void update_graphics();
 
         void start(int mode);

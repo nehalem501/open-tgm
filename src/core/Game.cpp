@@ -43,7 +43,7 @@ void Game::ready_go() {
 }
 
 // TODO change how Scene is notified
-void Game::update(int *scene_state) {
+void Game::update(SceneState& scene_state) {
     switch(m_state) {
         case GameState::CHOOSE_MODE:
             int mode;
@@ -132,7 +132,7 @@ void Game::update(int *scene_state) {
 
             if (m_counter == 160) {
                 m_counter = 0;
-                *scene_state = SceneState::HOME;
+                scene_state = SceneState::HOME;
             }
 
             break;

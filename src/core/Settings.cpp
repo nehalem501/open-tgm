@@ -102,7 +102,7 @@ Settings::Settings() : m_state(-1), m_selected(0), m_das_up(0), m_das_down(0) {
     // Text color
 }*/
 
-void Settings::update(int *menustate, ::Background *background) {
+void Settings::update(SceneState& scene_state, ::Background *background) {
     switch (m_state) {
         case SettingsState::LIST:
             if (input.menu_key_up()) {
@@ -129,7 +129,7 @@ void Settings::update(int *menustate, ::Background *background) {
 
             if (input.a()) {
                 if (m_selected == SettingsState::EXIT) {
-                    *menustate = SceneState::HOME;
+                    scene_state = SceneState::HOME;
                     background->go_to_background();
                     return;
                 }

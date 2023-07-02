@@ -7,15 +7,8 @@
 #include <Home.h>
 #include <GameView.h>
 #include <Settings.h>
+#include <Enums.h>
 #include <Background.h>
-
-namespace SceneState {
-    enum {
-        HOME = 0,
-        GAME,
-        SETTINGS
-    };
-}
 
 class Scene {
     public:
@@ -39,7 +32,7 @@ class Scene {
         void ingame();
 
     private:
-        int m_state;
+        SceneState m_state;
 
         Home m_home;
         GameView m_game_view;

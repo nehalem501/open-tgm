@@ -3,6 +3,7 @@
 #ifndef GAME_VIEW_H
 #define GAME_VIEW_H
 
+#include <Enums.h>
 #include <Game.h>
 
 // TODO
@@ -27,7 +28,7 @@ class GameView {
         }
         #endif
 
-        void update(int *state);
+        void update(SceneState& state);
 
     private:
         Position m_player1_position;

@@ -8,6 +8,7 @@
 #include <Global.h>
 #include <Position.h>
 #include <Text.h>
+#include <Enums.h>
 #include <HomeImpl.h>
 
 #define PRESS_START_POSITION Position(screen.width / 2, 2 * (screen.height / 3))
@@ -24,7 +25,7 @@ class Home {
         }
         #endif
 
-        void update(int *state);
+        void update(SceneState& scene_state);
 
     private:
         Text m_start;

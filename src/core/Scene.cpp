@@ -23,19 +23,19 @@ void Scene::update() {
                 m_background.go_to_options();
                 return;
             }
-            m_home.update(&m_state);
+            m_home.update(m_state);
             break;
 
         case SceneState::GAME:
             // Update logic
-            m_game_view.update(&m_state);
+            m_game_view.update(m_state);
 
             //m_game.update_graphics();
             //ingame();
             break;
 
         case SceneState::SETTINGS:
-            m_settings.update(&m_state, &m_background);
+            m_settings.update(m_state, &m_background);
             break;
     }
 }

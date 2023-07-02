@@ -19,11 +19,11 @@ Home::Home() :
     printd(DebugCategory::SCENE, "Home screen constructor");
 }
 
-void Home::update(int *state) {
+void Home::update(SceneState& scene_state) {
     m_start_timer += 2;
 
     if (input.start()) {
-        *state = SceneState::GAME;
+        scene_state = SceneState::GAME;
     }
 }
 
