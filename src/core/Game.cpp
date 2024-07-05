@@ -8,6 +8,10 @@
 #include <Debug.h>
 #include <Game.h>
 
+static const char* READY_STR = "READY";
+static const char* GO_STR = "GO";
+static const char* GAME_OVER_STR = "GAME OVER";
+
 Game::Game(Position &position) :
         m_position(position),
         m_choose_mode(position),

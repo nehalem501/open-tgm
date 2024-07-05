@@ -26,10 +26,6 @@ namespace GameState {
     };
 }
 
-const char READY_STR[] = "READY";
-const char GO_STR[] = "GO";
-const char GAME_OVER_STR[] = "GAME OVER";
-
 class Game {
     public:
         Game(Position &position);
