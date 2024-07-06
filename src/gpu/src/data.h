@@ -8,7 +8,7 @@
 
 struct AssetEntry {
     const uint8_t* data;
-    size_t size;
+    const size_t size;
 
     constexpr AssetEntry(const uint8_t* data, size_t size) : data(data), size(size) { }
 };
