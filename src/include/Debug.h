@@ -3,6 +3,38 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
+enum class DebugCategory: unsigned int {
+    DEFAULT = 0,
+    SYSTEM,
+    INPUT,
+    SCENE,
+    SETTINGS,
+    BACKGROUND,
+    MODES,
+    PLAYER,
+    PLAYER_LOOP,
+    SCORE,
+    CREDIT_ROLL,
+    GRAVITY,
+    LOCK,
+    CLEAR,
+    DAS,
+    FRAME,
+    STACK,
+    DIGITS,
+    TEXT,
+    TIMER,
+    REFRESH_RATE,
+    GPU,
+    GPU_TILEMAP,
+    GPU_TEXTURE,
+    GPU_IMAGE,
+    GPU_RECT,
+    GPU_GLYPHS,
+    GPU_VERTICES,
+    NB_CATEGORIES
+};
+
 #ifdef DEBUG
 #include <stddef.h>
 #include <stdint.h>
@@ -39,38 +71,6 @@ void printd_internal(T first, Args ... args) {
     printd_internal(args ...);
 }
 
-enum class DebugCategory: unsigned int {
-    DEFAULT = 0,
-    SYSTEM,
-    INPUT,
-    SCENE,
-    SETTINGS,
-    BACKGROUND,
-    MODES,
-    PLAYER,
-    PLAYER_LOOP,
-    SCORE,
-    CREDIT_ROLL,
-    GRAVITY,
-    LOCK,
-    CLEAR,
-    DAS,
-    FRAME,
-    STACK,
-    DIGITS,
-    TEXT,
-    TIMER,
-    REFRESH_RATE,
-    GPU,
-    GPU_TILEMAP,
-    GPU_TEXTURE,
-    GPU_IMAGE,
-    GPU_RECT,
-    GPU_GLYPHS,
-    GPU_VERTICES,
-    NB_CATEGORIES
-};
-
 void printd_set_category_state(DebugCategory category, bool state);
 bool printd_active_category(DebugCategory category);
 
@@ -83,7 +83,7 @@ void printd(DebugCategory category, Args ... args) {
 }
 
 #else
-#define printd(fmt)
+#define printd(...)
 #endif // DEBUG
 
 #endif // DEBUG_H
