@@ -45,13 +45,25 @@ class Mode {
                 m_mode->level_target_pos.y);
         };
 
-        unsigned int are(unsigned int level);
-        unsigned int line_are(unsigned int level);
-        unsigned int das(unsigned int level);
-        unsigned int lock(unsigned int level);
-        unsigned int clear(unsigned int level);
-        unsigned int gravity(unsigned int level);
-        unsigned int section(unsigned int level);
+        inline unsigned int are(const unsigned int level) const {
+            return get_timing(m_mode->are, m_mode->are_nb, level);
+        };
+        inline unsigned int line_are(const unsigned int level) const {
+            return get_timing(m_mode->line_are, m_mode->line_are_nb, level);
+        };
+        inline unsigned int das(const unsigned int level) const {
+            return get_timing(m_mode->das, m_mode->das_nb, level);
+        };
+        inline unsigned int lock(const unsigned int level) const {
+            return get_timing(m_mode->lock, m_mode->lock_nb, level);
+        };
+        inline unsigned int clear(const unsigned int level) const {
+            return get_timing(m_mode->clear, m_mode->clear_nb, level);
+        };
+        inline unsigned int gravity(const unsigned int level) const {
+            return get_timing(m_mode->gravity, m_mode->gravity_nb, level);
+        };
+        unsigned int section(unsigned int level) const;
 
         inline uint32_t score(
             uint32_t level,
@@ -78,6 +90,11 @@ class Mode {
         }
 
     private:
+        unsigned int get_timing(
+            const Timing* timings,
+            const unsigned int nb,
+            const unsigned int level) const;
+
         const RawMode *m_mode;
 };
 
