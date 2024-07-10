@@ -17,7 +17,7 @@ class Labels {
         void draw() const;
 
         #ifdef RESIZABLE
-        void resize() { m_implementation.resize(); }
+        inline void resize() { m_implementation.resize(); }
         #endif
 
         //inline void set_mode(Mode *new_mode) { m_mode = new_mode; }; // TODO

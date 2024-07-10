@@ -42,7 +42,7 @@ class Text {
         void draw() const;
 
         #ifdef RESIZABLE
-        void resize(const Position& parent) {
+        inline void resize(const Position& parent) {
             m_position = m_coordinates.to_position() + parent;
             m_implementation.resize();
         }

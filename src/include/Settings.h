@@ -30,7 +30,7 @@ class Settings {
         void draw() const;
 
         #ifdef RESIZABLE
-        void resize() {
+        inline void resize() {
             // TODO
         }
         #endif

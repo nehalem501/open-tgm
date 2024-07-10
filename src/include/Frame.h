@@ -35,10 +35,10 @@ class Frame {
 
         inline const Position& position() const { return m_parent; };
 
-        void draw() const { m_implementation.render(); }
+        inline void draw() const { m_implementation.render(); }
 
         #ifdef RESIZABLE
-        void resize() { m_implementation.resize(); }
+        inline void resize() { m_implementation.resize(); }
         #endif
 
         #ifdef MULTIPLAYER

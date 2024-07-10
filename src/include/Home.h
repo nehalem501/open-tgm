@@ -20,7 +20,7 @@ class Home {
         void draw() const;
 
         #ifdef RESIZABLE
-        void resize() {
+        inline void resize() {
             m_start.resize(PRESS_START_POSITION);
         }
         #endif

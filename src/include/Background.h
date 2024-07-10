@@ -12,11 +12,11 @@ class Background {
         void draw() const;
 
         #ifdef RESIZABLE
-        void resize() { m_implementation.resize(); }
+        inline void resize() { m_implementation.resize(); }
         #endif
 
-        void go_to_options() { m_options = true; };
-        void go_to_background() { m_options = false; };
+        inline void go_to_options() { m_options = true; };
+        inline void go_to_background() { m_options = false; };
 
     private:
         bool m_options;

@@ -17,7 +17,7 @@ class ChooseMode {
         void draw() const;
 
         #ifdef RESIZABLE
-        void resize(const Position& parent) {
+        inline void resize(const Position& parent) {
             for (unsigned int i = 0; i < NB_MODES; i++) {
                 m_modes_strings[i].resize(parent);
             }
