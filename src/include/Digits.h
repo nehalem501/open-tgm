@@ -22,12 +22,12 @@ class Digits {
         #endif
 
         void set(const uint32_t value);
-        uint32_t get() { return m_value; }
+        inline uint32_t get() const { return m_value; }
 
         inline void position(Position position) { m_position = position; }; // TODO layout
-        inline const Position& position() { return m_position; }; // TODO layout
+        inline const Position& position() const { return m_position; }; // TODO layout
 
-        inline const char* str() { return m_str; }
+        inline const char* str() const { return m_str; }
 
     private:
         uint32_t m_value;

@@ -50,7 +50,9 @@ class Game {
 
         void start(int mode);
         void ready_go();
-        bool has_ended();
+        inline bool has_ended() const {
+            return (m_state == GameState::FINISHED);
+        }
 
     private:
         Position &m_position;

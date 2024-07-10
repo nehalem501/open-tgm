@@ -43,7 +43,7 @@ class Grade {
         void update();
 
         inline void set(const unsigned int value) { m_grade = value; };
-        inline unsigned int get() { return m_grade; };
+        inline unsigned int get() const { return m_grade; };
 
     private:
         unsigned int m_grade;

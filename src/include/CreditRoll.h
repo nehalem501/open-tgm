@@ -25,7 +25,7 @@ class CreditRoll {
         #endif
 
         inline void set_mode(Mode *new_mode) { m_mode = new_mode; }
-        inline bool end() { return (m_counter == 0); }
+        inline bool end() const { return (m_counter == 0); }
 
     private:
         Mode *m_mode;

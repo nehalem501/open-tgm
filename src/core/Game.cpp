@@ -143,14 +143,6 @@ void Game::update(SceneState& scene_state) {
     }
 }
 
-bool Game::has_ended() {
-    if (m_state == GameState::FINISHED) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 void Game::draw() const {
     m_frame.draw();
     m_stack.draw();

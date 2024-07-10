@@ -19,7 +19,7 @@ class LineClearParticles {
         void set_emitter(const Position &parent, int line);
         bool end();
 
-        inline bool is_active() { return m_active; };
+        inline bool is_active() const { return m_active; };
 
     private:
         int m_line;
