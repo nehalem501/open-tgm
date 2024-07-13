@@ -122,7 +122,7 @@ void app(Scene& scene) {
 	load_textures();
     scene.resize();
 
-    AppState state {
+    AppState state = {
         .frame_by_frame = false,
         .do_frame = false,
         .quit = false
