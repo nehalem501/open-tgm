@@ -6,7 +6,9 @@
 
 Size screen = { 40, 30 }; // Size is in tiles
 
-void app(Scene& scene) {
+App::App() { }
+
+void App::run(Scene& scene) {
     // For each frame {
         scene.update();
         scene.draw();

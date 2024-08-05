@@ -6,7 +6,10 @@
 /* Forward declarations to avoid dependency hell */
 class Scene;
 
-void app(Scene& scene);
+struct App {
+    App();
+    void run(Scene& scene);
+};
 
 #endif
 

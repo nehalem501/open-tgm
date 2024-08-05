@@ -12,23 +12,28 @@
 
 Size screen = { 320, 240 };
 int tile_size = 8; // TODO
+bool fullscreen = false; // TODO load config
 
 void error(const char *error_message) {
     printf("%s: %s\n", error_message, SDL_GetError());
     exit(1);
 }
 
-void app(Scene& scene) {
-    bool fullscreen = false; // TODO load config
+GPU* gpu_ptr = NULL;
 
+App::App() {
     // Init SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         error("Could not initialize SDL");
     }
 
     // Create app window
-    if (SDL_SetVideoMode(screen.width, screen.height, 0,
-                         SDL_OPENGL | SDL_RESIZABLE) == NULL) {
+    if (SDL_SetVideoMode(
+        screen.width,
+        screen.height,
+        0,
+        SDL_OPENGL | SDL_RESIZABLE) == NULL)
+    {
         // TODO remove SDL_OPENGL for future D3D backend
         error("Could not create window");
     }
@@ -41,11 +46,12 @@ void app(Scene& scene) {
         error("Could not disable keyboard repeat");
     }
 
-    OpenGLGPU opengl_gpu;
-    GPU* gpu = &opengl_gpu;
+    gpu_ptr = new OpenGLGPU();
+	gpu_ptr->load_textures();
+}
 
-    // TODO: Add to GPU interface
-	load_textures();
+void App::run(Scene& scene) {
+    GPU& gpu = *gpu_ptr;
 
     #ifdef DEBUG
     bool frame_by_frame = false;
@@ -87,7 +93,7 @@ void app(Scene& scene) {
                                                      0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
                                     error("Could not create window");
                                 }
-                                gpu->resize(screen.width, screen.height); // TODO
+                                gpu.resize(screen.width, screen.height); // TODO
                                 scene.resize();
                                 fullscreen = false;
                             } else {
@@ -99,7 +105,7 @@ void app(Scene& scene) {
                                     error("Could not create window");
                                 }
                                 const SDL_VideoInfo* info = SDL_GetVideoInfo();
-                                gpu->resize(info->current_w, info->current_h);
+                                gpu.resize(info->current_w, info->current_h);
                                 scene.resize();
                                 fullscreen = true;
                             }
@@ -115,7 +121,7 @@ void app(Scene& scene) {
                                          0, SDL_OPENGL | SDL_RESIZABLE) == NULL) {
                         error("Could not create window");
                     }
-                    gpu->resize(event.resize.w, event.resize.h);
+                    gpu.resize(event.resize.w, event.resize.h);
                     scene.resize();
                     break;
                 }
@@ -136,10 +142,10 @@ void app(Scene& scene) {
 
             scene.update();
 
-            gpu->clear();
+            gpu.clear();
             scene.draw();
 
-	        gpu->display();
+	        gpu.display();
             // TODO: other backends than OpenGL
             SDL_GL_SwapBuffers();
         }

@@ -15,17 +15,19 @@ PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 
 Size screen = { 480, 272 };
 
-void app(Scene& scene) {
+App::App() {
     setup_callbacks();
 
     sceCtrlSetSamplingCycle(0);
     sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
 
-    SceGuGPU gpu;
+    static SceGuGPU gpu;
+    gpu.load_textures();
+    GPU::set_current(&gpu);
+}
 
-    // TODO: Add to GPU interface
-    load_textures();
-
+void App::run(Scene& scene) {
+    GPU& gpu = GPU::get_current_mut();
     while (true) {
         scene.update();
         gpu.clear();

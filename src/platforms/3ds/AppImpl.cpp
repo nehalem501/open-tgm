@@ -3,23 +3,25 @@
 #include "lib3ds.h"
 #include <Scene.h>
 #include <GPU.h>
-#include <N3DSGPU.h>
+#include <Citro3DGPU.h>
 #include <App.h>
 
 Size screen = { 400, 240 }; // TODO
 
-void app(Scene& scene) {
+App::App() {
     #ifdef DEBUG
     consoleDebugInit(debugDevice_SVC);
     #endif
 
-    gfxInitDefault();
-    N3DSGPU gpu(screen);
+    static Citro3DGPU gpu(screen);
+    gpu.load_textures();
+    GPU::set_current(&gpu);
+}
 
-    // TODO: Add to GPU interface
-	load_textures();
+void App::run(Scene& scene) {
+    GPU& gpu = GPU::get_current_mut();
 
-	//consoleInit(GFX_BOTTOM, NULL);
+    //consoleInit(GFX_BOTTOM, NULL);
 
     // Main loop
     while (aptMainLoop()) {
@@ -30,6 +32,4 @@ void app(Scene& scene) {
         scene.draw();
         gpu.display();
     }
-
-    gfxExit();
 }

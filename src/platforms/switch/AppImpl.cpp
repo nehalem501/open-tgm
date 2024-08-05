@@ -9,18 +9,20 @@
 Size screen;
 int tile_size = 9; // TODO
 
-void app(Scene& scene) {
+App::App() {
     // TODO detect screen size (can be different when docked)
     screen.width = 1280;
     screen.height = 720;
 
     padConfigureInput(1, HidNpadStyleSet_NpadStandard);
 
-    Deko3DGPU gpu;
+    static Deko3DGPU gpu;
+    gpu.load_textures();
+    GPU::set_current(&gpu);
+}
 
-    // TODO: Add to GPU interface
-    load_textures();
-
+void App::run(Scene& scene) {
+    GPU& gpu = GPU::get_current_mut();
     while (appletMainLoop()) {
         scene.update();
         gpu.clear();

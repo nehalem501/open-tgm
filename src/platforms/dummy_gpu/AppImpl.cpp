@@ -7,10 +7,13 @@
 
 Size screen = { 1, 1 };
 
-void app(Scene& scene) {
-    DummyGPU dummy_gpu;
-    GPU& gpu = dummy_gpu;
+App::App() {
+    static DummyGPU gpu;
+    GPU::set_current(&gpu);
+}
 
+void App::run(Scene& scene) {
+    GPU& gpu = GPU::get_current_mut();
     // For each frame {
         scene.update();
         gpu.clear();

@@ -11,9 +11,11 @@
 int main(int argc, char** argv) {
     parse_args(argc, argv);
 
+    App app;
+
     // Run game
     static Scene scene;
-    app(scene);
+    app.run(scene);
 
     return 0;
 }

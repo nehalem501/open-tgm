@@ -23,17 +23,7 @@ void VblankInterrupt() {
     main_scene->draw();
 }
 
-void app(Scene& scene) {
-    // Set up the interrupt handlers
-    irqInit();
-    irqSet( IRQ_VBLANK, VblankInterrupt);
-
-    // Enable Vblank Interrupt to allow VblankIntrWait
-    irqEnable(IRQ_VBLANK);
-
-    // Allow Interrupts
-    REG_IME = 1;
-
+App::App() {
     // Set mode 0 and enable background 0
     SetMode(MODE_0 | BG0_ON | BG1_ON);
 
@@ -44,6 +34,18 @@ void app(Scene& scene) {
     // Load tilemap and it's palette into VRAM
     dmaCopy(fulltilemapTiles, TILE_BASE_ADR(0), fulltilemapTilesLen);
     dmaCopy(fulltilemapPal, BG_PALETTE, fulltilemapPalLen);
+}
+
+void App::run(Scene& scene) {
+    // Set up the interrupt handlers
+    irqInit();
+    irqSet( IRQ_VBLANK, VblankInterrupt);
+
+    // Enable Vblank Interrupt to allow VblankIntrWait
+    irqEnable(IRQ_VBLANK);
+
+    // Allow Interrupts
+    REG_IME = 1;
 
     main_scene = &scene;
 

@@ -84,9 +84,11 @@ static void process_sdl_events(GPU& gpu, Scene& scene, AppState& state, SDL_Wind
     }
 }
 
-void app(Scene& scene) {
-    SDL_Window *window = NULL;
-    SDL_GLContext context;
+GPU* gpu_ptr = NULL;
+SDL_Window* window = NULL;
+SDL_GLContext context = NULL;
+
+App::App() {
     //bool fullscreen = false; // TODO load config
 
     // Init SDL
@@ -101,9 +103,14 @@ void app(Scene& scene) {
                         SDL_GL_CONTEXT_PROFILE_COMPATIBILITY /*SDL_GL_CONTEXT_PROFILE_CORE*/);
 
     // Create app window and associated OpenGL context
-    window = SDL_CreateWindow("Open TGM", SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED, screen.width, screen.height,
-                              SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI); // TODO
+    window = SDL_CreateWindow(
+        "Open TGM",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        screen.width,
+        screen.height,
+        SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI); // TODO
+
     if (window == NULL) {
         error("Could not create window");
     }
@@ -115,11 +122,13 @@ void app(Scene& scene) {
         error("Could not create OpenGL context");
     }
 
-    OpenGLGPU opengl_gpu;
-    GPU* gpu = &opengl_gpu;
+    gpu_ptr = new OpenGLGPU();
+    gpu_ptr->load_textures();
+}
 
-    // TODO: Add to GPU interface
-	load_textures();
+void App::run(Scene& scene) {
+    GPU& gpu = *gpu_ptr;
+
     scene.resize();
 
     AppState state = {
@@ -140,12 +149,12 @@ void app(Scene& scene) {
     uint64_t previous_frame_time = get_time_usecs();
 
     while (!state.quit) {
-        process_sdl_events(*gpu, scene, state, window);
+        process_sdl_events(gpu, scene, state, window);
 
         if (state.frame_by_frame) {
             if (state.do_frame) {
                 state.do_frame = false;
-                run_game_frame(*gpu, scene, window);
+                run_game_frame(gpu, scene, window);
             }
         } else {
             uint64_t now = get_time_usecs();
@@ -157,7 +166,7 @@ void app(Scene& scene) {
                 previous_frame_time = now;
                 printd(DebugCategory::REFRESH_RATE, "frame duration: ", time_since_last_update);
 
-                run_game_frame(*gpu, scene, window);
+                run_game_frame(gpu, scene, window);
             }
         }
 
