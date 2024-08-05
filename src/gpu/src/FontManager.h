@@ -11,7 +11,7 @@ ColorRGBA text_color_to_gpu_color(int color);
 class FontManager {
     public:
         static const FontManager& get();
-        static FontManager get_mutable();
+        static FontManager& get_mutable();
 
         const Font& get_font(FontID id) const;
 

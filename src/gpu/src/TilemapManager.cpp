@@ -8,7 +8,7 @@ const TilemapManager& TilemapManager::get() {
     return tilemap_manager;
 }
 
-TilemapManager TilemapManager::get_mutable() {
+TilemapManager& TilemapManager::get_mutable() {
     return tilemap_manager;
 }
 

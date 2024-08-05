@@ -9,7 +9,7 @@ const FontManager& FontManager::get() {
     return font_manager;
 }
 
-FontManager FontManager::get_mutable() {
+FontManager& FontManager::get_mutable() {
     return font_manager;
 }
 

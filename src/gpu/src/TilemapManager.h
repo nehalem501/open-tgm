@@ -9,7 +9,7 @@
 class TilemapManager {
     public:
         static const TilemapManager& get();
-        static TilemapManager get_mutable();
+        static TilemapManager& get_mutable();
 
         const TilemapData& get_data(TilemapID id) const;
 
