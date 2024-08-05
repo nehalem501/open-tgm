@@ -9,7 +9,7 @@
 #include "Vertex.h"
 
 struct TileData {
-    TileData() :
+    constexpr TileData() :
             tex_coord_top_left(0, 0),
             tex_coord_bottom_left(0, 0),
             tex_coord_bottom_right(0, 0),
@@ -47,17 +47,26 @@ struct TilemapDataEntry {
 
 class TilemapData {
     public:
+        constexpr TilemapData() : m_initialized(false), m_size(0) { }
+
         void update(const TilemapDataEntry& entry);
 
         inline const TileData& get(size_t index) const {
             return m_data[index];
         }
 
-    private:
-        Vector<TileData> m_data;
-};
+        // TODO:
+        //Vector<TileData>& get_vec() { return m_data; }
+        TileData* get_vec() { return m_data; }
 
-void set_tilemap_data(TextureID id, const TilemapDataEntry& entry);
-const TilemapData& get_tilemap_data(TextureID id);
+        bool initialized() const { return m_initialized; }
+        void set_initialized(bool value) { m_initialized = value; }
+
+    private:
+        bool m_initialized;
+        //Vector<TileData> m_data;
+        TileData m_data[32]; // TODO
+        size_t m_size;
+};
 
 #endif // TILEMAP_DATA_H

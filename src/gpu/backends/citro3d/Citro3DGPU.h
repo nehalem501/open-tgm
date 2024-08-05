@@ -1,7 +1,7 @@
-/* N3DSGPU.h - 3DS */
+/* Citro3DGPU.h - citro3d */
 
-#ifndef N3DS_GPU_3DS_H
-#define N3DS_GPU_3DS_H
+#ifndef CITRO3D_GPU_CITRO3D_H
+#define CITRO3D_GPU_CITRO3D_H
 
 #include <Size.h>
 #include <GPU.h>
@@ -10,13 +10,16 @@
 #include <shaders/shader2d.shbin.h>
 //#include <shader3d.shbin.h>
 
-class N3DSGPU : public GPU {
+class Citro3DGPU : public GPU {
     public:
-        N3DSGPU(Size& screen);
-        ~N3DSGPU();
+        Citro3DGPU(Size& screen);
+        ~Citro3DGPU();
 
         void clear();
         void display();
+
+        void alloc_texture(Texture& texture, const uint8_t* data, const size_t data_size);
+        void free_texture(Texture& texture);
 
     private:
         C3D_RenderTarget *target;
@@ -33,4 +36,4 @@ class N3DSGPU : public GPU {
         C3D_Mtx proj_mat;
 };
 
-#endif // N3DS_GPU_3DS_H
+#endif // CITRO3D_GPU_CITRO3D_H

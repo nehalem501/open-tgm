@@ -44,7 +44,7 @@ namespace TexturesFormat {
         ETC1,
         ETC2_RGB,
         ETC2_RGBA,
-        ASTC, // TODO
+        ASTC, // TODO: ASTC compressed textures
         NB_FORMATS
     };
 }

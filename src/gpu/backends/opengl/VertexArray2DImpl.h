@@ -1,10 +1,10 @@
-/* GPUImpl.h - OpenGL */
+/* VertexArray2DImpl.h - OpenGL */
 
-#ifndef GPU_IMPL_OPENGL_H
-#define GPU_IMPL_OPENGL_H
+#ifndef VERTEX_ARRAY_2D_IMPL_OPENGL_H
+#define VERTEX_ARRAY_2D_IMPL_OPENGL_H
 
 #include <stddef.h>
-#include "GPUTypes.h"
+#include <GPU.h>
 #include <Vertex.h>
 #include <Texture.h>
 
@@ -22,7 +22,7 @@ class VertexArray2DImpl {
         };
 
         void render() const {
-            glBindTexture(GL_TEXTURE_2D, get_texture(m_texture).handle());
+            glBindTexture(GL_TEXTURE_2D, GPU::get_current().get_texture(m_texture).handle());
 
             glBegin(GL_QUADS);
 
@@ -41,4 +41,4 @@ class VertexArray2DImpl {
         };
 };
 
-#endif // GPU_IMPL_OPENGL_H
+#endif // VERTEX_ARRAY_2D_IMPL_OPENGL_H

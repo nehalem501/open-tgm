@@ -5,9 +5,9 @@
 
 class Reloadable {
     public:
-        virtual void refresh() = 0;
+        //virtual void refresh() = 0;
 };
 
-void register_reloadable(Reloadable* item);
+//void register_reloadable(Reloadable* item);
 
 #endif // RELOADABLE_H

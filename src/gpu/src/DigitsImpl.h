@@ -23,7 +23,7 @@ class DigitsImpl {
         void render() const { m_glyphs.render(); }
 
         #ifdef RESIZABLE
-        void resize() { }
+        void resize() { } // TODO resize
         #endif
 
     private:

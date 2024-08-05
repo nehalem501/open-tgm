@@ -2,6 +2,7 @@
 
 #include <Position.h>
 #include <Digits.h>
+#include "Font.h"
 #include "DigitsImpl.h"
 
 DigitsImpl::DigitsImpl(Digits& digits) :
@@ -12,7 +13,7 @@ DigitsImpl::DigitsImpl(Digits& digits) :
         Layouts::NONE,
         TextColor::NONE,
         1,
-        Fonts::DIGITS_FONT)
+        FontID::DIGITS_FONT)
 { }
 
 void DigitsImpl::update() {

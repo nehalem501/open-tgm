@@ -1,8 +1,9 @@
 /* SceGuGPU.h - SCEGU */
 
-#include <Texture.h>
-#include <GPUImpl.h>
+#include <string.h>
+#include <stdlib.h>
 #include <pspsdk.h>
+#include <Texture.h>
 #include <SceGuGPU.h>
 
 #define BUF_WIDTH 512
@@ -117,4 +118,24 @@ void SceGuGPU::display() {
     // Swap buffers and wait for VSYNC
     sceDisplayWaitVblankStart();
     sceGuSwapBuffers();
+}
+
+void SceGuGPU::alloc_texture(Texture& texture, const uint8_t* data, const size_t data_size) {
+    texture.handle_ptr_mut()->data = (uint8_t*) malloc(data_size);
+    texture.handle_ptr_mut()->format = GU_PSM_8888; // TODO other formats
+
+    //if (texture.width >= 16 || texture.height >= 16) {
+    //    swizzle(texture.handle.data, img_data, texture.width, texture.height);
+    //    texture.handle.swizzled = true;
+    //} else {
+        memcpy(texture.handle_ptr_mut()->data, data, data_size);
+        texture.handle_ptr_mut()->swizzled = false;
+    //}
+    //printd("copied texture " << (int) texture.handle.data << " len " << length);
+
+    //sceKernelDcacheWritebackRange(texture.handle.data, length);
+}
+
+void SceGuGPU::free_texture(Texture& /*texture*/) {
+    // TODO
 }

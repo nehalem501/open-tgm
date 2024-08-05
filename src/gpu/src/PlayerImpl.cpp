@@ -2,6 +2,7 @@
 
 #include <Shapes.h>
 #include <Player.h>
+#include "TilemapEnums.h"
 #include "PlayerImpl.h"
 
 PlayerImpl::PlayerImpl(Player& player, Position& position) :
@@ -13,7 +14,7 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             GPU_WHITE, // TODO lock anim
             PIECE_SIZE,
             PIECE_SIZE,
-            TextureID::BLOCKS
+            TilemapID::BLOCKS
         ),
         m_ghost(
             position, // TODO
@@ -21,7 +22,7 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             ColorRGBA(0.32f, 0.32f, 0.32f, 1.0f),
             PIECE_SIZE,
             PIECE_SIZE,
-            TextureID::BLOCKS
+            TilemapID::BLOCKS
         ),
         m_next(
             //Position(position.x + 5 * tile_size, ((float) position.y) - (tile_size) * 3.5f), // TODO
@@ -30,7 +31,7 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             GPU_WHITE,
             PIECE_SIZE,
             PIECE_SIZE,
-            TextureID::BLOCKS
+            TilemapID::BLOCKS
         ) {
     // TODO m_next position initialization doesn't work
 }

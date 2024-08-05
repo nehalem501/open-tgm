@@ -1,4 +1,4 @@
-/* Texture.cpp - 3DS */
+/* Texture.cpp - citro3d */
 
 #include "lib3ds.h"
 //#include "lodepng.h"
@@ -42,11 +42,6 @@
     }
 }*/
 
-#define TEXTURE_TRANSFER_FLAGS \
-    (GX_TRANSFER_FLIP_VERT(1) | GX_TRANSFER_OUT_TILED(1) | GX_TRANSFER_RAW_COPY(0) | \
-    GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FMT_RGBA8) | GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_FMT_RGBA8) | \
-    GX_TRANSFER_SCALING(GX_TRANSFER_SCALE_NO))
-
 /*static void load_texture(C3D_Tex *tex, const u8 *img, const u32 img_size) {
     unsigned int width, height;
     u8* image;
@@ -72,78 +67,3 @@
     free(image);
     linearFree(gpusrc);
 }*/
-
-static inline GPU_TEXCOLOR to_3ds_texture_format(uint8_t format) {
-    switch (format) {
-        case TexturesFormat::RGBA8: return GPU_RGBA8;
-        case TexturesFormat::RGB8: return GPU_RGB8;
-        case TexturesFormat::RGBA5551: return GPU_RGBA5551;
-        case TexturesFormat::RGB565: return GPU_RGB565;
-        case TexturesFormat::LA8: return GPU_LA8;
-        case TexturesFormat::L8: return GPU_L8;
-        case TexturesFormat::A8: return GPU_A8;
-        case TexturesFormat::LA4: return GPU_LA4;
-        case TexturesFormat::L4: return GPU_L4;
-        case TexturesFormat::A4: return GPU_A4;
-        case TexturesFormat::ETC1: return GPU_ETC1;
-    }
-
-    // TODO: error
-    return GPU_RGBA8;
-}
-
-void free_texture(Texture& texture) {
-    C3D_TexDelete(texture.handle_ptr());
-}
-
-static void convert_endianess(u8 *destination, const u8 *source, unsigned int length) {
-    const u8 *src = source;
-    u8 *dst = destination;
-
-    for(unsigned int i = 0; i < length; i++) {
-        int r = *src++;
-        int g = *src++;
-        int b = *src++;
-        int a = *src++;
-
-        *dst++ = a;
-        *dst++ = b;
-        *dst++ = g;
-        *dst++ = r;
-    }
-}
-
-void load_texture(Texture& texture, const uint8_t* img_data, const size_t) {
-    //C3D_TexInit(&texture.handle, texture.width, texture.height, to_3ds_texture_format(texture.format));
-    //C3D_TexUpload(&texture.handle, img_data);
-
-    //u8* image;
-
-    //lodepng_decode32(&image, &texture.width, &texture.height, ui_font, ui_font_size);
-
-    //u8 *gpusrc = (u8 *) linearAlloc(texture.width * texture.height * 4);
-    u8 *gpusrc = (u8 *) linearAlloc(texture.width() * texture.height() * 4);
-
-    // lodepng outputs big endian rgba so we need to convert
-    // TODO img2tx tool should do this
-    convert_endianess(gpusrc, /*image*/img_data, texture.width() * texture.height());
-    //memcpy(gpusrc, /*image*/img_data, texture.width * texture.height * 4);
-
-    // ensure data is in physical ram
-    GSPGPU_FlushDataCache(gpusrc, texture.width() * texture.height() * 4);
-
-    // Load the texture and bind it to the first texture unit
-    C3D_TexInit(texture.handle_ptr(), texture.width(), texture.height(), GPU_RGBA8);
-
-    // Convert image to 3DS tiled texture format
-    C3D_SyncDisplayTransfer(
-        (u32*) gpusrc,
-        GX_BUFFER_DIM(texture.width(), texture.height()),
-        (u32*) texture.handle_ptr()->data,
-        GX_BUFFER_DIM(texture.width(), texture.height()),
-        TEXTURE_TRANSFER_FLAGS);
-
-    C3D_TexSetFilter(texture.handle_ptr(), GPU_LINEAR, GPU_NEAREST);
-
-    linearFree(gpusrc);
-}

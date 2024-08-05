@@ -27,7 +27,7 @@ FrameImpl::FrameImpl(const Frame& frame) :
         m_vertex_array(TextureID::FRAME) {
     printd(DebugCategory::FRAME, "FrameImpl constructor");
 
-    register_reloadable(this);
+    //register_reloadable(this); // TODO
 
     color(FrameColors::NORMAL);
     resize();
@@ -72,7 +72,7 @@ void FrameImpl::texcoords(const TextureData& data) {
 }
 
 void FrameImpl::resize() {
-    texcoords(get_texture_data(TextureID::FRAME));
+    //texcoords(get_texture_data(TextureID::FRAME)); // TODO
 
     const float x = m_frame.position().x; // TODO
     const float y = m_frame.position().y;

@@ -20,16 +20,16 @@ struct GlyphsArray {
     }
 };
 
-static Texture textures[(unsigned int) TextureID::NB_TEXTURES];
+//static Texture textures[(unsigned int) TextureID::NB_TEXTURES];
 
-static TextureData empty_texture_data;
-static TextureData frame_texture_data;
+//static TextureData empty_texture_data;
+//static TextureData frame_texture_data;
 
-static TilemapData empty_tilemap_data;
-static TilemapData blocks_tilemap_data;
-static TilemapData outline_tilemap_data;
+//static TilemapData empty_tilemap_data;
+//static TilemapData blocks_tilemap_data;
+//static TilemapData outline_tilemap_data;
 
-static GlyphsArray glyphs_data[Fonts::NB_FONTS];
+//static GlyphsArray glyphs_data[Fonts::NB_FONTS];
 
 uint32_t read_uint32(const uint8_t* data) {
     uint32_t value =
@@ -40,6 +40,7 @@ uint32_t read_uint32(const uint8_t* data) {
     return value;
 }
 
+/*
 Texture& get_texture(TextureID id) {
     return textures[(unsigned int) id];
 }
@@ -89,11 +90,12 @@ const TilemapData& get_tilemap_data(TextureID id) {
             return empty_tilemap_data;
     }
 }
-
-const Glyph* get_glyph_array(Font font) {
-    return glyphs_data[font].glyphs;
+*/
+const Glyph* get_glyph_array(Font /*font*/) {
+    // TODO
+    return NULL; //glyphs_data[font].glyphs;
 }
-
+/*
 void clear_glyph_data(TextureID id) {
     switch (id) {
         case TextureID::TEXT:
@@ -167,3 +169,4 @@ void reload_textures() {
     }
 }
 #endif
+*/

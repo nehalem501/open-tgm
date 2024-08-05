@@ -1,4 +1,4 @@
-/* 3ds.h - 3DS */
+/* 3ds.h - citro3d */
 
 #ifndef WRAP_3DS_HEADERS_H
 #define WRAP_3DS_HEADERS_H

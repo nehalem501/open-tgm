@@ -11,26 +11,16 @@
 #include "Glyph.h"
 #include "Texture.h"
 #include "VertexArray.h"
+#include "Font.h"
+#include "FontManager.h"
+#include "GPU.h"
 
 /* Forward declarations to avoid dependency hell */
 class Text;
 
-typedef unsigned int Font;
-
-namespace Fonts {
-    enum {
-        UI_FONT = 0,
-        LABEL_FONT,
-        DIGITS_FONT,
-        NB_FONTS
-    };
-}
-
-ColorRGBA text_color_to_gpu_color(int color);
-TextureID font_to_texture(Font font);
-const Glyph* get_glyph_array(Font font);
-void clear_glyph_data(TextureID id);
-void set_glyph_data(TextureID id, uint8_t c, const Glyph& data);
+//const Glyph* get_glyph_array(Font font);
+//void clear_glyph_data(TextureID id);
+//void set_glyph_data(TextureID id, uint8_t c, const Glyph& data);
 
 void init_glyphs(
     Vertex2D *vertices,
@@ -62,19 +52,19 @@ void position_glyphs_from_string(
 template <size_t N>
 class Glyphs : public Reloadable {
     public:
-        Glyphs(const char *text, Position position, Layout layout, int text_color, unsigned int length, Font font) :
+        Glyphs(const char *text, Position position, Layout layout, int text_color, unsigned int length, FontID font) :
                 m_text_str(text),
                 m_length(length),
                 m_position(position),
                 m_layout(layout),
                 m_font(font),
-                m_glyphs(get_glyph_array(font)), // TODO
+                m_glyphs(FontManager::get().get_font(font).get_glyphs()),
                 m_vertex_array(font_to_texture(font))
         {
             printd(DebugCategory::GPU_GLYPHS, "Typeface<", N, "> constructor");
 
-            register_reloadable(this);
-            const Texture& t = get_texture(font_to_texture(m_font));
+            //register_reloadable(this); // TODO
+            const Texture& t = GPU::get_current().get_texture(font_to_texture(m_font));
             init_glyphs(
                 m_vertex_array.vertices,
                 text,
@@ -116,7 +106,7 @@ class Glyphs : public Reloadable {
             m_text_str = str;
             m_length = length;
             m_layout = layout;
-            const Texture& t = get_texture(font_to_texture(m_font));
+            const Texture& t = GPU::get_current().get_texture(font_to_texture(m_font));
             position_glyphs_from_string(
                 m_vertex_array.vertices,
                 m_glyphs,
@@ -133,7 +123,7 @@ class Glyphs : public Reloadable {
         void update_text(const char* str, unsigned int length) {
             m_text_str = str;
             m_length = length;
-            const Texture& t = get_texture(font_to_texture(m_font));
+            const Texture& t = GPU::get_current().get_texture(font_to_texture(m_font));
             position_glyphs_from_string(
                 m_vertex_array.vertices,
                 m_glyphs,
@@ -167,7 +157,7 @@ class Glyphs : public Reloadable {
         unsigned int m_length;
         Position m_position;
         Layout m_layout;
-        Font m_font;
+        FontID m_font;
 
         const Glyph *m_glyphs;
         VertexArray2D<N * 4> m_vertex_array;

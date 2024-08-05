@@ -7,9 +7,13 @@
 #include <Shapes.h>
 #include <Debug.h>
 #include "Reloadable.h"
+#include "TilemapEnums.h"
 #include "TilemapData.h"
+#include "TilemapManager.h"
 #include "Texture.h"
 #include "VertexArray.h"
+
+TextureID tilemap_to_texture(TilemapID id);
 
 template <size_t N>
 class Tilemap : public Reloadable {
@@ -20,14 +24,15 @@ class Tilemap : public Reloadable {
             const ColorRGBA& c,
             unsigned int width,
             unsigned int height,
-            TextureID texture) :
+            TilemapID tilemap) :
+                m_tilemap(tilemap),
                 m_tiles(tiles),
                 m_width(width),
                 m_height(height),
-                m_vertex_array(texture) {
+                m_vertex_array(tilemap_to_texture(tilemap)) {
             printd(DebugCategory::GPU_TILEMAP, "Tilemap<", N, "> constructor");
 
-            register_reloadable(this);
+            //register_reloadable(this);
 
             m_vertex_array.vertices[0].x(position.x);
             m_vertex_array.vertices[0].y(position.y);
@@ -46,7 +51,7 @@ class Tilemap : public Reloadable {
             }
         }
 
-        virtual void refresh() {
+        /*virtual void refresh() {
             const TextureID id = m_vertex_array.m_implementation.m_texture;
             const TilemapData& data = get_tilemap_data(id);
             for (unsigned int i = 0; i < m_width; i++) {
@@ -55,7 +60,7 @@ class Tilemap : public Reloadable {
                     tile(data, i + j * m_width);
                 }
             }
-        }
+        }*/
 
         inline void color(const ColorRGBA& color) {
             for (unsigned int i = 0; i < m_width * m_height * 4; i++) {
@@ -73,8 +78,7 @@ class Tilemap : public Reloadable {
 
         void update(const tiles_t *tiles) {
             m_tiles = tiles;
-            const TextureID id = m_vertex_array.m_implementation.m_texture;
-            const TilemapData& data = get_tilemap_data(id);
+            const TilemapData& data = TilemapManager::get().get_data(m_tilemap);
             for (unsigned int i = 0; i < m_width; i++) {
                 for (unsigned int j = 0; j < m_height; j++) {
                     tile(data, i + j * m_width);
@@ -130,6 +134,7 @@ class Tilemap : public Reloadable {
 
     private:
         //Position m_position;
+        TilemapID m_tilemap; // TODO better name
         const tiles_t* m_tiles;
         unsigned int m_width, m_height;
         VertexArray2D<N * 4> m_vertex_array;

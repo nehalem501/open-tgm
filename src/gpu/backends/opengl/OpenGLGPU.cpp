@@ -6,7 +6,7 @@
 #include <Texture.h>
 #include <Debug.h>
 #include <GPU.h>
-#include <OpenGLGPU.h>
+#include "OpenGLGPU.h"
 
 OpenGLGPU::OpenGLGPU() : max_texture_size(0) {
     resize(screen.width, screen.height);
@@ -54,7 +54,7 @@ bool OpenGLGPU::resize(unsigned int width, unsigned int height) {
 
     if (new_tile_size != tile_size) {
         tile_size = new_tile_size;
-        reload_textures();
+        //reload_textures(); // TODO
         resized = true;
     }
 
@@ -71,4 +71,31 @@ bool OpenGLGPU::resize(unsigned int width, unsigned int height) {
     glLoadIdentity();
 
     return resized;
+}
+
+void OpenGLGPU::alloc_texture(Texture& texture, const uint8_t* data, const size_t /*data_size*/) {
+    glGenTextures(1, texture.handle_ptr_mut());
+    glBindTexture(GL_TEXTURE_2D, texture.handle());
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    // TODO handle formats
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RGBA8, // TODO: format
+        texture.width(),
+        texture.height(),
+        0,
+        GL_RGBA,
+        GL_UNSIGNED_BYTE,
+        data);
+}
+
+void OpenGLGPU::free_texture(Texture& texture) {
+    glDeleteTextures(1, texture.handle_ptr());
 }

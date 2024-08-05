@@ -25,9 +25,9 @@
     return GPU_RGBA8;
 }*/
 
-void free_texture(Texture& /*texture*/) {
+//void free_texture(Texture& /*texture*/) {
     //C3D_TexDelete(&texture.handle);
-}
+//}
 
 /*static void swizzle(uint8_t* dest, const uint8_t* source, int width, int height) {
     const int rowblocks = (width / 16);
@@ -54,7 +54,7 @@ void free_texture(Texture& /*texture*/) {
     }
 }*/
 
-void load_texture(Texture& texture, const uint8_t* img_data, const size_t length) {
+/*void load_texture(Texture& texture, const uint8_t* img_data, const size_t length) {
     texture.handle_ptr()->data = (uint8_t*) malloc(length);
     texture.handle_ptr()->format = GU_PSM_8888; // TODO other formats
 
@@ -68,4 +68,4 @@ void load_texture(Texture& texture, const uint8_t* img_data, const size_t length
     //printd("copied texture " << (int) texture.handle.data << " len " << length);
 
     //sceKernelDcacheWritebackRange(texture.handle.data, length);
-}
+}*/

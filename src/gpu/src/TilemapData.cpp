@@ -5,11 +5,11 @@
 #include "TilemapData.h"
 
 void TilemapData::update(const TilemapDataEntry& entry) {
-    m_data.resize(entry.nb_tiles);
+    // m_data.resize(entry.nb_tiles); ?? TODO
 
     const unsigned int tiles_per_line = entry.width / entry.texture_tile_size;
 
-    for (size_t i = 0; i < m_data.size(); i++) {
+    for (size_t i = 0; i < m_size /*m_data.size()*/; i++) {
         const unsigned int tile_x = i % tiles_per_line;
         const unsigned int tile_y = i / tiles_per_line;
 

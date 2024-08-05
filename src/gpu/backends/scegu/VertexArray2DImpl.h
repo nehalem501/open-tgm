@@ -1,13 +1,14 @@
-/* GPUImpl.h - SCEGU */
+/* VertexArray2DImpl.h - SCEGU */
 
-#ifndef GPU_IMPL_SCEGU_H
-#define GPU_IMPL_SCEGU_H
+#ifndef VERTEX_ARRAY_2D_IMPL_SCEGU_H
+#define VERTEX_ARRAY_2D_IMPL_SCEGU_H
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <pspsdk.h>
 #include "GPUTypes.h"
+#include <GPU.h>
 #include <Vertex.h>
 #include <Texture.h>
 
@@ -43,7 +44,7 @@ class VertexArray2DImpl {
         };
 
         void render() const {
-            const Texture& texture = get_texture(m_texture);
+            const Texture& texture = GPU::get_current().get_texture(m_texture);
 
             sceGuTexMode(texture.handle().format, 0, 0, texture.handle().swizzled);
             sceGuTexImage(0, texture.width(), texture.height(), texture.width(), texture.handle().data);
@@ -57,4 +58,4 @@ class VertexArray2DImpl {
         };
 };
 
-#endif // GPU_IMPL_SCEGU_H
+#endif // VERTEX_ARRAY_2D_IMPL_SCEGU_H

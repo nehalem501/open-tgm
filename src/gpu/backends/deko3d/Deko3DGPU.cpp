@@ -2,7 +2,7 @@
 
 #include <deko3d.hpp>
 #include <Texture.h>
-#include <GPUImpl.h>
+#include <GPU.h>
 #include <Deko3DGPU.h>
 
 // TODO
@@ -34,5 +34,13 @@ void Deko3DGPU::clear() {
 }
 
 void Deko3DGPU::display() {
+    // TODO
+}
+
+void Deko3DGPU::alloc_texture(Texture& /*texture*/, const uint8_t* /*data*/, const size_t /*data_size*/) {
+    // TODO
+}
+
+void Deko3DGPU::free_texture(Texture& /*texture*/) {
     // TODO
 }

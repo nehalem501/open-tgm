@@ -39,7 +39,8 @@ class Texture {
         unsigned int height() const { return m_height; }
 
         void set_initialized(bool value) { m_initialized = value; }
-        texture_t* handle_ptr() { return &m_handle; }
+        const texture_t* handle_ptr() const { return &m_handle; }
+        texture_t* handle_ptr_mut() { return &m_handle; }
 
     private:
         texture_t m_handle;
@@ -76,10 +77,10 @@ struct TextureData {
     TexCoord tex_coord_top_right; // 3
 };
 
-void load_textures();
+//void load_textures();
 
-void load_texture(Texture& texture, const uint8_t* img_data, const size_t img_data_size);
-void free_texture(Texture& texture);
+//void load_texture(Texture& texture, const uint8_t* img_data, const size_t img_data_size);
+//void free_texture(Texture& texture);
 
 void register_textures(const Assets& assets);
 void refresh_textures(Texture* textures);
@@ -88,14 +89,15 @@ void refresh_textures(Texture* textures);
 //void read_texture_data(const TextureFileHeaderData& header, Texture* textures, const uint8_t* data, const size_t size);
 //void read_texture_header(TextureFileHeaderData& header, const uint8_t* data, const size_t size);
 
-Texture& get_texture(TextureID id);
-const TextureData& get_texture_data(TextureID id);
-void set_texture_data(TextureID id, const TextureData& data);
+// TODO: move to data.h
+//Texture& get_texture(TextureID id);
+//const TextureData& get_texture_data(TextureID id);
+//void set_texture_data(TextureID id, const TextureData& data);
 
-void refresh_texture_data();
+//void refresh_texture_data();
 
 #ifdef RESIZABLE
-void reload_textures(); // TODO
+//void reload_textures(); // TODO
 #endif
 
 #endif // TEXTURE_H

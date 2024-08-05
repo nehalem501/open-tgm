@@ -5,54 +5,6 @@
 #include <Glyph.h>
 #include <Glyphs.h>
 
-ColorRGBA text_color_to_gpu_color(int color) {
-    switch (color) {
-        case TextColor::RED:
-            return ColorRGBA(1, 0, 0, 1);
-
-        case TextColor::GREEN:
-            return ColorRGBA(0, 1, 0, 1);
-
-        case TextColor::BLUE:
-            return ColorRGBA(0, 0, 1, 1);
-
-        case TextColor::YELLOW:
-            return ColorRGBA(1, 1, 0, 1);
-
-        case TextColor::MAGENTA:
-            return ColorRGBA(1, 0, 1, 1);
-
-        case TextColor::CYAN:
-            return ColorRGBA(0, 1, 1, 1);
-
-        case TextColor::ORANGE:
-            return ColorRGBA(1, 0.5, 0, 1);
-
-        case TextColor::TRANSPARENT:
-            return ColorRGBA(1, 1, 1, 0.3125);
-
-        case TextColor::WHITE:
-        default:
-            return ColorRGBA(1, 1, 1, 1);
-    }
-}
-
-TextureID font_to_texture(Font font) {
-    switch (font) {
-        case Fonts::UI_FONT:
-            return TextureID::TEXT;
-
-        case Fonts::LABEL_FONT:
-            return TextureID::LABELS;
-
-        case Fonts::DIGITS_FONT:
-            return TextureID::DIGITS;
-
-        default:
-            return TextureID::NONE;
-    }
-}
-
 void init_glyphs(
     Vertex2D *vertices,
     const char *text,

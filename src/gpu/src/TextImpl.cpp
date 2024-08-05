@@ -14,7 +14,7 @@ TextImpl::TextImpl(const Text& text) :
             text.layout(),
             text.color(),
             text.length(),
-            Fonts::UI_FONT)
+            FontID::UI_FONT)
 {
 }
 

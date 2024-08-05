@@ -3,6 +3,7 @@
 #include <Global.h>
 #include <Debug.h>
 #include <Stack.h>
+#include "TilemapEnums.h"
 #include "StackImpl.h"
 
 StackImpl::StackImpl(const Stack& stack) :
@@ -13,14 +14,14 @@ StackImpl::StackImpl(const Stack& stack) :
             ColorRGBA(0.8f, 0.8f, 0.8f, 1.0f),
             stack.width(),
             stack.height(),
-            TextureID::BLOCKS),
+            TilemapID::BLOCKS),
         m_outline_tilemap(
             stack.position(),
             stack.outline(),
             ColorRGBA(1.0f, 1.0f, 1.0f, 0.6f),
             stack.width(),
             stack.height(),
-            TextureID::OUTLINE) {
+            TilemapID::OUTLINE) {
     printd(DebugCategory::STACK, "StackImpl constructor");
 
     //update_field();

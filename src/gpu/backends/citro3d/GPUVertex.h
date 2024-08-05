@@ -1,7 +1,7 @@
-/* GPUVertex.h - 3DS */
+/* GPUVertex.h - citro3d */
 
-#ifndef GPU_VERTEX_3DS_H
-#define GPU_VERTEX_3DS_H
+#ifndef GPU_VERTEX_CITRO3D_H
+#define GPU_VERTEX_CITRO3D_H
 
 #include "GPUTypes.h"
 
@@ -84,4 +84,4 @@ struct Vertex2DImpl {
         const ColorRGBAImpl& rgba) : xy(xy), uv(uv), rgba(rgba) { }
 };
 
-#endif // GPU_VERTEX_3DS_H
+#endif // GPU_VERTEX_CITRO3D_H

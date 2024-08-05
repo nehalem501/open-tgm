@@ -1,11 +1,12 @@
-/* GPUImpl.h - 3DS */
+/* VertexArray2DImpl.h - citro3d */
 
-#ifndef GPU_IMPL_3DS_H
-#define GPU_IMPL_3DS_H
+#ifndef VERTEX_ARRAY_2D_IMPL_CITRO3D_H
+#define VERTEX_ARRAY_2D_IMPL_CITRO3D_H
 
 #include <stddef.h>
 #include "lib3ds.h"
 #include "GPUTypes.h"
+#include <GPU.h>
 #include <Vertex.h>
 #include <Texture.h>
 
@@ -40,19 +41,19 @@ class VertexArray2DImpl {
         };
 
         void render() const {
-            C3D_TexBind(0, get_texture(m_texture).handle_ptr());
+            C3D_TexBind(0, GPU::get_current_mut().get_texture_mut(m_texture).handle_ptr_mut());
             //C3D_TexBind(0, &get_texture(TexturesID::NONE).handle);
 
             /*C3D_BufInfo *info = C3D_GetBufInfo();
             BufInfo_Init(info);
-	        BufInfo_Add(info, m_vertices, sizeof(Vertex2D), 3, 0x210);
+            BufInfo_Add(info, m_vertices, sizeof(Vertex2D), 3, 0x210);
             C3D_SetBufInfo(info);
 
             C3D_DrawArrays(GPU_TRIANGLE_STRIP, 0, N);*/
 
             C3D_BufInfo *info = C3D_GetBufInfo();
             BufInfo_Init(info);
-	        BufInfo_Add(info, m_vertices, sizeof(Vertex2D), 3, 0x210);
+            BufInfo_Add(info, m_vertices, sizeof(Vertex2D), 3, 0x210);
             C3D_SetBufInfo(info);
 
             C3D_DrawElements(
@@ -93,4 +94,4 @@ class VertexArray2DImpl {
         };
 };
 
-#endif // GPU_IMPL_3DS_H
+#endif // VERTEX_ARRAY_2D_IMPL_CITRO3D_H

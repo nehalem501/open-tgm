@@ -2,7 +2,6 @@
 
 #include <Global.h>
 #include <Debug.h>
-#include <GPUImpl.h>
 #include "Texture.h"
 #include "BackgroundImpl.h"
 
@@ -30,4 +29,6 @@ void BackgroundImpl::render(const bool options) const {
         // Draw game background
         //m_background_image.render();
     }
+
+    m_background_gradient.render(); // TODO: draw actual background
 }

@@ -13,7 +13,7 @@ class BackgroundImpl {
         void render(const bool options) const;
 
         #ifdef RESIZABLE
-        void resize() { } // TODO
+        void resize() { } // TODO resize
         #endif
 
     private:

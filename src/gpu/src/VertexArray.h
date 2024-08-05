@@ -8,7 +8,7 @@
 #include <string.h>
 #include <TargetTypes.h>
 #include "Debug.h"
-#include <GPUImpl.h>
+#include <VertexArray2DImpl.h>
 #include "Vertex.h"
 #include "Texture.h"
 

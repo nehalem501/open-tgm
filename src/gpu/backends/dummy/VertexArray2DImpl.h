@@ -1,7 +1,7 @@
-/* GPUImpl.h - dummy_gpu */
+/* VertexArray2DImpl.h - dummy_gpu */
 
-#ifndef GPU_IMPL_DUMMY_GPU_H
-#define GPU_IMPL_DUMMY_GPU_H
+#ifndef VERTED_ARRAY_2D_IMPL_DUMMY_GPU_H
+#define VERTED_ARRAY_2D_IMPL_DUMMY_GPU_H
 
 #include <stddef.h>
 #include "GPUTypes.h"
@@ -27,4 +27,4 @@ class VertexArray2DImpl {
         };
 };
 
-#endif // GPU_IMPL_DUMMY_GPU_H
+#endif // VERTED_ARRAY_2D_IMPL_DUMMY_GPU_H

@@ -42,7 +42,7 @@ struct HeaderData {
     inline unsigned int raw_id() const { return (unsigned int) id; }
 };
 
-static HeaderStatus check_header(const AssetEntry& entry) {
+/*static HeaderStatus check_header(const AssetEntry& entry) {
     if (entry.size < 16) {
         return HeaderStatus::Error;
     } else if (entry.data[0] == TextureFileHeader::BYTE_0 &&
@@ -63,9 +63,9 @@ static HeaderStatus check_header(const AssetEntry& entry) {
     }
 
     return HeaderStatus::Error;
-}
+}*/
 
-static void decompress(uint8_t* uncompressed_data, size_t& uncompressed_size, const uint8_t* compressed_data, const size_t compressed_data_size) {
+/*static void decompress(uint8_t* uncompressed_data, size_t& uncompressed_size, const uint8_t* compressed_data, const size_t compressed_data_size) {
     unsigned long long const content_size = ZSTD_getFrameContentSize(compressed_data, compressed_data_size);
     if (content_size == ZSTD_CONTENTSIZE_ERROR) {
         // TODO
@@ -77,9 +77,9 @@ static void decompress(uint8_t* uncompressed_data, size_t& uncompressed_size, co
     uncompressed_data = (uint8_t*) malloc((size_t) content_size);
     uncompressed_size = ZSTD_decompress(uncompressed_data, content_size, compressed_data, compressed_data_size);
     // TODO checkout decompress error
-}
+}*/
 
-static void read_texture_header(HeaderData& header, const uint8_t* data, const size_t size) {
+/*static void read_texture_header(HeaderData& header, const uint8_t* data, const size_t size) {
     uint8_t format = data[8];
     unsigned int width = 1 << data[9];
     unsigned int height = 1 << data[10];
@@ -151,9 +151,9 @@ static void read_texture_header(HeaderData& header, const uint8_t* data, const s
     }
 
     header = HeaderData(format, position, id, width, height, texture_tilesize);
-}
+}*/
 
-static void read_texture_data(const HeaderData& header, Texture* textures, const uint8_t* data, const size_t size) {
+/*static void read_texture_data(const HeaderData& header, Texture* textures, const uint8_t* data, const size_t size) {
     size_t img_data_size = read_uint32(data + header.data_position);
     if (size != header.data_position + 4 + img_data_size) {
         printd(DebugCategory::GPU_TEXTURE, "read_texture_data: error");
@@ -174,9 +174,9 @@ static void read_texture_data(const HeaderData& header, Texture* textures, const
     texture.set_initialized(true);
 
     textures[header.raw_id()] = texture;
-}
+}*/
 
-static void read_texture(Texture* textures, const AssetEntry& entry) {
+/*static void read_texture(Texture* textures, const AssetEntry& entry) {
     switch (check_header(entry)) {
         case HeaderStatus::Compressed: {
             uint8_t* uncompressed_data = NULL;
@@ -200,10 +200,10 @@ static void read_texture(Texture* textures, const AssetEntry& entry) {
             break;
     }
     // TODO error
-}
+}*/
 
 // TODO duplicate code with function above
-static void read_texture_metadata(HeaderData& header, const AssetEntry& entry) {
+/*static void read_texture_metadata(HeaderData& header, const AssetEntry& entry) {
     switch (check_header(entry)) {
         case HeaderStatus::Compressed: {
             uint8_t* uncompressed_data = NULL;
@@ -223,7 +223,7 @@ static void read_texture_metadata(HeaderData& header, const AssetEntry& entry) {
             break;
     }
     // TODO error
-}
+}*/
 
 struct TextureEntry {
     bool loaded;
@@ -309,7 +309,7 @@ class TexturesManager {
 
 static TexturesManager textures_manager;
 
-void register_textures(const Assets& assets) {
+/*void register_textures(const Assets& assets) {
     for (unsigned int i = 0; i < assets.length; i++) {
         if (assets.entries[i].size == 0) {
             // TODO load from filesystem
@@ -321,9 +321,9 @@ void register_textures(const Assets& assets) {
             printd(DebugCategory::GPU_TEXTURE, "New texture registered: id=", header.id, ", tile_size=", header.texture_tile_size);
         }
     }
-}
+}*/
 
-void refresh_textures(Texture* textures) {
+/*void refresh_textures(Texture* textures) {
     for (unsigned int i = 1; i < (unsigned int) TextureID::NB_TEXTURES; i++) {
         TextureEntry* entry = textures_manager.get(tile_size, (TextureID) i);
         if (entry != NULL) {
@@ -331,7 +331,7 @@ void refresh_textures(Texture* textures) {
             read_texture(textures, entry->data);
         }
     }
-}
+}*/
 
 #ifdef DEBUG
 void printd_internal(TextureID id) {

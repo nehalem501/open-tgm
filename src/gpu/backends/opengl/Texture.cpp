@@ -96,12 +96,12 @@
     //load_texture(outline_tex, "/Users/tomek/open-tgm/data/resources/9px/outline.png");
 }*/
 
-void free_texture(Texture& /*texture*/) {
+//void free_texture(Texture& /*texture*/) {
     //C3D_TexDelete(&texture.handle);
-}
+//}
 
-void load_texture(Texture& texture, const uint8_t* img_data, const size_t) {
-    glGenTextures(1, texture.handle_ptr());
+//void load_texture(Texture& texture, const uint8_t* img_data, const size_t) {
+    /*glGenTextures(1, texture.handle_ptr());
     glBindTexture(GL_TEXTURE_2D, texture.handle());
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -120,5 +120,5 @@ void load_texture(Texture& texture, const uint8_t* img_data, const size_t) {
         0,
         GL_RGBA,
         GL_UNSIGNED_BYTE,
-        img_data);
-}
+        img_data);*/
+//}
