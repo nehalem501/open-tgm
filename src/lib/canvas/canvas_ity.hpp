@@ -1147,6 +1147,8 @@ public:
     ///
     void restore();
 
+    bool antialiasing;
+
 private:
     int size_x;
     int size_y;
@@ -2569,6 +2571,9 @@ void canvas::render_main(
         pixel_run next = which ? runs[ path_index ] : mask[ clip_index ];
         float coverage = std::min( fabsf( path_sum ), 1.0f );
         float visibility = std::min( fabsf( clip_sum ), 1.0f );
+        if (!antialiasing) {
+            coverage = (coverage >= 254.0f / 255.0f) ? 1.0f : 0.0f;
+        }
         int to = next.y == y ? next.x : x + 1;
         static float const threshold = 1.0f / 8160.0f;
         if ( ( coverage >= threshold || ~operation & 8 ) &&
@@ -2615,6 +2620,7 @@ canvas::canvas(
       line_dash_offset( 0.0f ),
       text_align( start ),
       text_baseline( alphabetic ),
+      antialiasing( true ),
       size_x( width ),
       size_y( height ),
       global_alpha( 1.0f ),
