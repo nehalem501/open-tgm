@@ -244,13 +244,17 @@ class Target:
             if hasattr(e, 'gpu') and e.gpu:
                 entry = e
                 self.load_entry(build_info.gpu_entry)
-                self.gpu_backend_entry = build_info.get_gpu_backend_entry(entry.gpu_backend)
-                self.load_entry(self.gpu_backend_entry)
+                self.gpu_backend_entries = build_info.get_gpu_backend_entries(entry.gpu_backends)
                 self.headers += [build_info.gpu_src_dir]
-                self.headers += [self.gpu_backend_entry.dir]
+                for g in self.gpu_backend_entries:
+                    self.load_entry(g)
+                    self.headers += [g.dir]
+
                 self.headers += [self.build_dir]
+
                 # TODO backend path
-                self.headers += [self.build_dir.joinpath(GPU_DIR).joinpath(GPU_BACKENDS_DIR).joinpath(self.gpu_backend_entry.name)]
+                for g in self.gpu_backend_entries:
+                    self.headers += [self.build_dir.joinpath(GPU_DIR).joinpath(GPU_BACKENDS_DIR).joinpath(g.name)]
 
                 resources_dir = build_info.root_dir.joinpath(DATA_DIR).joinpath(RESOURCES_DIR)
                 ini_files = []

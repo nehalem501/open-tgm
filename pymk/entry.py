@@ -33,7 +33,7 @@ class PlatformEntry(BuildEntry):
         super().__init__(dir)
         self.gpu = ('gpu_backend' in self.values)
         if self.gpu:
-            self.gpu_backend = self.values['gpu_backend']
+            self.gpu_backends = self.values['gpu_backend'].split()
             self.gpu_tile_sizes = self.values['gpu_tile_sizes'].split()
             self.gpu_assets_builtin = (self.values.get('gpu_assets') == 'builtin')
 

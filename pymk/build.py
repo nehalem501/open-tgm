@@ -74,10 +74,12 @@ class BuildInfo:
             if p.name == platform:
                 return p
 
-    def get_gpu_backend_entry(self, backend):
+    def get_gpu_backend_entries(self, backends):
+        entries = []
         for b in self.gpu_backends_entries:
-            if b.name == backend:
-                return b
+            if b.name in backends:
+                entries += [b]
+        return entries
 
     def get_target(self, target, options):
         core_entry = self.toplevel
