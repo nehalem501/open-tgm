@@ -48,6 +48,7 @@ App::App() {
 
     gpu_ptr = new OpenGLGPU();
 	gpu_ptr->load_textures();
+    GPU::set_current(gpu_ptr);
 }
 
 void App::run(Scene& scene) {
