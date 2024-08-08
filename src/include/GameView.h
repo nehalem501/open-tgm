@@ -7,7 +7,9 @@
 #include <Game.h>
 
 // TODO
-#define PLAYER1_POSITION Position(1 * tile_size, 2.5 * tile_size)
+#ifdef RESIZABLE
+#define PLAYER1_POSITION Position(1 * Global::tile_size, 2.5 * Global::tile_size)
+#endif
 
 class GameView {
     public:

@@ -80,13 +80,13 @@ void position_glyphs_from_string(
     #ifdef RESIZABLE
     if (texture_tile_size > 0) {
         int tts = texture_tile_size;
-        int ts = tile_size;
-        while (ts > tts) {
-            if (ts % tts == 0) {
-                factor = ts / tts;
+        int tile_size = Global::tile_size;
+        while (tile_size > tts) {
+            if (tile_size % tts == 0) {
+                factor = tile_size / tts;
                 break;
             }
-            ts--;
+            tile_size--;
         }
     }
     #else

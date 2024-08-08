@@ -98,23 +98,23 @@ class Tilemap : public Reloadable {
         }
 
         inline void tile_position(unsigned int tile_x, unsigned int tile_y) {
-            const float tile_size_gpu = tile_size;
+            const float tile_size = Global::tile_size;
             const size_t index = (tile_x + tile_y * m_width) * 4;
 
             const float x = m_vertex_array.vertices[0].x();
             const float y = m_vertex_array.vertices[0].y();
 
-            m_vertex_array.vertices[index].x(x + tile_x * tile_size_gpu);
-            m_vertex_array.vertices[index].y(y + tile_y * tile_size_gpu);
+            m_vertex_array.vertices[index].x(x + tile_x * tile_size);
+            m_vertex_array.vertices[index].y(y + tile_y * tile_size);
 
-            m_vertex_array.vertices[index + 1].x(x + tile_x * tile_size_gpu);
-            m_vertex_array.vertices[index + 1].y(y + (tile_y + 1.0f) * tile_size_gpu);
+            m_vertex_array.vertices[index + 1].x(x + tile_x * tile_size);
+            m_vertex_array.vertices[index + 1].y(y + (tile_y + 1.0f) * tile_size);
 
-            m_vertex_array.vertices[index + 2].x(x + (tile_x + 1.0f) * tile_size_gpu);
-            m_vertex_array.vertices[index + 2].y(y + (tile_y + 1.0f) * tile_size_gpu);
+            m_vertex_array.vertices[index + 2].x(x + (tile_x + 1.0f) * tile_size);
+            m_vertex_array.vertices[index + 2].y(y + (tile_y + 1.0f) * tile_size);
 
-            m_vertex_array.vertices[index + 3].x(x + (tile_x + 1.0f) * tile_size_gpu);
-            m_vertex_array.vertices[index + 3].y(y + tile_y * tile_size_gpu);
+            m_vertex_array.vertices[index + 3].x(x + (tile_x + 1.0f) * tile_size);
+            m_vertex_array.vertices[index + 3].y(y + tile_y * tile_size);
         }
 
         void render() const { m_vertex_array.render(); }

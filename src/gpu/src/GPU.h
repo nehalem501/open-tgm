@@ -48,7 +48,6 @@ class GPU {
         void resize_textures();
         #endif
 
-        //bool m_textures_loaded = false;
         Texture m_textures[(size_t) TextureID::NB_TEXTURES];
 };
 

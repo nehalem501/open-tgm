@@ -7,6 +7,8 @@
 
 typedef uint16_t tiles_t;
 
-#define tile_size 8
+namespace Global {
+    constexpr int tile_size = 8;
+}
 
 #endif // TARGET_TYPES_DUMMY_GPU_H

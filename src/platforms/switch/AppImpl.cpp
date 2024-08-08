@@ -7,7 +7,7 @@
 #include <Deko3DGPU.h>
 
 Size screen;
-int tile_size = 9; // TODO
+int Global::tile_size = 9; // TODO
 
 App::App() {
     // TODO detect screen size (can be different when docked)

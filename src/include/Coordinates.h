@@ -14,8 +14,8 @@ struct Coordinates {
         x(coordinates.x),
         y(coordinates.y) { }
 
-    inline int to_position_x() const { return x * tile_size; }
-    inline int to_position_y() const { return y * tile_size; }
+    inline int to_position_x() const { return x * Global::tile_size; }
+    inline int to_position_y() const { return y * Global::tile_size; }
     inline Position to_position() const {
         return Position(to_position_x(), to_position_y());
     }

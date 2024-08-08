@@ -7,6 +7,8 @@
 
 typedef uint32_t tiles_t;
 
-extern int tile_size;
+namespace Global {
+    extern int tile_size;
+}
 
 #endif // TARGET_TYPES_SWITCH_H

@@ -11,7 +11,7 @@
 #include <App.h>
 
 Size screen = { 320, 240 };
-int tile_size = 8; // TODO
+int Global::tile_size = 9; // TODO
 bool fullscreen = false; // TODO load config
 
 void error(const char *error_message) {

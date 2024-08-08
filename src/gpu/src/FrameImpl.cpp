@@ -80,60 +80,60 @@ void FrameImpl::resize() {
     const float width = 10; // TODO
     const float height = 22; // TODO
 
-    const float gpu_tile_size = tile_size;
+    const float tile_size = Global::tile_size;
 
-    m_background.position(x, y + gpu_tile_size * 2);
-    m_background.size(width * gpu_tile_size, (height - 2) * gpu_tile_size);
+    m_background.position(x, y + tile_size * 2);
+    m_background.size(width * tile_size, (height - 2) * tile_size);
 
     // Right
-    m_vertex_array.vertices[0].x(x + width * gpu_tile_size);
-    m_vertex_array.vertices[0].y(y + gpu_tile_size * 2.0f);
+    m_vertex_array.vertices[0].x(x + width * tile_size);
+    m_vertex_array.vertices[0].y(y + tile_size * 2.0f);
 
-    m_vertex_array.vertices[1].x(x + width * gpu_tile_size);
-    m_vertex_array.vertices[1].y(y + height * gpu_tile_size);
+    m_vertex_array.vertices[1].x(x + width * tile_size);
+    m_vertex_array.vertices[1].y(y + height * tile_size);
 
-    m_vertex_array.vertices[2].x(m_vertex_array.vertices[0].x() + gpu_tile_size);
-    m_vertex_array.vertices[2].y(y + (height + 1.0f) * gpu_tile_size);
+    m_vertex_array.vertices[2].x(m_vertex_array.vertices[0].x() + tile_size);
+    m_vertex_array.vertices[2].y(y + (height + 1.0f) * tile_size);
 
     m_vertex_array.vertices[3].x(m_vertex_array.vertices[2].x());
-    m_vertex_array.vertices[3].y(y + gpu_tile_size);
+    m_vertex_array.vertices[3].y(y + tile_size);
 
     // Top
-    m_vertex_array.vertices[4].x(x - gpu_tile_size);
-    m_vertex_array.vertices[4].y(y + gpu_tile_size);
+    m_vertex_array.vertices[4].x(x - tile_size);
+    m_vertex_array.vertices[4].y(y + tile_size);
 
     m_vertex_array.vertices[5].x(x);
-    m_vertex_array.vertices[5].y(y + 2.0f * gpu_tile_size);
+    m_vertex_array.vertices[5].y(y + 2.0f * tile_size);
 
-    m_vertex_array.vertices[6].x(x + width * gpu_tile_size);
-    m_vertex_array.vertices[6].y(y + 2.0f * gpu_tile_size);
+    m_vertex_array.vertices[6].x(x + width * tile_size);
+    m_vertex_array.vertices[6].y(y + 2.0f * tile_size);
 
-    m_vertex_array.vertices[7].x(x + (width + 1.0f) * gpu_tile_size);
-    m_vertex_array.vertices[7].y(y + gpu_tile_size);
+    m_vertex_array.vertices[7].x(x + (width + 1.0f) * tile_size);
+    m_vertex_array.vertices[7].y(y + tile_size);
 
     // Bottom
     m_vertex_array.vertices[8].x(x);
-    m_vertex_array.vertices[8].y(y + height * gpu_tile_size);
+    m_vertex_array.vertices[8].y(y + height * tile_size);
 
-    m_vertex_array.vertices[9].x(x - gpu_tile_size);
-    m_vertex_array.vertices[9].y(y + (height + 1.0f) * gpu_tile_size);
+    m_vertex_array.vertices[9].x(x - tile_size);
+    m_vertex_array.vertices[9].y(y + (height + 1.0f) * tile_size);
 
-    m_vertex_array.vertices[10].x(x + (width + 1.0f) * gpu_tile_size);
-    m_vertex_array.vertices[10].y(y + (height + 1.0f) * gpu_tile_size);
+    m_vertex_array.vertices[10].x(x + (width + 1.0f) * tile_size);
+    m_vertex_array.vertices[10].y(y + (height + 1.0f) * tile_size);
 
-    m_vertex_array.vertices[11].x(x + width * gpu_tile_size);
-    m_vertex_array.vertices[11].y(y + height * gpu_tile_size);
+    m_vertex_array.vertices[11].x(x + width * tile_size);
+    m_vertex_array.vertices[11].y(y + height * tile_size);
 
     // Left
-    m_vertex_array.vertices[12].x(x - gpu_tile_size);
-    m_vertex_array.vertices[12].y(y + gpu_tile_size);
+    m_vertex_array.vertices[12].x(x - tile_size);
+    m_vertex_array.vertices[12].y(y + tile_size);
 
-    m_vertex_array.vertices[13].x(x - gpu_tile_size);
-    m_vertex_array.vertices[13].y(y + (height + 1.0f) * gpu_tile_size);
+    m_vertex_array.vertices[13].x(x - tile_size);
+    m_vertex_array.vertices[13].y(y + (height + 1.0f) * tile_size);
 
     m_vertex_array.vertices[14].x(x);
-    m_vertex_array.vertices[14].y(y + height * gpu_tile_size);
+    m_vertex_array.vertices[14].y(y + height * tile_size);
 
     m_vertex_array.vertices[15].x(x);
-    m_vertex_array.vertices[15].y(y + 2.0f * gpu_tile_size);
+    m_vertex_array.vertices[15].y(y + 2.0f * tile_size);
 }

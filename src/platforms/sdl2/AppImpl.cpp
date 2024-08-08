@@ -11,7 +11,7 @@
 
 //Size screen = { 320, 240 };
 Size screen = { 160, 108 };
-int tile_size = 9;
+int Global::tile_size = 9;
 
 struct AppState {
     bool frame_by_frame;

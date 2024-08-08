@@ -14,6 +14,8 @@ void empty_func(const char*, ...);
 
 typedef unsigned int tiles_t;
 
-#define tile_size 10
+namespace Global {
+    constexpr int tile_size = 10;
+}
 
 #endif // TARGET_TYPES_PSP_H

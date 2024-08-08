@@ -52,8 +52,8 @@ bool OpenGLGPU::resize(unsigned int width, unsigned int height) {
 
     bool resized = false;
 
-    if (new_tile_size != tile_size) {
-        tile_size = new_tile_size;
+    if (new_tile_size != Global::tile_size) {
+        Global::tile_size = new_tile_size;
         //reload_textures(); // TODO
         resized = true;
     }
@@ -61,7 +61,7 @@ bool OpenGLGPU::resize(unsigned int width, unsigned int height) {
     // TODO
     //tile_size = 9;
 
-    printd(DebugCategory::GPU, "width: ", screen.width, ", height: ", screen.height, ", tile: ", tile_size);
+    printd(DebugCategory::GPU, "width: ", screen.width, ", height: ", screen.height, ", tile: ", Global::tile_size);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

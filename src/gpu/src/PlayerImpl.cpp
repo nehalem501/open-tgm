@@ -41,6 +41,8 @@ void PlayerImpl::update_piece_type() {
 }
 
 void PlayerImpl::update_piece_position() {
+    const int tile_size = Global::tile_size;
+
     m_piece.position(
         Position(
             m_position.x + (m_player.piece().position_x() - 2) * tile_size,
@@ -82,6 +84,8 @@ void PlayerImpl::update_ghost_type() {
 }
 
 void PlayerImpl::update_ghost_position() {
+    const int tile_size = Global::tile_size;
+
     m_ghost.position(
         Position(
             m_position.x + (m_player.piece().position_x() - 2) * tile_size,

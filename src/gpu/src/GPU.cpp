@@ -70,9 +70,9 @@ void GPU::load_simple_textures() {
 
 void GPU::load_generated_textures() {
     // We need current tile size
-    draw_block(
+    /*draw_block(
         tile_size,
-        [&](const uint8_t* data) {
+        [&](const uint8_t* data, size_t size) {
             load_generated_texture(
                 TextureID::BLOCKS,
                 TexturesFormat::RGBA8,
@@ -80,8 +80,8 @@ void GPU::load_generated_textures() {
                 tile_size,
                 tile_size,
                 data,
-                tile_size * tile_size * 4);
-    });
+                size);
+    });*/
 }
 
 void GPU::load_generated_texture(
@@ -105,8 +105,8 @@ void GPU::load_texture(Texture& texture, const uint8_t* data, const size_t data_
 }
 
 void GPU::load_empty_default_data() {
-    FontManager::get_mutable().load_empty(tile_size);
-    TilemapManager::get_mutable().load_empty(tile_size);
+    FontManager::get_mutable().load_empty(Global::tile_size);
+    TilemapManager::get_mutable().load_empty(Global::tile_size);
 }
 
 #ifdef RESIZABLE
