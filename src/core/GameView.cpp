@@ -5,14 +5,9 @@
 #include <Scene.h>
 #include <GameView.h>
 
-GameView::GameView() :
-    #ifdef RESIZABLE
-    m_player1_position(PLAYER1_POSITION), // TODO
+GameView::GameView(const Size& parent_size) :
+    m_player1_position(compute_position(parent_size)),
     m_player1_game(m_player1_position)
-    #else
-    m_player1_position(Position(1, 3)), // TODO
-    m_player1_game(m_player1_position)
-    #endif
     #ifdef MULTIPLAYER
     ,
     m_player2_position(PLAYER2_POSITION), // TODO

@@ -119,12 +119,20 @@ void position_glyphs_from_string(
         offset += glyph.offset * factor;
     }
 
-    if (layout == Layouts::CENTERED) {
+    if (layout & Layouts::H_CENTER) {
         float x = ((int) offset) / 2;
         for (size_t i = 0; i < (size * 4) && i < (length * 4); i++) {
             vertices[i].x_add(-x);
         }
     }
+
+    // TODO
+    /*if (layout & Layouts::V_CENTER) {
+        float x = ((int) offset) / 2;
+        for (size_t i = 0; i < (size * 4) && i < (length * 4); i++) {
+            vertices[i].x_add(-x);
+        }
+    }*/
 
     if (length < size) {
         for (size_t i = length * 4; i < size * 4; i++) {

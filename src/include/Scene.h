@@ -12,14 +12,14 @@
 
 class Scene {
     public:
-        Scene();
+        Scene(Size& screen_size);
 
         void draw() const;
 
         #ifdef RESIZABLE
         void resize() {
-            m_home.resize();
-            m_game_view.resize();
+            m_home.resize(m_screen_size);
+            m_game_view.resize(m_screen_size);
             m_settings.resize();
             m_background.resize();
         }
@@ -31,8 +31,11 @@ class Scene {
         void choose_mode();
         void ingame();
 
+        inline const Size& get_screen_size() { return m_screen_size; }
+
     private:
         SceneState m_state;
+        Size& m_screen_size;
 
         Home m_home;
         GameView m_game_view;

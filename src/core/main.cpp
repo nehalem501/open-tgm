@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     App app;
 
     // Run game
-    static Scene scene;
+    static Scene scene(screen);
     app.run(scene);
 
     return 0;

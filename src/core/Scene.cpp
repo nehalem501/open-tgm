@@ -9,7 +9,12 @@
 #include <Debug.h>
 #include <Scene.h>
 
-Scene::Scene() : m_state(SceneState::HOME) {
+Scene::Scene(Size& screen_size) :
+    m_state(SceneState::HOME),
+    m_screen_size(screen_size),
+    m_home(m_screen_size),
+    m_game_view(m_screen_size)
+{
     printd(DebugCategory::SCENE, "Scene constructor");
 }
 

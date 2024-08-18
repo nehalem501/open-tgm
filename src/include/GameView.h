@@ -5,22 +5,16 @@
 
 #include <Enums.h>
 #include <Game.h>
-
-// TODO
-#ifdef RESIZABLE
-#define PLAYER1_POSITION Position(1 * Global::tile_size, 2.5 * Global::tile_size)
-#endif
-
 class GameView {
     public:
-        GameView();
+        GameView(const Size& parent_size);
 
         void draw() const;
 
         #ifdef RESIZABLE
-        void resize() {
+        void resize(const Size& parent_size) {
             // TODO layout code
-            m_player1_position = PLAYER1_POSITION;
+            m_player1_position = compute_position(parent_size);
             //print("GameView x: %d, y:%d\n", m_player1_position.x, m_player1_position.y);
             m_player1_game.resize();
 
@@ -40,6 +34,11 @@ class GameView {
         Position m_player2_position;
         Game m_player2_game;
         #endif
+
+        inline static Position compute_position(const Size& parent_size) {
+            // TODO use parent aspect ratio
+            return Position(parent_size.width / 10, parent_size.height / 12);
+        }
 };
 
 #endif // GAME_VIEW_H

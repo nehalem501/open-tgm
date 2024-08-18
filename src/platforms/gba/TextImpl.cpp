@@ -27,9 +27,13 @@ void TextImpl::render() const {
     u16 *screen = (u16*) MAP_BASE_ADR(24);
 
     int offset = 0;
-    if (m_text.layout() == Layouts::CENTERED) {
+    if (m_text.layout() & Layouts::H_CENTER) {
         offset = m_text.length() / 2;
     }
+    // TODO
+    /*if (m_text.layout() & Layouts::V_CENTER) {
+        offset = m_text.length() / 2;
+    }*/
 
     const int x = m_text.position().x - offset;
     const int y = m_text.position().y;

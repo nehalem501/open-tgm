@@ -18,7 +18,7 @@ Game::Game(Position &position) :
         m_player(position),
         m_stack(position),
         m_frame(position),
-        m_string(position, Coordinates(5, 10), Layouts::CENTERED), // TODO
+        m_string(position, Coordinates(5, 10), Layouts::H_CENTER), // TODO
         m_labels(),
         m_state(GameState::CHOOSE_MODE) {
     printd(DebugCategory::SCENE, "Game constructor");

@@ -8,11 +8,11 @@
 #include <Debug.h>
 #include <Home.h>
 
-Home::Home() :
+Home::Home(const Size& parent_size) :
         m_start(
-            PRESS_START_POSITION,
+            compute_position(parent_size),
             Coordinates(0, 0),
-            Layouts::CENTERED,
+            Layouts::H_CENTER | Layouts::V_CENTER,
             TextColor::WHITE,
             "PRESS START"),
         m_start_timer(90) {

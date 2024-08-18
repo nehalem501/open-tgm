@@ -9,8 +9,10 @@ typedef uint8_t Layout;
 
 namespace Layouts {
     enum {
-        NONE = 0,
-        CENTERED = 1
+        NONE = 0b00,
+        H_CENTER = 0b01,
+        V_CENTER = 0b10,
+        //CENTERED = 0b11
     };
 }
 
