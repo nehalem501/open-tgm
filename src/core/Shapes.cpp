@@ -3,7 +3,7 @@
 #include <TargetTypes.h>
 #include <Shapes.h>
 
-const tiles_t PIECES[NB_TYPES][NB_ROTATIONS][PIECE_SIZE * PIECE_SIZE] = {
+const tiles_t PIECES[Shape::NB_SHAPES][NB_ROTATIONS][PIECE_SIZE * PIECE_SIZE] = {
     { // I
         {
             0, 0, 0, 0,

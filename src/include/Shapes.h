@@ -5,24 +5,24 @@
 
 #include <TargetTypes.h>
 
-#define NB_TYPES 7
 #define NB_ROTATIONS 4
 #define PIECE_SIZE 4
 
 namespace Shape {
-    enum {
+    enum : tiles_t {
         I = 0,
         Z,
         S,
         J,
         L,
         O,
-        T
+        T,
+        NB_SHAPES
     };
 }
 
 namespace Block {
-    enum {
+    enum : tiles_t {
         GARBAGE = 7,
         HARD_BLOCK = 27,
         BLINK = 31,
@@ -34,7 +34,7 @@ namespace Block {
 }
 
 namespace Item {
-    enum {
+    enum : tiles_t {
         UP_DEL_FIELD = 0,
         DOWN_DEL_FIELD,
         LEFT_MOV_FIELD,
@@ -58,6 +58,13 @@ namespace Item {
     };
 }
 
+enum struct ItemKind {
+    NEUTRAL = 0,
+    ATTACK,
+    DEFENSE,
+    NB_KINDS
+};
+
 enum {
     TOP = 12,
     BOTTOM,
@@ -65,6 +72,6 @@ enum {
     RIGHT
 };
 
-extern const tiles_t PIECES[NB_TYPES][NB_ROTATIONS][PIECE_SIZE * PIECE_SIZE];
+extern const tiles_t PIECES[Shape::NB_SHAPES][NB_ROTATIONS][PIECE_SIZE * PIECE_SIZE];
 
 #endif // SHAPES_H

@@ -492,14 +492,14 @@ void Player::next_piece() {
     uint32_t r = 0;
 
     for (unsigned int i = 0; i < m_current_mode.random_tries(); i++) {
-        r = tgm_random(&rand_seed) % NB_TYPES;
+        r = tgm_random(&rand_seed) % (uint32_t) Shape::NB_SHAPES;
 
         if (r != m_history[0] && r != m_history[1] &&
             r != m_history[2] && r != m_history[3]) {
             break;
         }
 
-        r = tgm_random(&rand_seed) % NB_TYPES;
+        r = tgm_random(&rand_seed) % (uint32_t) Shape::NB_SHAPES;
     }
 
     m_history[3] = m_history[2];
