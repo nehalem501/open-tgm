@@ -45,4 +45,12 @@ def test(args):
     pass
 
 def init(args):
-    pass
+    #import init
+    if args.platform:
+        pass
+
+    if args.gpu_platform:
+        pass
+
+    if args.gpu_backend:
+        pass

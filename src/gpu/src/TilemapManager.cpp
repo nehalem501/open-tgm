@@ -21,6 +21,11 @@ const TilemapData& TilemapManager::get_data(TilemapID id) const {
     }
 }
 
+TilemapData& TilemapManager::get_data_mutable(TilemapID id) {
+    TilemapData& t = m_data[(size_t) id];
+    return t;
+}
+
 void TilemapManager::load_empty(unsigned int current_tile_size) {
     //Vector<TileData> v = m_data[0].get_vec();
     //v.resize(32); // TODO find max tilemap size
@@ -34,7 +39,7 @@ void TilemapManager::load_empty(unsigned int current_tile_size) {
     m_data[0].set_initialized(true);
 }
 
-size_t get_tiles_nb(TilemapID id) {
+size_t TilemapManager::get_tiles_nb(TilemapID id) {
     switch(id) {
         case TilemapID::BLOCKS:
             return 32;

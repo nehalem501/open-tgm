@@ -7,7 +7,7 @@ import platform
 from . import configure
 from . import ninja
 from .entry import BuildEntry, PlatformEntry
-from .globals import BUILD_INI, DATA_DIR, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, BIN_DIR, BUILD_DIR, RESOURCES_DIR, TOOLS_DIR
+from .globals import BUILD_INI, DATA_DIR, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, GRAPHICS_DIR, BIN_DIR, BUILD_DIR, RESOURCES_DIR, TOOLS_DIR
 from .target import Target, TargetData
 from pymk import entry
 
@@ -53,12 +53,14 @@ class BuildInfo:
         self.build_dir = root_dir.joinpath(BUILD_DIR)
         self.platforms_dir = self.src_dir.joinpath(PLATFORMS_DIR)
         self.core_headers_dir = self.src_dir.joinpath(CORE_HEADERS_DIR)
+        self.graphics_dir = self.src_dir.joinpath(GRAPHICS_DIR)
         self.scripts_dir = self.root_dir.joinpath('pymk')
 
     def finish_init(self):
         self.core_entries = [BuildEntry(e) for e in scan_subdirs(self.src_dir, [CORE_DIR, MODES_DIR])]
         self.gpu_src_dir = self.gpu_root_dir.joinpath(GPU_SRC_DIR)
         self.gpu_entry = BuildEntry(self.gpu_src_dir)
+        self.graphics_entry = BuildEntry(self.graphics_dir)
         self.gpu_backends_entries = [BuildEntry(e) for e in scan_subdirs(self.gpu_root_dir, [GPU_BACKENDS_DIR])]
 
     def get_target_build_dir(self, target):

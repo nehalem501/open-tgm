@@ -1,9 +1,9 @@
 /* GPU.cpp - GPU */
 
 #include <string.h>
+#include "../graphics/Graphics.h"
 #include "Texture.h"
 #include "TilemapManager.h"
-#include "GeneratedTexture.h"
 #include "GPU.h"
 
 static GPU* current_gpu = NULL;
@@ -20,10 +20,9 @@ void GPU::set_current(GPU* gpu) {
 GPU::~GPU() { }
 
 void GPU::load_textures() {
+    load_empty_default_data();
     load_generated_textures();
     load_simple_textures();
-
-    load_empty_default_data();
 
     // TODO
     //textures[0] = empty_texture;
@@ -70,33 +69,64 @@ void GPU::load_simple_textures() {
 
 void GPU::load_generated_textures() {
     // We need current tile size
-    /*draw_block(
-        tile_size,
-        [&](const uint8_t* data, size_t size) {
+    generate_blocks_tilemap(
+        Global::tile_size,
+        [&](const GeneratedTexture& texture) {
             load_generated_texture(
                 TextureID::BLOCKS,
                 TexturesFormat::RGBA8,
-                tile_size,
-                tile_size,
-                tile_size,
-                data,
-                size);
-    });*/
+                Global::tile_size,
+                texture.width,
+                texture.height,
+                texture.buffer.data,
+                texture.buffer.length);
+
+            TilemapData& entry = TilemapManager::get_mutable().get_data_mutable(TilemapID::BLOCKS);
+            entry.update(
+                TilemapDataEntry(
+                    Global::tile_size,
+                    texture.width,
+                    texture.height,
+                    TilemapManager::get_tiles_nb(TilemapID::BLOCKS)));
+            entry.set_initialized(true);
+    });
+
+    generate_outline_tilemap(
+        Global::tile_size,
+        [&](const GeneratedTexture& texture) {
+            load_generated_texture(
+                TextureID::OUTLINE,
+                TexturesFormat::RGBA8,
+                Global::tile_size,
+                texture.width,
+                texture.height,
+                texture.buffer.data,
+                texture.buffer.length);
+
+            TilemapData& entry = TilemapManager::get_mutable().get_data_mutable(TilemapID::OUTLINE);
+            entry.update(
+                TilemapDataEntry(
+                    Global::tile_size,
+                    texture.width,
+                    texture.height,
+                    TilemapManager::get_tiles_nb(TilemapID::OUTLINE)));
+            entry.set_initialized(true);
+    });
 }
 
 void GPU::load_generated_texture(
-    const TextureID /*id*/,
-    const uint8_t /*format*/,
-    unsigned int /*texture_tile_size*/,
-    unsigned int /*width*/,
-    unsigned int /*height*/,
-    const uint8_t* /*data*/,
-    const size_t /*data_size*/)
+    const TextureID id,
+    const uint8_t format,
+    unsigned int texture_tile_size,
+    unsigned int width,
+    unsigned int height,
+    const uint8_t* data,
+    const size_t data_size)
 {
     // TODO: generated vector textures;
-    /*Texture texture(format, texture_tile_size, width, height);
+    Texture texture(format, texture_tile_size, width, height);
     load_texture(texture, data, data_size);
-    m_textures[(size_t) id] = texture;*/
+    m_textures[(size_t) id] = texture;
 }
 
 void GPU::load_texture(Texture& texture, const uint8_t* data, const size_t data_size) {

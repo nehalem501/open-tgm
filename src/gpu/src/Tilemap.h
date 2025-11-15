@@ -12,6 +12,7 @@
 #include "TilemapManager.h"
 #include "Texture.h"
 #include "VertexArray.h"
+//#include <iostream>
 
 TextureID tilemap_to_texture(TilemapID id);
 
@@ -89,6 +90,7 @@ class Tilemap : public Reloadable {
         inline void tile(const TilemapData& data, const size_t i) {
             const TileData& tile_data = data.get(m_tiles[i] & 0xFF);
 
+            //std::cout << "u: " << tile_data.tex_coord_bottom_left.u() << ", v: " << tile_data.tex_coord_bottom_left.v() << std::endl;
             const size_t index = i * 4;
 
             m_vertex_array.vertices[index].tex_coords(tile_data.tex_coord_top_left);

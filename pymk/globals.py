@@ -13,6 +13,7 @@ PLATFORMS_DIR = 'platforms'
 GPU_DIR = 'gpu'
 GPU_SRC_DIR = 'src'
 GPU_BACKENDS_DIR = 'backends'
+GRAPHICS_DIR = 'graphics'
 LIBS_DIR = 'lib'
 TOOLS_DIR = 'tools'
 

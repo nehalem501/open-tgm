@@ -75,7 +75,7 @@ void parse_args(int argc, char** argv) {
     //printd_set_category_state(DebugCategory::GPU_GLYPHS, true);
     //printd_set_category_state(DebugCategory::GPU_TEXTURE, true);
     //printd_set_category_state(DebugCategory::GPU_TILEMAP, true);
-    printd_set_category_state(DebugCategory::INPUT, true);
+    //printd_set_category_state(DebugCategory::INPUT, true);
 #else
     (void)argc;
     (void)argv;

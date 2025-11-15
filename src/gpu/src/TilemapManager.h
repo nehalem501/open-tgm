@@ -11,7 +11,10 @@ class TilemapManager {
         static const TilemapManager& get();
         static TilemapManager& get_mutable();
 
+        static size_t get_tiles_nb(TilemapID id); // TODO constexpr
+
         const TilemapData& get_data(TilemapID id) const;
+        TilemapData& get_data_mutable(TilemapID id);
 
         void load_empty(unsigned int current_tile_size);
 

@@ -32,3 +32,11 @@ void BackgroundImpl::render(const bool options) const {
 
     m_background_gradient.render(); // TODO: draw actual background
 }
+
+#ifdef RESIZABLE
+void BackgroundImpl::resize() {
+    m_background_gradient.size(screen.width, screen.height);
+    // TODO aspect ratio & texture size
+    //m_background_image
+}
+#endif

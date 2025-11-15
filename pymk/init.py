@@ -9,3 +9,13 @@ def sed_inplace(input, output, pattern, repl):
         with open(input, mode='r') as src_file:
             for line in src_file:
                 out_file.write(pattern_compiled.sub(repl, line))
+
+
+def init_platform(name):
+    pass
+
+def init_gpu_platform(name):
+    pass
+
+def init_gpu_backend(name):
+    pass

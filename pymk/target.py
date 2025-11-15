@@ -243,6 +243,7 @@ class Target:
         for e in entries:
             if hasattr(e, 'gpu') and e.gpu:
                 entry = e
+                self.load_entry(build_info.graphics_entry)
                 self.load_entry(build_info.gpu_entry)
                 self.gpu_backend_entries = build_info.get_gpu_backend_entries(entry.gpu_backends)
                 self.headers += [build_info.gpu_src_dir]
