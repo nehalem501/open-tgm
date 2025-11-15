@@ -106,6 +106,8 @@ class Tilemap : public Reloadable {
             const float x = m_vertex_array.vertices[0].x();
             const float y = m_vertex_array.vertices[0].y();
 
+            //std::cout << "x: " << x << ", y: " << y << std::endl;
+
             m_vertex_array.vertices[index].x(x + tile_x * tile_size);
             m_vertex_array.vertices[index].y(y + tile_y * tile_size);
 
@@ -131,6 +133,8 @@ class Tilemap : public Reloadable {
                     tile_position(i, j);
                 }
             }
+
+            update(m_tiles);
         }
         #endif
 

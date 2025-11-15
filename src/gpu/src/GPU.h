@@ -13,7 +13,7 @@ class GPU {
         virtual void display() = 0;
 
         #ifdef RESIZABLE
-        virtual bool resize(unsigned int width, unsigned int height) = 0;
+        bool resize(unsigned int width, unsigned int height);
         #endif
 
         void load_textures();
@@ -46,6 +46,7 @@ class GPU {
 
         #ifdef RESIZABLE
         void resize_textures();
+        virtual void resize(unsigned int width, unsigned int height, unsigned int new_tile_size) = 0;
         #endif
 
         Texture m_textures[(size_t) TextureID::NB_TEXTURES];

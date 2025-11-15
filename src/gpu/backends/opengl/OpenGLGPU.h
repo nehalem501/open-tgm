@@ -13,7 +13,7 @@ class OpenGLGPU : public GPU {
         void clear();
         void display();
 
-        bool resize(unsigned int width, unsigned int height);
+        void resize(unsigned int width, unsigned int height, unsigned int new_tile_size);
 
         void alloc_texture(Texture& texture, const uint8_t* data, const size_t data_size);
         void free_texture(Texture& texture);

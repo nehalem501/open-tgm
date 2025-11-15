@@ -1,10 +1,13 @@
 /* GPU.cpp - GPU */
 
 #include <string.h>
+#include <Debug.h>
+#include <Global.h>
 #include "../graphics/Graphics.h"
 #include "Texture.h"
 #include "TilemapManager.h"
 #include "GPU.h"
+//#include <iostream>
 
 static GPU* current_gpu = NULL;
 
@@ -69,6 +72,7 @@ void GPU::load_simple_textures() {
 
 void GPU::load_generated_textures() {
     // We need current tile size
+    //std::cout << "tile_size: " << Global::tile_size << std::endl;
     generate_blocks_tilemap(
         Global::tile_size,
         [&](const GeneratedTexture& texture) {
@@ -80,6 +84,10 @@ void GPU::load_generated_textures() {
                 texture.height,
                 texture.buffer.data,
                 texture.buffer.length);
+
+            //std::cout << "width: " << texture.width << std::endl;
+            //std::cout << "height: " << texture.height << std::endl;
+            //std::cout << "length: " << texture.buffer.length << std::endl;
 
             TilemapData& entry = TilemapManager::get_mutable().get_data_mutable(TilemapID::BLOCKS);
             entry.update(
@@ -125,6 +133,9 @@ void GPU::load_generated_texture(
 {
     // TODO: generated vector textures;
     Texture texture(format, texture_tile_size, width, height);
+    if (m_textures[(size_t) id].initialized()) {
+        free_texture(m_textures[(size_t) id]);
+    }
     load_texture(texture, data, data_size);
     m_textures[(size_t) id] = texture;
 }
@@ -140,7 +151,28 @@ void GPU::load_empty_default_data() {
 }
 
 #ifdef RESIZABLE
+bool GPU::resize(unsigned int width, unsigned int height) {
+    screen.width = width;
+    screen.height = height;
+
+    int new_tile_size = height / 27;
+    /*if (height < 243 && height >= 240) {
+        new_tile_size = 9; // TODO
+    }*/
+
+    if (new_tile_size == Global::tile_size) {
+        return false; // TODO: bug when resizing only horizontally
+    }
+
+    Global::tile_size = new_tile_size;
+    printd(DebugCategory::GPU, "width: ", screen.width, ", height: ", screen.height, ", tile: ", Global::tile_size);
+    resize(width, height, new_tile_size);
+    resize_textures();
+
+    return true;
+}
+
 void GPU::resize_textures() {
-    ;
+    load_generated_textures();
 }
 #endif // RESIZABLE

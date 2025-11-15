@@ -9,7 +9,7 @@
 #include "OpenGLGPU.h"
 
 OpenGLGPU::OpenGLGPU() : max_texture_size(0) {
-    resize(screen.width, screen.height);
+    GPU::resize(screen.width, screen.height);
 
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 
@@ -39,29 +39,8 @@ void OpenGLGPU::display() {
     //SDL_GL_SwapBuffers(); // TODO: remove SDL dependency
 }
 
-bool OpenGLGPU::resize(unsigned int width, unsigned int height) {
-    screen.width = width;
-    screen.height = height;
-
+void OpenGLGPU::resize(unsigned int width, unsigned int height, unsigned int /*new_tile_size*/) {
     glViewport(0, 0, width, height);
-
-    int new_tile_size = height / 27;
-    /*if (height < 243 && height >= 240) {
-        new_tile_size = 9; // TODO
-    }*/
-
-    bool resized = false;
-
-    if (new_tile_size != Global::tile_size) {
-        Global::tile_size = new_tile_size;
-        //reload_textures(); // TODO
-        resized = true;
-    }
-
-    // TODO
-    //tile_size = 9;
-
-    printd(DebugCategory::GPU, "width: ", screen.width, ", height: ", screen.height, ", tile: ", Global::tile_size);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -69,8 +48,6 @@ bool OpenGLGPU::resize(unsigned int width, unsigned int height) {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    return resized;
 }
 
 void OpenGLGPU::alloc_texture(Texture& texture, const uint8_t* data, const size_t /*data_size*/) {
