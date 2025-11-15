@@ -130,7 +130,7 @@ App::App() {
 void App::run(Scene& scene) {
     GPU& gpu = *gpu_ptr;
 
-    scene.resize();
+    //scene.resize();
 
     AppState state = {
         .frame_by_frame = false,

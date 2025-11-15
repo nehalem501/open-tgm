@@ -54,6 +54,8 @@ App::App() {
 void App::run(Scene& scene) {
     GPU& gpu = *gpu_ptr;
 
+    //scene.resize();
+
     #ifdef DEBUG
     bool frame_by_frame = false;
     bool do_frame = false;

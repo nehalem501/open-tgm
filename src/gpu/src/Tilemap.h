@@ -38,12 +38,12 @@ class Tilemap : public Reloadable {
             m_vertex_array.vertices[0].x(position.x);
             m_vertex_array.vertices[0].y(position.y);
 
-            /*for (unsigned int i = 0; i < m_width; i++) {
+            for (unsigned int i = 0; i < m_width; i++) {
                 for (unsigned int j = 0; j < m_height; j++) {
-                    tile(i, j, tiles[i + j * m_width] & 0xFF); // TODO
+                    //tile(i, j, tiles[i + j * m_width] & 0xFF); // TODO
                     tile_position(i, j);
                 }
-            }*/
+            }
 
             color(c);
 
