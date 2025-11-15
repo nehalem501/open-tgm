@@ -10,7 +10,7 @@
 #include "Graphics.h"
 
 static Buffer draw_block(uint16_t current, float size) {
-    float s = round(size / 8.0f);
+    float s = ceil(size / 8.0f);
     canvas_ity::canvas context(size, size);
 
     context.set_color(canvas_ity::fill_style, 0, 0, 0, 0);
