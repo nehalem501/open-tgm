@@ -109,7 +109,7 @@ FT_BEGIN_HEADER
    * ```
    *
    */
-#define FT_CONFIG_OPTION_ENVIRONMENT_PROPERTIES
+// #define FT_CONFIG_OPTION_ENVIRONMENT_PROPERTIES
 
 
   /**************************************************************************
@@ -180,7 +180,7 @@ FT_BEGIN_HEADER
    *
    *   Define this macro if you want to enable this 'feature'.
    */
-#define FT_CONFIG_OPTION_USE_LZW
+// #define FT_CONFIG_OPTION_USE_LZW
 
 
   /**************************************************************************
@@ -195,7 +195,7 @@ FT_BEGIN_HEADER
    *   Define this macro if you want to enable this 'feature'.  See also the
    *   macro `FT_CONFIG_OPTION_SYSTEM_ZLIB` below.
    */
-#define FT_CONFIG_OPTION_USE_ZLIB
+// #define FT_CONFIG_OPTION_USE_ZLIB
 
 
   /**************************************************************************
@@ -386,7 +386,7 @@ FT_BEGIN_HEADER
    *
    *   Note that the 'FOND' resource isn't checked.
    */
-#define FT_CONFIG_OPTION_MAC_FONTS
+// #define FT_CONFIG_OPTION_MAC_FONTS
 
 
   /**************************************************************************
@@ -418,7 +418,7 @@ FT_BEGIN_HEADER
    * incrementally as the document is parsed, such as the Ghostscript
    * interpreter for the PostScript language.
    */
-#define FT_CONFIG_OPTION_INCREMENTAL
+// #define FT_CONFIG_OPTION_INCREMENTAL
 
 
   /**************************************************************************
@@ -563,7 +563,7 @@ FT_BEGIN_HEADER
    *
    *   More details on the hooks can be found in file `otsvg.h`.
    */
-#define FT_CONFIG_OPTION_SVG
+// #define FT_CONFIG_OPTION_SVG
 
 
   /**************************************************************************
@@ -594,7 +594,7 @@ FT_BEGIN_HEADER
    * embedded bitmaps in all formats using the 'sfnt' module (namely
    * TrueType~& OpenType).
    */
-#define TT_CONFIG_OPTION_EMBEDDED_BITMAPS
+// #define TT_CONFIG_OPTION_EMBEDDED_BITMAPS
 
 
   /**************************************************************************
@@ -603,7 +603,7 @@ FT_BEGIN_HEADER
    * outlines (from the 'COLR'/'CPAL' tables) in all formats using the 'sfnt'
    * module (namely TrueType~& OpenType).
    */
-#define TT_CONFIG_OPTION_COLOR_LAYERS
+// #define TT_CONFIG_OPTION_COLOR_LAYERS
 
 
   /**************************************************************************
@@ -706,7 +706,7 @@ FT_BEGIN_HEADER
    * [1]
    * https://learn.microsoft.com/typography/cleartype/truetypecleartype
    */
-#define TT_CONFIG_OPTION_SUBPIXEL_HINTING
+// #define TT_CONFIG_OPTION_SUBPIXEL_HINTING
 
 
   /**************************************************************************
@@ -761,7 +761,7 @@ FT_BEGIN_HEADER
    * Define `TT_CONFIG_OPTION_BDF` if you want to include support for an
    * embedded 'BDF~' table within SFNT-based bitmap formats.
    */
-#define TT_CONFIG_OPTION_BDF
+// #define TT_CONFIG_OPTION_BDF
 
 
   /**************************************************************************
