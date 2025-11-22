@@ -23,5 +23,6 @@ void generate_blocks_tilemap(
 void generate_outline_tilemap(
     float current_tile_size,
     std::function<void(const GeneratedTexture&)> callback);
+void generate_text_font(float current_tile_size/*, std::function<void(const GeneratedTexture&)> callback*/);
 
 #endif // GRAPHICS_H

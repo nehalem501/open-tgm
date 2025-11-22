@@ -120,6 +120,8 @@ void GPU::load_generated_textures() {
                     TilemapManager::get_tiles_nb(TilemapID::OUTLINE)));
             entry.set_initialized(true);
     });
+
+    generate_text_font(Global::tile_size);
 }
 
 void GPU::load_generated_texture(

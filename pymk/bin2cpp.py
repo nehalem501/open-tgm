@@ -17,11 +17,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', required=True)
 parser.add_argument('-o', '--output', required=True)
 #parser.add_argument('-H', '--header', required=True)
-#parser.add_argument('-n', '--name', required=True)
+parser.add_argument('-n', '--name')
 args = parser.parse_args()
 
 header = Path(args.output).with_suffix('.h')
 name = str(Path(args.output).stem).replace('.', '_')
+if args.name is not None:
+    name = args.name
+
 with open(args.output, 'w') as output:
     output.write(textwrap.dedent(f"""\
         /* {name}.cpp */
