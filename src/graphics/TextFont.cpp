@@ -147,7 +147,7 @@ static Buffer draw_char(FT_Face face, char c) {
     }
 
     int stroker_width = 1; // TODO
-    FT_Stroker_Set(stroker, (stroker_width * 64) /*- 1*/, FT_STROKER_LINECAP_SQUARE, FT_STROKER_LINEJOIN_MITER_FIXED, 0);
+    FT_Stroker_Set(stroker, (stroker_width * 64) /*- 1*/, FT_STROKER_LINECAP_SQUARE, FT_STROKER_LINEJOIN_MITER_FIXED, 1);
 
     FT_Glyph glyph_outline;
     error = FT_Get_Glyph(face->glyph, &glyph_outline);
@@ -215,14 +215,28 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
 
     FT_Face face = ft.face();
 
-    FT_UInt font_size = 32; // size 18 for 13px height, without outline
+    /*FT_UInt font_size = 14; // size 18 for 13px height, without outline
     FT_Error error = FT_Set_Pixel_Sizes(face, 0, font_size); // TODO: check error
+    if (error) {
+        std::cout << "Error FT_Set_Pixel_Sizes" << std::endl;
+    }*/
+
+    int tile_size = current_tile_size;
+    std::cout << "size: " << tile_size << std::endl;
+
+    FT_Size_RequestRec req;
+    req.type = FT_SIZE_REQUEST_TYPE_NOMINAL;
+    req.width = tile_size * 64;
+    req.height = tile_size * 64;
+    req.horiResolution = 0;
+    req.vertResolution = 0;
+
+    FT_Error error = FT_Request_Size(face, &req);
     if (error) {
         std::cout << "Error FT_Set_Pixel_Sizes" << std::endl;
     }
 
-    int tile_size = current_tile_size;
-    const size_t glyphs_nb = 42; // TODO
+    const size_t glyphs_nb = 1; // TODO
 
     // TODO factorize
     unsigned int tiles_pixels = glyphs_nb * tile_size * tile_size;
@@ -244,7 +258,7 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
 
     //float s = round(current_tile_size / 8.0f);
 
-    for (size_t i = 0; i < 42; i++) {
+    for (size_t i = 0; i < glyphs_nb; i++) {
         //std::cout << "i: " << i << std::endl;
         /*Buffer b = draw_block(i, current_tile_size);
         int x = tile_size * (i % row_size);
