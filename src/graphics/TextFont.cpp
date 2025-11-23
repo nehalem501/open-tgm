@@ -6,6 +6,7 @@
 #include <canvas_ity.hpp>
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include FT_STROKER_H
 #include <Global.h>
 #include <Utils.h>
 #include "stack_sans_font.h"
@@ -41,7 +42,10 @@ class FreeType {
             if (error) {
                 std::cout << "Error FT_Init_FreeType" << std::endl;
             }
-            // TODO: load from memory
+            /*error = FT_Stroker_New(m_library, &m_stroker);
+            if (error) {
+                std::cout << "Error FT_Stroker_New" << std::endl;
+            }*/
             error = FT_New_Memory_Face(m_library, stack_sans_font, stack_sans_font_size, 0, &m_face); // TODO: check error
             if (error) {
                 std::cout << "Error FT_New_Face" << std::endl;
@@ -50,24 +54,19 @@ class FreeType {
 
         bool initialized() { return m_initialized; }
         FT_Face face() { return m_face; }
+        FT_Library library() { return m_library; }
 
     private:
         FT_Library m_library;
+        //FT_Stroker m_stroker;
         FT_Face m_face;
         bool m_initialized;
 };
 
 static FreeType ft;
 
-static Buffer draw_char(FT_Face face, char c) {
-    FT_Error error;
-    FT_UInt glyph_index = FT_Get_Char_Index(face, c);
-    error = FT_Load_Glyph(face, glyph_index, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO | FT_LOAD_FORCE_AUTOHINT); // TODO: error
-    if (error) {
-        std::cout << "Error FT_Load_Glyph" << std::endl;
-    }
-    FT_GlyphSlot glyph = face->glyph;
-    FT_Bitmap bitmap = glyph->bitmap;
+static Image convert_bitmap(FT_Bitmap& bitmap, uint8_t value) {
+    unsigned int length = bitmap.rows * bitmap.width;
     uint8_t* data = new uint8_t[bitmap.rows * bitmap.width];
     //std::vector<uint8_t> data;
     //std::cout << "size: " << bitmap.rows * bitmap.width << std::endl;
@@ -91,7 +90,7 @@ static Buffer draw_char(FT_Face face, char c) {
                     std::cout << "oops: rowstart: " << rowstart << ", bit_index: " << (int) bit_index << ", total: " << rowstart + bit_index << std::endl;
                     std::cout << "  bitmap.width: " << bitmap.width << ", num_bits_done: " << num_bits_done << ", max_index: " << (int) max_index << std::endl;
                 }**/
-                data[rowstart + bit_index] = bit ? 1 : 0;
+                data[rowstart + bit_index] = bit ? value : 0;
                 //data.push_back(bit ? 1 : 0);
             }
         }
@@ -102,25 +101,96 @@ static Buffer draw_char(FT_Face face, char c) {
     unsigned int width = bitmap.width;
     unsigned int height = bitmap.rows;
 
-    //std::cout << "char: " << c << ", width: " << width << ", height: " << height << std::endl;
+    Buffer buffer = { data, length };
+    return { width, height, buffer };
+}
 
-    //size = 0;
-    for (unsigned int y = 0; y < height; y++) {
-        for (unsigned int x = 0; x < width; x++) {
+static void display_image(Image& image) {
+    for (unsigned int y = 0; y < image.height; y++) {
+        for (unsigned int x = 0; x < image.width; x++) {
             //size++;
-            if (data[y * width + x])
-                std::cout << '#';
-            else
-                std::cout << '.';
+            switch (image.buffer.data[y * image.width + x]) {
+                case 1:
+                    std::cout << '#';
+                    break;
+                case 2:
+                    std::cout << 'O';
+                    break;
+                default:
+                    std::cout << '.';
+            }
         }
         std::cout << std::endl;
     }
-    //std::cout << "size: " << size << std::endl;
     std::cout << std::endl;
-    delete[] data;
+}
+
+static void blit(Image& outline, Image& glyph, int shift) {
+    for (unsigned int y = 0; y < glyph.height; y++) {
+        for (unsigned int x = 0; x < glyph.width; x++) {
+            uint8_t byte = glyph.buffer.data[y * glyph.width + x];
+            if (byte) {
+                outline.buffer.data[(y + shift) * outline.width + x + shift] = byte;
+            }
+        }
+    }
+}
+
+static Buffer draw_char(FT_Face face, char c) {
+    FT_Error error;
+    error = FT_Load_Char(face, c, FT_LOAD_NO_BITMAP | FT_LOAD_FORCE_AUTOHINT);
+
+    FT_Stroker stroker;
+    error = FT_Stroker_New(ft.library(), &stroker);
+    if (error) {
+        std::cout << "Error FT_Stroker_New" << std::endl;
+    }
+
+    int stroker_width = 1; // TODO
+    FT_Stroker_Set(stroker, (stroker_width * 64) /*- 1*/, FT_STROKER_LINECAP_SQUARE, FT_STROKER_LINEJOIN_MITER_FIXED, 0);
+
+    FT_Glyph glyph_outline;
+    error = FT_Get_Glyph(face->glyph, &glyph_outline);
+    if (error) {
+        std::cout << "Error FT_Get_Glyph" << std::endl;
+    }
+    error = FT_Glyph_Stroke(&glyph_outline, stroker, 1);
+    if (error) {
+        std::cout << "Error FT_Glyph_Stroke: " << error << std::endl;
+    }
+    error = FT_Glyph_To_Bitmap(&glyph_outline, FT_RENDER_MODE_MONO, NULL, true);
+    if (error) {
+        std::cout << "Error FT_Glyph_To_Bitmap" << std::endl;
+    }
+
+    FT_BitmapGlyph glyph_outline_bitmap = (FT_BitmapGlyph) glyph_outline;
+    Image outline_image = convert_bitmap(glyph_outline_bitmap->bitmap, 1);
+    FT_Stroker_Done(stroker);
+    FT_Done_Glyph(glyph_outline);
+
+    FT_Glyph glyph;
+    error = FT_Get_Glyph(face->glyph, &glyph);
+    if (error) {
+        std::cout << "Error FT_Get_Glyph" << std::endl;
+    }
+    error = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_MONO, NULL, true);
+    if (error) {
+        std::cout << "Error FT_Glyph_To_Bitmap" << std::endl;
+    }
+
+    FT_BitmapGlyph glyph_bitmap = (FT_BitmapGlyph) glyph;
+    Image glyph_image = convert_bitmap(glyph_bitmap->bitmap, 2);
+    FT_Done_Glyph(glyph);
+
+    //display_image(glyph_image);
+    blit(outline_image, glyph_image, stroker_width);
+    display_image(outline_image);
+
+    delete[] glyph_image.buffer.data;
+    delete[] outline_image.buffer.data;
 
     //int size = 16;
-    //canvas_ity::canvas context(size, size);
+    //canvas_ity::canvas context(width, height);
 
     /*context.set_color(canvas_ity::fill_style, 0, 0, 0, 0);
     context.fill_rectangle(0, 0, size, size);
@@ -145,7 +215,7 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
 
     FT_Face face = ft.face();
 
-    FT_UInt font_size = 24; // size 18 for 13px height, without outline
+    FT_UInt font_size = 32; // size 18 for 13px height, without outline
     FT_Error error = FT_Set_Pixel_Sizes(face, 0, font_size); // TODO: check error
     if (error) {
         std::cout << "Error FT_Set_Pixel_Sizes" << std::endl;
