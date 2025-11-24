@@ -138,10 +138,25 @@ static Image convert_bitmap(FT_Bitmap& bitmap, uint8_t value) {
     }
 }*/
 
-static Image blit(Image& outline, Image& glyph, int shift) {
+static Image blit(Image& outline, Image& glyph, int outline_width) {
     size_t image_size = outline.width * outline.height * 4;
     uint8_t *image = new uint8_t[image_size];
     memset(image, 0, image_size);
+
+    int shift_x = outline_width;
+    int shift_y = outline_width;
+
+    if ((int) outline.width - (int) glyph.width > outline_width * 2) {
+        bool empty = true;
+        for (unsigned int y = 0; y < outline.height; y++) {
+            if (outline.buffer.data[y * outline.width]) {
+                empty = false;
+            }
+        }
+        if (empty && (glyph.width + shift_x + 1 <= outline.width)) {
+            shift_x++;
+        }
+    }
 
     for (unsigned int y = 0; y < outline.height; y++) {
         for (unsigned int x = 0; x < outline.width; x++) {
@@ -157,7 +172,7 @@ static Image blit(Image& outline, Image& glyph, int shift) {
         for (unsigned int x = 0; x < glyph.width; x++) {
             uint8_t byte = glyph.buffer.data[y * glyph.width + x];
             if (byte) {
-                size_t p = ((y + shift) * outline.width + x + shift) * 4;
+                size_t p = ((y + shift_y) * outline.width + x + shift_x) * 4;
                 image[p + 0] = 0xFFu;
                 image[p + 1] = 0xFFu;
                 image[p + 2] = 0xFFu;
@@ -217,9 +232,15 @@ static Image draw_char(FT_Face face, char c, int outline_width) {
     Image glyph_image = convert_bitmap(glyph_bitmap->bitmap, 2);
     FT_Done_Glyph(glyph);
 
-    //display_image(glyph_image);
     //blit(outline_image, glyph_image, outline_width);
-    //display_image(outline_image);
+
+    /*if ((int) outline_image.width - (int) glyph_image.width > outline_width * 2) {
+        std::cout << "o: " << outline_width << std::endl;
+        std::cout << "w: " << glyph_image.width << ", h: " << glyph_image.height << std::endl;
+        display_image(glyph_image);
+        std::cout << "w: " << outline_image.width << ", h: " << outline_image.height << std::endl;
+        display_image(outline_image);
+    }*/
 
     //canvas_ity::canvas gradient(1, glyph_image.height);
     //canvas_ity::canvas context(outline_image.width, outline_image.height);
