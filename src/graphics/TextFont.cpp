@@ -18,6 +18,7 @@
 #include <fstream>
 
 static const char* chars_to_render = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.,':!?";
+static const size_t chars_to_render_nb = 42;
 
 /*static std::string format_to_string(FT_Glyph_Format format) {
     std::string s = "";
@@ -248,13 +249,14 @@ void generate_text_font(
     }*/
 
     int tile_size = current_tile_size;
+    int text_size = round(current_tile_size * 1.2);
     int outline_width = std::max((int) floor(current_tile_size / 11.0f), 1);
     //std::cout << "outline_width: " << outline_width << std::endl;
 
     FT_Size_RequestRec req;
     req.type = FT_SIZE_REQUEST_TYPE_NOMINAL;
-    req.width = tile_size * 64;
-    req.height = tile_size * 64;
+    req.width = text_size * 64;
+    req.height = text_size * 64;
     req.horiResolution = 0;
     req.vertResolution = 0;
 
@@ -263,33 +265,17 @@ void generate_text_font(
         std::cout << "Error FT_Set_Pixel_Sizes" << std::endl;
     }
 
-    const size_t glyphs_nb = 42; // TODO
-
-    // TODO factorize
-    unsigned int tiles_pixels = glyphs_nb * tile_size * tile_size;
-    unsigned int min_size = bit_ceil(tiles_pixels);
-
-    unsigned int texture_width;
-    unsigned int texture_height;
-    unsigned int texture_pixels;
-    unsigned int row_size = 0;
-
-    do {
-        row_size++;
-        texture_width = bit_ceil(tile_size * row_size);
-        texture_height = bit_ceil(tile_size * ((glyphs_nb / row_size) + ((glyphs_nb % row_size) % 1)));
-        texture_pixels = texture_width * texture_height;
-    } while (texture_pixels > min_size);
 
     Glyph font[NB_GLYPHS];
-
-    canvas_ity::canvas context(texture_width, texture_height);
+    unsigned int texture_width = bit_ceil(tile_size * 2);
+    unsigned int texture_height = bit_ceil(tile_size * 2);
+    canvas_ity::canvas* context = new canvas_ity::canvas(texture_width, texture_height);
 
     int x = 0;
     int highest = 0;
     int y = 0;
 
-    for (size_t i = 0; i < glyphs_nb; i++) {
+    for (size_t i = 0; i < chars_to_render_nb; i++) {
         //std::cout << "i: " << i << std::endl;
         /*Buffer b = draw_block(i, current_tile_size);
         int x = tile_size * (i % row_size);
@@ -300,13 +286,36 @@ void generate_text_font(
         Image img = draw_char(face, c, outline_width);
         highest = std::max(highest, (int) img.height);
         if (x + img.width > texture_width) {
-            y += highest;
-            x = 0;
+            if (i < chars_to_render_nb / 6) {
+                unsigned int new_texture_width = 2 * texture_width;
+                size_t texture_size = texture_width * texture_height * 4;
+                uint8_t *texture = new uint8_t[texture_size];
+                context->get_image_data(texture, texture_width, texture_height, texture_width * 4, 0, 0);
+                delete context;
+                context = new canvas_ity::canvas(new_texture_width, texture_height);
+                context->put_image_data(texture, texture_width, texture_height, texture_width * 4, 0, 0);
+                texture_width = new_texture_width;
+                delete[] texture;
+            } else {
+                y += highest;
+                x = 0;
+                if (y + img.height > texture_height) {
+                    unsigned int new_texture_height = 2 * texture_height;
+                    size_t texture_size = texture_width * texture_height * 4;
+                    uint8_t *texture = new uint8_t[texture_size];
+                    context->get_image_data(texture, texture_width, texture_height, texture_width * 4, 0, 0);
+                    delete context;
+                    context = new canvas_ity::canvas(texture_width, new_texture_height);
+                    context->put_image_data(texture, texture_width, texture_height, texture_width * 4, 0, 0);
+                    texture_height = new_texture_height;
+                    delete[] texture;
+                }
+            }
         }
-        context.put_image_data(img.buffer.data, img.width, img.height, img.width * 4, x, y);
-        font[(size_t) c] = Glyph(x, y, img.width, img.height, img.width);
+        context->put_image_data(img.buffer.data, img.width, img.height, img.width * 4, x, y);
+        font[(size_t) c] = Glyph(x, y, img.width, img.height, img.width - outline_width);
         x += img.width;
-        std::cout << c << ": " << "x: " << x << ", y: " << y << ", w: " << img.width << ", h: " << img.height << std::endl;
+        //std::cout << c << ": " << "x: " << x << ", y: " << y << ", w: " << img.width << ", h: " << img.height << std::endl;
         delete[] img.buffer.data;
     }
 
@@ -314,7 +323,8 @@ void generate_text_font(
 
     size_t texture_size = texture_width * texture_height * 4;
     uint8_t *texture = new uint8_t[texture_size];
-    context.get_image_data(texture, texture_width, texture_height, texture_width * 4, 0, 0);
+    context->get_image_data(texture, texture_width, texture_height, texture_width * 4, 0, 0);
+    delete context;
     Buffer b = { texture, texture_size };
     GeneratedTexture t = { b, texture_width, texture_height };
     callback(t, font);
