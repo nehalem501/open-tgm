@@ -136,9 +136,9 @@ static void blit(Image& outline, Image& glyph, int shift) {
     }
 }
 
-static Buffer draw_char(FT_Face face, char c) {
+static Buffer draw_char(FT_Face face, char c, int outline_width) {
     FT_Error error;
-    error = FT_Load_Char(face, c, FT_LOAD_NO_BITMAP | FT_LOAD_FORCE_AUTOHINT);
+    error = FT_Load_Char(face, c, FT_LOAD_NO_BITMAP | FT_LOAD_TARGET_MONO /*| FT_LOAD_FORCE_AUTOHINT*/);
 
     FT_Stroker stroker;
     error = FT_Stroker_New(ft.library(), &stroker);
@@ -146,8 +146,7 @@ static Buffer draw_char(FT_Face face, char c) {
         std::cout << "Error FT_Stroker_New" << std::endl;
     }
 
-    int stroker_width = 1; // TODO
-    FT_Stroker_Set(stroker, (stroker_width * 64) /*- 1*/, FT_STROKER_LINECAP_SQUARE, FT_STROKER_LINEJOIN_MITER_FIXED, 1);
+    FT_Stroker_Set(stroker, (outline_width * 64) /*- 1*/, FT_STROKER_LINECAP_BUTT, FT_STROKER_LINEJOIN_ROUND, 1);
 
     FT_Glyph glyph_outline;
     error = FT_Get_Glyph(face->glyph, &glyph_outline);
@@ -183,7 +182,7 @@ static Buffer draw_char(FT_Face face, char c) {
     FT_Done_Glyph(glyph);
 
     //display_image(glyph_image);
-    blit(outline_image, glyph_image, stroker_width);
+    blit(outline_image, glyph_image, outline_width);
     display_image(outline_image);
 
     delete[] glyph_image.buffer.data;
@@ -222,7 +221,8 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
     }*/
 
     int tile_size = current_tile_size;
-    std::cout << "size: " << tile_size << std::endl;
+    int outline_width = std::max((int) floor(current_tile_size / 11.0f), 1);
+    std::cout << "outline_width: " << outline_width << std::endl;
 
     FT_Size_RequestRec req;
     req.type = FT_SIZE_REQUEST_TYPE_NOMINAL;
@@ -265,7 +265,7 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
         int y = tile_size * (i / row_size);
         context.put_image_data(b.data, tile_size, tile_size, tile_size * 4, x, y);
         delete[] b.data;*/
-        draw_char(face, chars_to_render[i]);
+        draw_char(face, chars_to_render[i], outline_width);
     }
 
     //size_t texture_size = texture_width * texture_height * 4;
