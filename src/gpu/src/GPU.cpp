@@ -121,7 +121,22 @@ void GPU::load_generated_textures() {
             entry.set_initialized(true);
     });
 
-    generate_text_font(Global::tile_size);
+    generate_text_font(
+        Global::tile_size,
+        [&](const GeneratedTexture& texture, const Glyph* new_font) {
+            load_generated_texture(
+                TextureID::TEXT,
+                TexturesFormat::RGBA8,
+                Global::tile_size,
+                texture.width,
+                texture.height,
+                texture.buffer.data,
+                texture.buffer.length);
+
+            Font& font = FontManager::get_mutable().get_font_mutable(FontID::UI_FONT);
+            font.replace(new_font);
+            font.set_initialized(true);
+    });
 }
 
 void GPU::load_generated_texture(

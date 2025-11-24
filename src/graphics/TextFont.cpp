@@ -8,6 +8,7 @@
 #include FT_FREETYPE_H
 #include FT_STROKER_H
 #include <Global.h>
+#include <Glyph.h>
 #include <Utils.h>
 #include "stack_sans_font.h"
 #include "GraphicsCommon.h"
@@ -105,7 +106,7 @@ static Image convert_bitmap(FT_Bitmap& bitmap, uint8_t value) {
     return { width, height, buffer };
 }
 
-static void display_image(Image& image) {
+/*static void display_image(Image& image) {
     for (unsigned int y = 0; y < image.height; y++) {
         for (unsigned int x = 0; x < image.width; x++) {
             //size++;
@@ -123,9 +124,9 @@ static void display_image(Image& image) {
         std::cout << std::endl;
     }
     std::cout << std::endl;
-}
+}*/
 
-static void blit(Image& outline, Image& glyph, int shift) {
+/*static void blit(Image& outline, Image& glyph, int shift) {
     for (unsigned int y = 0; y < glyph.height; y++) {
         for (unsigned int x = 0; x < glyph.width; x++) {
             uint8_t byte = glyph.buffer.data[y * glyph.width + x];
@@ -134,9 +135,43 @@ static void blit(Image& outline, Image& glyph, int shift) {
             }
         }
     }
+}*/
+
+static Image blit(Image& outline, Image& glyph, int shift) {
+    size_t image_size = outline.width * outline.height * 4;
+    uint8_t *image = new uint8_t[image_size];
+    memset(image, 0, image_size);
+
+    for (unsigned int y = 0; y < outline.height; y++) {
+        for (unsigned int x = 0; x < outline.width; x++) {
+            uint8_t byte = outline.buffer.data[y * outline.width + x];
+            if (byte) {
+                size_t p = (y * outline.width + x) * 4;
+                image[p + 3] = 0xFFu;
+            }
+        }
+    }
+
+    for (unsigned int y = 0; y < glyph.height; y++) {
+        for (unsigned int x = 0; x < glyph.width; x++) {
+            uint8_t byte = glyph.buffer.data[y * glyph.width + x];
+            if (byte) {
+                size_t p = ((y + shift) * outline.width + x + shift) * 4;
+                image[p + 0] = 0xFFu;
+                image[p + 1] = 0xFFu;
+                image[p + 2] = 0xFFu;
+                image[p + 3] = 0xFFu;
+            }
+        }
+    }
+
+    Buffer b = { image, image_size };
+    Image i = { outline.width, outline.height, b };
+
+    return i;
 }
 
-static Buffer draw_char(FT_Face face, char c, int outline_width) {
+static Image draw_char(FT_Face face, char c, int outline_width) {
     FT_Error error;
     error = FT_Load_Char(face, c, FT_LOAD_NO_BITMAP | FT_LOAD_TARGET_MONO /*| FT_LOAD_FORCE_AUTOHINT*/);
 
@@ -182,32 +217,24 @@ static Buffer draw_char(FT_Face face, char c, int outline_width) {
     FT_Done_Glyph(glyph);
 
     //display_image(glyph_image);
-    blit(outline_image, glyph_image, outline_width);
-    display_image(outline_image);
+    //blit(outline_image, glyph_image, outline_width);
+    //display_image(outline_image);
+
+    //canvas_ity::canvas gradient(1, glyph_image.height);
+    //canvas_ity::canvas context(outline_image.width, outline_image.height);
+
+    Image image = blit(outline_image, glyph_image, outline_width);
 
     delete[] glyph_image.buffer.data;
     delete[] outline_image.buffer.data;
 
-    //int size = 16;
-    //canvas_ity::canvas context(width, height);
-
-    /*context.set_color(canvas_ity::fill_style, 0, 0, 0, 0);
-    context.fill_rectangle(0, 0, size, size);
-
-    context.set_color(canvas_ity::fill_style, 1, 1, 1, 1);
-    context.fill_rectangle(0, 0, s, size - s);*/
-
-    //context.
-
-    //const size_t image_size = size * size * 4;
-    //uint8_t *image = new uint8_t[image_size];
-    //context.get_image_data(image, size, size, size * 4, 0, 0);
-
-    //return Buffer { image, image_size };
-    return Buffer { NULL, 0 };
+    return image;
 }
 
-void generate_text_font(float current_tile_size/*, std::function<void(const GeneratedTexture&)> callback*/) {
+void generate_text_font(
+    float current_tile_size,
+    std::function<void(const GeneratedTexture&, const Glyph*)> callback)
+{
     if (!ft.initialized()) {
         ft.load();
     }
@@ -222,7 +249,7 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
 
     int tile_size = current_tile_size;
     int outline_width = std::max((int) floor(current_tile_size / 11.0f), 1);
-    std::cout << "outline_width: " << outline_width << std::endl;
+    //std::cout << "outline_width: " << outline_width << std::endl;
 
     FT_Size_RequestRec req;
     req.type = FT_SIZE_REQUEST_TYPE_NOMINAL;
@@ -236,7 +263,7 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
         std::cout << "Error FT_Set_Pixel_Sizes" << std::endl;
     }
 
-    const size_t glyphs_nb = 1; // TODO
+    const size_t glyphs_nb = 42; // TODO
 
     // TODO factorize
     unsigned int tiles_pixels = glyphs_nb * tile_size * tile_size;
@@ -254,9 +281,13 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
         texture_pixels = texture_width * texture_height;
     } while (texture_pixels > min_size);
 
-    //canvas_ity::canvas context(texture_width, texture_height);
+    Glyph font[NB_GLYPHS];
 
-    //float s = round(current_tile_size / 8.0f);
+    canvas_ity::canvas context(texture_width, texture_height);
+
+    int x = 0;
+    int highest = 0;
+    int y = 0;
 
     for (size_t i = 0; i < glyphs_nb; i++) {
         //std::cout << "i: " << i << std::endl;
@@ -265,24 +296,37 @@ void generate_text_font(float current_tile_size/*, std::function<void(const Gene
         int y = tile_size * (i / row_size);
         context.put_image_data(b.data, tile_size, tile_size, tile_size * 4, x, y);
         delete[] b.data;*/
-        draw_char(face, chars_to_render[i], outline_width);
+        char c = chars_to_render[i];
+        Image img = draw_char(face, c, outline_width);
+        highest = std::max(highest, (int) img.height);
+        if (x + img.width > texture_width) {
+            y += highest;
+            x = 0;
+        }
+        context.put_image_data(img.buffer.data, img.width, img.height, img.width * 4, x, y);
+        font[(size_t) c] = Glyph(x, y, img.width, img.height, img.width);
+        x += img.width;
+        std::cout << c << ": " << "x: " << x << ", y: " << y << ", w: " << img.width << ", h: " << img.height << std::endl;
+        delete[] img.buffer.data;
     }
 
-    //size_t texture_size = texture_width * texture_height * 4;
-    //uint8_t *texture = new uint8_t[texture_size];
-    //context.get_image_data(texture, texture_width, texture_height, texture_width * 4, 0, 0);
-    //Buffer b = { texture, texture_size };
-    //GeneratedTexture t = { b, texture_width, texture_height };
-    //callback(t);
+    font[(size_t) ' '] = Glyph(0, 0, 0, 0, tile_size / 2);
+
+    size_t texture_size = texture_width * texture_height * 4;
+    uint8_t *texture = new uint8_t[texture_size];
+    context.get_image_data(texture, texture_width, texture_height, texture_width * 4, 0, 0);
+    Buffer b = { texture, texture_size };
+    GeneratedTexture t = { b, texture_width, texture_height };
+    callback(t, font);
     /*unsigned char header[] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, (unsigned char) (texture_width & 255), (unsigned char) (texture_width >> 8), (unsigned char) (texture_height & 255), (unsigned char) (texture_height >> 8), 32, 40 };
     for (unsigned int pixel = 0; pixel < texture_height * texture_width; pixel++) {
         std::swap( texture[ pixel * 4 + 0 ], texture[ pixel * 4 + 2 ] );
     }
-    std::string filename = "example" + std::to_string((int)current_tile_size) + std::string(".tga");
+    std::string filename = "font" + std::to_string((int)current_tile_size) + std::string(".tga");
     std::ofstream stream( filename, std::ios::binary );
     stream.write( reinterpret_cast< char * >( header ), sizeof( header ) );
     stream.write( reinterpret_cast< char * >( texture ), texture_height * texture_width * 4 );*/
-    //delete[] texture;
+    delete[] texture;
 }
 
 /*int main() {

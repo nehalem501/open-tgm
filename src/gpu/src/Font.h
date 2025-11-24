@@ -25,6 +25,8 @@ class Font {
         bool initialized() const { return m_initialized; }
         void set_initialized(bool value) { m_initialized = value; }
 
+        void replace(const Glyph* new_font);
+
     private:
         bool m_initialized;
         Glyph m_glyphs[NB_GLYPHS];

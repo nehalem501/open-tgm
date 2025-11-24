@@ -17,3 +17,9 @@ TextureID font_to_texture(FontID id) {
             return TextureID::NONE;
     }
 }
+
+void Font::replace(const Glyph* new_font) {
+    for (unsigned int i = 0; i < NB_GLYPHS; i++) {
+        m_glyphs[i] = new_font[i];
+    }
+}

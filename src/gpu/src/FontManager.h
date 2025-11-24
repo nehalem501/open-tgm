@@ -14,6 +14,7 @@ class FontManager {
         static FontManager& get_mutable();
 
         const Font& get_font(FontID id) const;
+        Font& get_font_mutable(FontID id);
 
         void load_empty(unsigned int current_tile_size);
 

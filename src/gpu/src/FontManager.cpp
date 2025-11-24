@@ -22,6 +22,16 @@ const Font& FontManager::get_font(FontID id) const {
     }
 }
 
+Font& FontManager::get_font_mutable(FontID id) {
+    Font& f = m_fonts[(size_t) id];
+    if (f.initialized()) {
+        return f;
+    } else {
+        return m_fonts[0];
+    }
+}
+
+
 void FontManager::load_empty(unsigned int current_tile_size) {
     const unsigned int width = current_tile_size / 2;
     const unsigned int height = current_tile_size;
