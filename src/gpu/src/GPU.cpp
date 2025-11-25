@@ -5,7 +5,9 @@
 #include <Global.h>
 #include "../graphics/Graphics.h"
 #include "Texture.h"
+#include "TextureDataManager.h"
 #include "TilemapManager.h"
+#include "FontManager.h"
 #include "GPU.h"
 //#include <iostream>
 
@@ -75,67 +77,92 @@ void GPU::load_generated_textures() {
     //std::cout << "tile_size: " << Global::tile_size << std::endl;
     generate_blocks_tilemap(
         Global::tile_size,
-        [&](const GeneratedTexture& texture) {
-            load_generated_texture(
-                TextureID::BLOCKS,
-                TexturesFormat::RGBA8,
+        [&](const GeneratedTexture& texture)
+    {
+        load_generated_texture(
+            TextureID::BLOCKS,
+            TexturesFormat::RGBA8,
+            Global::tile_size,
+            texture.width,
+            texture.height,
+            texture.buffer.data,
+            texture.buffer.length);
+
+        //std::cout << "width: " << texture.width << std::endl;
+        //std::cout << "height: " << texture.height << std::endl;
+        //std::cout << "length: " << texture.buffer.length << std::endl;
+
+        TilemapData& entry = TilemapManager::get_mutable().get_data_mutable(TilemapID::BLOCKS);
+        entry.update(
+            TilemapDataEntry(
                 Global::tile_size,
                 texture.width,
                 texture.height,
-                texture.buffer.data,
-                texture.buffer.length);
-
-            //std::cout << "width: " << texture.width << std::endl;
-            //std::cout << "height: " << texture.height << std::endl;
-            //std::cout << "length: " << texture.buffer.length << std::endl;
-
-            TilemapData& entry = TilemapManager::get_mutable().get_data_mutable(TilemapID::BLOCKS);
-            entry.update(
-                TilemapDataEntry(
-                    Global::tile_size,
-                    texture.width,
-                    texture.height,
-                    TilemapManager::get_tiles_nb(TilemapID::BLOCKS)));
-            entry.set_initialized(true);
+                TilemapManager::get_tiles_nb(TilemapID::BLOCKS)));
+        entry.set_initialized(true);
     });
 
     generate_outline_tilemap(
         Global::tile_size,
-        [&](const GeneratedTexture& texture) {
-            load_generated_texture(
-                TextureID::OUTLINE,
-                TexturesFormat::RGBA8,
+        [&](const GeneratedTexture& texture)
+    {
+        load_generated_texture(
+            TextureID::OUTLINE,
+            TexturesFormat::RGBA8,
+            Global::tile_size,
+            texture.width,
+            texture.height,
+            texture.buffer.data,
+            texture.buffer.length);
+
+        TilemapData& entry = TilemapManager::get_mutable().get_data_mutable(TilemapID::OUTLINE);
+        entry.update(
+            TilemapDataEntry(
                 Global::tile_size,
                 texture.width,
                 texture.height,
-                texture.buffer.data,
-                texture.buffer.length);
+                TilemapManager::get_tiles_nb(TilemapID::OUTLINE)));
+        entry.set_initialized(true);
+    });
 
-            TilemapData& entry = TilemapManager::get_mutable().get_data_mutable(TilemapID::OUTLINE);
-            entry.update(
-                TilemapDataEntry(
-                    Global::tile_size,
-                    texture.width,
-                    texture.height,
-                    TilemapManager::get_tiles_nb(TilemapID::OUTLINE)));
-            entry.set_initialized(true);
+    generate_frame_texture(
+        Global::tile_size,
+        [&](const GeneratedTexture& texture)
+    {
+        load_generated_texture(
+            TextureID::FRAME,
+            TexturesFormat::RGBA8,
+            Global::tile_size,
+            texture.width,
+            texture.height,
+            texture.buffer.data,
+            texture.buffer.length);
+        gpu_coord_t size = Global::tile_size;
+        TextureData &entry = TextureDataManager::get_mutable().get_data_mutable(TextureDataID::FRAME);
+        entry.width = texture.width;
+        entry.height = texture.height;
+        entry.tex_coord_top_left = TexCoord(0, 0);
+        entry.tex_coord_top_right = TexCoord(size / entry.width, 0);
+        entry.tex_coord_bottom_left = TexCoord(0, 1);
+        entry.tex_coord_bottom_right = TexCoord(size / entry.width, 1);
     });
 
     generate_text_font(
         Global::tile_size,
-        [&](const GeneratedTexture& texture, const Glyph* new_font) {
-            load_generated_texture(
-                TextureID::TEXT,
-                TexturesFormat::RGBA8,
-                Global::tile_size,
-                texture.width,
-                texture.height,
-                texture.buffer.data,
-                texture.buffer.length);
+        [&](const GeneratedTexture& texture, const Glyph* new_font)
+    {
+        load_generated_texture(
+            TextureID::TEXT,
+            TexturesFormat::RGBA8,
+            Global::tile_size,
+            texture.width,
+            texture.height,
+            texture.buffer.data,
+            texture.buffer.length);
 
-            Font& font = FontManager::get_mutable().get_font_mutable(FontID::UI_FONT);
-            font.replace(new_font);
-            font.set_initialized(true);
+        Font& font = FontManager::get_mutable().get_font_mutable(FontID::UI_FONT);
+        font.replace(new_font);
+        font.set_initialized(true);
     });
 }
 

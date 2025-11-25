@@ -2,6 +2,7 @@
 
 #include <Debug.h>
 #include <Frame.h>
+#include "TextureDataManager.h"
 #include "VertexArray.h"
 #include "FrameImpl.h"
 
@@ -72,7 +73,7 @@ void FrameImpl::texcoords(const TextureData& data) {
 }
 
 void FrameImpl::resize() {
-    //texcoords(get_texture_data(TextureID::FRAME)); // TODO
+    texcoords(TextureDataManager::get().get_data(TextureDataID::FRAME));
 
     const float x = m_frame.position().x; // TODO
     const float y = m_frame.position().y;
