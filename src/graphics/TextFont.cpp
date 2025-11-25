@@ -10,7 +10,7 @@
 #include <Global.h>
 #include <Glyph.h>
 #include <Utils.h>
-#include "stack_sans_font.h"
+#include "orbitron_font.h"
 #include "GraphicsCommon.h"
 #include "Graphics.h"
 #include <algorithm>
@@ -48,10 +48,13 @@ class FreeType {
             if (error) {
                 std::cout << "Error FT_Stroker_New" << std::endl;
             }*/
-            error = FT_New_Memory_Face(m_library, stack_sans_font, stack_sans_font_size, 0, &m_face); // TODO: check error
+            error = FT_New_Memory_Face(m_library, orbitron_font, orbitron_font_size, 0, &m_face);
+            /*std::string file = "Orbitron-Black.ttf";
+            std::string path = "/Users/tomek/test/py/" + file;
+            error = FT_New_Face(m_library, path.c_str(), 0, &m_face);
             if (error) {
                 std::cout << "Error FT_New_Face" << std::endl;
-            }
+            }*/
         }
 
         bool initialized() { return m_initialized; }
