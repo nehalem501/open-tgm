@@ -1,4 +1,4 @@
-/* TextFont.cpp - Graphics */
+/* LabelFont.cpp - Graphics */
 
 #include <math.h>
 #include <functional>
@@ -14,8 +14,8 @@
 #include <vector>
 #include <fstream>
 
-static const char* chars_to_render = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.,':!?";
-static const size_t chars_to_render_nb = 42;
+static const char* chars_to_render = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static const size_t chars_to_render_nb = 36;
 
 /*static std::string format_to_string(FT_Glyph_Format format) {
     std::string s = "";
@@ -157,9 +157,9 @@ static Image blit(Image& outline, Image& glyph, int outline_width) {
             uint8_t byte = glyph.buffer.data[y * glyph.width + x];
             if (byte) {
                 size_t p = ((y + shift_y) * outline.width + x + shift_x) * 4;
-                image[p + 0] = palette[y];
-                image[p + 1] = palette[y];
-                image[p + 2] = palette[y];
+                image[p + 0] = 0xFFu; // palette[y];
+                image[p + 1] = 0xFFu; // palette[y];
+                image[p + 2] = 0xFFu; // palette[y];
                 image[p + 3] = 0xFFu;
             }
         }
@@ -180,7 +180,7 @@ static Image draw_char(FT_Face face, char c, int outline_width) {
     FT_Stroker stroker;
     error = FT_Stroker_New(freetype.library(), &stroker);
     if (error) {
-        std::cout << "Error text FT_Stroker_New" << std::endl;
+        std::cout << "Error label FT_Stroker_New" << std::endl;
     }
 
     FT_Stroker_Set(stroker, (outline_width * 64) /*- 1*/, FT_STROKER_LINECAP_BUTT, FT_STROKER_LINEJOIN_ROUND, 1);
@@ -188,15 +188,15 @@ static Image draw_char(FT_Face face, char c, int outline_width) {
     FT_Glyph glyph_outline;
     error = FT_Get_Glyph(face->glyph, &glyph_outline);
     if (error) {
-        std::cout << "Error text FT_Get_Glyph" << std::endl;
+        std::cout << "Error label FT_Get_Glyph" << std::endl;
     }
     error = FT_Glyph_Stroke(&glyph_outline, stroker, 1);
     if (error) {
-        std::cout << "Error text FT_Glyph_Stroke: " << error << std::endl;
+        std::cout << "Error label FT_Glyph_Stroke: " << error << std::endl;
     }
     error = FT_Glyph_To_Bitmap(&glyph_outline, FT_RENDER_MODE_MONO, NULL, true);
     if (error) {
-        std::cout << "Error text FT_Glyph_To_Bitmap" << std::endl;
+        std::cout << "Error label FT_Glyph_To_Bitmap" << std::endl;
     }
 
     FT_BitmapGlyph glyph_outline_bitmap = (FT_BitmapGlyph) glyph_outline;
@@ -207,11 +207,11 @@ static Image draw_char(FT_Face face, char c, int outline_width) {
     FT_Glyph glyph;
     error = FT_Get_Glyph(face->glyph, &glyph);
     if (error) {
-        std::cout << "Error text FT_Get_Glyph" << std::endl;
+        std::cout << "Error label FT_Get_Glyph" << std::endl;
     }
     error = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_MONO, NULL, true);
     if (error) {
-        std::cout << "Error text FT_Glyph_To_Bitmap" << std::endl;
+        std::cout << "Error label FT_Glyph_To_Bitmap" << std::endl;
     }
 
     FT_BitmapGlyph glyph_bitmap = (FT_BitmapGlyph) glyph;
@@ -239,12 +239,12 @@ static Image draw_char(FT_Face face, char c, int outline_width) {
     return image;
 }
 
-void generate_text_font(
+void generate_label_font(
     float current_tile_size,
     std::function<void(const GeneratedTexture&, const Glyph*)> callback)
 {
     freetype.load();
-    FT_Face face = freetype.text_face();
+    FT_Face face = freetype.label_face();
 
     /*FT_UInt font_size = 14; // size 18 for 13px height, without outline
     FT_Error error = FT_Set_Pixel_Sizes(face, 0, font_size); // TODO: check error
@@ -266,13 +266,13 @@ void generate_text_font(
 
     FT_Error error = FT_Request_Size(face, &req);
     if (error) {
-        std::cout << "Error text FT_Set_Pixel_Sizes" << std::endl;
+        std::cout << "Error label FT_Set_Pixel_Sizes" << std::endl;
     }
 
 
     Glyph font[NB_GLYPHS];
-    unsigned int texture_width = bit_ceil(tile_size * 2);
-    unsigned int texture_height = bit_ceil(tile_size * 2);
+    unsigned int texture_width = bit_ceil(tile_size);
+    unsigned int texture_height = bit_ceil(tile_size);
     canvas_ity::canvas* context = new canvas_ity::canvas(texture_width, texture_height);
 
     int x = 0;

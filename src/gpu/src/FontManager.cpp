@@ -24,11 +24,7 @@ const Font& FontManager::get_font(FontID id) const {
 
 Font& FontManager::get_font_mutable(FontID id) {
     Font& f = m_fonts[(size_t) id];
-    if (f.initialized()) {
-        return f;
-    } else {
-        return m_fonts[0];
-    }
+    return f;
 }
 
 

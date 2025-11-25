@@ -30,5 +30,8 @@ void generate_frame_texture(
 void generate_text_font(
     float current_tile_size,
     std::function<void(const GeneratedTexture&, const Glyph*)> callback);
+void generate_label_font(
+    float current_tile_size,
+    std::function<void(const GeneratedTexture&, const Glyph*)> callback);
 
 #endif // GRAPHICS_H
