@@ -60,7 +60,7 @@ ColorRGBA text_color_to_gpu_color(int color) {
             return ColorRGBA(0, 0, 1, 1);
 
         case TextColor::YELLOW:
-            return ColorRGBA(1, 1, 0, 1);
+            return ColorRGBA(1, 0.9, 0, 1);
 
         case TextColor::MAGENTA:
             return ColorRGBA(1, 0, 1, 1);

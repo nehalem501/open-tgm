@@ -141,6 +141,29 @@ static Image convert_bitmap(FT_Bitmap& bitmap, uint8_t value) {
     }
 }*/
 
+static uint8_t* get_palette(size_t size) {
+    canvas_ity::canvas palette(size, 1);
+    palette.set_linear_gradient(canvas_ity::fill_style, 0, 0, size, 0);
+    palette.add_color_stop(canvas_ity::fill_style, 0, 1, 1, 1, 1);
+    palette.add_color_stop(canvas_ity::fill_style, 0.5, 0.7, 0.7, 0.7, 1);
+    palette.add_color_stop(canvas_ity::fill_style, 0.6, 0.65, 0.65, 0.65, 1);
+    palette.add_color_stop(canvas_ity::fill_style, 0.8, 0.6, 0.6, 0.6, 1);
+    palette.add_color_stop(canvas_ity::fill_style, 1, 0.9, 0.9, 0.9, 1);
+    palette.fill_rectangle(0, 0, size, 1);
+
+    uint8_t* palette_data = new uint8_t[size * 4];
+    palette.get_image_data(palette_data, size, 1, size * 4, 0, 0);
+    uint8_t* final_palette = new uint8_t[size];
+    for (size_t i = 0; i < size; i++) {
+        size_t offset = i * 4;
+        final_palette[i] = palette_data[offset];
+    }
+
+    delete[] palette_data;
+
+    return final_palette;
+}
+
 static Image blit(Image& outline, Image& glyph, int outline_width) {
     size_t image_size = outline.width * outline.height * 4;
     uint8_t *image = new uint8_t[image_size];
@@ -148,6 +171,8 @@ static Image blit(Image& outline, Image& glyph, int outline_width) {
 
     int shift_x = outline_width;
     int shift_y = outline_width;
+
+    uint8_t* palette = get_palette(glyph.height);
 
     if ((int) outline.width - (int) glyph.width > outline_width * 2) {
         bool empty = true;
@@ -176,13 +201,15 @@ static Image blit(Image& outline, Image& glyph, int outline_width) {
             uint8_t byte = glyph.buffer.data[y * glyph.width + x];
             if (byte) {
                 size_t p = ((y + shift_y) * outline.width + x + shift_x) * 4;
-                image[p + 0] = 0xFFu;
-                image[p + 1] = 0xFFu;
-                image[p + 2] = 0xFFu;
+                image[p + 0] = palette[y];
+                image[p + 1] = palette[y];
+                image[p + 2] = palette[y];
                 image[p + 3] = 0xFFu;
             }
         }
     }
+
+    delete[] palette;
 
     Buffer b = { image, image_size };
     Image i = { outline.width, outline.height, b };
