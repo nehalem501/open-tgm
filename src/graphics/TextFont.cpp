@@ -4,15 +4,12 @@
 #include <functional>
 #include <iostream>
 #include <canvas_ity.hpp>
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#include FT_STROKER_H
 #include <Global.h>
 #include <Glyph.h>
 #include <Utils.h>
-#include "orbitron_font.h"
 #include "GraphicsCommon.h"
 #include "Graphics.h"
+#include "FontCommon.h"
 #include <algorithm>
 #include <vector>
 #include <fstream>
@@ -28,47 +25,6 @@ static const size_t chars_to_render_nb = 42;
     }
     return s;
 }*/
-
-class FreeType {
-    public:
-        FreeType() : m_initialized(false) {}
-
-        ~FreeType() {
-            FT_Done_Face(m_face);
-            FT_Done_FreeType(m_library);
-        }
-
-        void load() {
-            FT_Error error;
-            error = FT_Init_FreeType(&m_library); // TODO: check error
-            if (error) {
-                std::cout << "Error FT_Init_FreeType" << std::endl;
-            }
-            /*error = FT_Stroker_New(m_library, &m_stroker);
-            if (error) {
-                std::cout << "Error FT_Stroker_New" << std::endl;
-            }*/
-            error = FT_New_Memory_Face(m_library, orbitron_font, orbitron_font_size, 0, &m_face);
-            /*std::string file = "Orbitron-Black.ttf";
-            std::string path = "/Users/tomek/test/py/" + file;
-            error = FT_New_Face(m_library, path.c_str(), 0, &m_face);
-            if (error) {
-                std::cout << "Error FT_New_Face" << std::endl;
-            }*/
-        }
-
-        bool initialized() { return m_initialized; }
-        FT_Face face() { return m_face; }
-        FT_Library library() { return m_library; }
-
-    private:
-        FT_Library m_library;
-        //FT_Stroker m_stroker;
-        FT_Face m_face;
-        bool m_initialized;
-};
-
-static FreeType ft;
 
 static Image convert_bitmap(FT_Bitmap& bitmap, uint8_t value) {
     unsigned int length = bitmap.rows * bitmap.width;
@@ -222,7 +178,7 @@ static Image draw_char(FT_Face face, char c, int outline_width) {
     error = FT_Load_Char(face, c, FT_LOAD_NO_BITMAP | FT_LOAD_TARGET_MONO /*| FT_LOAD_FORCE_AUTOHINT*/);
 
     FT_Stroker stroker;
-    error = FT_Stroker_New(ft.library(), &stroker);
+    error = FT_Stroker_New(freetype.library(), &stroker);
     if (error) {
         std::cout << "Error FT_Stroker_New" << std::endl;
     }
@@ -287,11 +243,8 @@ void generate_text_font(
     float current_tile_size,
     std::function<void(const GeneratedTexture&, const Glyph*)> callback)
 {
-    if (!ft.initialized()) {
-        ft.load();
-    }
-
-    FT_Face face = ft.face();
+    freetype.load();
+    FT_Face face = freetype.text_face();
 
     /*FT_UInt font_size = 14; // size 18 for 13px height, without outline
     FT_Error error = FT_Set_Pixel_Sizes(face, 0, font_size); // TODO: check error
