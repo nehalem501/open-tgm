@@ -4,10 +4,8 @@
 #define LABELS_H
 
 #include <Position.h>
+#include <Mode.h>
 #include <LabelsImpl.h>
-
-/* Forward declarations to avoid dependency hell */
-class Mode;
 
 class Labels {
     public:
@@ -20,10 +18,16 @@ class Labels {
         inline void resize() { m_implementation.resize(); }
         #endif
 
-        //inline void set_mode(Mode *new_mode) { m_mode = new_mode; }; // TODO
+        inline void set_mode(Mode new_mode) {
+            m_mode = new_mode;
+            m_initialized = true;
+        };
+
+        inline bool initialized() { return m_initialized; };
 
     private:
-        //Mode *m_mode;
+        bool m_initialized;
+        Mode m_mode;
         LabelsImpl m_implementation;
 };
 

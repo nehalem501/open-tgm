@@ -21,6 +21,7 @@ enum class DebugCategory: unsigned int {
     DAS,
     FRAME,
     STACK,
+    LABELS,
     DIGITS,
     TEXT,
     TIMER,

@@ -47,7 +47,7 @@ class Player {
         }
         #endif
 
-        void init(Position& position, const RawMode *mode);
+        void init(Position& position, Mode mode);
         void start_game();
 
         inline void reset_level() {

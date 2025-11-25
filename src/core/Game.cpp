@@ -25,9 +25,10 @@ Game::Game(Position &position) :
 }
 
 void Game::start(int mode) {
-    m_stack.start_game(raw_modes[mode]);
-    m_player.init(m_position, raw_modes[mode]);
-    //m_labels.set_mode(raw_modes[mode]); TODO
+    Mode current_mode = Mode(raw_modes[mode]);
+    m_stack.start_game(current_mode);
+    m_player.init(m_position, current_mode);
+    m_labels.set_mode(current_mode);
 
     m_timer.layout(m_position + Coordinates(11, 21).to_position());
     m_timer.start();

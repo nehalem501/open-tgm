@@ -35,7 +35,7 @@ class Stack {
 
         void init(Position &parent, const int width, const int height);
 
-        void start_game(const Mode& mode);
+        void start_game(const Mode mode);
 
         int get_ghost_y(Piece *piece);
 

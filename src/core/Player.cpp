@@ -16,11 +16,11 @@
 #define NEW_LOCK_COLOR_DELAY 2
 
 /* Init the field and all the other stuff */
-void Player::init(Position& position, const RawMode *mode) {
+void Player::init(Position& position, Mode mode) {
     // TODO: position
     m_implementation.position(position);
 
-    m_current_mode = Mode(mode);
+    m_current_mode = mode;
 
     m_score = 0;
     m_level = 0;

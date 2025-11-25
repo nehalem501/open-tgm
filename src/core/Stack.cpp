@@ -40,7 +40,7 @@ void Stack::init(Position& parent, const int width, const int height) {
     }
 }
 
-void Stack::start_game(const Mode& mode) {
+void Stack::start_game(const Mode mode) {
     // TODO
     init(m_parent, mode.width(), mode.height());
 }
