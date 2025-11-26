@@ -11,7 +11,7 @@
 #include "Glyph.h"
 #include "Texture.h"
 #include "VertexArray.h"
-#include "Font.h"
+#include "GpuFont.h"
 #include "FontManager.h"
 #include "GPU.h"
 
@@ -52,7 +52,7 @@ void position_glyphs_from_string(
 template <size_t N>
 class Glyphs : public Reloadable {
     public:
-        Glyphs(const char *text, Position position, Layout layout, int text_color, unsigned int length, FontID font) :
+        Glyphs(const char *text, Position position, Layout layout, int text_color, unsigned int length, GpuFontID font) :
                 m_text_str(text),
                 m_length(length),
                 m_position(position),
@@ -80,6 +80,17 @@ class Glyphs : public Reloadable {
         }
 
         virtual void refresh() {
+            position_glyphs(
+                m_position,
+                m_layout,
+                m_text_str,
+                m_length);
+        }
+
+        inline void font(const GpuFontID& new_font) {
+            m_font = new_font;
+            m_glyphs = FontManager::get().get_font(m_font).get_glyphs();
+            m_vertex_array.texture(font_to_texture(m_font));
             position_glyphs(
                 m_position,
                 m_layout,
@@ -157,7 +168,7 @@ class Glyphs : public Reloadable {
         unsigned int m_length;
         Position m_position;
         Layout m_layout;
-        FontID m_font;
+        GpuFontID m_font;
 
         const Glyph *m_glyphs;
         VertexArray2D<N * 4> m_vertex_array;

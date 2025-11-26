@@ -14,6 +14,10 @@ void TextImpl::update_text() {
     // Update text here
 }
 
+void TextImpl::update_font() {
+    // Update font here
+}
+
 void TextImpl::update_color() {
     // Update color here
 }

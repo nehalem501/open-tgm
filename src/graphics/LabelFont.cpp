@@ -159,7 +159,7 @@ static Image blit(Image& outline, Image& glyph, int outline_width) {
                 size_t p = ((y + shift_y) * outline.width + x + shift_x) * 4;
                 image[p + 0] = 0xFFu; // palette[y];
                 image[p + 1] = 0xFFu; // palette[y];
-                image[p + 2] = 0xFFu; // palette[y];
+                image[p + 2] = 0x00u; // palette[y];
                 image[p + 3] = 0xFFu;
             }
         }
@@ -253,7 +253,7 @@ void generate_label_font(
     }*/
 
     int tile_size = current_tile_size;
-    int text_size = round(current_tile_size * 1.2);
+    int text_size = round(current_tile_size * 1.8);
     int outline_width = std::max((int) floor(current_tile_size / 11.0f), 1);
     //std::cout << "outline_width: " << outline_width << std::endl;
 
@@ -336,7 +336,7 @@ void generate_label_font(
     for (unsigned int pixel = 0; pixel < texture_height * texture_width; pixel++) {
         std::swap( texture[ pixel * 4 + 0 ], texture[ pixel * 4 + 2 ] );
     }
-    std::string filename = "font" + std::to_string((int)current_tile_size) + std::string(".tga");
+    std::string filename = "label" + std::to_string((int)current_tile_size) + std::string(".tga");
     std::ofstream stream( filename, std::ios::binary );
     stream.write( reinterpret_cast< char * >( header ), sizeof( header ) );
     stream.write( reinterpret_cast< char * >( texture ), texture_height * texture_width * 4 );*/

@@ -15,6 +15,7 @@ class TextImpl {
 
         void update_position();
         void update_text();
+        void update_font();
         void update_color();
 
         void layout(const Position &position);

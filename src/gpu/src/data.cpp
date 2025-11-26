@@ -91,7 +91,7 @@ const TilemapData& get_tilemap_data(TextureID id) {
     }
 }
 */
-const Glyph* get_glyph_array(Font /*font*/) {
+const Glyph* get_glyph_array(GpuFont /*font*/) {
     // TODO
     return NULL; //glyphs_data[font].glyphs;
 }

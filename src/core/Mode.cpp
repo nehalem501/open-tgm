@@ -7,7 +7,7 @@
 #include <Mode.h>
 
 Mode::Mode(const RawMode *raw_mode) : m_mode(raw_mode) {
-    printd(DebugCategory::MODES, "Mode constructor: ", raw_mode->name);
+    printd(DebugCategory::MODES, "Mode constructor: ", raw_mode ? raw_mode->name : "NULL");
 }
 
 unsigned int Mode::get_timing(

@@ -13,8 +13,8 @@ FontManager& FontManager::get_mutable() {
     return font_manager;
 }
 
-const Font& FontManager::get_font(FontID id) const {
-    const Font& f = m_fonts[(size_t) id];
+const GpuFont& FontManager::get_font(GpuFontID id) const {
+    const GpuFont& f = m_fonts[(size_t) id];
     if (f.initialized()) {
         return f;
     } else {
@@ -22,8 +22,8 @@ const Font& FontManager::get_font(FontID id) const {
     }
 }
 
-Font& FontManager::get_font_mutable(FontID id) {
-    Font& f = m_fonts[(size_t) id];
+GpuFont& FontManager::get_font_mutable(GpuFontID id) {
+    GpuFont& f = m_fonts[(size_t) id];
     return f;
 }
 

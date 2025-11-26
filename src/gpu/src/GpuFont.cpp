@@ -1,16 +1,16 @@
-/* Font.cpp - GPU */
+/* GpuFont.cpp - GPU */
 
-#include "Font.h"
+#include "GpuFont.h"
 
-TextureID font_to_texture(FontID id) {
+TextureID font_to_texture(GpuFontID id) {
     switch (id) {
-        case FontID::UI_FONT:
+        case GpuFontID::UI_FONT:
             return TextureID::TEXT;
 
-        case FontID::LABEL_FONT:
+        case GpuFontID::LABEL_FONT:
             return TextureID::LABELS;
 
-        case FontID::DIGITS_FONT:
+        case GpuFontID::DIGITS_FONT:
             return TextureID::DIGITS;
 
         default:
@@ -18,7 +18,7 @@ TextureID font_to_texture(FontID id) {
     }
 }
 
-void Font::replace(const Glyph* new_font) {
+void GpuFont::replace(const Glyph* new_font) {
     for (unsigned int i = 0; i < NB_GLYPHS; i++) {
         m_glyphs[i] = new_font[i];
     }

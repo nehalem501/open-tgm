@@ -1,12 +1,12 @@
-/* Font.h - GPU */
+/* GpuFont.h - GPU */
 
-#ifndef FONT_H
-#define FONT_H
+#ifndef GPU_FONT_H
+#define GPU_FONT_H
 
 #include "Glyph.h"
 #include "Texture.h"
 
-enum struct FontID: unsigned int {
+enum struct GpuFontID: unsigned int {
     NONE = 0,
     UI_FONT,
     LABEL_FONT,
@@ -14,9 +14,9 @@ enum struct FontID: unsigned int {
     NB_FONTS
 };
 
-class Font {
+class GpuFont {
     public:
-        constexpr Font() : m_initialized(false) { }
+        constexpr GpuFont() : m_initialized(false) { }
 
         inline const Glyph* get_glyphs() const { return m_glyphs; }
 
@@ -32,6 +32,6 @@ class Font {
         Glyph m_glyphs[NB_GLYPHS];
 };
 
-TextureID font_to_texture(FontID id);
+TextureID font_to_texture(GpuFontID id);
 
 #endif // FONT_H

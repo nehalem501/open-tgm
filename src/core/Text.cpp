@@ -11,6 +11,7 @@ Text::Text() :
         m_coordinates(0, 0),
         m_position(0, 0),
         m_layout(Layouts::NONE),
+        m_font(Font::Text),
         m_color(0),
         m_length(0),
         m_str(NULL),
@@ -26,6 +27,7 @@ Text::Text(
         m_coordinates(coordinates),
         m_position(coordinates.to_position() + parent),
         m_layout(layout),
+        m_font(Font::Text),
         m_color(0),
         m_length(0),
         m_str(NULL),
@@ -42,6 +44,7 @@ Text::Text(
         m_coordinates(coordinates.x, coordinates.y),
         m_position(coordinates.to_position() + parent),
         m_layout(layout),
+        m_font(Font::Text),
         m_color(color),
         m_length(strlen(str)),
         m_str(str),
@@ -89,6 +92,14 @@ void Text::text(const char *new_str) {
     }
 }
 
+void Text::font(Font font) {
+    if (m_font != font) {
+        printd(DebugCategory::TEXT, "Text::update_font: ", m_font, " replaced by ", font);
+        m_font = font;
+        m_implementation.update_font();
+    }
+}
+
 void Text::color(int color) {
     if (m_color != color) {
         printd(DebugCategory::TEXT, "Text::update_color: ", m_color, " replaced by ", color);
@@ -100,3 +111,16 @@ void Text::color(int color) {
 void Text::draw() const {
     m_implementation.render();
 }
+
+#ifdef DEBUG
+void printd_internal(const Font font) {
+    switch (font) {
+        case Font::Text:
+            printd_internal("Font::Text");
+            break;
+        case Font::Label:
+            printd_internal("Font::Label");
+            break;
+    }
+}
+#endif

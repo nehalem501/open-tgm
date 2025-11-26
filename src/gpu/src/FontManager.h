@@ -3,7 +3,7 @@
 #ifndef GPU_FONT_MANAGER_H
 #define GPU_FONT_MANAGER_H
 
-#include "Font.h"
+#include "GpuFont.h"
 #include "Texture.h"
 
 ColorRGBA text_color_to_gpu_color(int color);
@@ -13,13 +13,13 @@ class FontManager {
         static const FontManager& get();
         static FontManager& get_mutable();
 
-        const Font& get_font(FontID id) const;
-        Font& get_font_mutable(FontID id);
+        const GpuFont& get_font(GpuFontID id) const;
+        GpuFont& get_font_mutable(GpuFontID id);
 
         void load_empty(unsigned int current_tile_size);
 
     private:
-        Font m_fonts[(size_t) FontID::NB_FONTS]; // TODO init
+        GpuFont m_fonts[(size_t) GpuFontID::NB_FONTS]; // TODO init
 };
 
 #endif // GPU_FONT_MANAGER_H

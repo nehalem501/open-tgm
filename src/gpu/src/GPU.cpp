@@ -160,7 +160,7 @@ void GPU::load_generated_textures() {
             texture.buffer.data,
             texture.buffer.length);
 
-        Font& font = FontManager::get_mutable().get_font_mutable(FontID::UI_FONT);
+        GpuFont& font = FontManager::get_mutable().get_font_mutable(GpuFontID::UI_FONT);
         font.replace(new_font);
         font.set_initialized(true);
     });
@@ -178,7 +178,7 @@ void GPU::load_generated_textures() {
             texture.buffer.data,
             texture.buffer.length);
 
-        Font& font = FontManager::get_mutable().get_font_mutable(FontID::LABEL_FONT);
+        GpuFont& font = FontManager::get_mutable().get_font_mutable(GpuFontID::LABEL_FONT);
         font.replace(new_font);
         font.set_initialized(true);
     });

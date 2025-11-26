@@ -29,9 +29,9 @@ class Mode {
         inline unsigned int initial_grade() { return m_mode->initial_grade; };
         inline unsigned int random_tries() { return m_mode->randomtries; };
 
-        inline unsigned int labels_nb() { return m_mode->labels_nb; };
+        inline unsigned int labels_nb() const { return m_mode->labels_nb; };
         inline const Label* labels() { return m_mode->labels; };
-        inline Label get_label(unsigned int i) { return m_mode->labels[i]; };
+        inline const Label& get_label(unsigned int i) const { return m_mode->labels[i]; };
 
         inline Position score_position() {
             return Position(m_mode->score_pos.x, m_mode->score_pos.y);

@@ -41,7 +41,7 @@ class Game {
             m_string.resize(m_position);
             // TODO: duplicate in Game::start()
             m_timer.resize(m_position + Coordinates(11, 21).to_position());
-            m_labels.resize();
+            m_labels.resize(m_position);
         }
         #endif
 

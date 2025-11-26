@@ -6,6 +6,17 @@
 #include <Glyphs.h>
 #include "TextImpl.h"
 
+static GpuFontID to_gpu_font(Font font) {
+    switch (font) {
+        case Font::Text:
+            return GpuFontID::UI_FONT;
+        case Font::Label:
+            return GpuFontID::LABEL_FONT;
+        default:
+            return GpuFontID::UI_FONT;
+    }
+}
+
 TextImpl::TextImpl(const Text& text) :
         m_text(text),
         m_glyphs(
@@ -14,7 +25,7 @@ TextImpl::TextImpl(const Text& text) :
             text.layout(),
             text.color(),
             text.length(),
-            FontID::UI_FONT)
+            to_gpu_font(text.font()))
 {
 }
 
@@ -32,6 +43,10 @@ void TextImpl::update_text() {
 
 void TextImpl::update_color() {
     m_glyphs.color(text_color_to_gpu_color(m_text.color()));
+}
+
+void TextImpl::update_font() {
+    m_glyphs.font(to_gpu_font(m_text.font()));
 }
 
 void TextImpl::render() const {

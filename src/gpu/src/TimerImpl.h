@@ -7,7 +7,7 @@
 #include <TargetTypes.h>
 #include <Glyphs.h>
 #include <Text.h>
-#include "Font.h"
+#include "GpuFont.h"
 
 class TimerImpl {
     public:
@@ -19,7 +19,7 @@ class TimerImpl {
                 Layouts::NONE,
                 TextColor::NONE,
                 8,
-                FontID::DIGITS_FONT) { }
+                GpuFontID::DIGITS_FONT) { }
 
         void layout(const Position &position);
         void update(const uint8_t m_digits[6]);

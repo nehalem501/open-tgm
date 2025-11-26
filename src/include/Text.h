@@ -22,6 +22,15 @@ namespace TextColor {
     };
 }
 
+enum struct Font {
+    Text,
+    Label,
+};
+
+#ifdef DEBUG
+void printd_internal(const Font font);
+#endif
+
 class Text {
     public:
         Text();
@@ -55,12 +64,14 @@ class Text {
             Layout layout);
 
         void text(const char *new_str);
+        void font(Font font);
         void color(int color);
 
         inline const Position& position() const { return m_position; };
         inline Layout layout() const { return m_layout; };
         inline unsigned int length() const { return m_length; };
         inline const char* text() const { return m_str; };
+        inline Font font() const { return m_font; };
         inline int color() const { return m_color; };
 
     private:
@@ -69,6 +80,7 @@ class Text {
 
         Layout m_layout;
 
+        Font m_font;
         int m_color;
         unsigned int m_length;
 
