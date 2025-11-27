@@ -29,5 +29,9 @@ void FreeType::load() {
     if (error) {
         std::cout << "Error label FT_New_Face" << std::endl;
     }
+    error = FT_New_Memory_Face(m_library, digit_font, digit_font_size, 0, &m_digit_face);
+    if (error) {
+        std::cout << "Error digit FT_New_Face" << std::endl;
+    }
     m_initialized = true;
 }

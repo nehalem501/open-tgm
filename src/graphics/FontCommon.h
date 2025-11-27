@@ -9,6 +9,7 @@
 #include FT_STROKER_H
 #include "orbitron_font.h"
 #include "sadana_square_font.h"
+#include "digit_font.h"
 
 class FreeType {
     public:
@@ -17,20 +18,24 @@ class FreeType {
         ~FreeType() {
             FT_Done_Face(m_text_face);
             FT_Done_Face(m_label_face);
+            FT_Done_Face(m_digit_face);
             FT_Done_FreeType(m_library);
         }
 
         void load();
 
+        FT_Library library() { return m_library; }
+
         FT_Face text_face() { return m_text_face; }
         FT_Face label_face() { return m_label_face; }
-        FT_Library library() { return m_library; }
+        FT_Face digit_face() { return m_digit_face; }
 
     private:
         FT_Library m_library;
         //FT_Stroker m_stroker;
         FT_Face m_text_face;
         FT_Face m_label_face;
+        FT_Face m_digit_face;
         bool m_initialized;
 };
 
