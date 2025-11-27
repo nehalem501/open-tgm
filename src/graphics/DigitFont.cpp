@@ -244,7 +244,7 @@ void generate_digit_font(
     std::function<void(const GeneratedTexture&, const Glyph*)> callback)
 {
     freetype.load();
-    FT_Face face = freetype.text_face();
+    FT_Face face = freetype.digit_face();
 
     /*FT_UInt font_size = 14; // size 18 for 13px height, without outline
     FT_Error error = FT_Set_Pixel_Sizes(face, 0, font_size); // TODO: check error
