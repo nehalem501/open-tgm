@@ -332,14 +332,14 @@ void generate_digit_font(
     Buffer b = { texture, texture_size };
     GeneratedTexture t = { b, texture_width, texture_height };
     callback(t, font);
-    /*unsigned char header[] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, (unsigned char) (texture_width & 255), (unsigned char) (texture_width >> 8), (unsigned char) (texture_height & 255), (unsigned char) (texture_height >> 8), 32, 40 };
+    unsigned char header[] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, (unsigned char) (texture_width & 255), (unsigned char) (texture_width >> 8), (unsigned char) (texture_height & 255), (unsigned char) (texture_height >> 8), 32, 40 };
     for (unsigned int pixel = 0; pixel < texture_height * texture_width; pixel++) {
         std::swap( texture[ pixel * 4 + 0 ], texture[ pixel * 4 + 2 ] );
     }
     std::string filename = "digit" + std::to_string((int)current_tile_size) + std::string(".tga");
     std::ofstream stream( filename, std::ios::binary );
     stream.write( reinterpret_cast< char * >( header ), sizeof( header ) );
-    stream.write( reinterpret_cast< char * >( texture ), texture_height * texture_width * 4 );*/
+    stream.write( reinterpret_cast< char * >( texture ), texture_height * texture_width * 4 );
     delete[] texture;
 }
 

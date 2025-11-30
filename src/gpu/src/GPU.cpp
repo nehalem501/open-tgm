@@ -182,6 +182,24 @@ void GPU::load_generated_textures() {
         font.replace(new_font);
         font.set_initialized(true);
     });
+
+    generate_digit_font(
+        Global::tile_size,
+        [&](const GeneratedTexture& texture, const Glyph* new_font)
+    {
+        load_generated_texture(
+            TextureID::DIGITS,
+            TexturesFormat::RGBA8,
+            Global::tile_size,
+            texture.width,
+            texture.height,
+            texture.buffer.data,
+            texture.buffer.length);
+
+        GpuFont& font = FontManager::get_mutable().get_font_mutable(GpuFontID::DIGITS_FONT);
+        font.replace(new_font);
+        font.set_initialized(true);
+    });
 }
 
 void GPU::load_generated_texture(

@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <Position.h>
 #include <Debug.h>
+#include <iostream>
 #include "Reloadable.h"
 #include "Vertex.h"
 #include "Glyph.h"
@@ -117,6 +118,7 @@ class Glyphs : public Reloadable {
             m_text_str = str;
             m_length = length;
             m_layout = layout;
+            std::cout << "font: " << (int) m_font << std::endl;
             const Texture& t = GPU::get_current().get_texture(font_to_texture(m_font));
             position_glyphs_from_string(
                 m_vertex_array.vertices,

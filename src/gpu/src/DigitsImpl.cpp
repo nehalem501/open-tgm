@@ -18,7 +18,7 @@ DigitsImpl::DigitsImpl(Digits& digits) :
 
 void DigitsImpl::update() {
     // TODO
-    m_digits.str();
+    m_glyphs.update_text(m_digits.str(), MAX_DIGITS_LEN);
 }
 
 void DigitsImpl::layout(const Position &position) {
