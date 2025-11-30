@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 BUILD_INFO = None
+PROJECT_ROOT = None
 
 BUILD_INI = 'build.ini'
 

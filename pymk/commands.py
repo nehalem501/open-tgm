@@ -3,6 +3,7 @@
 from .build import build_target
 from .clean import clean_target
 from . import globals
+from . import init
 
 class Options:
     def __init__(self, debug, verbose, jobs):
@@ -44,13 +45,11 @@ def run(args):
 def test(args):
     pass
 
-def init(args):
-    #import init
-    if args.platform:
-        pass
+def init_platform(args):
+    init.init_platform(args.name)
 
-    if args.gpu_platform:
-        pass
+def init_gpu_platform(args):
+    init.init_gpu_platform(args.name, args.backend)
 
-    if args.gpu_backend:
-        pass
+def init_gpu_backend(args):
+    init.init_gpu_backend(args.name)
