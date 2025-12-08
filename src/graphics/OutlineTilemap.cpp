@@ -9,7 +9,7 @@
 #include "GraphicsCommon.h"
 #include "Graphics.h"
 
-static Buffer draw_block(uint16_t current, float size) {
+Buffer draw_block_outline(uint16_t current, float size) {
     float s = ceil(size / 8.0f);
     canvas_ity::canvas context(size, size);
 
@@ -68,7 +68,7 @@ void generate_outline_tilemap(float current_tile_size, std::function<void(const 
 
     for (uint16_t i = 0; i < tile_nb; i++) {
         //std::cout << "i: " << i << std::endl;
-        Buffer b = draw_block(i, current_tile_size);
+        Buffer b = draw_block_outline(i, current_tile_size);
         int x = tile_size * (i % row_size);
         int y = tile_size * (i / row_size);
         context.put_image_data(b.data, tile_size, tile_size, tile_size * 4, x, y);

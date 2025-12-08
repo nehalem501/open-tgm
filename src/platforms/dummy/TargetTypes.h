@@ -3,6 +3,7 @@
 #ifndef TARGET_TYPES_DUMMY_H
 #define TARGET_TYPES_DUMMY_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 void empty_func(const char*, ...);

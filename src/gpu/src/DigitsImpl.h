@@ -17,13 +17,13 @@ class DigitsImpl {
     public:
         DigitsImpl(Digits &digits);
 
-        void layout(const Position &position);
-        void update();
+        void update_position();
+        void update_value(size_t str_length);
 
         void render() const { m_glyphs.render(); }
 
         #ifdef RESIZABLE
-        void resize() { } // TODO resize
+        void resize();
         #endif
 
     private:

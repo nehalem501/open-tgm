@@ -5,7 +5,7 @@
 
 #include <functional>
 #include <TargetTypes.h>
-#include <Glyph.h>
+#include "../gpu/src/Glyph.h"
 
 struct Buffer {
     uint8_t* data;

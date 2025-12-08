@@ -22,7 +22,7 @@ OpenGLGPU::OpenGLGPU() : max_texture_size(0) {
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
         // TODO use printd
-        printf("Could not initialize OpenGL: %s\n", gluErrorString(error));
+        printf("Could not initialize OpenGL: %s\n", "TODO"/*gluErrorString(error)*/);
         exit(1);
     }
 }

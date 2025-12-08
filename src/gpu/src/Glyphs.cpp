@@ -4,7 +4,7 @@
 #include <VertexArray.h>
 #include <Glyph.h>
 #include <Glyphs.h>
-#include <iostream>
+//#include <iostream>
 
 void init_glyphs(
     Vertex2D *vertices,
@@ -95,12 +95,12 @@ void position_glyphs_from_string(
     #endif
 
     if (str != NULL) {
-        std::cout << "font: " << glyphs << ", str: " << std::string((const char*)str, length) << std::endl;
+        //std::cout << "font: " << glyphs << ", str: " << std::string((const char*)str, length) << std::endl;
     }
 
     for (size_t i = 0; i < (size * 4) && i < (length * 4); i += 4) { // TODO
         const Glyph& glyph = glyphs[str[i / 4]];
-        std::cout << str[i / 4] << ": x: " << glyph.x << ", y: " << glyph.y << ", w: " << glyph.width << ", h: " << glyph.height << std::endl;
+        //std::cout << str[i / 4] << ": x: " << glyph.x << ", y: " << glyph.y << ", w: " << glyph.width << ", h: " << glyph.height << std::endl;
 
         vertices[i].x(position.x + offset);
         vertices[i].y(position.y);

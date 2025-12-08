@@ -5,7 +5,6 @@
 #include <iostream>
 #include <canvas_ity.hpp>
 #include <Global.h>
-#include <Glyph.h>
 #include <Utils.h>
 #include "GraphicsCommon.h"
 #include "Graphics.h"
@@ -271,13 +270,13 @@ void generate_digit_font(
 
 
     Glyph font[NB_GLYPHS];
-    unsigned int texture_width = bit_ceil(tile_size * 2);
+    unsigned int texture_width = bit_ceil(tile_size * 3);
     unsigned int texture_height = bit_ceil(tile_size * 2);
     canvas_ity::canvas* context = new canvas_ity::canvas(texture_width, texture_height);
 
     int x = 0;
-    int highest = 0;
     int y = 0;
+    int highest = 0;
 
     for (size_t i = 0; i < chars_to_render_nb; i++) {
         //std::cout << "i: " << i << std::endl;
@@ -324,6 +323,7 @@ void generate_digit_font(
     }
 
     font[(size_t) ' '] = Glyph(0, 0, 0, 0, tile_size / 2);
+    font[(size_t) '1'].offset = font[(size_t) '0'].offset;
 
     size_t texture_size = texture_width * texture_height * 4;
     uint8_t *texture = new uint8_t[texture_size];
@@ -332,14 +332,14 @@ void generate_digit_font(
     Buffer b = { texture, texture_size };
     GeneratedTexture t = { b, texture_width, texture_height };
     callback(t, font);
-    unsigned char header[] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, (unsigned char) (texture_width & 255), (unsigned char) (texture_width >> 8), (unsigned char) (texture_height & 255), (unsigned char) (texture_height >> 8), 32, 40 };
+    /*unsigned char header[] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, (unsigned char) (texture_width & 255), (unsigned char) (texture_width >> 8), (unsigned char) (texture_height & 255), (unsigned char) (texture_height >> 8), 32, 40 };
     for (unsigned int pixel = 0; pixel < texture_height * texture_width; pixel++) {
         std::swap( texture[ pixel * 4 + 0 ], texture[ pixel * 4 + 2 ] );
     }
     std::string filename = "digit" + std::to_string((int)current_tile_size) + std::string(".tga");
     std::ofstream stream( filename, std::ios::binary );
     stream.write( reinterpret_cast< char * >( header ), sizeof( header ) );
-    stream.write( reinterpret_cast< char * >( texture ), texture_height * texture_width * 4 );
+    stream.write( reinterpret_cast< char * >( texture ), texture_height * texture_width * 4 );*/
     delete[] texture;
 }
 

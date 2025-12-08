@@ -30,7 +30,7 @@ static Color* get_palette(const BlocksSwatch& swatch, size_t size) {
     return final_palette;
 }
 
-static Buffer draw_block(float size, const BlocksSwatch& swatch) {
+Buffer draw_block_colored(float size, const BlocksSwatch& swatch) {
     constexpr size_t palette_size = 100;
     Color* palette = get_palette(swatch, palette_size);
 
@@ -207,7 +207,7 @@ void generate_blocks_tilemap(float current_tile_size, std::function<void(const G
     };
 
     for (tiles_t i = 0; i <= Shape::NB_SHAPES; i++) {
-        Buffer b = draw_block(
+        Buffer b = draw_block_colored(
             current_tile_size,
             i == Shape::NB_SHAPES ? grey : get_piece_color(i));
         int x = tile_size * ((i + 1) % row_size);
@@ -232,10 +232,3 @@ void generate_blocks_tilemap(float current_tile_size, std::function<void(const G
     stream.write( reinterpret_cast< char * >( texture ), texture_height * texture_width * 4 );*/
     delete[] texture;
 }
-
-/*int main() {
-    for (unsigned int i = 8; i < 41; i++) {
-        generate_blocks_tilemap(i);
-    }
-    return 0;
-}*/

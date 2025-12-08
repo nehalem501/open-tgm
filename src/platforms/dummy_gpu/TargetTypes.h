@@ -4,6 +4,7 @@
 #define TARGET_TYPES_DUMMY_GPU_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 typedef uint16_t tiles_t;
 

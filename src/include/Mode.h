@@ -4,7 +4,7 @@
 #define MODE_H
 
 #include <TargetTypes.h>
-#include <Position.h>
+#include <Coordinates.h>
 #include <RawMode.h>
 #include <Grade.h>
 #include <CreditRoll.h>
@@ -33,14 +33,14 @@ class Mode {
         inline const Label* labels() { return m_mode->labels; };
         inline const Label& get_label(unsigned int i) const { return m_mode->labels[i]; };
 
-        inline Position score_position() {
-            return Position(m_mode->score_pos.x, m_mode->score_pos.y);
+        inline Coordinates score_coordinates() {
+            return Coordinates(m_mode->score_pos.x, m_mode->score_pos.y);
         };
-        inline Position level_position() {
-            return Position(m_mode->level_pos.x, m_mode->level_pos.y);
+        inline Coordinates level_coordinates() {
+            return Coordinates(m_mode->level_pos.x, m_mode->level_pos.y);
         };
-        inline Position level_target_position() {
-            return Position(
+        inline Coordinates level_target_coordinates() {
+            return Coordinates(
                 m_mode->level_target_pos.x,
                 m_mode->level_target_pos.y);
         };

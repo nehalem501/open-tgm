@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <SDL.h>
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include "../utils/timing.h"
 #include <Scene.h>
 #include <GPU.h>

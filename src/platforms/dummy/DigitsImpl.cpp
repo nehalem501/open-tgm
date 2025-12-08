@@ -6,10 +6,10 @@
 DigitsImpl::DigitsImpl(Digits&) {
 }
 
-void DigitsImpl::update() {
+void DigitsImpl::update_position() {
 }
 
-void DigitsImpl::layout(const Position & /*position*/) {
+void DigitsImpl::update_value(size_t /*str_length*/) {
     // TODO
 }
 

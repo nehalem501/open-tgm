@@ -10,12 +10,10 @@ struct Coordinates {
     int x, y;
 
     constexpr Coordinates(int x, int y) : x(x), y(y) { }
-    constexpr Coordinates(const Coordinates& coordinates) :
-        x(coordinates.x),
-        y(coordinates.y) { }
 
     inline int to_position_x() const { return x * Global::tile_size; }
     inline int to_position_y() const { return y * Global::tile_size; }
+
     inline Position to_position() const {
         return Position(to_position_x(), to_position_y());
     }
@@ -24,11 +22,17 @@ struct Coordinates {
         return Coordinates(coordinates.x + x, coordinates.y + y);
     }
 
-    inline Coordinates& operator=(const Coordinates& coordinates) {
-        x = coordinates.x;
-        y = coordinates.y;
-        return *this;
+    inline bool operator==(const Coordinates& coordinates) const {
+        return x == coordinates.x && y == coordinates.y;
+    }
+
+    inline bool operator!=(const Coordinates& coordinates) const {
+        return !(*this == coordinates);
     }
 };
+
+#ifdef DEBUG
+void printd_internal(const Coordinates& coordinates);
+#endif
 
 #endif // COORDINATES_H

@@ -10,6 +10,7 @@
 #include "orbitron_font.h"
 #include "sadana_square_font.h"
 #include "digit_font.h"
+#include "../gpu/src/Glyph.h"
 
 class FreeType {
     public:

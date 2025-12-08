@@ -30,7 +30,7 @@ void Labels::update_labels(const Position &parent) {
     unsigned int i;
     for (i = 0; i < labels_nb; i++) {
         const Label& label = m_mode.get_label(i);
-        m_labels_strings[i].position(Coordinates(label.x, label.y), parent);
+        m_labels_strings[i].coordinates(Coordinates(label.x, label.y), parent);
         m_labels_strings[i].text(label.string);
     }
     unsigned int remaining = MAX_LABELS - i;

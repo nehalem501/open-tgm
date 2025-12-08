@@ -14,7 +14,7 @@ ChooseMode::ChooseMode(const Position& parent) : m_selected(false), m_mode(0) {
     printd(DebugCategory::MODES, "Choose mode screen constructor");
 
     for (int i = 0; i < NB_MODES; i++) {
-        m_modes_strings[i].position(
+        m_modes_strings[i].coordinates(
             Coordinates(m_coordinates.x, (7 + i * 2)),
             parent,
             Layouts::H_CENTER);

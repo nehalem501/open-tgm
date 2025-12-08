@@ -38,10 +38,10 @@ class Player {
         void draw() const;
 
         #ifdef RESIZABLE
-        void resize() {
-            m_score_display.resize();
-            m_level_display.resize();
-            m_section_display.resize();
+        void resize(Position& position) {
+            m_score.resize(position);
+            m_level.resize(position);
+            m_section.resize(position);
             m_grade.resize();
             m_implementation.resize();
         }
@@ -51,8 +51,7 @@ class Player {
         void start_game();
 
         inline void reset_level() {
-            m_level = 0;
-            m_level_display.set(0);
+            m_level.set(0);
             //m_level_display.update_graphics(m_stack);
         };
 
@@ -93,19 +92,17 @@ class Player {
 
         Piece m_piece;
 
-        Digits m_score_display;
-        Digits m_level_display;
-        Digits m_section_display;
+        Digits m_score;
+        Digits m_level;
+        Digits m_section;
 
         Grade m_grade;
-        uint32_t m_score;
-        unsigned int m_level;
 
         Mode m_current_mode;
 
         tiles_t m_history[4];
 
-        unsigned int m_active_time, m_gravity, m_section, m_gravity_counter;
+        unsigned int m_active_time, m_gravity, m_gravity_counter;
 
         int m_ghost_y, m_piece_old_y, m_lock_color_delay;
         int m_state;

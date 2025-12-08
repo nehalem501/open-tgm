@@ -16,12 +16,17 @@ DigitsImpl::DigitsImpl(Digits& digits) :
         GpuFontID::DIGITS_FONT)
 { }
 
-void DigitsImpl::update() {
+void DigitsImpl::update_value(size_t str_length) {
     // TODO
-    m_glyphs.update_text(m_digits.str(), MAX_DIGITS_LEN);
+    m_glyphs.update_text(m_digits.str(), str_length);
 }
 
-void DigitsImpl::layout(const Position &position) {
-    // TODO
-    m_glyphs.position(position);
+void DigitsImpl::update_position() {
+    m_glyphs.position(m_digits.position());
 }
+
+#ifdef RESIZABLE
+void DigitsImpl::resize() {
+    m_glyphs.resize(m_digits.position(), Layouts::NONE);
+}
+#endif

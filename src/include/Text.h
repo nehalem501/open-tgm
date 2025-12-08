@@ -57,8 +57,8 @@ class Text {
         }
         #endif
 
-        void position(const Coordinates& coordinates, const Position& parent);
-        void position(
+        void coordinates(const Coordinates& coordinates, const Position& parent);
+        void coordinates(
             const Coordinates& coordinates,
             const Position& parent,
             Layout layout);
@@ -68,6 +68,7 @@ class Text {
         void color(int color);
 
         inline const Position& position() const { return m_position; };
+        inline const Coordinates& coordinates() const { return m_coordinates; };
         inline Layout layout() const { return m_layout; };
         inline unsigned int length() const { return m_length; };
         inline const char* text() const { return m_str; };

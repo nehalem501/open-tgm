@@ -55,7 +55,6 @@ void TextImpl::render() const {
 
 #ifdef RESIZABLE
 void TextImpl::resize() {
-    // TODO
     m_glyphs.resize(m_text.position(), m_text.layout());
 }
 #endif

@@ -5,7 +5,6 @@
 #include <iostream>
 #include <canvas_ity.hpp>
 #include <Global.h>
-#include <Glyph.h>
 #include <Utils.h>
 #include "GraphicsCommon.h"
 #include "Graphics.h"

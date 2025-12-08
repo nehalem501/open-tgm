@@ -3,6 +3,7 @@
 #ifndef TARGET_TYPES_3DS_H
 #define TARGET_TYPES_3DS_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 typedef uint32_t tiles_t;

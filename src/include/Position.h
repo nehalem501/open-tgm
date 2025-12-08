@@ -24,6 +24,14 @@ struct Position {
     inline Position operator+(const Position& position) {
         return Position(position.x + x, position.y + y);
     }
+
+    inline bool operator==(const Position& position) const {
+        return x == position.x && y == position.y;
+    }
+
+    inline bool operator!=(const Position& position) const {
+        return !(*this == position);
+    }
 };
 
 #ifdef DEBUG

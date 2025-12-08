@@ -17,18 +17,15 @@
 
 /* Init the field and all the other stuff */
 void Player::init(Position& position, Mode mode) {
-    // TODO: position
-    m_implementation.position(position);
-
     m_current_mode = mode;
 
-    m_score = 0;
-    m_level = 0;
+    m_score.set(0);
+    m_level.set(0);
 
     m_active_time = 0;
     m_gravity = 0;
     m_gravity_counter = 0;
-    m_section = m_current_mode.section(0);
+    m_section.set(m_current_mode.section(0));
 
     m_already_dropped = false;
     m_lock_color_delay = 0;
@@ -59,10 +56,11 @@ void Player::init(Position& position, Mode mode) {
 
     m_grade.set(Grade::None);
 
-    m_score_display.position(m_current_mode.score_position());
-    m_level_display.position(m_current_mode.level_position());
-    m_section_display.position(m_current_mode.level_target_position());
-    m_section_display.set(m_section);
+    // TODO: position
+    m_implementation.position(position);
+    m_score.coordinates(m_current_mode.score_coordinates(), position);
+    m_level.coordinates(m_current_mode.level_coordinates(), position);
+    m_section.coordinates(m_current_mode.level_target_coordinates(), position);
 
     // TODO
 /* In TGM1, the history begins filled with 4 Z pieces.
@@ -146,8 +144,8 @@ void Player::update(Stack *stack, int *game_state) {
             }
 
             bool are_finished = m_line_are ?
-                                (m_are >= m_current_mode.line_are(m_level) + 2):
-                                (m_are >= m_current_mode.are(m_level));
+                                (m_are >= m_current_mode.line_are(m_level.get()) + 2):
+                                (m_are >= m_current_mode.are(m_level.get()));
 
             if (are_finished) {
                 next_piece();
@@ -161,7 +159,7 @@ void Player::update(Stack *stack, int *game_state) {
                 m_draw_piece = true;
 
                 // Hide ghost piece after level 100
-                if (m_level > 100) {
+                if (m_level.get() > 100) {
                     m_draw_ghost = false;
                 } else {
                     m_draw_ghost = true;
@@ -464,7 +462,7 @@ void Player::update(Stack *stack, int *game_state) {
                 stack->remove_grey_blocks(m_piece);
             }
 
-            if (m_clear >= m_current_mode.clear(m_level)) {
+            if (m_clear >= m_current_mode.clear(m_level.get())) {
                 m_clear = 0;
                 stack->shift_lines();
                 m_line_are = true;
@@ -516,27 +514,25 @@ void Player::change_level(int value, bool line_clear) {
     // TODO changeLevel not finished
 
     // Last level
-    if (m_level >= m_current_mode.max_level())
+    if (m_level.get() >= m_current_mode.max_level())
         return;
 
     // Check for line clear at end of section
-    if (m_level == m_section - 1) {
+    if (m_level.get() == m_section.get() - 1) {
         if (line_clear) {
-            m_section = m_current_mode.section(m_level + value);
-            m_section_display.set(m_section);
+            m_section.set(m_current_mode.section(m_level.get() + value));
         } else {
             return;
         }
     }
 
-    m_level += value;
+    m_level.add(value);
 
     // Happens if we clear multiple lines at the end of last section
-    if (m_level >= m_current_mode.max_level())
-        m_level = m_current_mode.max_level();
+    if (m_level.get() >= m_current_mode.max_level())
+        m_level.set(m_current_mode.max_level());
 
-    m_level_display.set(m_level);
-    m_gravity = m_current_mode.gravity(m_level);
+    m_gravity = m_current_mode.gravity(m_level.get());
 }
 
 /* Update player's score */
@@ -548,15 +544,15 @@ void Player::update_score(unsigned int nb_lines, bool bravo) {
     // lvl_aft_clear != m_level + nb_lines when finishing the game
     // (300 in easy, 500 torikan in death, 999 in other modes)
     // Implement torikan in Mode using callback like score_func
-    unsigned int lvl_aft_clear = m_level + nb_lines;
+    unsigned int lvl_aft_clear = m_level.get() + nb_lines;
     uint32_t speed = 0;
-    if (m_current_mode.lock(m_level) > m_active_time) {
-        speed = m_current_mode.lock(m_level) - m_active_time;
+    if (m_current_mode.lock(m_level.get()) > m_active_time) {
+        speed = m_current_mode.lock(m_level.get()) - m_active_time;
     }
 
     //score += modes->score(level, nbLines, soft, combo, bravo, sonic, active_time, credits);
 
-    printd(DebugCategory::SCORE, "level: ", m_level);
+    printd(DebugCategory::SCORE, "level: ", m_level.get());
     printd(DebugCategory::SCORE, "nblines: ", nb_lines);
     printd(DebugCategory::SCORE, "soft: ", m_soft);
     printd(DebugCategory::SCORE, "combo: ", m_combo);
@@ -566,21 +562,19 @@ void Player::update_score(unsigned int nb_lines, bool bravo) {
     printd(DebugCategory::SCORE, "lvl_aft_clear: ", lvl_aft_clear);
     printd(DebugCategory::SCORE, "speed: ", speed);
 
-    m_score += m_current_mode.score(
-        m_level,
+    m_score.add(m_current_mode.score(
+        m_level.get(),
         nb_lines,
         m_soft,
         m_sonic,
         m_combo,
         bravo_val,
         lvl_aft_clear,
-        speed);
+        speed));
 
-    printd(DebugCategory::SCORE, "score: ", m_score);
+    printd(DebugCategory::SCORE, "score: ", m_score.get());
 
-    m_current_mode.grade(m_score, 0 /* TODO */, &m_grade);
-
-    m_score_display.set(m_score);
+    m_current_mode.grade(m_score.get(), 0 /* TODO */, &m_grade);
 }
 
 /* Give number of G for current gravity */
@@ -623,9 +617,9 @@ bool Player::check_lock() {
 
         m_implementation.update_piece_lock_animation(
             m_lock,
-            m_current_mode.lock(m_level));
+            m_current_mode.lock(m_level.get()));
 
-        if (m_lock >= m_current_mode.lock(m_level)) {
+        if (m_lock >= m_current_mode.lock(m_level.get())) {
             return true;
         }
     }
@@ -639,8 +633,8 @@ bool Player::check_das_left() {
 
         printd(DebugCategory::DAS, "left DAS: ", m_das_left);
 
-        if (m_das_left > m_current_mode.das(m_level)) {
-            m_das_left = m_current_mode.das(m_level);
+        if (m_das_left > m_current_mode.das(m_level.get())) {
+            m_das_left = m_current_mode.das(m_level.get());
             return true;
         }
     }
@@ -654,8 +648,8 @@ bool Player::check_das_right() {
 
         printd(DebugCategory::DAS, "right DAS: ", m_das_right);
 
-        if (m_das_right > m_current_mode.das(m_level)) {
-            m_das_right = m_current_mode.das(m_level);
+        if (m_das_right > m_current_mode.das(m_level.get())) {
+            m_das_right = m_current_mode.das(m_level.get());
             return true;
         }
     }
@@ -665,8 +659,8 @@ bool Player::check_das_right() {
 void Player::draw() const {
     m_implementation.render();
 
-    m_score_display.draw();
-    m_level_display.draw();
-    m_section_display.draw();
+    m_score.draw();
+    m_level.draw();
+    m_section.draw();
 }
 

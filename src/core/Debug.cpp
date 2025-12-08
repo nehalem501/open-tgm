@@ -4,6 +4,7 @@
 
 #include <Debug.h>
 #include <Position.h>
+#include <Coordinates.h>
 
 static void printd_num(const size_t value, const size_t base) {
     char str[32];
@@ -113,6 +114,10 @@ void printd_internal(unsigned long long value) {
 
 void printd_internal(const Position& position) {
     printd_internal("Position(x=", position.x, ", y=", position.y, ")");
+}
+
+void printd_internal(const Coordinates& coordinates) {
+    printd_internal("Coordinates(x=", coordinates.x, ", y=", coordinates.y, ")");
 }
 
 static bool all_categories[(unsigned int) DebugCategory::NB_CATEGORIES] = { true, false /* ... */ };

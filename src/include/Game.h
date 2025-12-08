@@ -35,7 +35,7 @@ class Game {
         #ifdef RESIZABLE
         void resize() {
             m_choose_mode.resize(m_position);
-            m_player.resize();
+            m_player.resize(m_position);
             m_stack.resize();
             m_frame.resize();
             m_string.resize(m_position);

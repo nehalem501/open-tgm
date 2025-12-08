@@ -52,28 +52,23 @@ Text::Text(
     printd(DebugCategory::TEXT, "Text constructor: '", str, "'");
 }
 
-void Text::position(const Coordinates& coordinates, const Position& parent) {
-    position(coordinates, parent, m_layout);
+void Text::coordinates(const Coordinates& coordinates, const Position& parent) {
+    Text::coordinates(coordinates, parent, m_layout);
 }
 
-void Text::position(const Coordinates& coordinates, const Position& parent, Layout layout) {
+void Text::coordinates(const Coordinates& coordinates, const Position& parent, Layout layout) {
     const Position position = coordinates.to_position() + parent;
 
-    if (m_position.x != position.x ||
-        m_position.y != position.y ||
-        m_coordinates.x != coordinates.x ||
-        m_coordinates.y != coordinates.y ||
+    if (m_position != position ||
         m_layout != layout) {
 
         printd(DebugCategory::TEXT,
-            "Text::update_position: (",
-            m_position.x,
-            ", ",
-            m_position.y,
+            "Text::coordinates: (",
+            m_coordinates,
+            m_position,
             ") replaced by (",
-            position.x,
-            ", ",
-            position.y,
+            coordinates,
+            position,
             ")");
 
         m_coordinates = coordinates;
@@ -85,7 +80,7 @@ void Text::position(const Coordinates& coordinates, const Position& parent, Layo
 
 void Text::text(const char *new_str) {
     if (m_str != new_str) {
-        printd(DebugCategory::TEXT, "Text::update_text: ", m_str, " replaced by ", new_str);
+        printd(DebugCategory::TEXT, "Text::text: ", m_str, " replaced by ", new_str);
         m_str = new_str;
         m_length = strlen(m_str);
         m_implementation.update_text();
@@ -94,7 +89,7 @@ void Text::text(const char *new_str) {
 
 void Text::font(Font font) {
     if (m_font != font) {
-        printd(DebugCategory::TEXT, "Text::update_font: ", m_font, " replaced by ", font);
+        printd(DebugCategory::TEXT, "Text::font: ", m_font, " replaced by ", font);
         m_font = font;
         m_implementation.update_font();
     }
@@ -102,7 +97,7 @@ void Text::font(Font font) {
 
 void Text::color(int color) {
     if (m_color != color) {
-        printd(DebugCategory::TEXT, "Text::update_color: ", m_color, " replaced by ", color);
+        printd(DebugCategory::TEXT, "Text::color: ", m_color, " replaced by ", color);
         m_color = color;
         m_implementation.update_color();
     }

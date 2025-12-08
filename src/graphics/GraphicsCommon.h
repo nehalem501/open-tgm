@@ -51,6 +51,9 @@ T bit_ceil(T v) {
     return c;
 }
 
+Buffer draw_block_colored(float size, const BlocksSwatch& swatch);
+Buffer draw_block_outline(uint16_t current, float size);
+
 //void insert_image(Position& position, Image& source, Image& destination);
 //void fill_image(Position& position, Size& size, Image& destination);
 
