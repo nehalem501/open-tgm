@@ -24,9 +24,9 @@ void Scene::update() {
     switch(m_state) {
         case SceneState::HOME:
             if (input.settings()) {
-                m_state = SceneState::SETTINGS;
-                m_background.go_to_options();
-                return;
+                //m_state = SceneState::SETTINGS;
+                //m_background.go_to_options();
+                //return;
             }
             m_home.update(m_state);
             break;
