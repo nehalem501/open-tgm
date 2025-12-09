@@ -49,8 +49,8 @@ void PlayerImpl::render() const {
         for (int i = 0; i < PIECE_SIZE; i++) {
             for (int j = 0; j < PIECE_SIZE; j++) {
                 local_screen[
-                    32 * (piece.position_y() - 3 + i)
-                    + (piece.position_x() - 2 + j)] |=
+                    32 * (piece.coordinates().y - 3 + i)
+                    + (piece.coordinates().x - 2 + j)] |=
                         piece.tiles()[i + j * PIECE_SIZE];
             }
         }

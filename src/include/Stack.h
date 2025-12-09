@@ -5,6 +5,7 @@
 
 #include <string.h>
 #include <TargetTypes.h>
+#include <Coordinates.h>
 #include <Position.h>
 #include <Global.h>
 #include <LineClearParticles.h>
@@ -37,13 +38,9 @@ class Stack {
 
         void start_game(const Mode mode);
 
-        int get_ghost_y(Piece *piece);
+        int get_ghost_y(const Piece& piece) const;
 
-        bool check_player_move(
-            Piece *piece,
-            int new_x,
-            int new_y,
-            int new_rotation);
+        bool check_player_move(const Piece& piece, Coordinates new_coordinates, int new_rotation) const;
 
         bool check_bravo();
         bool check_line(unsigned int line);
@@ -51,12 +48,13 @@ class Stack {
         void shift_line(unsigned int line);
         void shift_lines();
         bool check_lines(Player& player);
-        void remove_line(unsigned int line);
+        void remove_line(int line);
 
         inline void reset_outline() {
             memset(m_outline, 0, sizeof(tiles_t) * MAX_WIDTH * MAX_HEIGHT);
         };
-        void update_outline(unsigned int unsigned_line);
+
+        void update_outline(int line);
 
         void remove_grey_blocks(const Piece& piece);
 

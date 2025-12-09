@@ -14,7 +14,8 @@ Stack::Stack(Position &parent) :
         m_height(22),
         m_width(10),
         m_parent(parent),
-        m_implementation(*this) {
+        m_implementation(*this)
+{
 }
 
 void Stack::init(Position& parent, const int width, const int height) {
@@ -45,15 +46,15 @@ void Stack::start_game(const Mode mode) {
     init(m_parent, mode.width(), mode.height());
 }
 
-int Stack::get_ghost_y(Piece *piece) {
+int Stack::get_ghost_y(const Piece& piece) const {
     bool can_go_down = true;
-    int pos_y = piece->position_y();
+    int pos_y = piece.coordinates().y;
     while(can_go_down) {
         pos_y = pos_y + 1;
         for (int i = 0; i < PIECE_SIZE; i++) {
             for (int j = 0; j < PIECE_SIZE; j++) {
-                if (PIECES[piece->type()][piece->orientation()][i + j * PIECE_SIZE] > 0) {
-                    int x = piece->position_x() - 2 + i;
+                if (PIECES[piece.type()][piece.orientation()][i + j * PIECE_SIZE] > 0) {
+                    int x = piece.coordinates().x - 2 + i;
                     int y = pos_y - 1 + j;
                     if (x < 0 || x >= m_width || y >= m_height) {
                         can_go_down = false;
@@ -71,18 +72,16 @@ int Stack::get_ghost_y(Piece *piece) {
 }
 
 bool Stack::check_player_move(
-        Piece *piece,
-        int new_x,
-        int new_y,
-        int new_rotation) {
-    int pos_x = piece->position_x() + new_x;
-    int pos_y = piece->position_y() + new_y;
-    int rotation = modulo(piece->orientation() + new_rotation, 4);
+        const Piece& piece,
+        Coordinates new_coordinates,
+        int new_rotation) const {
+    const Coordinates coordinates = new_coordinates + piece.coordinates();
+    int rotation = modulo(piece.orientation() + new_rotation, 4);
     for (int i = 0; i < PIECE_SIZE; i++) {
         for (int j = 0; j < PIECE_SIZE; j++) {
-            if (PIECES[piece->type()][rotation][i + j * PIECE_SIZE] > 0) {
-                int x = pos_x - 2 + i;
-                int y = pos_y - 1 + j;
+            if (PIECES[piece.type()][rotation][i + j * PIECE_SIZE] > 0) {
+                int x = coordinates.x - 2 + i;
+                int y = coordinates.y - 1 + j;
                 if (x < 0 || x >= m_width || y >= m_height) {
                     return false;
                 } else if (block(x, y) > 0) {
@@ -145,7 +144,7 @@ bool Stack::check_line(unsigned int line) {
 }
 
 bool Stack::check_lines(Player& player) {
-    int pos_y = player.piece().position_y();
+    int pos_y = player.piece().coordinates().y;
 
     int lines_to_clear = 0;
 
@@ -194,11 +193,11 @@ bool Stack::check_lines(Player& player) {
     return false;
 }
 
-void Stack::remove_line(unsigned int line) {
-    if ((int) line < m_height) {
+void Stack::remove_line(int line) {
+    if (line > 0 && line < (int) m_height) {
         memset(m_field + line * m_width, 0, m_width * sizeof(tiles_t));
+        memset(m_outline + line * m_width, 0, m_width * sizeof(tiles_t));
         update_outline(line - 1);
-        update_outline(line);
         update_outline(line + 1);
 
         m_implementation.update_outline();
@@ -206,8 +205,7 @@ void Stack::remove_line(unsigned int line) {
     }
 }
 
-void Stack::update_outline(unsigned int unsigned_line) {
-    int line = (int) unsigned_line;
+void Stack::update_outline(int line) {
     if (line < m_height) {
         for (int i = 0; i < m_width; i++) {
             m_outline[i + m_width * line] = 0;
@@ -234,8 +232,8 @@ void Stack::update_outline(unsigned int unsigned_line) {
 
 void Stack::remove_grey_blocks(const Piece& piece) {
     // TODO change coordinates if lines were cleared
-    int pos_x = piece.position_x() - 2;
-    int pos_y = piece.position_y() - 1;
+    int pos_x = piece.coordinates().x - 2;
+    int pos_y = piece.coordinates().y - 1;
     int limit_x = pos_x + PIECE_SIZE;
     int limit_y = pos_y + PIECE_SIZE;
 

@@ -47,6 +47,8 @@ void Game::ready_go() {
         m_position);*/
 }
 
+#include <iostream>
+
 // TODO change how Scene is notified
 void Game::update(SceneState& scene_state) {
     switch(m_state) {
@@ -127,7 +129,6 @@ void Game::update(SceneState& scene_state) {
             // Remove next line
             if (m_counter % 8 == 0) {
                 m_stack.remove_line(m_counter / 8);
-                m_stack.reset_outline();
             }
 
             break;
@@ -137,6 +138,7 @@ void Game::update(SceneState& scene_state) {
 
             if (m_counter == 160) {
                 m_counter = 0;
+                m_state = GameState::CHOOSE_MODE;
                 scene_state = SceneState::HOME;
             }
 

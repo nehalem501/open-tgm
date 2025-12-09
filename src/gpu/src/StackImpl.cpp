@@ -24,8 +24,8 @@ StackImpl::StackImpl(const Stack& stack) :
             TilemapID::OUTLINE) {
     printd(DebugCategory::STACK, "StackImpl constructor");
 
-    //update_field();
-    //update_outline();
+    update_field();
+    update_outline();
 }
 
 void StackImpl::update_field() {

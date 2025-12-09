@@ -24,6 +24,13 @@ Piece::Piece(tiles_t type, int orientation, Coordinates coordinates) :
         m_type(type) {
 }
 
+void Piece::spawn(tiles_t type) {
+    constexpr Coordinates SPAWN_COORDINATES = Coordinates(5, 2);
+    m_type = type;
+    m_orientation = 0;
+    m_coordinates = SPAWN_COORDINATES;
+}
+
 /* Lock piece to stack */
 void Piece::locked(Stack *stack) {
     int pos_x = m_coordinates.x - 2;
@@ -41,10 +48,10 @@ void Piece::locked(Stack *stack) {
 }
 
 /* Move piece in left or right direction */
-void Piece::move_leftright(Stack *stack, int *ghost_y, int amount) {
-    if(stack->check_player_move(this, amount, 0, 0)) {
+void Piece::move_leftright(const Stack& stack, int *ghost_y, int amount) {
+    if (stack.check_player_move(*this, Coordinates(amount, 0), 0)) {
         m_coordinates.x += amount;
-        *ghost_y = stack->get_ghost_y(this);
+        *ghost_y = stack.get_ghost_y(*this);
     }
 }
 
@@ -62,16 +69,16 @@ int Piece::move_down(int ghost_y, int amount) {
 }
 
 /* Rotate piece including wallkicks */
-void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
+void Piece::rotate_kick(const Stack& stack, int *ghost_y, int rotation) {
     int new_orientation = modulo(m_orientation + rotation, 4);
 
     // Center column disables rotation with T piece
     if (m_type == Shape::T) {
         int x = m_coordinates.x - 1;
-        if (x >= 0 || x < stack->width()) {
+        if (x >= 0 || x < stack.width()) {
             int y = m_coordinates.y - 1;
-            if (y < stack->height() && y >= 0) {
-                if (stack->block(x, y) > 0) {
+            if (y < stack.height() && y >= 0) {
+                if (stack.block(x, y) > 0) {
                     return;
                 }
             }
@@ -79,9 +86,9 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
     }
 
     // Check basic rotation
-    if (stack->check_player_move(this, 0, 0, rotation)) {
+    if (stack.check_player_move(*this, Coordinates(0, 0), rotation)) {
         orientation(new_orientation);
-        *ghost_y = stack->get_ghost_y(this);
+        *ghost_y = stack.get_ghost_y(*this);
     } else if (m_type != Shape::I && m_type != Shape::O) {
         // No wallkicks for I and O pieces
 
@@ -94,21 +101,21 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
             if (m_type == Shape::J) {
                 x = m_coordinates.x;
                 y = m_coordinates.y - 1;
-                if (x >= 0 || x < stack->width()) {
-                    if (y < stack->height() && y >= 0) {
-                        if (stack->block(x, y) > 0) {
+                if (x >= 0 || x < stack.width()) {
+                    if (y < stack.height() && y >= 0) {
+                        if (stack.block(x, y) > 0) {
                             // Check wallkick one block to the right
-                            if (stack->check_player_move(this, 1, 0, rotation)) {
+                            if (stack.check_player_move(*this, Coordinates(1, 0), rotation)) {
                                 move(1, 0);
                                 orientation(new_orientation);
-                                *ghost_y = stack->get_ghost_y(this);
+                                *ghost_y = stack.get_ghost_y(*this);
                             }
 
                             // Check wallkick one block to the left
-                            if (stack->check_player_move(this, -1, 0, rotation)) {
+                            if (stack.check_player_move(*this, Coordinates(-1, 0), rotation)) {
                                 move(-1, 0);
                                 orientation(new_orientation);
-                                *ghost_y = stack->get_ghost_y(this);
+                                *ghost_y = stack.get_ghost_y(*this);
                             }
 
                             return;
@@ -121,21 +128,21 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
             if (m_type == Shape::L) {
                 x = m_coordinates.x - 2;
                 y = m_coordinates.y - 1;
-                if (x >= 0 || x < stack->width()) {
-                    if (y < stack->height() && y >= 0) {
-                        if (stack->block(x, y) > 0) {
+                if (x >= 0 || x < stack.width()) {
+                    if (y < stack.height() && y >= 0) {
+                        if (stack.block(x, y) > 0) {
                             // Check wallkick one block to the right
-                            if (stack->check_player_move(this, 1, 0, rotation)) {
+                            if (stack.check_player_move(*this, Coordinates(1, 0), rotation)) {
                                 move(1, 0);
                                 orientation(new_orientation);
-                                *ghost_y = stack->get_ghost_y(this);
+                                *ghost_y = stack.get_ghost_y(*this);
                             }
 
                             // Check wallkick one block to the left
-                            if (stack->check_player_move(this, -1, 0, rotation)) {
+                            if (stack.check_player_move(*this, Coordinates(-1, 0), rotation)) {
                                 move(-1, 0);
                                 orientation(new_orientation);
-                                *ghost_y = stack->get_ghost_y(this);
+                                *ghost_y = stack.get_ghost_y(*this);
                             }
 
                             return;
@@ -147,24 +154,24 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
             // Check for wallkicks exceptions
             x = m_coordinates.x - 1;
 
-            if (x >= 0 || x < stack->width()) {
+            if (x >= 0 || x < stack.width()) {
                 y = m_coordinates.y - 1;
-                if (y < stack->height() && y >= 0) {
-                    if (stack->block(x, y) > 0) {
+                if (y < stack.height() && y >= 0) {
+                    if (stack.block(x, y) > 0) {
                         return;
                     }
                 }
 
                 y = m_coordinates.y;
-                if (y < stack->height() && y >= 0) {
-                    if (stack->block(x, y) > 0) {
+                if (y < stack.height() && y >= 0) {
+                    if (stack.block(x, y) > 0) {
                         return;
                     }
                 }
 
                 y = m_coordinates.y + 1;
-                if (y < stack->height() && y >= 0) {
-                    if (stack->block(x, y) > 0) {
+                if (y < stack.height() && y >= 0) {
+                    if (stack.block(x, y) > 0) {
                         return;
                     }
                 }
@@ -172,17 +179,17 @@ void Piece::rotate_kick(Stack *stack, int *ghost_y, int rotation) {
         }
 
         // Check wallkick one block to the right
-        if (stack->check_player_move(this, 1, 0, rotation)) {
+        if (stack.check_player_move(*this, Coordinates(1, 0), rotation)) {
             move(1, 0);
             orientation(new_orientation);
-            *ghost_y = stack->get_ghost_y(this);
+            *ghost_y = stack.get_ghost_y(*this);
         }
 
         // Check wallkick one block to the left
-        else if (stack->check_player_move(this, -1, 0, rotation)) {
+        else if (stack.check_player_move(*this, Coordinates(-1, 0), rotation)) {
             move(-1, 0);
             orientation(new_orientation);
-            *ghost_y = stack->get_ghost_y(this);
+            *ghost_y = stack.get_ghost_y(*this);
         }
     }
 }

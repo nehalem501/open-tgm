@@ -25,15 +25,20 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
             TilemapID::BLOCKS
         ),
         m_next(
-            //Position(position.x + 5 * tile_size, ((float) position.y) - (tile_size) * 3.5f), // TODO
-            Position(0, 0), // TODO
+            //Position(position.x + 3 * Global::tile_size, position.y - (2 * Global::tile_size + (Global::tile_size / 2))), // TODO
+            position, // TODO
             PIECES[player.get_next_piece()][0],
             GPU_WHITE,
             PIECE_SIZE,
             PIECE_SIZE,
             TilemapID::BLOCKS
         ) {
-    // TODO m_next position initialization doesn't work
+    // TODO m_next position initialization doesn't work after resizing
+}
+
+void PlayerImpl::position(Position& position) {
+    m_position = position;
+    update_next_position();
 }
 
 void PlayerImpl::update_piece_type() {
@@ -41,18 +46,8 @@ void PlayerImpl::update_piece_type() {
 }
 
 void PlayerImpl::update_piece_position() {
-    const int tile_size = Global::tile_size;
-
-    m_piece.position(
-        Position(
-            m_position.x + (m_player.piece().position_x() - 2) * tile_size,
-            m_position.y + (m_player.piece().position_y() - 1) * tile_size));
-
-    // TODO: should not be necessary, ugly temporary fix
-    m_next.position(
-        Position(
-            m_position.x + 3 * tile_size,
-            m_position.y - (2 * tile_size + (tile_size / 2))));
+    const Coordinates coordinates = Coordinates(-2, -1) + m_player.piece().coordinates();
+    m_piece.position(m_position + coordinates.to_position());
 }
 
 void PlayerImpl::update_piece_lock_animation(
@@ -84,16 +79,23 @@ void PlayerImpl::update_ghost_type() {
 }
 
 void PlayerImpl::update_ghost_position() {
-    const int tile_size = Global::tile_size;
-
-    m_ghost.position(
-        Position(
-            m_position.x + (m_player.piece().position_x() - 2) * tile_size,
-            m_position.y + (m_player.get_ghost_y() - 1) * tile_size));
+    const Coordinates coordinates = Coordinates(-2, -1) + Coordinates(m_player.piece().coordinates().x, m_player.get_ghost_y());
+    m_ghost.position(m_position + coordinates.to_position());
 }
 
 void PlayerImpl::update_next_type() {
     m_next.update(PIECES[m_player.get_next_piece()][0]);
+}
+
+void PlayerImpl::update_next_position() {
+    const Coordinates coordinates(3, -2);
+    Position position = m_position + coordinates.to_position();
+    position.y -= Global::tile_size / 4;
+    m_next.position(position);
+
+    /*m_next.position(Position(
+        m_position.x + 3 * Global::tile_size,
+        m_position.y - (2 * Global::tile_size + (Global::tile_size / 2))));*/
 }
 
 void PlayerImpl::render() const {
@@ -107,3 +109,14 @@ void PlayerImpl::render() const {
 
     m_next.render();
 }
+
+#ifdef RESIZABLE
+void PlayerImpl::resize() {
+    m_piece.resize(m_position);
+    m_ghost.resize(m_position);
+    m_next.resize(m_position);
+    update_piece_position();
+    update_ghost_position();
+    update_next_position();
+}
+#endif

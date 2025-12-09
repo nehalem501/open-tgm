@@ -36,6 +36,8 @@ void Timer::start() {
     m_digits[3] = 0;
     m_digits[4] = 0;
     m_digits[5] = 0;
+
+    m_implementation.update(m_digits);
 }
 
 void Timer::layout(const Position &position) {

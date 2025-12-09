@@ -13,7 +13,7 @@ class PlayerImpl {
     public:
         PlayerImpl(Player& player, Position& position);
 
-        inline void position(Position& position) { m_position = position; }
+        void position(Position& position);
 
         void update_piece_type();
         void update_piece_position();
@@ -24,15 +24,12 @@ class PlayerImpl {
         void update_ghost_position();
 
         void update_next_type();
+        void update_next_position();
 
         void render() const;
 
         #ifdef RESIZABLE
-        void resize() {
-            m_piece.resize(m_position);
-            m_ghost.resize(m_position);
-            m_next.resize(m_position);
-        }
+        void resize();
         #endif
 
     private:

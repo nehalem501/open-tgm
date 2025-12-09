@@ -16,12 +16,12 @@ class Piece {
         Piece(tiles_t type, int orientation);
         Piece(tiles_t type, int orientation, Coordinates m_coordinates);
 
+        void spawn(tiles_t type);
         void locked(Stack *stack);
 
         inline tiles_t type() const { return m_type; }
         inline int orientation() const { return m_orientation; }
-        inline int position_x() const { return m_coordinates.x; } // TODO
-        inline int position_y() const { return m_coordinates.y; }
+        inline const Coordinates& coordinates() const { return m_coordinates; }
 
         inline void type(tiles_t type) { m_type = type; }
         inline void orientation(int o) { m_orientation = o; }
@@ -32,20 +32,13 @@ class Piece {
             return PIECES[m_type][m_orientation];
         }
 
-        inline void spawn(tiles_t type) {
-            m_type = type;
-            m_orientation = 0;
-            m_coordinates.x = 5;
-            m_coordinates.y = 2;
-        }
-
         inline void rotate(int dir, int n) {
             m_orientation = (dir % n + n) % n;
         }
 
-        void move_leftright(Stack *stack, int *ghost_y, int amount);
+        void move_leftright(const Stack& stack, int *ghost_y, int amount);
         int move_down(int ghost_y, int amount);
-        void rotate_kick(Stack *stack, int *ghost_y, int rotation);
+        void rotate_kick(const Stack& stack, int *ghost_y, int rotation);
 
     private:
         Coordinates m_coordinates;

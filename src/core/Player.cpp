@@ -75,7 +75,7 @@ void Player::init(Position& position, Mode mode) {
 
     // TODO special rules for first piece
     change_level(0, false);
-    //nextPiece();
+    next_piece();
 }
 
 /* Init stuff needed to start a new game */
@@ -172,27 +172,33 @@ void Player::update(Stack *stack, int *game_state) {
                     m_piece.rotate(direction, 4);
                     irs = true;
                     // You cannot do an IRS that will make you die
-                    if (!stack->check_player_move(&m_piece, 0, 0, 0)) {
+                    if (!stack->check_player_move(m_piece, Coordinates(0, 0), 0)) {
                         m_piece.orientation(0);
                         irs = false;
                     }
                 }
 
                 // If piece doesn't have room to spawn, it's game over
-                if (!stack->check_player_move(&m_piece, 0, 0, 0)) {
+                if (!stack->check_player_move(m_piece, Coordinates(0, 0), 0)) {
                     //lockPiece(); // TODO
                     //stack->removeGreyBlocks(&m_piece);
                     *game_state = GameState::GAME_OVER_ANIM;
                     m_piece.locked(stack);
                     stack->remove_grey_blocks(m_piece);
-                    stack->reset_outline();
-                    m_draw_piece = false;
+                    // TODO optimize depending on piece size
+                    stack->update_outline(m_piece.coordinates().y - 2);
+                    stack->update_outline(m_piece.coordinates().y - 1);
+                    stack->update_outline(m_piece.coordinates().y);
+                    stack->update_outline(m_piece.coordinates().y + 1);
+                    stack->update_outline(m_piece.coordinates().y + 2);
+                    stack->update_outline(m_piece.coordinates().y + 3);
                     m_draw_ghost = false;
+                    m_draw_piece = false;
                     return;
                 }
 
                 // Update ghost piece
-                m_ghost_y = stack->get_ghost_y(&m_piece);
+                m_ghost_y = stack->get_ghost_y(m_piece);
 
                 // Reset lock delay
                 reset_lock();
@@ -212,6 +218,11 @@ void Player::update(Stack *stack, int *game_state) {
                 m_state = PlayerState::INGAME;
                 m_line_are = false;
 
+                m_implementation.update_piece_type();
+                m_implementation.update_ghost_type();
+                m_implementation.update_piece_position();
+                m_implementation.update_ghost_position();
+
                 goto ingame;
             }
 
@@ -227,31 +238,41 @@ void Player::update(Stack *stack, int *game_state) {
         ingame:
             printd(DebugCategory::PLAYER_LOOP, "INGAME");
 
-            m_piece_old_y = m_piece.position_y();
+            m_piece_old_y = m_piece.coordinates().y;
             m_active_time++;
 
             // Rotate Left
             if (!irs && input.rotate_left()) {
-                m_piece.rotate_kick(stack, &m_ghost_y, 1);
+                m_piece.rotate_kick(*stack, &m_ghost_y, 1);
+                m_implementation.update_piece_type();
+                m_implementation.update_ghost_type();
+                m_implementation.update_ghost_position();
             }
 
             // Rotate Right
             if (!irs && input.rotate_right()) {
-                m_piece.rotate_kick(stack, &m_ghost_y, -1);
+                m_piece.rotate_kick(*stack, &m_ghost_y, -1);
+                m_implementation.update_piece_type();
+                m_implementation.update_ghost_type();
+                m_implementation.update_ghost_position();
             }
 
             // Left
             if (move_left) {
-                m_piece.move_leftright(stack, &m_ghost_y,  -1);
+                m_piece.move_leftright(*stack, &m_ghost_y,  -1);
+                m_implementation.update_piece_position();
+                m_implementation.update_ghost_position();
             }
 
             // Right
             if (move_right) {
-                m_piece.move_leftright(stack, &m_ghost_y, 1);
+                m_piece.move_leftright(*stack, &m_ghost_y, 1);
+                m_implementation.update_piece_position();
+                m_implementation.update_ghost_position();
             }
 
             // Check if piece can go down
-            bool can_go_down = stack->check_player_move(&m_piece, 0, 1, 0);
+            bool can_go_down = stack->check_player_move(m_piece, Coordinates(0, 1), 0);
 
             // Compute gravity
             unsigned int number_down = gravity(can_go_down);
@@ -268,6 +289,8 @@ void Player::update(Stack *stack, int *game_state) {
 
                     if (number_down == 0) {
                         m_piece.move_down(m_ghost_y, 1);
+                        m_implementation.update_piece_position();
+                        m_implementation.update_ghost_position();
                     }
 
                     if (!can_go_down) {
@@ -283,7 +306,7 @@ void Player::update(Stack *stack, int *game_state) {
                             }
                         }
                     } else {
-                        if (!stack->check_player_move(&m_piece, 0, 1, 0)) {
+                        if (!stack->check_player_move(m_piece, Coordinates(0, 1), 0)) {
                             m_previous_down = true;
                             m_state = PlayerState::LOCK;
                             m_draw_piece = false;
@@ -305,18 +328,22 @@ void Player::update(Stack *stack, int *game_state) {
             if (can_go_down && number_down) {
                 m_sonic = m_piece.move_down(m_ghost_y, number_down);
                 // TODO sonic value
+                m_implementation.update_piece_position();
+                m_implementation.update_ghost_position();
             }
 
             // Sonic Drop
             if (m_current_mode.sonic_drop()) {
                 if (input.sonic_drop()) {
                     m_piece.move_down(m_ghost_y, MAX_HEIGHT);
+                    m_implementation.update_piece_position();
+                    m_implementation.update_ghost_position();
                 }
             }
 
             // Start counting lock delay
             if (!can_go_down) {
-                if (m_piece_old_y != m_piece.position_y()) {
+                if (m_piece_old_y != m_piece.coordinates().y) {
                     reset_lock();
                 } else {
                     // Change state if finished counting lock delay
@@ -342,17 +369,11 @@ void Player::update(Stack *stack, int *game_state) {
                 }
             } else {
                 if (m_lock) { // Check if lock started
-                    if (m_piece_old_y != m_piece.position_y()) {
+                    if (m_piece_old_y != m_piece.coordinates().y) {
                         reset_lock();
                     }
                 }
             }
-
-            // TODO
-            m_implementation.update_piece_position();
-            m_implementation.update_piece_type();
-            m_implementation.update_ghost_position();
-            m_implementation.update_ghost_type();
 
             break;
         }
@@ -362,7 +383,7 @@ void Player::update(Stack *stack, int *game_state) {
             m_draw_ghost = false;
 
             printd(DebugCategory::PLAYER_LOOP, "state: LOCK");
-            printd(DebugCategory::PLAYER_LOOP, "piece_pos_y: ", m_piece.position_y());
+            printd(DebugCategory::PLAYER_LOOP, "piece_coords_y: ", m_piece.coordinates().y);
 
             // Copy piece to stack/field
             m_piece.locked(stack);
@@ -374,14 +395,12 @@ void Player::update(Stack *stack, int *game_state) {
                 m_lock_color_delay = NEW_LOCK_COLOR_DELAY;
 
                 // TODO optimize depending on piece size
-                stack->update_outline(m_piece.position_y() - 2);
-
-                stack->update_outline(m_piece.position_y() - 1);
-                stack->update_outline(m_piece.position_y());
-                stack->update_outline(m_piece.position_y() + 1);
-                stack->update_outline(m_piece.position_y() + 2);
-
-                stack->update_outline(m_piece.position_y() + 3);
+                stack->update_outline(m_piece.coordinates().y - 2);
+                stack->update_outline(m_piece.coordinates().y - 1);
+                stack->update_outline(m_piece.coordinates().y);
+                stack->update_outline(m_piece.coordinates().y + 1);
+                stack->update_outline(m_piece.coordinates().y + 2);
+                stack->update_outline(m_piece.coordinates().y + 3);
 
                 m_state = PlayerState::LOCKED_ANIM_NEW;
 
@@ -439,14 +458,12 @@ void Player::update(Stack *stack, int *game_state) {
             // TODO optimize depending on piece size
             // Should be enough to do this only in ARE case, but bug
             // with outline when clearing lines
-            stack->update_outline(m_piece.position_y() - 2);
-
-            stack->update_outline(m_piece.position_y() - 1);
-            stack->update_outline(m_piece.position_y());
-            stack->update_outline(m_piece.position_y() + 1);
-            stack->update_outline(m_piece.position_y() + 2);
-
-            stack->update_outline(m_piece.position_y() + 3);
+            stack->update_outline(m_piece.coordinates().y - 2);
+            stack->update_outline(m_piece.coordinates().y - 1);
+            stack->update_outline(m_piece.coordinates().y);
+            stack->update_outline(m_piece.coordinates().y + 1);
+            stack->update_outline(m_piece.coordinates().y + 2);
+            stack->update_outline(m_piece.coordinates().y + 3);
 
             break;
 
@@ -483,7 +500,7 @@ void Player::update(Stack *stack, int *game_state) {
 /* Use randomizer and get next piece */
 void Player::next_piece() {
     m_piece.spawn(m_next);
-    m_piece_old_y = m_piece.position_y();
+    m_piece_old_y = m_piece.coordinates().y;
     m_active_time = 0;
     m_gravity_counter = 0;
 
