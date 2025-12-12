@@ -28,10 +28,13 @@ App::App() {
 
 void App::run(Scene& scene) {
     GPU& gpu = GPU::get_current_mut();
-    while (true) {
+
+    while (running()) {
         scene.update();
         gpu.clear();
         scene.draw();
         gpu.display();
     }
+
+    sceKernelExitGame();
 }

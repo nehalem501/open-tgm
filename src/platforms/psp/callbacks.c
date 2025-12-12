@@ -3,11 +3,11 @@
 #include "callbacks.h"
 #include "pspsdk.h"
 
-/*static bool exit_request = false;
+static bool exit_request = false;
 
 bool running() {
     return !exit_request;
-}*/
+}
 
 int exit_callback(int arg1, int arg2, void *common) {
     // unused arguments
@@ -15,7 +15,7 @@ int exit_callback(int arg1, int arg2, void *common) {
     (void)(arg2);
     (void)(common);
 
-    //sceKernelExitGame();
+    exit_request = true;
     return 0;
 }
 
