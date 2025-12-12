@@ -74,6 +74,7 @@ void printd_internal(T first, Args ... args) {
 }
 
 void printd_set_category_state(DebugCategory category, bool state);
+void printd_set_category_state_from_str(const char* category, bool state);
 bool printd_active_category(DebugCategory category);
 
 template<typename ... Args>

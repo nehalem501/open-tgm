@@ -2,6 +2,7 @@
 
 #ifdef DEBUG
 
+#include <string.h>
 #include <Debug.h>
 #include <Position.h>
 #include <Coordinates.h>
@@ -120,14 +121,56 @@ void printd_internal(const Coordinates& coordinates) {
     printd_internal("Coordinates(x=", coordinates.x, ", y=", coordinates.y, ")");
 }
 
-static bool all_categories[(unsigned int) DebugCategory::NB_CATEGORIES] = { true, false /* ... */ };
+static bool all_categories[(size_t) DebugCategory::NB_CATEGORIES] = { true, false /* ... */ };
 
 void printd_set_category_state(DebugCategory category, bool state) {
-    all_categories[(unsigned int) category] = state;
+    all_categories[(size_t) category] = state;
 }
 
 bool printd_active_category(DebugCategory category) {
-    return all_categories[(unsigned int) category];
+    return all_categories[(size_t) category];
+}
+
+static const char* all_categories_str[(size_t) DebugCategory::NB_CATEGORIES] = {
+    "DEFAULT",
+    "SYSTEM",
+    "INPUT",
+    "SCENE",
+    "SETTINGS",
+    "BACKGROUND",
+    "MODES",
+    "PLAYER",
+    "PLAYER_LOOP",
+    "SCORE",
+    "CREDIT_ROLL",
+    "GRAVITY",
+    "LOCK",
+    "CLEAR",
+    "DAS",
+    "FRAME",
+    "STACK",
+    "LABELS",
+    "DIGITS",
+    "TEXT",
+    "TIMER",
+    "REFRESH_RATE",
+    "DRAW",
+    "GPU",
+    "GPU_TILEMAP",
+    "GPU_TEXTURE",
+    "GPU_IMAGE",
+    "GPU_RECT",
+    "GPU_GLYPHS",
+    "GPU_VERTICES"
+};
+
+void printd_set_category_state_from_str(const char* category, bool state) {
+    for (size_t i = 0; i < (size_t) DebugCategory::NB_CATEGORIES; i++) {
+        if (strcmp(all_categories_str[i], category) == 0) {
+            printd_set_category_state((DebugCategory) i, state);
+            return;
+        }
+    }
 }
 
 #endif // DEBUG

@@ -66,10 +66,21 @@ uint32_t tgm_random(uint32_t *state) {
 
 void parse_args(int argc, char** argv) {
 #ifdef DEBUG
+    bool debug_flags = false;
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--debug") == 0) {
-            // TODO
+            debug_flags = true;
+            continue;
         }
+
+        if (debug_flags) {
+            if (argv[i][0] == '-') {
+                debug_flags = false;
+                continue;
+            }
+        }
+
+        printd_set_category_state_from_str(argv[i], true);
     }
 
     //printd_set_category_state(DebugCategory::GPU_GLYPHS, true);
