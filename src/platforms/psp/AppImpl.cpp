@@ -7,11 +7,11 @@
 #include "callbacks.h"
 #include "pspsdk.h"
 
-#define VERS 0
+#define VERS 1
 #define REVS 1
 
-PSP_MODULE_INFO("Open TGM", PSP_MODULE_USER, VERS, REVS);
-PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_USER | THREAD_ATTR_VFPU);
+PSP_MODULE_INFO("Open TGM", 0, VERS, REVS);
+PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER);
 
 Size screen = { 480, 272 };
 

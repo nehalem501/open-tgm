@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <Shapes.h>
 #include <Debug.h>
+#include <Position.h>
 #include "Reloadable.h"
 #include "TilemapEnums.h"
 #include "TilemapData.h"
@@ -30,7 +31,8 @@ class Tilemap : public Reloadable {
                 m_tiles(tiles),
                 m_width(width),
                 m_height(height),
-                m_vertex_array(tilemap_to_texture(tilemap)) {
+                m_vertex_array(tilemap_to_texture(tilemap))
+        {
             printd(DebugCategory::GPU_TILEMAP, "Tilemap<", N, "> constructor");
 
             //register_reloadable(this);

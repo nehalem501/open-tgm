@@ -78,7 +78,7 @@ SceGuGPU::SceGuGPU() {
     sceGuScissor(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
     sceGuFinish();
-    sceGuSync(0, 0);
+    sceGuSync(GU_SYNC_FINISH, GU_SYNC_WHAT_DONE);
 
     sceDisplayWaitVblankStart();
     sceGuDisplay(GU_TRUE);
@@ -113,7 +113,7 @@ void SceGuGPU::clear() {
 void SceGuGPU::display() {
     // Flush command buffer
     sceGuFinish();
-    sceGuSync(0, 0);
+    sceGuSync(GU_SYNC_FINISH, GU_SYNC_WHAT_DONE);
 
     // Swap buffers and wait for VSYNC
     sceDisplayWaitVblankStart();

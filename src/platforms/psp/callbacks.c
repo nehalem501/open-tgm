@@ -15,7 +15,7 @@ int exit_callback(int arg1, int arg2, void *common) {
     (void)(arg2);
     (void)(common);
 
-    sceKernelExitGame();
+    //sceKernelExitGame();
     return 0;
 }
 
@@ -35,7 +35,7 @@ int callback_thread(SceSize args, void *argp) {
 int setup_callbacks(void) {
     int thread_id = 0;
 
-    thread_id = sceKernelCreateThread("Update thread", callback_thread, 0x11, 0xFA0, 0, 0);
+    thread_id = sceKernelCreateThread("update_thread", callback_thread, 0x11, 0xFA0, 0, 0);
     if(thread_id >= 0) {
         sceKernelStartThread(thread_id, 0, 0);
     }
