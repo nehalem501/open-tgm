@@ -2121,8 +2121,20 @@ void canvas::add_runs(
     xy now = from;
     xy pixel = xy( floorf( now.x ), floorf( now.y ) );
     xy corner = pixel + xy( 1.0f, to.y > from.y ? 1.0f : 0.0f );
-    xy slope = xy( ( to.x - from.x ) / ( to.y - from.y ),
-                   ( to.y - from.y ) / ( to.x - from.x ) );
+
+    // Correct division by zero error
+    xy slope = xy(to.x - from.x, to.y - from.y);
+    if (to.x - from.x == 0) {
+        slope.y = 0;
+    } else {
+        slope.y = slope.y / ( to.x - from.x );
+    }
+    if (to.y - from.y == 0) {
+        slope.x = 0;
+    } else {
+        slope.x = slope.x / ( to.y - from.y );
+    }
+
     xy next_x = ( to.x - from.x < epsilon ) ? to :
         xy( corner.x, now.y + ( corner.x - now.x ) * slope.y );
     xy next_y = xy( now.x + ( corner.y - now.y ) * slope.x, corner.y );
