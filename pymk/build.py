@@ -7,7 +7,7 @@ import platform
 from . import configure
 from . import ninja
 from .entry import BuildEntry, PlatformEntry
-from .globals import BUILD_INI, DATA_DIR, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, GRAPHICS_DIR, BIN_DIR, BUILD_DIR, RESOURCES_DIR, TOOLS_DIR
+from .globals import BUILD_INI, DATA_DIR, SRC_DIR, CORE_DIR, CORE_HEADERS_DIR, MODES_DIR, PLATFORMS_DIR, GPU_DIR, GPU_SRC_DIR, GPU_BACKENDS_DIR, GRAPHICS_DIR, BIN_DIR, BUILD_DIR, RESOURCES_DIR, TOOLS_DIR, TEST_DIR
 from .target import Target, TargetData
 from pymk import entry
 
@@ -55,6 +55,7 @@ class BuildInfo:
         self.core_headers_dir = self.src_dir.joinpath(CORE_HEADERS_DIR)
         self.graphics_dir = self.src_dir.joinpath(GRAPHICS_DIR)
         self.scripts_dir = self.root_dir.joinpath('pymk')
+        self.test_dir = self.src_dir.joinpath(TEST_DIR)
 
     def finish_init(self):
         self.core_entries = [BuildEntry(e) for e in scan_subdirs(self.src_dir, [CORE_DIR, MODES_DIR])]
@@ -83,19 +84,28 @@ class BuildInfo:
                 entries += [b]
         return entries
 
-    def get_target(self, target, options):
+    def get_target(self, target, options, test):
         core_entry = self.toplevel
-        target_entry = self.get_platform_entry(target)
+        platform = 'dummy' if test else target
+        target_entry = self.get_platform_entry(platform)
 
         binary = self.get_target_bin_dir(target).joinpath(self.toplevel.name)
 
-        common_flags = ['-DTARGET_' + target.upper()]
+        common_flags = ['-DTARGET_' + platform.upper()]
         if options.debug:
             common_flags += [core_entry.values['debug_flags']] # TODO optimisation levels and types
         else:
             common_flags += ['-O2'] # TODO optimisation levels and types
 
+        if test:
+            self.core_entries[0].add_ignore('main.cpp')
+            self.core_entries[0].add_to_value('static_libs', 'catch2')
+
         additional_entries = self.core_entries + [target_entry]
+
+        if test:
+            test_entry = BuildEntry(self.test_dir)
+            additional_entries += [test_entry]
 
         data = TargetData(
             entry=core_entry,
@@ -110,11 +120,11 @@ class BuildInfo:
         target = Target(data)
         return target
 
-def build_target(target, options, build_info):
+def build_target(target, options, build_info, test=False):
     build_info.finish_init()
     # TODO ninja file path
     file = build_info.root_dir.joinpath(target).with_suffix('.ninja')
-    build = build_info.get_target(target, options)
+    build = build_info.get_target(target, options, test)
     config = configure.run(build, '', file)
     add_host_tools(config, options, build.tools, build_info)
     ninja.run(config, options)

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-def expand(dir, entry):
+def expand(dir, entry, ignore=[]):
     items = entry.split()
     files = []
     for i in items:
         files += dir.glob(i)
-    return files
+    return [f for f in files if f.name not in set(ignore)]
 
 def get_path(path):
     return ':'.join([str(p) for p in path]) + ':'

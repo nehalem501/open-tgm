@@ -17,6 +17,7 @@ GPU_BACKENDS_DIR = 'backends'
 GRAPHICS_DIR = 'graphics'
 LIBS_DIR = 'lib'
 TOOLS_DIR = 'tools'
+TEST_DIR = 'test'
 
 DATA_DIR = 'data'
 RESOURCES_DIR = 'resources'

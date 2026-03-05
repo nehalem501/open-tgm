@@ -35,15 +35,13 @@ def run(args):
     debug = False if args.release else True
     options = Options(debug, args.verbose, args.jobs)
     binary = build_target(args.target, options, globals.BUILD_INFO)
-
-    import subprocess
-    proc = subprocess.Popen([binary])
-    proc.wait()
-    if proc.returncode != 0:
-        exit(proc.returncode)
+    run_binary(binary)
 
 def test(args):
-    pass
+    debug = True if args.debug else False
+    options = Options(debug, args.verbose, args.jobs)
+    binary = build_target('test', options, globals.BUILD_INFO, test=True)
+    run_binary(binary)
 
 def init_platform(args):
     init.init_platform(args.name)
@@ -53,3 +51,10 @@ def init_gpu_platform(args):
 
 def init_gpu_backend(args):
     init.init_gpu_backend(args.name)
+
+def run_binary(binary):
+    import subprocess
+    proc = subprocess.Popen([binary])
+    proc.wait()
+    if proc.returncode != 0:
+        exit(proc.returncode)

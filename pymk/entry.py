@@ -7,11 +7,12 @@ from .globals import BUILD_INI
 from .deps.requirement import Requirement
 
 class BuildEntry:
-    def __init__(self, dir):
+    def __init__(self, dir, ignore=[]):
         self.dir = dir
         self.name = dir.name
         self.file = dir.joinpath(BUILD_INI)
         self.values = dict()
+        self.ignore = ignore
         #self.requires = []
         parser = ConfigParser()
         with open(self.file) as lines:
@@ -24,6 +25,15 @@ class BuildEntry:
                 #    self.requires += [Requirement(self, r) for r in parser[default_section][field].split()]
                 #    continue
                 self.values[field] = parser[default_section][field]
+
+    def add_ignore(self, name):
+        self.ignore += [name]
+
+    def add_to_value(self, key, value):
+        if key in self.values:
+            self.values[key] += ' ' + value
+        else:
+            self.values[key] = value
 
     def __repr__ (self):
         return "BuildEntry('" + self.name + "')"

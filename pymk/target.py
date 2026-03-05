@@ -219,11 +219,11 @@ class Target:
 
         if 'src_c' in values:
             if 'lib_cflags' in values:
-                self.src_c += to_sources(expand(entry.dir, values['src_c']), [values['lib_cflags']])
+                self.src_c += to_sources(expand(entry.dir, values['src_c'], entry.ignore), [values['lib_cflags']])
             else:
-                self.src_c += to_sources(expand(entry.dir, values['src_c']))
+                self.src_c += to_sources(expand(entry.dir, values['src_c'], entry.ignore))
         if 'src_cpp' in values:
-            self.src_cpp += to_sources(expand(entry.dir, values['src_cpp']))
+            self.src_cpp += to_sources(expand(entry.dir, values['src_cpp'], entry.ignore))
 
         if 'requires' in values:
             self.requires += [Requirement(entry, r) for r in values['requires'].split()]

@@ -44,6 +44,9 @@ parser_run.add_argument('target', nargs='?', choices=run_targets, default=defaul
 parser_run.set_defaults(func=cmd.run)
 
 parser_test = subparsers.add_parser('test', aliases=['t'], help='run unit tests')
+test_mode = parser_test.add_mutually_exclusive_group()
+test_mode.add_argument('--debug', action='store_true')
+test_mode.add_argument('--release', action='store_true')
 parser_test.set_defaults(func=cmd.test)
 
 parser_init = subparsers.add_parser('init', aliases=['i'], help='create and init port to new platform')
