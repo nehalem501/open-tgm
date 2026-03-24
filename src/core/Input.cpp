@@ -6,7 +6,7 @@
 #include <Input.h>
 
 /* Is used to check if more than one direction is pressed */
-static uint8_t input_lut[] = {
+constexpr uint8_t input_lut[] = {
 /* 0000 */ 0,
 /* 0001 */ 0,
 /* 0010 */ 0,
