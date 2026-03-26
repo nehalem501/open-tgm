@@ -7,9 +7,9 @@
 #include <TargetTypes.h>
 
 struct Coordinates {
-    int x, y;
+    int_fast8_t x, y;
 
-    constexpr Coordinates(int x, int y) : x(x), y(y) { }
+    constexpr Coordinates(int_fast8_t x, int_fast8_t y) : x(x), y(y) { }
 
     inline int to_position_x() const { return x * Global::tile_size; }
     inline int to_position_y() const { return y * Global::tile_size; }

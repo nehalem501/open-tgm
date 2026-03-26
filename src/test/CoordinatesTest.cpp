@@ -4,10 +4,10 @@
 #include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("Coordinates init", "[coordinates]") {
-    Coordinates coordinates(42, 256);
+    Coordinates coordinates(42, 127);
 
     REQUIRE(coordinates.x == 42);
-    REQUIRE(coordinates.y == 256);
+    REQUIRE(coordinates.y == 127);
 }
 
 TEST_CASE("Coordinates add", "[coordinates]") {
