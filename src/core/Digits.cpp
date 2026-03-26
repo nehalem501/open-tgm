@@ -82,7 +82,7 @@ void Digits::coordinates(const Coordinates& coordinates, const Position& parent)
         m_position = position;
         m_implementation.update_position();
     }
-};
+}
 
 void Digits::draw() const {
     m_implementation.render();

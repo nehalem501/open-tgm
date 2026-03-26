@@ -19,7 +19,7 @@ void Labels::set_mode(Mode new_mode, const Position &parent) {
     m_mode = new_mode;
     m_initialized = true;
     update_labels(parent);
-};
+}
 
 void Labels::update_labels(const Position &parent) {
     if (!m_initialized) {
