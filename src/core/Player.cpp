@@ -37,7 +37,7 @@ void Player::init(Position& position, Mode mode) {
 
     m_ghost_y = 0;
     m_piece_old_y = 0;
-    m_next = 0;
+    //m_next = Shape::Empty;
     m_state = PlayerState::WAITING;
 
     m_start_lock = false;
@@ -68,10 +68,10 @@ void Player::init(Position& position, Mode mode) {
  * However, as the first piece of the game overwrites the first Z
  * rather than pushing off the last S,
  * this is effectively a Z,S,S,Z or Z,S,Z,S sequence. */
-    m_history[0] = Shape::Z;
-    m_history[1] = Shape::Z;
-    m_history[2] = Shape::S;
-    m_history[3] = Shape::S;
+    //m_history[0] = Shape::Z;
+    //m_history[1] = Shape::Z;
+    //m_history[2] = Shape::S;
+    //m_history[3] = Shape::S;
 
     // TODO special rules for first piece
     change_level(0, false);
@@ -167,23 +167,23 @@ void Player::update(Stack *stack, int *game_state) {
 
                 m_already_dropped = false;
 
-                int direction = input.irs();
-                if (direction) {
-                    m_piece.rotate(direction, 4);
+                Rotation direction = input.irs();
+                if (direction != Rotation::None) {
+                    m_piece.rotate(direction);
                     irs = true;
                     // You cannot do an IRS that will make you die
-                    if (!stack->check_player_move(m_piece, Coordinates(0, 0), 0)) {
-                        m_piece.orientation(0);
+                    if (!m_piece.check_move(stack->field(), Coordinates(0, 0), Rotation::None)) {
+                        m_piece.orientation_mut().reset();
                         irs = false;
                     }
                 }
 
                 // If piece doesn't have room to spawn, it's game over
-                if (!stack->check_player_move(m_piece, Coordinates(0, 0), 0)) {
+                if (!m_piece.check_move(stack->field(), Coordinates(0, 0), Rotation::None)) {
                     //lockPiece(); // TODO
                     //stack->removeGreyBlocks(&m_piece);
                     *game_state = GameState::GAME_OVER_ANIM;
-                    m_piece.locked(stack);
+                    //m_piece.locked(stack);
                     stack->remove_grey_blocks(m_piece);
                     // TODO optimize depending on piece size
                     stack->update_outline(m_piece.coordinates().y - 2);
@@ -198,7 +198,7 @@ void Player::update(Stack *stack, int *game_state) {
                 }
 
                 // Update ghost piece
-                m_ghost_y = stack->get_ghost_y(m_piece);
+                m_ghost_y = m_piece.get_ghost_y(stack->field());
 
                 // Reset lock delay
                 reset_lock();
@@ -243,7 +243,7 @@ void Player::update(Stack *stack, int *game_state) {
 
             // Rotate Left
             if (!irs && input.rotate_left()) {
-                m_piece.rotate_kick(*stack, &m_ghost_y, 1);
+                //m_piece.rotate_kick(*stack, &m_ghost_y, 1);
                 m_implementation.update_piece_type();
                 m_implementation.update_ghost_type();
                 m_implementation.update_ghost_position();
@@ -251,7 +251,7 @@ void Player::update(Stack *stack, int *game_state) {
 
             // Rotate Right
             if (!irs && input.rotate_right()) {
-                m_piece.rotate_kick(*stack, &m_ghost_y, -1);
+                //m_piece.rotate_kick(*stack, &m_ghost_y, -1);
                 m_implementation.update_piece_type();
                 m_implementation.update_ghost_type();
                 m_implementation.update_ghost_position();
@@ -259,20 +259,20 @@ void Player::update(Stack *stack, int *game_state) {
 
             // Left
             if (move_left) {
-                m_piece.move_leftright(*stack, &m_ghost_y,  -1);
+                //m_piece.move_leftright(*stack, &m_ghost_y,  -1);
                 m_implementation.update_piece_position();
                 m_implementation.update_ghost_position();
             }
 
             // Right
             if (move_right) {
-                m_piece.move_leftright(*stack, &m_ghost_y, 1);
+                //m_piece.move_leftright(*stack, &m_ghost_y, 1);
                 m_implementation.update_piece_position();
                 m_implementation.update_ghost_position();
             }
 
             // Check if piece can go down
-            bool can_go_down = stack->check_player_move(m_piece, Coordinates(0, 1), 0);
+            bool can_go_down = m_piece.check_move(stack->field(), Coordinates(0, 1), Rotation::None);
 
             // Compute gravity
             unsigned int number_down = gravity(can_go_down);
@@ -306,7 +306,7 @@ void Player::update(Stack *stack, int *game_state) {
                             }
                         }
                     } else {
-                        if (!stack->check_player_move(m_piece, Coordinates(0, 1), 0)) {
+                        if (!m_piece.check_move(stack->field(), Coordinates(0, 1), Rotation::None)) {
                             m_previous_down = true;
                             m_state = PlayerState::LOCK;
                             m_draw_piece = false;
@@ -335,7 +335,7 @@ void Player::update(Stack *stack, int *game_state) {
             // Sonic Drop
             if (m_current_mode.sonic_drop()) {
                 if (input.sonic_drop()) {
-                    m_piece.move_down(m_ghost_y, MAX_HEIGHT);
+                    //m_piece.move_down(m_ghost_y, MAX_HEIGHT);
                     m_implementation.update_piece_position();
                     m_implementation.update_ghost_position();
                 }
@@ -386,7 +386,7 @@ void Player::update(Stack *stack, int *game_state) {
             printd(DebugCategory::PLAYER_LOOP, "piece_coords_y: ", m_piece.coordinates().y);
 
             // Copy piece to stack/field
-            m_piece.locked(stack);
+            //m_piece.locked(stack);
 
             if (m_current_mode.old_locking_style()) {
                 m_lock_color_delay = OLD_LOCK_COLOR_DELAY;
@@ -504,25 +504,49 @@ void Player::next_piece() {
     m_active_time = 0;
     m_gravity_counter = 0;
 
-    uint32_t r = 0;
+    uint8_t r = 0;
 
     for (unsigned int i = 0; i < m_current_mode.random_tries(); i++) {
-        r = tgm_random(&rand_seed) % (uint32_t) Shape::NB_SHAPES;
+        uint32_t value = tgm_random(&rand_seed) % (uint32_t) Shapes::NumberOf;
+        r = value;
 
         if (r != m_history[0] && r != m_history[1] &&
             r != m_history[2] && r != m_history[3]) {
             break;
         }
-
-        r = tgm_random(&rand_seed) % (uint32_t) Shape::NB_SHAPES;
     }
 
     m_history[3] = m_history[2];
     m_history[2] = m_history[1];
     m_history[1] = m_history[0];
-    m_history[0] = (tiles_t) r;
+    m_history[0] = r;
 
-    m_next = (tiles_t) r;
+    switch (r) {
+        case 0:
+            m_next = Shape::I;
+            break;
+        case 1:
+            m_next = Shape::Z;
+            break;
+        case 2:
+            m_next = Shape::S;
+            break;
+        case 3:
+            m_next = Shape::J;
+            break;
+        case 4:
+            m_next = Shape::L;
+            break;
+        case 5:
+            m_next = Shape::O;
+            break;
+        case 6:
+            m_next = Shape::T;
+            break;
+        default:
+            break;
+    }
+
     m_implementation.update_next_type();
 }
 

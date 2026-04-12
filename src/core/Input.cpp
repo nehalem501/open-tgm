@@ -154,18 +154,18 @@ bool Input::menu_key_down() {
     return false;
 }
 
-int Input::irs() {
+Rotation Input::irs() {
     if ((m_curr_buttons & A_BIT) || (m_curr_buttons & C_BIT)) {
         m_curr_buttons ^= ROT_L_BIT | ROT_R_BIT;
-        return 1;
+        return Rotation::Left;
     }
 
     if (m_curr_buttons & B_BIT) {
         m_curr_buttons ^= ROT_L_BIT | ROT_R_BIT;
-        return -1;
+        return Rotation::Right;
     }
 
-    return 0;
+    return Rotation::None;
 }
 
 #ifdef UNDEFINED

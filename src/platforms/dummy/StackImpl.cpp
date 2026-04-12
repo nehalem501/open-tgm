@@ -13,5 +13,5 @@ void StackImpl::update_outline() {
 
 void StackImpl::render() const {
     // Draw stack blocks and outline
-    m_stack.block(0, 0);
+    m_stack.field().block(0, 0);
 }

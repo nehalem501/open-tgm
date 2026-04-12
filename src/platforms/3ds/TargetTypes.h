@@ -6,8 +6,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef uint32_t tiles_t;
-
 namespace Global {
     constexpr int tile_size = 9;
 }

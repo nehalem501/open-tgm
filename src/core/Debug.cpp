@@ -54,6 +54,17 @@ void printd_internal(char value) {
     printd_num((size_t) value, 10);
 }
 
+void printd_internal(signed char value) {
+    #if CHAR_MIN < 0
+    if (value < 0) {
+        value = -value;
+        printd_str("-");
+    }
+    #endif
+
+    printd_num((size_t) value, 10);
+}
+
 void printd_internal(short value) {
     if (value < 0) {
         value = -value;

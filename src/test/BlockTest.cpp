@@ -90,7 +90,7 @@ TEST_CASE("Block outline", "[block]") {
     REQUIRE(b.outline() == Outline::Mask);
 
     b.add_outline(Outline::Mask);
-    b.color(Shape::Mask);
+    b.color(Shape::T);
     REQUIRE(b.outline() == 0);
 
     b.add_outline(Outline::Mask);

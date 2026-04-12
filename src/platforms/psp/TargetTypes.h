@@ -13,8 +13,6 @@ void empty_func(const char*, ...);
 #define print pspDebugScreenPrintf
 #endif
 
-typedef unsigned int tiles_t;
-
 namespace Global {
     constexpr int tile_size = 10;
 }

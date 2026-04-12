@@ -4,6 +4,7 @@
 #define PLAYER_H
 
 #include <TargetTypes.h>
+#include <Enums.h>
 #include <Position.h>
 #include <Global.h>
 #include <Piece.h>
@@ -67,7 +68,7 @@ class Player {
         inline bool draw_piece() { return m_draw_piece; }
         inline bool draw_ghost() { return m_draw_ghost; }
 
-        inline tiles_t get_next_piece() { return m_next; }
+        inline Shape get_next_piece() { return m_next; }
         inline int get_ghost_y() { return m_ghost_y; }
 
     private:
@@ -100,7 +101,7 @@ class Player {
 
         Mode m_current_mode;
 
-        tiles_t m_history[4];
+        uint8_t m_history[4];
 
         unsigned int m_active_time, m_gravity, m_gravity_counter;
 
@@ -111,7 +112,7 @@ class Player {
         unsigned int m_sonic, m_soft, m_clear;
         unsigned int m_das_left, m_das_right;
 
-        tiles_t m_next;
+        Shape m_next;
 
         bool m_draw_piece, m_draw_ghost;
         bool m_start_das_left, m_start_das_right;

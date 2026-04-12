@@ -98,7 +98,7 @@ void Game::update(SceneState& scene_state) {
                 m_player.update(&m_stack, &m_state);
 
                 // Prepare counter for game over animation
-                m_counter = m_stack.height() * 8;
+                m_counter = m_stack.field().height() * 8;
 
                 // First piece to spawn doesn't increase level
                 m_player.reset_level();

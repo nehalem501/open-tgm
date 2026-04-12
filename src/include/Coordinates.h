@@ -18,7 +18,7 @@ struct Coordinates {
         return Position(to_position_x(), to_position_y());
     }
 
-    inline Coordinates operator+(const Coordinates& coordinates) {
+    inline Coordinates operator+(const Coordinates& coordinates) const {
         return Coordinates(coordinates.x + x, coordinates.y + y);
     }
 

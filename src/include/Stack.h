@@ -7,7 +7,7 @@
 #include <TargetTypes.h>
 #include <Coordinates.h>
 #include <Position.h>
-#include <Global.h>
+#include <Field.h>
 #include <LineClearParticles.h>
 #include <StackImpl.h>
 
@@ -27,62 +27,39 @@ class Stack {
         #ifdef RESIZABLE
         void resize() {
             for (unsigned int i = 0; i < FILLED_LINES_NB; i++) {
-                m_particles[i].resize();
+                //m_particles[i].resize();
             }
 
             m_implementation.resize(m_parent);
         }
         #endif
 
-        void init(Position &parent, const int width, const int height);
+        void init(Position &parent, const uint8_t width, const uint8_t height);
 
         void start_game(const Mode mode);
 
-        int get_ghost_y(const Piece& piece) const;
-
-        bool check_player_move(const Piece& piece, Coordinates new_coordinates, int new_rotation) const;
-
         bool check_bravo();
-        bool check_line(unsigned int line);
 
         void shift_line(unsigned int line);
         void shift_lines();
         bool check_lines(Player& player);
         void remove_line(int line);
 
-        inline void reset_outline() {
-            memset(m_outline, 0, sizeof(tiles_t) * MAX_WIDTH * MAX_HEIGHT);
-        };
-
-        void update_outline(int line);
+        void update_outline(size_t line);
 
         void remove_grey_blocks(const Piece& piece);
 
-        inline int height() const { return m_height; };
-        inline int width() const { return m_width; };
-
-        inline const tiles_t* field() const { return m_field; };
-        inline const tiles_t* outline() const { return m_outline; };
-
-        inline tiles_t block(int x, int y) const {
-            return m_field[x + m_width * y];
-        };
-        inline void update_block(int x, int y, tiles_t value) {
-            m_field[x + m_width * y] = value;
-        };
-
+        inline const Field& field() const { return m_field; };
         inline const Position& position() const { return m_parent; };
 
     private:
-        int m_height, m_width;
         Position& m_parent;
 
-        tiles_t m_field[MAX_WIDTH * MAX_HEIGHT];
-        tiles_t m_outline[MAX_WIDTH * MAX_HEIGHT];
+        Field m_field;
 
-        int m_filled_lines[FILLED_LINES_NB];
+        //int m_filled_lines[FILLED_LINES_NB];
 
-        LineClearParticles m_particles[FILLED_LINES_NB];
+        //LineClearParticles m_particles[FILLED_LINES_NB];
 
         StackImpl m_implementation;
 };

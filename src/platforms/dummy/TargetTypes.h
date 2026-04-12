@@ -9,8 +9,6 @@
 void empty_func(const char*, ...);
 #define print empty_func
 
-typedef uint16_t tiles_t;
-
 namespace Global {
     constexpr int tile_size = 8;
 }

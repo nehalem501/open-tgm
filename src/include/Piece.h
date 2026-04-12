@@ -5,45 +5,41 @@
 
 #include <TargetTypes.h>
 #include <Coordinates.h>
-#include <Shapes.h>
-
-/* Forward declarations to avoid dependency hell */
-class Stack;
+#include <Orientation.h>
+#include <Field.h>
+#include <Enums.h>
 
 class Piece {
     public:
         Piece();
-        Piece(tiles_t type, int orientation);
-        Piece(tiles_t type, int orientation, Coordinates m_coordinates);
 
-        void spawn(tiles_t type);
-        void locked(Stack *stack);
+        void spawn(Shape type);
+        void put(Field& field);
 
-        inline tiles_t type() const { return m_type; }
-        inline int orientation() const { return m_orientation; }
+        inline Shape type() const { return m_type; }
+        inline const Orientation orientation() const { return m_orientation; }
+        inline Orientation& orientation_mut() { return m_orientation; }
         inline const Coordinates& coordinates() const { return m_coordinates; }
+        inline Coordinates& coordinates_mut() { return m_coordinates; }
 
-        inline void type(tiles_t type) { m_type = type; }
-        inline void orientation(int o) { m_orientation = o; }
+        inline void type(Shape type) { m_type = type; }
+        inline void rotate(Rotation o) { m_orientation.rotate(o); }
         inline void position_x(int pos_x) { m_coordinates.x = pos_x; } // TODO
         inline void position_y(int pos_y) { m_coordinates.y = pos_y; }
 
-        inline const tiles_t* tiles() const {
-            return PIECES[m_type][m_orientation];
-        }
+        bool check_move(const Field &field, const Coordinates& move, const Rotation rotation) const;
 
-        inline void rotate(int dir, int n) {
-            m_orientation = (dir % n + n) % n;
-        }
+        uint_fast8_t get_ghost_y(const Field &field) const;
 
-        void move_leftright(const Stack& stack, int *ghost_y, int amount);
-        int move_down(int ghost_y, int amount);
-        void rotate_kick(const Stack& stack, int *ghost_y, int rotation);
+        void move_leftright(const Field& field, int *ghost_y, uint_fast8_t amount);
+        uint_fast8_t move_down(uint_fast8_t ghost_y, uint_fast8_t amount);
+        void rotate_kick(const Field& field, int *ghost_y, Rotation rotation);
 
     private:
+        // TODO: store next and ghost here
         Coordinates m_coordinates;
-        int m_orientation;
-        tiles_t m_type;
+        Orientation m_orientation;
+        Shape m_type;
 
         inline void move(int x, int y) {
             m_coordinates.x += x;

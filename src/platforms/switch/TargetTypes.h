@@ -6,8 +6,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef uint16_t tiles_t;
-
 namespace Global {
     extern int tile_size;
 }

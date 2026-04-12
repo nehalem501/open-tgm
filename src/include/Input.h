@@ -4,6 +4,7 @@
 #define INPUT_H
 
 #include <TargetTypes.h>
+#include <Enums.h>
 
 #define MENU_KEY_AUTOREPEAT 16
 
@@ -77,7 +78,7 @@ class Input {
         bool menu_key_up();
         bool menu_key_down();
 
-        int irs();
+        Rotation irs();
 
     private:
         uint8_t m_curr_joystick;

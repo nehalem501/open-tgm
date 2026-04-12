@@ -54,6 +54,7 @@ void printd_internal(void* pointer);
 void printd_internal(const void* pointer);
 
 void printd_internal(char value);
+void printd_internal(signed char value);
 void printd_internal(short value);
 void printd_internal(int value);
 void printd_internal(long value);
