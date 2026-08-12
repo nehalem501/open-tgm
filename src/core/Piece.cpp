@@ -22,8 +22,9 @@ void Piece::spawn(Shape type) {
 
 /* Lock piece to stack */
 void Piece::put(Field &field) {
-    for (size_t x = 0; x < Shapes::Size; x++) {
-        for (size_t y = 0; y < Shapes::Size; y++) {
+    const uint_fast8_t size = m_type == Shape::I ? Shapes::Size : Shapes::SmallSize;
+    for (uint_fast8_t x = 0; x < size; x++) {
+        for (uint_fast8_t y = 0; y < size; y++) {
             if (ShapesData::get(m_type).get_block(x, y, m_orientation.value()) != Shape::Empty) {
                 Block& b = field.block_mut(m_coordinates.x + x, m_coordinates.y + y);
                 b.color(m_type);
@@ -39,8 +40,9 @@ bool Piece::check_move(const Field &field, const Coordinates& move, const Rotati
     Orientation o = m_orientation;
     o.rotate(rotation);
     const uint_fast8_t orientation = o.value();
-    for (size_t x = 0; x < Shapes::Size; x++) {
-        for (size_t y = 0; y < Shapes::Size; y++) {
+    const uint_fast8_t size = m_type == Shape::I ? Shapes::Size : Shapes::SmallSize;
+    for (uint_fast8_t x = 0; x < size; x++) {
+        for (uint_fast8_t y = 0; y < size; y++) {
             if (ShapesData::get(m_type).get_block(x, y, orientation) != Shape::Empty) {
                 const uint_fast8_t field_x = (uint_fast8_t) coordinates.x + (uint_fast8_t) x;
                 const uint_fast8_t field_y = (uint_fast8_t) coordinates.y + (uint_fast8_t) y;
