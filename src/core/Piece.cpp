@@ -36,24 +36,29 @@ void Piece::put(Field &field) {
 
 /* Check if valid position */
 bool Piece::check_move(const Field &field, const Coordinates& move, const Rotation rotation) const {
+    return !get_first_collision(field, move, rotation);
+}
+
+/* Get first colliding block */
+uint_fast8_t Piece::get_first_collision(const Field &field, const Coordinates& move, const Rotation rotation) const {
     const Coordinates coordinates = move + m_coordinates;
     Orientation o = m_orientation;
     o.rotate(rotation);
     const uint_fast8_t orientation = o.value();
     const uint_fast8_t size = m_type == Shape::I ? Shapes::Size : Shapes::SmallSize;
-    for (uint_fast8_t x = 0; x < size; x++) {
-        for (uint_fast8_t y = 0; y < size; y++) {
+    for (uint_fast8_t y = 0; y < size; y++) {
+        for (uint_fast8_t x = 0; x < size; x++) {
             if (ShapesData::get(m_type).get_block(x, y, orientation) != Shape::Empty) {
                 const uint_fast8_t field_x = (uint_fast8_t) coordinates.x + (uint_fast8_t) x;
                 const uint_fast8_t field_y = (uint_fast8_t) coordinates.y + (uint_fast8_t) y;
                 if (field_x >= field.width()) {
-                    return false;
+                    return 1 + x + y * size;
                 }
                 if (field_y >= field.height()) {
-                    return false;
+                    return 1 + x + y * size;
                 }
                 if (field.block(field_x, field_y).filled()) {
-                    return false;
+                    return 1 + x + y * size;
                 }
             }
         }
@@ -61,7 +66,7 @@ bool Piece::check_move(const Field &field, const Coordinates& move, const Rotati
 
     // TODO multiplayer
 
-    return true;
+    return 0;
 }
 
 /* Get Y coordinate of ghost piece */
@@ -100,132 +105,31 @@ uint_fast8_t Piece::move_down(uint_fast8_t ghost_y, uint_fast8_t amount) {
 
 /* Rotate piece including wallkicks */
 void Piece::rotate_kick(const Field& field, int *ghost_y, Rotation rotation) {
-    // Center column disables rotation with T piece
-    if (m_type == Shape::T) {
-        const uint_fast8_t field_x = m_coordinates.x + 1;
-        if (field_x >= field.width()) {
-            return;
-        }
-        const uint_fast8_t field_y = m_coordinates.y;
-        if (field_y >= field.height()) {
-            return;
-        }
-        const uint_fast8_t x = m_coordinates.x + 1;
-        if (x >= 0 || x < field.width()) {
-            const uint_fast8_t y = m_coordinates.y;
-            if (y < (int) field.height() && y >= 0) {
-                if (field.block(x, y).filled()) {
-                    return;
-                }
-            }
-        }
-    }
-
-    // Check basic rotation
-    if (check_move(field, Coordinates(0, 0), rotation)) {
+    uint_fast8_t first = get_first_collision(field, Coordinates(0, 0), rotation);
+    if (!first) {
+        // No collision, can do basic rotation
         rotate(rotation);
         *ghost_y = get_ghost_y(field);
-    } else if (m_type != Shape::I && m_type != Shape::O) {
+        return;
+    } else if (m_type == Shape::I || m_type== Shape::O) {
         // No wallkicks for I and O pieces
+        return;
+    } else if (first == 2 || first == 5 || first == 8) {
+        // Center column disables rotation kicks
+        return;
+    }
 
-        // Check if center column occupied (J and L pieces case)
-        if (m_type == Shape::J || m_type == Shape::L) {
-            uint_fast8_t x = 0;
-            uint_fast8_t y = 0;
+    // Check wallkick one block to the right
+    if (check_move(field, Coordinates(1, 0), rotation)) {
+        move(1, 0);
+        rotate(rotation);
+        *ghost_y = get_ghost_y(field);
+    }
 
-            // check if J wallkick is still possible
-            if (m_type == Shape::J) {
-                x = m_coordinates.x + 2;
-                y = m_coordinates.y;
-                if (x >= 0 || x < field.width()) {
-                    if (y < field.height() && y >= 0) {
-                        if (field.block(x, y).filled()) {
-                            // Check wallkick one block to the right
-                            if (check_move(field, Coordinates(1, 0), rotation)) {
-                                move(1, 0);
-                                rotate(rotation);
-                                *ghost_y = get_ghost_y(field);
-                            }
-
-                            // Check wallkick one block to the left
-                            if (check_move(field, Coordinates(-1, 0), rotation)) {
-                                move(-1, 0);
-                                rotate(rotation);
-                                *ghost_y = get_ghost_y(field);
-                            }
-
-                            return;
-                        }
-                    }
-                }
-            }
-
-            // check if L wallkick is still possible
-            if (m_type == Shape::L) {
-                x = m_coordinates.x;
-                y = m_coordinates.y;
-                if (x >= 0 || x < field.width()) {
-                    if (y < field.height() && y >= 0) {
-                        if (field.block(x, y).filled()) {
-                            // Check wallkick one block to the right
-                            if (check_move(field, Coordinates(1, 0), rotation)) {
-                                move(1, 0);
-                                rotate(rotation);
-                                *ghost_y = get_ghost_y(field);
-                            }
-
-                            // Check wallkick one block to the left
-                            if (check_move(field, Coordinates(-1, 0), rotation)) {
-                                move(-1, 0);
-                                rotate(rotation);
-                                *ghost_y = get_ghost_y(field);
-                            }
-
-                            return;
-                        }
-                    }
-                }
-            }
-
-            // Check for wallkicks exceptions
-            x = m_coordinates.x + 1;
-
-            if (x >= 0 || x < field.width()) {
-                y = m_coordinates.y;
-                if (y < field.height() && y >= 0) {
-                    if (field.block(x, y).filled()) {
-                        return;
-                    }
-                }
-
-                y = m_coordinates.y + 1;
-                if (y < field.height() && y >= 0) {
-                    if (field.block(x, y).filled()) {
-                        return;
-                    }
-                }
-
-                y = m_coordinates.y + 2;
-                if (y < field.height() && y >= 0) {
-                    if (field.block(x, y).filled()) {
-                        return;
-                    }
-                }
-            }
-        }
-
-        // Check wallkick one block to the right
-        if (check_move(field, Coordinates(1, 0), rotation)) {
-            move(1, 0);
-            rotate(rotation);
-            *ghost_y = get_ghost_y(field);
-        }
-
-        // Check wallkick one block to the left
-        else if (check_move(field, Coordinates(-1, 0), rotation)) {
-            move(-1, 0);
-            rotate(rotation);
-            *ghost_y = get_ghost_y(field);
-        }
+    // Check wallkick one block to the left
+    else if (check_move(field, Coordinates(-1, 0), rotation)) {
+        move(-1, 0);
+        rotate(rotation);
+        *ghost_y = get_ghost_y(field);
     }
 }

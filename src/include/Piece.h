@@ -36,6 +36,8 @@ class Piece {
         void rotate_kick(const Field& field, int *ghost_y, Rotation rotation);
 
     private:
+        uint_fast8_t get_first_collision(const Field &field, const Coordinates& move, const Rotation rotation) const;
+
         // TODO: store next and ghost here
         Coordinates m_coordinates;
         Orientation m_orientation;

@@ -54,7 +54,6 @@ TEST_CASE("Piece rotation", "[piece]") {
 }
 
 
-
 TEST_CASE("Piece put", "[piece]") {
     using Catch::Matchers::RangeEquals;
 
@@ -1343,4 +1342,300 @@ TEST_CASE("Piece rotate_kick center column T", "[piece]") {
     CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(t51, b)));
     CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(t52, b)));
     CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(t53, b)));
+}
+
+
+TEST_CASE("Piece rotate_kick center column J additional", "[piece]") {
+    using Catch::Matchers::RangeEquals;
+
+    Field f;
+    Piece p;
+    Block b;
+    int ghost_y = 0;
+
+    p.spawn(Shape::J);
+    p.coordinates_mut().y++;
+    b.color(Shape::J);
+    b.add_blink();
+
+    f.reset(10, 22);
+
+    p.put(f);
+    std::string j01 = "          ";
+    std::string j02 = "   XXX    ";
+    std::string j03 = "     X    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j01, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j02, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j03, b)));
+
+    f.reset(10, 22);
+    f.block_mut(5, 2) = b;
+    f.block_mut(4, 4) = b;
+
+    std::string j11 = "     X    ";
+    std::string j12 = "          ";
+    std::string j13 = "    X     ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j11, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j12, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j13, b)));
+
+    p.rotate_kick(f, &ghost_y, Rotation::Left);
+    p.put(f);
+
+    std::string j21 = "   XXX    ";
+    std::string j22 = "   X      ";
+    std::string j23 = "   XX     ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j21, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j22, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j23, b)));
+
+    f.reset(10, 22);
+    f.block_mut(5, 2) = b;
+    f.block_mut(4, 4) = b;
+
+    p.rotate_kick(f, &ghost_y, Rotation::Right);
+    p.put(f);
+
+    std::string j31 = "     X    ";
+    std::string j32 = "   XXX    ";
+    std::string j33 = "    XX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j31, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j32, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j33, b)));
+
+    f.reset(10, 22);
+    f.block_mut(5, 2) = b;
+    f.block_mut(4, 4) = b;
+
+    p.rotate_kick(f, &ghost_y, Rotation::Right);
+    p.put(f);
+
+    std::string j41 = "     X    ";
+    std::string j42 = "   XXX    ";
+    std::string j43 = "    XX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j41, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j42, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j43, b)));
+
+    f.reset(10, 22);
+
+    p.rotate(Rotation::Left);
+    p.rotate(Rotation::Left);
+    p.put(f);
+    std::string j51 = "          ";
+    std::string j52 = "   X      ";
+    std::string j53 = "   XXX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j51, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j52, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j53, b)));
+
+    f.reset(10, 22);
+    f.block_mut(5, 2) = b;
+    f.block_mut(4, 3) = b;
+
+    std::string j61 = "     X    ";
+    std::string j62 = "    X     ";
+    std::string j63 = "          ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j61, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j62, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j63, b)));
+
+    p.put(f);
+
+    std::string j71 = "     X    ";
+    std::string j72 = "   XX     ";
+    std::string j73 = "   XXX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j71, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j72, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j73, b)));
+
+    f.reset(10, 22);
+    f.block_mut(5, 2) = b;
+    f.block_mut(4, 3) = b;
+
+    std::string j81 = "     X    ";
+    std::string j82 = "    X     ";
+    std::string j83 = "          ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j81, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j82, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j83, b)));
+
+    p.rotate_kick(f, &ghost_y, Rotation::Left);
+    p.put(f);
+
+    std::string j91 = "     X    ";
+    std::string j92 = "   XX     ";
+    std::string j93 = "   XXX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j91, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j92, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j93, b)));
+
+    f.reset(10, 22);
+    f.block_mut(5, 2) = b;
+    f.block_mut(4, 3) = b;
+
+    std::string j101 = "     X    ";
+    std::string j102 = "    X     ";
+    std::string j103 = "          ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j101, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j102, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j103, b)));
+
+    p.rotate_kick(f, &ghost_y, Rotation::Right);
+    p.put(f);
+
+    std::string j111 = "   XXX    ";
+    std::string j112 = "   XX     ";
+    std::string j113 = "   X      ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(j111, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(j112, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(j113, b)));
+}
+
+TEST_CASE("Piece rotate_kick center column L additional", "[piece]") {
+    using Catch::Matchers::RangeEquals;
+
+    Field f;
+    Piece p;
+    Block b;
+    int ghost_y = 0;
+
+    p.spawn(Shape::L);
+    p.coordinates_mut().y++;
+    b.color(Shape::L);
+    b.add_blink();
+
+    f.reset(10, 22);
+
+    p.put(f);
+    std::string l01 = "          ";
+    std::string l02 = "   XXX    ";
+    std::string l03 = "   X      ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l01, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l02, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l03, b)));
+
+    f.reset(10, 22);
+    f.block_mut(3, 2) = b;
+    f.block_mut(4, 4) = b;
+
+    std::string l11 = "   X      ";
+    std::string l12 = "          ";
+    std::string l13 = "    X     ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l11, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l12, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l13, b)));
+
+    p.rotate_kick(f, &ghost_y, Rotation::Right);
+    p.put(f);
+
+    std::string l21 = "   XXX    ";
+    std::string l22 = "     X    ";
+    std::string l23 = "    XX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l21, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l22, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l23, b)));
+
+    f.reset(10, 22);
+    f.block_mut(3, 2) = b;
+    f.block_mut(4, 4) = b;
+
+    p.rotate_kick(f, &ghost_y, Rotation::Left);
+    p.put(f);
+
+    std::string l31 = "   X      ";
+    std::string l32 = "     XXX  ";
+    std::string l33 = "    XX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l31, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l32, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l33, b)));
+
+    f.reset(10, 22);
+    f.block_mut(3, 2) = b;
+    f.block_mut(4, 4) = b;
+
+    std::string l41 = "   X      ";
+    std::string l42 = "          ";
+    std::string l43 = "    X     ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l41, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l42, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l43, b)));
+
+    p.spawn(Shape::L);
+    p.coordinates_mut().y++;
+    b.color(Shape::L);
+    b.add_blink();
+    p.rotate_kick(f, &ghost_y, Rotation::Left);
+    p.put(f);
+
+    std::string l51 = "   X      ";
+    std::string l52 = "   XXX    ";
+    std::string l53 = "   XX     ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l51, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l52, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l53, b)));
+
+    f.reset(10, 22);
+    f.block_mut(3, 2) = b;
+    f.block_mut(4, 3) = b;
+
+    std::string l61 = "   X      ";
+    std::string l62 = "    X     ";
+    std::string l63 = "          ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l61, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l62, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l63, b)));
+
+    p.rotate(Rotation::Left);
+    p.rotate(Rotation::Left);
+    p.put(f);
+
+    std::string l71 = "   X      ";
+    std::string l72 = "    XX    ";
+    std::string l73 = "   XXX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l71, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l72, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l73, b)));
+
+    f.reset(10, 22);
+    f.block_mut(3, 2) = b;
+    f.block_mut(4, 3) = b;
+
+    std::string l81 = "   X      ";
+    std::string l82 = "    X     ";
+    std::string l83 = "          ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l81, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l82, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l83, b)));
+
+    p.rotate_kick(f, &ghost_y, Rotation::Right);
+    p.put(f);
+
+    std::string l91 = "   X      ";
+    std::string l92 = "    XX    ";
+    std::string l93 = "   XXX    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l91, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l92, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l93, b)));
+
+    f.reset(10, 22);
+    f.block_mut(3, 2) = b;
+    f.block_mut(4, 3) = b;
+
+    std::string l101 = "   X      ";
+    std::string l102 = "    X     ";
+    std::string l103 = "          ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l101, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l102, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l103, b)));
+
+    p.rotate_kick(f, &ghost_y, Rotation::Left);
+    p.put(f);
+
+    std::string l111 = "   XXX    ";
+    std::string l112 = "    XX    ";
+    std::string l113 = "     X    ";
+    CHECK_THAT(to_vec(f.get_line(2), 10), RangeEquals(to_vec(l111, b)));
+    CHECK_THAT(to_vec(f.get_line(3), 10), RangeEquals(to_vec(l112, b)));
+    CHECK_THAT(to_vec(f.get_line(4), 10), RangeEquals(to_vec(l113, b)));
 }
