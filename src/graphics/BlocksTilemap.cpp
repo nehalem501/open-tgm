@@ -106,7 +106,7 @@ Buffer draw_block_colored(float size, const BlocksSwatch& swatch) {
     return Buffer { image, image_size };
 }*/
 
-static BlocksSwatch get_piece_color(tiles_t shape) {
+static BlocksSwatch get_piece_color(Shape shape) {
     switch (shape) {
         case Shape::I:
             return {
@@ -206,10 +206,12 @@ void generate_blocks_tilemap(float current_tile_size, std::function<void(const G
         { 0.24, 0.24, 0.24, 1 }
     };
 
-    for (tiles_t i = 0; i <= Shape::NB_SHAPES; i++) {
+    const uint8_t nb_shapes = 0b111;
+
+    for (uint8_t i = 0; i <= nb_shapes; i++) {
         Buffer b = draw_block_colored(
             current_tile_size,
-            i == Shape::NB_SHAPES ? grey : get_piece_color(i));
+            i == nb_shapes ? grey : get_piece_color((Shape) i));
         int x = tile_size * ((i + 1) % row_size);
         int y = tile_size * ((i + 1) / row_size);
         context.put_image_data(b.data, tile_size, tile_size, tile_size * 4, x, y);

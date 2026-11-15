@@ -7,20 +7,20 @@
 #include "StackImpl.h"
 
 StackImpl::StackImpl(const Stack& stack) :
-        m_stack(stack),
+        //m_stack(stack),
         m_field_tilemap(
             stack.position(),
-            stack.field(),
+            NULL, // TODO: stack.field(),
             ColorRGBA(0.8f, 0.8f, 0.8f, 1.0f),
-            stack.width(),
-            stack.height(),
+            stack.field().width(),
+            stack.field().height(),
             TilemapID::BLOCKS),
         m_outline_tilemap(
             stack.position(),
-            stack.outline(),
+            NULL, // TODO: stack.outline(),
             ColorRGBA(1.0f, 1.0f, 1.0f, 0.6f),
-            stack.width(),
-            stack.height(),
+            stack.field().width(),
+            stack.field().height(),
             TilemapID::OUTLINE) {
     printd(DebugCategory::STACK, "StackImpl constructor");
 
@@ -30,10 +30,10 @@ StackImpl::StackImpl(const Stack& stack) :
 
 void StackImpl::update_field() {
     // TODO update within needed bounds
-    m_field_tilemap.update(m_stack.field());
+    //m_field_tilemap.update(m_stack.field());
 }
 
 void StackImpl::update_outline() {
     // TODO update within needed bounds
-    m_outline_tilemap.update(m_stack.outline());
+    //m_outline_tilemap.update(m_stack.outline());
 }

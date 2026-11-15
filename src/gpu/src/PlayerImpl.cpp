@@ -10,27 +10,27 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
         m_position(position),
         m_piece(
             position, // TODO
-            player.piece().tiles(),
+            NULL, // TODO: player.piece().tiles(),
             GPU_WHITE, // TODO lock anim
-            PIECE_SIZE,
-            PIECE_SIZE,
+            Shapes::Size,
+            Shapes::Size,
             TilemapID::BLOCKS
         ),
         m_ghost(
             position, // TODO
-            player.piece().tiles(),
+            NULL, // TODO: player.piece().tiles(),
             ColorRGBA(0.32f, 0.32f, 0.32f, 1.0f),
-            PIECE_SIZE,
-            PIECE_SIZE,
+            Shapes::Size,
+            Shapes::Size,
             TilemapID::BLOCKS
         ),
         m_next(
             //Position(position.x + 3 * Global::tile_size, position.y - (2 * Global::tile_size + (Global::tile_size / 2))), // TODO
             position, // TODO
-            PIECES[player.get_next_piece()][0],
+            NULL, // TODO: PIECES[player.get_next_piece()][0],
             GPU_WHITE,
-            PIECE_SIZE,
-            PIECE_SIZE,
+            Shapes::Size,
+            Shapes::Size,
             TilemapID::BLOCKS
         ) {
     // TODO m_next position initialization doesn't work after resizing
@@ -42,7 +42,7 @@ void PlayerImpl::position(Position& position) {
 }
 
 void PlayerImpl::update_piece_type() {
-    m_piece.update(m_player.piece().tiles());
+    //m_piece.update(m_player.piece().tiles());
 }
 
 void PlayerImpl::update_piece_position() {
@@ -75,7 +75,7 @@ void PlayerImpl::update_piece_lock_animation(
 }
 
 void PlayerImpl::update_ghost_type() {
-    m_ghost.update(m_player.piece().tiles());
+    //m_ghost.update(m_player.piece().tiles());
 }
 
 void PlayerImpl::update_ghost_position() {
@@ -84,7 +84,7 @@ void PlayerImpl::update_ghost_position() {
 }
 
 void PlayerImpl::update_next_type() {
-    m_next.update(PIECES[m_player.get_next_piece()][0]);
+    //m_next.update(PIECES[m_player.get_next_piece()][0]);
 }
 
 void PlayerImpl::update_next_position() {

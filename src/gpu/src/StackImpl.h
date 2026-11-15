@@ -4,6 +4,7 @@
 #define STACK_GPU_H
 
 #include <Global.h>
+#include <Field.h>
 #include "Texture.h"
 #include "Tilemap.h"
 
@@ -30,9 +31,9 @@ class StackImpl {
         #endif
 
     private:
-        const Stack& m_stack;
-        Tilemap<MAX_WIDTH * MAX_HEIGHT> m_field_tilemap;
-        Tilemap<MAX_WIDTH * MAX_HEIGHT> m_outline_tilemap;
+        //const Stack& m_stack;
+        Tilemap<Field::MaxWidth * Field::MaxHeight> m_field_tilemap;
+        Tilemap<Field::MaxWidth * Field::MaxHeight> m_outline_tilemap;
 };
 
 #endif

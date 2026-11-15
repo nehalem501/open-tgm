@@ -22,13 +22,13 @@ class Tilemap : public Reloadable {
     public:
         Tilemap(
             Position position, // TODO
-            const tiles_t *tiles,
+            const unsigned int *tiles,
             const ColorRGBA& c,
             unsigned int width,
             unsigned int height,
             TilemapID tilemap) :
                 m_tilemap(tilemap),
-                m_tiles(tiles),
+                //m_tiles(tiles),
                 m_width(width),
                 m_height(height),
                 m_vertex_array(tilemap_to_texture(tilemap))
@@ -79,8 +79,8 @@ class Tilemap : public Reloadable {
                 ((float) position.y) - m_vertex_array.vertices[0].y());
         }
 
-        void update(const tiles_t *tiles) {
-            m_tiles = tiles;
+        void update(const unsigned int *tiles) {
+            //m_tiles = tiles;
             const TilemapData& data = TilemapManager::get().get_data(m_tilemap);
             for (unsigned int i = 0; i < m_width; i++) {
                 for (unsigned int j = 0; j < m_height; j++) {
@@ -90,15 +90,15 @@ class Tilemap : public Reloadable {
         }
 
         inline void tile(const TilemapData& data, const size_t i) {
-            const TileData& tile_data = data.get(m_tiles[i] & 0xFF);
+            //const TileData& tile_data = data.get(m_tiles[i] & 0xFF);
 
             //std::cout << "u: " << tile_data.tex_coord_bottom_left.u() << ", v: " << tile_data.tex_coord_bottom_left.v() << std::endl;
             const size_t index = i * 4;
 
-            m_vertex_array.vertices[index].tex_coords(tile_data.tex_coord_top_left);
+            /*m_vertex_array.vertices[index].tex_coords(tile_data.tex_coord_top_left);
             m_vertex_array.vertices[index + 1].tex_coords(tile_data.tex_coord_bottom_left);
             m_vertex_array.vertices[index + 2].tex_coords(tile_data.tex_coord_bottom_right);
-            m_vertex_array.vertices[index + 3].tex_coords(tile_data.tex_coord_top_right);
+            m_vertex_array.vertices[index + 3].tex_coords(tile_data.tex_coord_top_right);*/
         }
 
         inline void tile_position(unsigned int tile_x, unsigned int tile_y) {
@@ -143,7 +143,7 @@ class Tilemap : public Reloadable {
     private:
         //Position m_position;
         TilemapID m_tilemap; // TODO better name
-        const tiles_t* m_tiles;
+        //const tiles_t* m_tiles;
         unsigned int m_width, m_height;
         VertexArray2D<N * 4> m_vertex_array;
 

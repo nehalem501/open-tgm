@@ -35,9 +35,9 @@ class PlayerImpl {
     private:
         Player& m_player;
         Position& m_position;
-        Tilemap<PIECE_SIZE * PIECE_SIZE> m_piece;
-        Tilemap<PIECE_SIZE * PIECE_SIZE> m_ghost;
-        Tilemap<PIECE_SIZE * PIECE_SIZE> m_next;
+        Tilemap<Shapes::Size * Shapes::Size> m_piece;
+        Tilemap<Shapes::Size * Shapes::Size> m_ghost;
+        Tilemap<Shapes::Size * Shapes::Size> m_next;
 };
 
 #endif

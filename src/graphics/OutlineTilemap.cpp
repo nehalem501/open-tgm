@@ -18,19 +18,19 @@ Buffer draw_block_outline(uint16_t current, float size) {
 
     context.set_color(canvas_ity::fill_style, 1, 1, 1, 1);
 
-    if (current & OUTLINE_LEFT) {
+    if (current & Outline::Left) {
         context.fill_rectangle(0, 0, s, size);
     }
 
-    if (current & OUTLINE_RIGHT) {
+    if (current & Outline::Right) {
         context.fill_rectangle(size - s, 0, s, size);
     }
 
-    if (current & OUTLINE_UP) {
+    if (current & Outline::Top) {
         context.fill_rectangle(0, 0, size, s);
     }
 
-    if (current & OUTLINE_DOWN) {
+    if (current & Outline::Bottom) {
         context.fill_rectangle(0, size - s, size, s);
     }
 
