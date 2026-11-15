@@ -10,7 +10,7 @@
 #include "Vertex.h"
 #include "Glyph.h"
 #include "Texture.h"
-#include "VertexArray.h"
+#include "StaticVertexArray2D.h"
 #include "GpuFont.h"
 #include "FontManager.h"
 #include "GPU.h"
@@ -172,7 +172,7 @@ class Glyphs : public Reloadable {
         GpuFontID m_font;
 
         const Glyph *m_glyphs;
-        VertexArray2D<N * 4> m_vertex_array;
+        StaticVertexArray2D<N * 4> m_vertex_array;
 };
 
 #endif // GLYPHS_H

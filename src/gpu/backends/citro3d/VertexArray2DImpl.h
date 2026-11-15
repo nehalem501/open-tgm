@@ -10,9 +10,8 @@
 #include <Vertex.h>
 #include <Texture.h>
 
-#define INDICES_LEN (N + N / 2)
+#define INDICES_LEN (m_size + m_size / 2)
 
-template <size_t N>
 class VertexArray2DImpl {
     private:
         //;
@@ -21,16 +20,17 @@ class VertexArray2DImpl {
         Vertex2D *m_vertices;
         gpu_indices_t *m_indices;
         TextureID m_texture;
+        size_t m_size;
 
-        VertexArray2DImpl(TextureID texture) : m_texture(texture) {
-            m_vertices = (Vertex2D*) linearAlloc(sizeof(Vertex2D) * N);
-            memset((void*) m_vertices, 0, sizeof(Vertex2D) * N);
+        VertexArray2DImpl(TextureID texture, size_t size) : m_texture(texture), m_size(size) {
+            m_vertices = (Vertex2D*) linearAlloc(sizeof(Vertex2D) * m_size);
+            memset((void*) m_vertices, 0, sizeof(Vertex2D) * m_size);
 
             m_indices = (gpu_indices_t*) linearAlloc(
                 sizeof(gpu_indices_t) * INDICES_LEN);
 
             const gpu_indices_t quad_indices[] = { 0, 1, 2, 2, 3, 0 };
-            for (unsigned int i = 0; i < INDICES_LEN; i += 6) {
+            for (size_t i = 0; i < INDICES_LEN; i += 6) {
                 m_indices[i] = quad_indices[0] + (i / 6) * 4;
                 m_indices[i + 1] = quad_indices[1] + (i / 6) * 4;
                 m_indices[i + 2] = quad_indices[2] + (i / 6) * 4;

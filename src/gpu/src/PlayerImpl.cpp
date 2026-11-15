@@ -10,7 +10,6 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
         m_position(position),
         m_piece(
             position, // TODO
-            NULL, // TODO: player.piece().tiles(),
             GPU_WHITE, // TODO lock anim
             Shapes::Size,
             Shapes::Size,
@@ -18,7 +17,6 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
         ),
         m_ghost(
             position, // TODO
-            NULL, // TODO: player.piece().tiles(),
             ColorRGBA(0.32f, 0.32f, 0.32f, 1.0f),
             Shapes::Size,
             Shapes::Size,
@@ -27,13 +25,14 @@ PlayerImpl::PlayerImpl(Player& player, Position& position) :
         m_next(
             //Position(position.x + 3 * Global::tile_size, position.y - (2 * Global::tile_size + (Global::tile_size / 2))), // TODO
             position, // TODO
-            NULL, // TODO: PIECES[player.get_next_piece()][0],
             GPU_WHITE,
             Shapes::Size,
             Shapes::Size,
             TilemapID::BLOCKS
         ) {
     // TODO m_next position initialization doesn't work after resizing
+    update_piece_type();
+    update_next_type();
 }
 
 void PlayerImpl::position(Position& position) {
@@ -42,7 +41,8 @@ void PlayerImpl::position(Position& position) {
 }
 
 void PlayerImpl::update_piece_type() {
-    //m_piece.update(m_player.piece().tiles());
+    const Piece& piece = m_player.piece();
+    m_piece.update_shape(piece.type(), piece.orientation());
 }
 
 void PlayerImpl::update_piece_position() {
@@ -75,7 +75,8 @@ void PlayerImpl::update_piece_lock_animation(
 }
 
 void PlayerImpl::update_ghost_type() {
-    //m_ghost.update(m_player.piece().tiles());
+    const Piece& piece = m_player.piece();
+    m_ghost.update_shape(piece.type(), piece.orientation());
 }
 
 void PlayerImpl::update_ghost_position() {
@@ -84,7 +85,7 @@ void PlayerImpl::update_ghost_position() {
 }
 
 void PlayerImpl::update_next_type() {
-    //m_next.update(PIECES[m_player.get_next_piece()][0]);
+    m_piece.update_shape(m_player.get_next_piece(), Orientation());
 }
 
 void PlayerImpl::update_next_position() {

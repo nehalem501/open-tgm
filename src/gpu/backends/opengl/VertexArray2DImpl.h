@@ -8,17 +8,15 @@
 #include <Vertex.h>
 #include <Texture.h>
 
-template <size_t N>
 class VertexArray2DImpl {
-    private:
-        Vertex2D m_vertices_priv[N];
     public:
         Vertex2D *m_vertices;
         gpu_indices_t *m_indices;
         TextureID m_texture;
+        size_t m_size;
 
-        VertexArray2DImpl(TextureID texture) : m_texture(texture) {
-            m_vertices = m_vertices_priv;
+        VertexArray2DImpl(TextureID texture, size_t size) : m_texture(texture), m_size(size) {
+            m_vertices = new Vertex2D[m_size];
         };
 
         void render() const {
@@ -26,7 +24,7 @@ class VertexArray2DImpl {
 
             glBegin(GL_QUADS);
 
-            for (unsigned int i = 0; i < N; i++) {
+            for (size_t i = 0; i < m_size; i++) {
                 glColor4f(
                     m_vertices[i].r(),
                     m_vertices[i].g(),

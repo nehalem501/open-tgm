@@ -5,7 +5,7 @@
 
 #include "Rect.h"
 #include "Reloadable.h"
-#include "VertexArray.h"
+#include "StaticVertexArray2D.h"
 
 /* Forward declarations to avoid dependency hell */
 class Frame;
@@ -27,7 +27,7 @@ class FrameImpl : public Reloadable {
         void texcoords(const TextureData& data);
         const Frame& m_frame;
         Rect m_background;
-        VertexArray2D<16> m_vertex_array;
+        StaticVertexArray2D<16> m_vertex_array;
 };
 
 #endif // FRAME_GPU_H

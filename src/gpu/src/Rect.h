@@ -6,7 +6,7 @@
 #include <Position.h>
 #include "Vertex.h"
 #include "Texture.h"
-#include "VertexArray.h"
+#include "StaticVertexArray2D.h"
 
 class Rect {
     public:
@@ -55,7 +55,7 @@ class Rect {
         void render() const { m_vertex_array.render(); }
 
     private:
-        VertexArray2D<4> m_vertex_array;
+        StaticVertexArray2D<4> m_vertex_array;
 };
 
 #endif // RECT_H

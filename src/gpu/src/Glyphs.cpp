@@ -1,7 +1,7 @@
 /* Glyphs.cpp - GPU */
 
 #include <Text.h>
-#include <VertexArray.h>
+#include <StaticVertexArray2D.h>
 #include <Glyph.h>
 #include <Glyphs.h>
 //#include <iostream>

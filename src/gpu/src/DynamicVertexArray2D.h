@@ -1,29 +1,26 @@
-/* VertexArray.h - GPU */
+/* DynamicVertexArray2D.h - GPU */
 
-#ifndef VERTEX_ARRAY_H
-#define VERTEX_ARRAY_H
+#ifndef DYNAMIC_VERTEX_ARRAY_2D_H
+#define DYNAMIC_VERTEX_ARRAY_2D_H
 
 #include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
 #include <TargetTypes.h>
 #include "Debug.h"
 #include <VertexArray2DImpl.h>
 #include "Vertex.h"
 #include "Texture.h"
 
-template <size_t N>
-class VertexArray2D {
-    public:
-        VertexArray2DImpl<N> m_implementation;
+class DynamicVertexArray2D {
+    private:
+        VertexArray2DImpl m_implementation;
 
     public:
         Vertex2D (&vertices)[N];
 
-        VertexArray2D(TextureID texture) :
-                m_implementation(texture),
+        DynamicVertexArray2D(TextureID texture, size_t size) :
+                m_implementation(texture, size),
                 vertices(*((Vertex2D(*)[N]) m_implementation.m_vertices)) {
-            printd(DebugCategory::GPU_VERTICES, "VertexArray2D<", N,"> constructor");
+            printd(DebugCategory::GPU_VERTICES, "StaticVertexArray2D<", N,"> constructor");
         };
 
         inline void move(float x, float y) {
@@ -35,7 +32,7 @@ class VertexArray2D {
 
         inline void texture(TextureID texture) {
             printd(DebugCategory::GPU_VERTICES,
-                "Replace texture: this=", (void*) this,
+                "DynamicVertexArray2D: Replace texture: this=", (void*) this,
                 ", previous=", m_implementation.m_texture,
                 ", new=", texture);
             m_implementation.m_texture = texture;
@@ -44,4 +41,4 @@ class VertexArray2D {
         inline void render() const { m_implementation.render(); };
 };
 
-#endif // VERTEX_ARRAY_H
+#endif // DYNAMIC_VERTEX_ARRAY_2D_H

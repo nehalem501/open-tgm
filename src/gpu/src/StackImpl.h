@@ -31,7 +31,7 @@ class StackImpl {
         #endif
 
     private:
-        //const Stack& m_stack;
+        const Stack& m_stack;
         Tilemap<Field::MaxWidth * Field::MaxHeight> m_field_tilemap;
         Tilemap<Field::MaxWidth * Field::MaxHeight> m_outline_tilemap;
 };

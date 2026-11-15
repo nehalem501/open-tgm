@@ -12,7 +12,9 @@
 #include "TilemapData.h"
 #include "TilemapManager.h"
 #include "Texture.h"
-#include "VertexArray.h"
+#include "StaticVertexArray2D.h"
+#include <Orientation.h>
+#include <Field.h>
 //#include <iostream>
 
 TextureID tilemap_to_texture(TilemapID id);
@@ -22,13 +24,11 @@ class Tilemap : public Reloadable {
     public:
         Tilemap(
             Position position, // TODO
-            const unsigned int *tiles,
             const ColorRGBA& c,
             unsigned int width,
             unsigned int height,
             TilemapID tilemap) :
                 m_tilemap(tilemap),
-                //m_tiles(tiles),
                 m_width(width),
                 m_height(height),
                 m_vertex_array(tilemap_to_texture(tilemap))
@@ -42,7 +42,6 @@ class Tilemap : public Reloadable {
 
             for (unsigned int i = 0; i < m_width; i++) {
                 for (unsigned int j = 0; j < m_height; j++) {
-                    //tile(i, j, tiles[i + j * m_width] & 0xFF); // TODO
                     tile_position(i, j);
                 }
             }
@@ -79,26 +78,48 @@ class Tilemap : public Reloadable {
                 ((float) position.y) - m_vertex_array.vertices[0].y());
         }
 
-        void update(const unsigned int *tiles) {
-            //m_tiles = tiles;
+        inline void update_shape(const Shape shape, const Orientation orientation) {
+            const ShapeData& s = ShapesData::get(shape);
             const TilemapData& data = TilemapManager::get().get_data(m_tilemap);
-            for (unsigned int i = 0; i < m_width; i++) {
-                for (unsigned int j = 0; j < m_height; j++) {
-                    tile(data, i + j * m_width);
+            for (size_t i = 0; i < m_width; i++) {
+                for (size_t j = 0; j < m_height; j++) {
+                    const Shape color = s.get_block(i, j, orientation.value());
+                    tile(data, i + j * m_width, (size_t) color);
                 }
             }
         }
 
-        inline void tile(const TilemapData& data, const size_t i) {
-            //const TileData& tile_data = data.get(m_tiles[i] & 0xFF);
+        inline void update_blocks(const Field& field) {
+            const TilemapData& data = TilemapManager::get().get_data(m_tilemap);
+            for (size_t i = 0; i < m_width; i++) {
+                for (size_t j = 0; j < m_height; j++) {
+                    const Block& block = field.block(i, j);
+                    // TODO: grey blocks and items;
+                    tile(data, i + j * m_width, (size_t) block.color());
+                }
+            }
+        }
+
+        inline void update_outline(const Field& field) {
+            const TilemapData& data = TilemapManager::get().get_data(m_tilemap);
+            for (size_t i = 0; i < m_width; i++) {
+                for (size_t j = 0; j < m_height; j++) {
+                    const Block& block = field.block(i, j);
+                    tile(data, i + j * m_width, block.outline());
+                }
+            }
+        }
+
+        inline void tile(const TilemapData& data, const size_t i, const size_t tile) {
+            const TileData& tile_data = data.get(tile);
 
             //std::cout << "u: " << tile_data.tex_coord_bottom_left.u() << ", v: " << tile_data.tex_coord_bottom_left.v() << std::endl;
             const size_t index = i * 4;
 
-            /*m_vertex_array.vertices[index].tex_coords(tile_data.tex_coord_top_left);
+            m_vertex_array.vertices[index].tex_coords(tile_data.tex_coord_top_left);
             m_vertex_array.vertices[index + 1].tex_coords(tile_data.tex_coord_bottom_left);
             m_vertex_array.vertices[index + 2].tex_coords(tile_data.tex_coord_bottom_right);
-            m_vertex_array.vertices[index + 3].tex_coords(tile_data.tex_coord_top_right);*/
+            m_vertex_array.vertices[index + 3].tex_coords(tile_data.tex_coord_top_right);
         }
 
         inline void tile_position(unsigned int tile_x, unsigned int tile_y) {
@@ -136,7 +157,7 @@ class Tilemap : public Reloadable {
                 }
             }
 
-            update(m_tiles);
+            //update(m_tiles);
         }
         #endif
 
@@ -145,7 +166,7 @@ class Tilemap : public Reloadable {
         TilemapID m_tilemap; // TODO better name
         //const tiles_t* m_tiles;
         unsigned int m_width, m_height;
-        VertexArray2D<N * 4> m_vertex_array;
+        StaticVertexArray2D<N * 4> m_vertex_array;
 
         //gpu_float_t m_tile_size;
         //tiles_t m_row_size;

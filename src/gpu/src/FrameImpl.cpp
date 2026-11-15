@@ -3,7 +3,7 @@
 #include <Debug.h>
 #include <Frame.h>
 #include "TextureDataManager.h"
-#include "VertexArray.h"
+#include "StaticVertexArray2D.h"
 #include "FrameImpl.h"
 
 static ColorRGBA to_gpu_color(int color) {
