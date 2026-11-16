@@ -1,5 +1,6 @@
 /* StackTest.cpp */
 
+#include <Mode.h>
 #include <Stack.h>
 #include <catch2/catch_test_macros.hpp>
 
@@ -33,6 +34,29 @@ TEST_CASE("Stack init doubles", "[stack]") {
     REQUIRE(stack.field().height() == 22);
 
     for (size_t i = 0; i < 22; i++) {
+        REQUIRE(stack.field().empty_line(i) == true);
+    }
+}
+
+TEST_CASE("Stack start", "[stack]") {
+    Position parent(7, 4);
+    Stack stack(parent);
+
+    RawMode r = {
+        .width = 5,
+        .height = 10
+    };
+    Mode mode(&r);
+
+    stack.start_game(mode);
+
+    REQUIRE(stack.position().x == 7);
+    REQUIRE(stack.position().y == 4);
+
+    REQUIRE(stack.field().width() == 5);
+    REQUIRE(stack.field().height() == 10);
+
+    for (size_t i = 0; i < 10; i++) {
         REQUIRE(stack.field().empty_line(i) == true);
     }
 }
