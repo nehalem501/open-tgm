@@ -9,7 +9,7 @@
 
 class Field {
     public:
-        const static uint_fast8_t MaxWidth = 10;
+        const static uint_fast8_t MaxWidth = 14;
         const static uint_fast8_t MaxHeight = 22;
 
         void reset(const uint_fast8_t width, const uint_fast8_t height);
